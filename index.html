@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Advertising | Sistema de Crecimiento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <canvas id="data-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">MOTOR</div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#webs">Webs</a></li>
+            <li><a href="#pauta">Pauta</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#contacto" class="contact-link">Contacto</a></li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero-section">
+        <div class="hero-content">
+            <h1 class="headline">Tu marca. <span class="highlight">Nuestro motor.</span></h1>
+            <h2 class="subheadline">El marketing no es una serie de acciones aisladas.<br>Es un sistema que debe
+                adaptarse, aprender y evolucionar.</h2>
+            <p class="support-text">Interpretamos datos, comportamiento del mercado y momento de la marca para decidir
+                cómo debe moverse, cuándo escalar y cuándo ajustar.</p>
+            <div class="cta-group">
+                <button class="btn btn-primary">Activar el motor</button>
+                <button class="btn btn-secondary">Conocer el sistema</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="system-core-section">
+        <div class="core-container">
+            <div class="central-character">
+                <img src="https://placehold.co/400x600/1a1a1a/FFF?text=Motor+Leadership"
+                    alt="Motor Advertising Leadership">
+                <div class="glow-effect"></div>
+            </div>
+
+            <!-- Orbiting Interactive Blocks -->
+            <div class="orbit-container">
+                <div class="system-block block-top-left" data-target="captacion">
+                    <div class="block-icon"><i class="fas fa-magnet"></i></div>
+                    <span class="block-label">Captación</span>
+                    <div class="block-content">
+                        <h3>Captación</h3>
+                        <p>Activamos sistemas de adquisición diseñados para atraer clientes reales, no solo tráfico.
+                            Cada campaña responde a una lectura clara del contexto y los datos.</p>
+                    </div>
+                </div>
+                <div class="system-block block-top-right" data-target="conversion">
+                    <div class="block-icon"><i class="fas fa-filter"></i></div>
+                    <span class="block-label">Conversión</span>
+                    <div class="block-content">
+                        <h3>Conversión</h3>
+                        <p>Diseñamos estructuras digitales que transforman atención en resultados medibles. Nada se deja
+                            a la improvisación.</p>
+                    </div>
+                </div>
+                <div class="system-block block-bottom-left" data-target="automatizacion">
+                    <div class="block-icon"><i class="fas fa-cogs"></i></div>
+                    <span class="block-label">Automatización</span>
+                    <div class="block-content">
+                        <h3>Automatización</h3>
+                        <p>Integramos tecnología para reducir fricción, ordenar procesos y amplificar el criterio
+                            humano. Menos improvisación, más estructura.</p>
+                    </div>
+                </div>
+                <div class="system-block block-bottom-right" data-target="produccion">
+                    <div class="block-icon"><i class="fas fa-video"></i></div>
+                    <span class="block-label">Producción</span>
+                    <div class="block-content">
+                        <h3>Producción</h3>
+                        <p>Creamos y ejecutamos activos estratégicos alineados al sistema completo. Cada pieza responde
+                            a un objetivo claro dentro del motor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="webs" class="info-section dark-bg">
+        <div class="container">
+            <div class="content-box">
+                <h3>Infraestructura digital alineada a objetivos reales de negocio.</h3>
+                <p>No desarrollamos páginas aisladas.<br>Construimos estructuras estratégicas preparadas para convertir.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pauta" class="info-section darker-bg">
+        <div class="container reverse">
+            <div class="content-box">
+                <h3>Sistemas de adquisición, no anuncios sueltos.</h3>
+                <p>Decidimos con datos.<br>Optimizamos con criterio.<br>Ejecutamos con precisión.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="info-section dark-bg centered-text">
+        <div class="container">
+            <div class="content-box full-width">
+                <h3>Todo trabajando como un solo motor.</h3>
+                <p>Estrategia, desarrollo, activación, producción y optimización operando como un sistema unificado.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact-section">
+        <div class="contact-container">
+            <h2>Cuando el sistema está claro, el crecimiento deja de ser improvisación.</h2>
+            <button class="btn btn-primary large">Comenzar</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-left">Since 2025</div>
+        <div class="footer-center">MOTOR ADVERTISING</div>
+        <div class="footer-right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </footer>
+
+    <div class="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
