@@ -210,16 +210,16 @@ body {
 
 .core-container {
     position: relative;
-    width: 800px;
-    height: 800px;
+    width: 600px;
+    height: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .central-character {
-    width: 600px;
-    /* Increased size */
+    width: 420px;
+    /* Restored dimension */
     z-index: 5;
     position: relative;
 }
@@ -228,7 +228,8 @@ body {
     width: 100%;
     height: auto;
     filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
-    /* No mask to preserve PNG detail at bottom if needed, or subtle */
+    mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
 .glow-effect {
