@@ -2,11 +2,11 @@
   "name": "motor-advertising",
   "version": "1.0.0",
   "description": "Motor Advertising Monorepo",
-  "main": "index.html",
+  "main": "front-end/index.html",
   "scripts": {
     "start": "node back-end/src/index.js",
     "postinstall": "cd back-end && npm install",
-    "dev": "http-server . -p 8080",
+    "dev": "http-server front-end -p 8080",
     "dev:back": "npm run dev --prefix back-end"
   },
   "dependencies": {
