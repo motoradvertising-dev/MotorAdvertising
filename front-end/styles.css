@@ -436,7 +436,7 @@ body {
     border-radius: 16px;
     padding: 30px;
     opacity: 0;
-    /* Default invisible */
+    /* Hidden by default */
     pointer-events: none;
     will-change: transform, opacity;
     box-shadow:
@@ -447,51 +447,63 @@ body {
 
 /* 3. Animation Classes */
 .virtual-screen.anim-enter {
-    animation: emergeFromDeep 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* Ensure opacity becomes 1 */
+    animation: emergeFromDeep 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: all;
 }
 
 .virtual-screen.anim-exit {
-    animation: flyPastCamera 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    animation: flyPastCamera 0.5s ease-in forwards;
     pointer-events: none;
 }
 
 /* 4. Strict Zoning Layout (CSS Variables for Transforms) */
 
-/* Left Screen: Far Left, Centered vertically relative to character torso */
+/* Left Screen: Far Left */
 .screen-1 {
     width: 25vw;
     height: 40vh;
-    left: 2vw;
+    left: 5vw;
+    /* Safe margin */
     top: 25vh;
     --base-transform: rotateY(35deg);
 }
 
-/* Center Screen: Top Center, HUD style */
+/* Center Screen: Top Center */
 .screen-2 {
     width: 40vw;
     height: 18vh;
     left: 50%;
     top: 5vh;
-    margin-left: -20vw;
-    /* True Center */
-    --base-transform: rotateX(15deg);
+    transform: translateX(-50%);
+    /* Better centering */
+    --base-transform: translateX(-50%) rotateX(15deg);
 }
 
-/* Right Screen: Far Right, Avoiding Sidebar */
+/* Right Screen: Far Right */
 .screen-3 {
     width: 25vw;
     height: 40vh;
-    right: 20vw;
-    /* Gap for sidebar */
+    right: 300px;
+    /* Specific clearance for Sidebar */
     top: 25vh;
     --base-transform: rotateY(-35deg);
 }
 
-/* Sidebar Z-Index Correction */
+/* Sidebar Z-Index Correction & Right Alignment */
 .system-core-section.active-3d .system-block {
-    z-index: 2000;
-    /* Above everything */
+    position: fixed !important;
+    right: 0 !important;
+    /* GLUE TO RIGHT EDGE */
+    left: auto !important;
+    transform: none !important;
+    margin: 10px 0 !important;
+    width: 200px !important;
+    border-radius: 8px 0 0 8px !important;
+    /* Flat right side */
+    z-index: 3000 !important;
+    /* MAX Z-INDEX */
+    background: rgba(10, 10, 15, 0.95) !important;
 }
 
 /* Screen Content Styles */

@@ -183,10 +183,11 @@ if (blocks.length > 0) {
 
                     updateContent();
 
+                    // FORCE REFLOW (Critical for animation start)
+                    void systemSection.offsetWidth;
+
                     // Trigger Entry
-                    requestAnimationFrame(() => {
-                        screens.forEach(s => s.classList.add('anim-enter'));
-                    });
+                    screens.forEach(s => s.classList.add('anim-enter'));
                 }
             }
         });
