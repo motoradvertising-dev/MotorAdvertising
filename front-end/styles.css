@@ -350,6 +350,175 @@ body {
     pointer-events: all;
 }
 
+/* 3D Interaction Mode */
+.system-core-section {
+    perspective: 1500px;
+}
+
+.core-container {
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.system-core-section.active-3d .core-container {
+    transform: translateZ(-200px) rotateX(10deg);
+}
+
+.system-core-section.active-3d .system-block {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Floating Screens Container */
+.floating-screens-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.virtual-screen {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 20px;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.17, 0.67, 0.3, 1.1);
+    transform: scale(0.5) translateZ(-500px);
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
+}
+
+.system-core-section.active-3d .virtual-screen {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Screen Positions and 3D rotations */
+.screen-1 {
+    /* Left */
+    transform: translateX(-450px) translateZ(-100px) rotateY(25deg) scale(0);
+}
+
+.screen-2 {
+    /* Center Top */
+    transform: translateY(-250px) translateZ(50px) scale(0);
+    width: 400px;
+    height: 250px;
+}
+
+.screen-3 {
+    /* Right */
+    transform: translateX(450px) translateZ(-100px) rotateY(-25deg) scale(0);
+}
+
+.system-core-section.active-3d .screen-1 {
+    transform: translateX(-400px) translateZ(0) rotateY(20deg) scale(1);
+}
+
+.system-core-section.active-3d .screen-2 {
+    transform: translateY(-280px) translateZ(100px) scale(1.1);
+}
+
+.system-core-section.active-3d .screen-3 {
+    transform: translateX(400px) translateZ(0) rotateY(-20deg) scale(1);
+}
+
+/* Screen Content Styles */
+.screen-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+}
+
+.screen-main-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.screen-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Close Button for 3D View */
+.close-3d-btn {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.system-core-section.active-3d .close-3d-btn {
+    opacity: 1;
+}
+
+.close-3d-btn:hover {
+    background: var(--glass-bg);
+    border-color: var(--text-primary);
+}
+
+/* Floating Animation */
+@keyframes floatScreen {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.system-core-section.active-3d .virtual-screen {
+    animation: floatScreen 6s ease-in-out infinite;
+}
+
+.system-core-section.active-3d .screen-1 {
+    animation-delay: 0s;
+}
+
+.system-core-section.active-3d .screen-2 {
+    animation-delay: 1s;
+}
+
+.system-core-section.active-3d .screen-3 {
+    animation-delay: 2s;
+}
+
 /* Info Sections (Webs, Pauta, Services) */
 .info-section {
     padding: 100px 20px;

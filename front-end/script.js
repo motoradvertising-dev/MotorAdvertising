@@ -91,37 +91,66 @@ resize();
 initParticles();
 animateParticles();
 
-// Interactive System Blocks
+// 3D Interaction Logic
+const systemSection = document.querySelector('.system-core-section');
 const blocks = document.querySelectorAll('.system-block');
-const overlay = document.querySelector('.overlay');
+const close3dBtn = document.querySelector('.close-3d-btn');
 
-if (blocks.length > 0 && overlay) {
+const screenData = {
+    captacion: {
+        center: { title: "Estrategia de Captación", desc: "Atracción inteligente basada en intención real." },
+        left: { title: "Fuentes", content: "Meta Ads, Google Search, TikTok Ads." },
+        right: { title: "Eficacia", content: "Costo por lead optimizado mediante IA." }
+    },
+    conversion: {
+        center: { title: "Embudos de Conversión", desc: "Arquitectura persuasiva de alto impacto." },
+        left: { title: "UX/UI", content: "Fricción cero. Enfoque total en el checkout." },
+        right: { title: "Tracking", content: "Medición absoluta del viaje del usuario." }
+    },
+    automatizacion: {
+        center: { title: "Motores de Escala", desc: "Sistemas autónomos que operan 24/7." },
+        left: { title: "CRM", content: "Nutrición automática de prospectos." },
+        right: { title: "Backend", content: "Procesos optimizados sin error humano." }
+    },
+    produccion: {
+        center: { title: "Activos Estratégicos", desc: "Narrativa visual diseñada para vender." },
+        left: { title: "Video", content: "Storytelling que retiene y convence." },
+        right: { title: "Creative", content: "Diseño modular para testing constante." }
+    }
+};
+
+if (blocks.length > 0) {
     blocks.forEach(block => {
         block.addEventListener('click', (e) => {
-            // Prevent event bubbling if clicking inside an active block
-            e.stopPropagation();
+            const target = block.getAttribute('data-target');
+            const data = screenData[target];
 
-            // Deactivate others
-            blocks.forEach(b => {
-                if (b !== block) b.classList.remove('active');
-            });
+            if (data) {
+                // Update screens
+                document.querySelector('#screen-center .screen-main-title').innerText = data.center.title;
+                document.querySelector('#screen-center .screen-description').innerText = data.center.desc;
+                document.querySelector('#screen-left .data-placeholder').innerHTML = `<p class="screen-description">${data.left.content}</p>`;
+                document.querySelector('#screen-left .screen-title').innerText = data.left.title;
+                document.querySelector('#screen-right .data-placeholder').innerHTML = `<p class="screen-description">${data.right.content}</p>`;
+                document.querySelector('#screen-right .screen-title').innerText = data.right.title;
 
-            // Toggle current
-            block.classList.toggle('active');
-
-            // Toggle overlay
-            if (block.classList.contains('active')) {
-                overlay.classList.add('active');
-            } else {
-                overlay.classList.remove('active');
+                // Activate 3D Mode
+                systemSection.classList.add('active-3d');
             }
         });
     });
 
-    // Close active block when clicking overlay
-    overlay.addEventListener('click', () => {
-        blocks.forEach(block => block.classList.remove('active'));
-        overlay.classList.remove('active');
+    if (close3dBtn) {
+        close3dBtn.addEventListener('click', () => {
+            systemSection.classList.remove('active-3d');
+        });
+    }
+
+    // Also close on background click within section
+    systemSection.addEventListener('click', (e) => {
+        if (e.target === systemSection) {
+            systemSection.classList.remove('active-3d');
+        }
     });
 }
 
