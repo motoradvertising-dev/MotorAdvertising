@@ -136,20 +136,27 @@ if (blocks.length > 0) {
 
                 // Activate 3D Mode
                 systemSection.classList.add('active-3d');
+
+                // Mark active block in sidebar
+                blocks.forEach(b => b.classList.remove('active-in-3d'));
+                block.classList.add('active-in-3d');
             }
         });
     });
 
     if (close3dBtn) {
-        close3dBtn.addEventListener('click', () => {
+        close3dBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent re-triggering via section click
             systemSection.classList.remove('active-3d');
+            blocks.forEach(b => b.classList.remove('active-in-3d'));
         });
     }
 
-    // Also close on background click within section
+    // Also close on background click within section, but NOT on screens
     systemSection.addEventListener('click', (e) => {
-        if (e.target === systemSection) {
+        if (e.target === systemSection || e.target.classList.contains('core-container')) {
             systemSection.classList.remove('active-3d');
+            blocks.forEach(b => b.classList.remove('active-in-3d'));
         }
     });
 }
