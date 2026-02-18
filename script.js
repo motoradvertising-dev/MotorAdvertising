@@ -95,33 +95,35 @@ animateParticles();
 const blocks = document.querySelectorAll('.system-block');
 const overlay = document.querySelector('.overlay');
 
-blocks.forEach(block => {
-    block.addEventListener('click', (e) => {
-        // Prevent event bubbling if clicking inside an active block
-        e.stopPropagation();
+if (blocks.length > 0 && overlay) {
+    blocks.forEach(block => {
+        block.addEventListener('click', (e) => {
+            // Prevent event bubbling if clicking inside an active block
+            e.stopPropagation();
 
-        // Deactivate others
-        blocks.forEach(b => {
-            if (b !== block) b.classList.remove('active');
+            // Deactivate others
+            blocks.forEach(b => {
+                if (b !== block) b.classList.remove('active');
+            });
+
+            // Toggle current
+            block.classList.toggle('active');
+
+            // Toggle overlay
+            if (block.classList.contains('active')) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
         });
-
-        // Toggle current
-        block.classList.toggle('active');
-
-        // Toggle overlay
-        if (block.classList.contains('active')) {
-            overlay.classList.add('active');
-        } else {
-            overlay.classList.remove('active');
-        }
     });
-});
 
-// Close active block when clicking overlay
-overlay.addEventListener('click', () => {
-    blocks.forEach(block => block.classList.remove('active'));
-    overlay.classList.remove('active');
-});
+    // Close active block when clicking overlay
+    overlay.addEventListener('click', () => {
+        blocks.forEach(block => block.classList.remove('active'));
+        overlay.classList.remove('active');
+    });
+}
 
 // Smooth Scroll for Anchors
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -178,21 +180,23 @@ function closeModal() {
     document.getElementById('profesional-contact-form').reset();
 }
 
-btnEmpresa.addEventListener('click', () => openModal('empresa'));
-btnProfesional.addEventListener('click', () => openModal('profesional'));
-modalClose.addEventListener('click', closeModal);
+if (btnEmpresa) btnEmpresa.addEventListener('click', () => openModal('empresa'));
+if (btnProfesional) btnProfesional.addEventListener('click', () => openModal('profesional'));
+if (modalClose) modalClose.addEventListener('click', closeModal);
 
 // Close on backdrop click
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-});
+if (modal) {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+}
 
 // Close on ESC
 window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) closeModal();
 });
 
-btnSuccessBack.addEventListener('click', closeModal);
+if (btnSuccessBack) btnSuccessBack.addEventListener('click', closeModal);
 
 // Form Submission Handling
 async function handleFormSubmit(e, type) {
@@ -204,6 +208,9 @@ async function handleFormSubmit(e, type) {
     // Loading State
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
     const errorContainer = form.querySelector('.form-error');
     if (errorContainer) errorContainer.classList.add('hidden');
@@ -240,5 +247,9 @@ async function handleFormSubmit(e, type) {
     }
 }
 
-document.getElementById('empresa-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'empresa'));
-document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));
+if (document.getElementById('empresa-contact-form')) {
+    document.getElementById('empresa-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'empresa'));
+}
+if (document.getElementById('profesional-contact-form')) {
+    document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));
+}

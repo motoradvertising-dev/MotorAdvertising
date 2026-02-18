@@ -182,7 +182,7 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #a00000;
+    background-color: #1a2e44;
     transform: translateY(-2px);
 }
 
@@ -671,7 +671,7 @@ footer {
 .form-field textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 10px rgba(192, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(13, 27, 42, 0.4);
 }
 
 .full-row {
