@@ -145,46 +145,47 @@ if (blocks.length > 0) {
                 };
 
                 if (isAlreadyActive) {
-                    // --- SWITCHING BLOCKS (Fly Through) ---
+                    // --- SWITCHING BLOCKS (Cinematic Transition) ---
 
-                    // A. Fly Out Current Screens
-                    screens.forEach(s => s.classList.add('exit-screen'));
-                    screens.forEach(s => s.classList.remove('active-screen'));
+                    // 1. Trigger Fly Past Escape
+                    screens.forEach(s => {
+                        s.classList.remove('anim-enter');
+                        s.classList.add('anim-exit');
+                    });
 
-                    // B. Wait for Exit Animation (500ms)
+                    // 2. Wait for exit to clear screen (600ms match CSS)
                     setTimeout(() => {
-                        // C. RESET (Instant teleport to deep space)
+                        // 3. Reset State (Instant)
                         screens.forEach(s => {
-                            s.classList.remove('exit-screen');
-                            // This state is the "Base State" in CSS (Deep Space, Opacity 0)
+                            s.classList.remove('anim-exit');
+                            // CSS ensures they are now opacity: 0 and deep position
                         });
 
-                        // D. Update Content while invisible
+                        // 4. Update Content
                         updateContent();
 
-                        // E. Force Reflow (Critical to prevent browser optimizing away the reset)
+                        // 5. Force Reflow
                         void systemSection.offsetWidth;
 
-                        // F. ENTER (Fly in from deep space)
-                        screens.forEach(s => s.classList.add('active-screen'));
+                        // 6. Trigger Deep Entry
+                        screens.forEach(s => s.classList.add('anim-enter'));
 
-                    }, 500);
+                    }, 550); // Slightly less than 0.6s to overlap ensuring continuous motion
 
                 } else {
                     // --- FIRST ENTRY ---
                     systemSection.classList.add('active-3d');
 
-                    // Ensure clean slate
+                    // Clear any residuals
                     screens.forEach(s => {
-                        s.classList.remove('exit-screen');
-                        s.classList.remove('active-screen');
+                        s.classList.remove('anim-exit', 'anim-enter');
                     });
 
                     updateContent();
 
-                    // Small delay to allow container perspective to set in
+                    // Trigger Entry
                     requestAnimationFrame(() => {
-                        screens.forEach(s => s.classList.add('active-screen'));
+                        screens.forEach(s => s.classList.add('anim-enter'));
                     });
                 }
             }
@@ -202,7 +203,7 @@ if (blocks.length > 0) {
             // Clear all animation classes
             const screens = document.querySelectorAll('.virtual-screen');
             screens.forEach(s => {
-                s.classList.remove('active-screen', 'exit-screen');
+                s.classList.remove('anim-enter', 'anim-exit');
             });
         });
     }

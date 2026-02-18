@@ -400,100 +400,92 @@ body {
     top: 65%;
 }
 
-/* --- NUCLEAR 3D REWRITE (Strict State Machine) --- */
+/* --- CINEMATIC KEYFRAME ENGINE (V4) --- */
 
-/* 1. Base State (Deep Space - Invisible) */
+/* 1. Keyframes Definition */
+@keyframes emergeFromDeep {
+    0% {
+        opacity: 0;
+        transform: var(--base-transform) translateZ(-3000px) scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: var(--base-transform) translateZ(0) scale(1);
+    }
+}
+
+@keyframes flyPastCamera {
+    0% {
+        opacity: 1;
+        transform: var(--base-transform) translateZ(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: var(--base-transform) translateZ(1500px) scale(3);
+    }
+}
+
+/* 2. Base Screen Configuration */
 .virtual-screen {
     position: absolute;
     background: rgba(10, 10, 20, 0.85);
-    /* Slightly darker for contrast */
     backdrop-filter: blur(25px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     padding: 30px;
     opacity: 0;
+    /* Default invisible */
     pointer-events: none;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    /* No shadow in deep space */
-
-    /* Default Deep Position */
-    transform: translateZ(-2000px) scale(0);
-
-    /* Transition for ENTRY (Coming from deep space) */
-    transition:
-        transform 1.2s cubic-bezier(0.19, 1, 0.22, 1),
-        opacity 0.8s ease-out,
-        box-shadow 1.2s ease;
-
     will-change: transform, opacity;
-}
-
-/* 2. Active State (Final Position - Visible) */
-.virtual-screen.active-screen {
-    opacity: 1;
-    pointer-events: all;
     box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.8),
-        /* Deep shadow */
         0 0 30px var(--accent-glow),
-        /* Glow */
         inset 0 0 2px rgba(255, 255, 255, 0.1);
-    /* Inner rim */
 }
 
-/* 3. Exit State (Fly Past Camera) */
-.virtual-screen.exit-screen {
-    opacity: 0;
+/* 3. Animation Classes */
+.virtual-screen.anim-enter {
+    animation: emergeFromDeep 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: all;
+}
+
+.virtual-screen.anim-exit {
+    animation: flyPastCamera 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
     pointer-events: none;
-    /* Exit moves TOWARDS camera until it passes it */
-    transform: translateZ(1000px) scale(2) !important;
-
-    /* Faster linear exit */
-    transition:
-        transform 0.5s ease-in,
-        opacity 0.3s linear;
 }
 
-/* --- ZONING & POSITIONS --- */
+/* 4. Strict Zoning Layout (CSS Variables for Transforms) */
 
-/* Screen 1: LEFT ZONE (Far Left) */
-/* Base State Override for rotation flow */
+/* Left Screen: Far Left, Centered vertically relative to character torso */
 .screen-1 {
-    transform: translateX(-50vw) translateZ(-2000px) rotateY(45deg);
+    width: 25vw;
+    height: 40vh;
+    left: 2vw;
+    top: 25vh;
+    --base-transform: rotateY(35deg);
 }
 
-/* Active Position */
-.virtual-screen.active-screen.screen-1 {
-    width: 300px;
-    height: 400px;
-    /* Position: Far Left */
-    transform: translateX(-45vw) translateY(-10vh) translateZ(0) rotateY(35deg) scale(1);
-}
-
-/* Screen 2: CENTER ZONE (High HUD) */
+/* Center Screen: Top Center, HUD style */
 .screen-2 {
-    transform: translateY(-100vh) translateZ(-2000px) rotateX(20deg);
+    width: 40vw;
+    height: 18vh;
+    left: 50%;
+    top: 5vh;
+    margin-left: -20vw;
+    /* True Center */
+    --base-transform: rotateX(15deg);
 }
 
-/* Active Position */
-.virtual-screen.active-screen.screen-2 {
-    width: 50vw;
-    height: 25vh;
-    /* Position: Top Center (Ceiling) */
-    transform: translateX(0) translateY(-42vh) translateZ(50px) rotateX(10deg) scale(1);
-}
-
-/* Screen 3: RIGHT ZONE (Inner Right - Avoiding Sidebar) */
+/* Right Screen: Far Right, Avoiding Sidebar */
 .screen-3 {
-    transform: translateX(50vw) translateZ(-2000px) rotateY(-45deg);
-}
-
-/* Active Position */
-.virtual-screen.active-screen.screen-3 {
-    width: 300px;
-    height: 400px;
-    /* Position: Inside of the sidebar (Sidebar uses right:0-220px, so we stay at +25-30vw max) */
-    transform: translateX(30vw) translateY(-10vh) translateZ(0) rotateY(-35deg) scale(1);
+    width: 25vw;
+    height: 40vh;
+    right: 20vw;
+    /* Gap for sidebar */
+    top: 25vh;
+    --base-transform: rotateY(-35deg);
 }
 
 /* Sidebar Z-Index Correction */
