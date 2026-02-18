@@ -126,7 +126,15 @@ if (blocks.length > 0) {
             const data = screenData[target];
 
             if (data) {
+                // 1. Mark Sidebar State immediately
+                blocks.forEach(b => b.classList.remove('active-in-3d'));
+                block.classList.add('active-in-3d');
+
+                // 2. Animation Sequencer
                 const screens = document.querySelectorAll('.virtual-screen');
+                const isAlreadyActive = systemSection.classList.contains('active-3d');
+
+                // Function to update content (Safe to call anytime screens are invisible)
                 const updateContent = () => {
                     document.querySelector('#screen-center .screen-main-title').innerText = data.center.title;
                     document.querySelector('#screen-center .screen-description').innerText = data.center.desc;
@@ -136,50 +144,49 @@ if (blocks.length > 0) {
                     document.querySelector('#screen-right .screen-title').innerText = data.right.title;
                 };
 
-                // Helper to trigger "Emerge" animation
-                const triggerEmerge = () => {
-                    screens.forEach(s => {
-                        s.classList.remove('reset-background');
-                        // Small delay to ensure CSS transition catches the change
-                        requestAnimationFrame(() => {
-                            s.style.opacity = ""; // Allow CSS to take over
-                        });
-                    });
-                };
+                if (isAlreadyActive) {
+                    // --- SWITCHING BLOCKS (Fly Through) ---
 
-                if (systemSection.classList.contains('active-3d')) {
-                    // SEQUENCE: Fly Out -> Reset -> Update -> Fly In
+                    // A. Fly Out Current Screens
+                    screens.forEach(s => s.classList.add('exit-screen'));
+                    screens.forEach(s => s.classList.remove('active-screen'));
 
-                    // 1. Fly Out Forward
-                    screens.forEach(s => s.classList.add('animate-out-forward'));
-
+                    // B. Wait for Exit Animation (500ms)
                     setTimeout(() => {
-                        // 2. Update Content (Invisible)
+                        // C. RESET (Instant teleport to deep space)
+                        screens.forEach(s => {
+                            s.classList.remove('exit-screen');
+                            // This state is the "Base State" in CSS (Deep Space, Opacity 0)
+                        });
+
+                        // D. Update Content while invisible
                         updateContent();
 
-                        // 3. Reset to Background (Instant, no transition)
-                        screens.forEach(s => {
-                            s.classList.remove('animate-out-forward');
-                            s.classList.add('reset-background');
-                        });
-
-                        // 4. Force Reflow
+                        // E. Force Reflow (Critical to prevent browser optimizing away the reset)
                         void systemSection.offsetWidth;
 
-                        // 5. Fly In (Remove reset class)
-                        triggerEmerge();
+                        // F. ENTER (Fly in from deep space)
+                        screens.forEach(s => s.classList.add('active-screen'));
 
-                    }, 600); // Wait for fly-out animation
+                    }, 500);
 
                 } else {
-                    // FIRST ENTRY: Just update and show
-                    updateContent();
+                    // --- FIRST ENTRY ---
                     systemSection.classList.add('active-3d');
-                }
 
-                // Mark active block in sidebar
-                blocks.forEach(b => b.classList.remove('active-in-3d'));
-                block.classList.add('active-in-3d');
+                    // Ensure clean slate
+                    screens.forEach(s => {
+                        s.classList.remove('exit-screen');
+                        s.classList.remove('active-screen');
+                    });
+
+                    updateContent();
+
+                    // Small delay to allow container perspective to set in
+                    requestAnimationFrame(() => {
+                        screens.forEach(s => s.classList.add('active-screen'));
+                    });
+                }
             }
         });
     });
@@ -187,14 +194,15 @@ if (blocks.length > 0) {
     if (close3dBtn) {
         close3dBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Reset everything
+
+            // Hard Reset
             systemSection.classList.remove('active-3d');
             blocks.forEach(b => b.classList.remove('active-in-3d'));
 
-            // Clean up animation classes just in case
+            // Clear all animation classes
             const screens = document.querySelectorAll('.virtual-screen');
             screens.forEach(s => {
-                s.classList.remove('animate-out-forward', 'reset-background');
+                s.classList.remove('active-screen', 'exit-screen');
             });
         });
     }
