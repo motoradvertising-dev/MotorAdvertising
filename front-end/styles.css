@@ -350,39 +350,41 @@ body {
     pointer-events: all;
 }
 
-/* --- PANORAMIC LAYOUT RESCUE (V6) --- */
+/* --- PANORAMIC LAYOUT RESCUE (V6 + V7 Repair) --- */
 
-/* 1. Decoupled Character Layer (Absolute Center) */
+/* 1. Decoupled Character Layer (Absolute Center of Section) */
 .core-container {
-    position: static;
-    /* Let children break free */
+    position: absolute;
+    /* Absolute within the relative section */
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
 .central-character {
-    position: fixed;
+    position: absolute;
+    /* Scoped to section, NOT fixed to screen */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60vh;
-    /* Responsive height based aspect */
     max-width: 600px;
     z-index: 10;
-    /* Below UI, Above Background */
-    pointer-events: none;
-    /* Let clicks pass through if needed */
     transition: all 0.5s ease;
 }
 
-/* 2. Sidebar Rail (Fixed Right Column) */
+/* 2. Sidebar Rail (Fixed Right Column - Only when Active) */
 .system-core-section.active-3d .system-block {
     position: fixed !important;
     right: 0 !important;
     left: auto !important;
+    top: 0 !important;
+    /* Reset top for calculation */
+    bottom: auto !important;
     transform: none !important;
     width: 280px !important;
-    /* Fixed Width Rail */
     height: auto !important;
     padding: 20px 30px !important;
     margin: 0 !important;
@@ -390,7 +392,6 @@ body {
     border: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     background: rgba(0, 0, 0, 0.95) !important;
-    /* Solid Contrast */
     z-index: 5000 !important;
     display: flex !important;
     flex-direction: row !important;
@@ -407,7 +408,7 @@ body {
     /* Slide effect */
 }
 
-/* Sidebar Vertical Stacking (Spread out vertically) */
+/* Sidebar Vertical Stacking */
 .system-core-section.active-3d .block-top-left {
     top: 20vh !important;
 }
