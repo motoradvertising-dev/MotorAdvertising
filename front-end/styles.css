@@ -290,25 +290,25 @@ body {
     transition: opacity 0.3s ease;
 }
 
-/* Specific Positions for Orbit */
+/* Specific Positions for Orbit (Tightened) */
 .block-top-left {
-    top: 10%;
-    left: 0;
+    top: 25%;
+    left: 25%;
 }
 
 .block-top-right {
-    top: 10%;
-    right: 0;
+    top: 25%;
+    right: 25%;
 }
 
 .block-bottom-left {
-    bottom: 10%;
-    left: 0;
+    bottom: 25%;
+    left: 25%;
 }
 
 .block-bottom-right {
-    bottom: 10%;
-    right: 0;
+    bottom: 25%;
+    right: 25%;
 }
 
 /* Expanded State for Blocks */
