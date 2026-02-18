@@ -1,11 +1,13 @@
 {
-  "name": "motoradvertising",
+  "name": "motor-advertising",
   "version": "1.0.0",
-  "description": "Motor Advertising Static Site",
+  "description": "Motor Advertising Monorepo",
   "main": "index.html",
   "scripts": {
-    "start": "http-server . -p 8080",
-    "dev": "http-server . -p 8080"
+    "start": "node back-end/src/index.js",
+    "postinstall": "cd back-end && npm install",
+    "dev": "http-server . -p 8080",
+    "dev:back": "npm run dev --prefix back-end"
   },
   "dependencies": {
     "http-server": "^14.1.1"
