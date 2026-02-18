@@ -418,584 +418,636 @@ body {
 @keyframes flyPastCamera {
     0% {
         opacity: 1;
-        transform: var(--base-transform) translateZ(0) scale(1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: var(--base-transform) translateZ(1500px) scale(3);
-    }
-}
-
-/* 2. Base Screen Configuration */
-.virtual-screen {
-    position: absolute;
-    background: rgba(10, 10, 20, 0.85);
-    backdrop-filter: blur(25px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 30px;
-    opacity: 0;
-    /* Hidden by default */
-    pointer-events: none;
-    will-change: transform, opacity;
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.8),
-        0 0 30px var(--accent-glow),
-        inset 0 0 2px rgba(255, 255, 255, 0.1);
-}
-
-/* 3. Animation Classes */
-.virtual-screen.anim-enter {
-    /* Ensure opacity becomes 1 */
-    animation: emergeFromDeep 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    pointer-events: all;
-}
-
-.virtual-screen.anim-exit {
-    animation: flyPastCamera 0.5s ease-in forwards;
-    pointer-events: none;
-}
-
-/* 4. Strict Zoning Layout (CSS Variables for Transforms) */
-
-/* Left Screen: Far Left */
-.screen-1 {
-    width: 25vw;
-    height: 40vh;
-    left: 5vw;
-    /* Safe margin */
-    top: 25vh;
-    --base-transform: rotateY(35deg);
-}
-
-/* Center Screen: Top Center */
-.screen-2 {
-    width: 40vw;
-    height: 18vh;
-    left: 50%;
-    top: 5vh;
-    transform: translateX(-50%);
-    /* Better centering */
-    --base-transform: translateX(-50%) rotateX(15deg);
-}
-
-/* Right Screen: Far Right */
-.screen-3 {
-    width: 25vw;
-    height: 40vh;
-    right: 300px;
-    /* Specific clearance for Sidebar */
-    top: 25vh;
-    --base-transform: rotateY(-35deg);
-}
-
-/* Sidebar Z-Index Correction & Right Alignment */
-.system-core-section.active-3d .system-block {
-    position: fixed !important;
-    right: 0 !important;
-    /* GLUE TO RIGHT EDGE */
-    left: auto !important;
-    transform: none !important;
-    margin: 10px 0 !important;
-    width: 200px !important;
-    border-radius: 8px 0 0 8px !important;
-    /* Flat right side */
-    z-index: 3000 !important;
-    /* MAX Z-INDEX */
-    background: rgba(10, 10, 15, 0.95) !important;
-}
-
-/* Screen Content Styles */
-.screen-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--accent-color);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--glass-border);
-    padding-bottom: 10px;
-}
-
-.screen-main-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.screen-description {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-/* Close Button for 3D View */
-.close-3d-btn {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: transparent;
-    border: 1px solid var(--glass-border);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    opacity: 0;
-    transition: all 0.5s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.system-core-section.active-3d .close-3d-btn {
-    opacity: 1;
-}
-
-.close-3d-btn:hover {
-    background: var(--glass-bg);
-    border-color: var(--text-primary);
-}
-
-/* Floating Animation */
-@keyframes floatScreen {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.system-core-section.active-3d .virtual-screen {
-    animation: floatScreen 6s ease-in-out infinite;
-}
-
-.system-core-section.active-3d .screen-1 {
-    animation-delay: 0s;
-}
-
-.system-core-section.active-3d .screen-2 {
-    animation-delay: 1s;
-}
-
-.system-core-section.active-3d .screen-3 {
-    animation-delay: 2s;
-}
-
-/* Info Sections (Webs, Pauta, Services) */
-.info-section {
-    padding: 100px 20px;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-}
-
-.dark-bg {
-    background-color: var(--bg-secondary);
-}
-
-.darker-bg {
-    background-color: var(--bg-color);
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border);
-}
-
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-}
-
-.container.reverse {
-    justify-content: flex-end;
-    text-align: right;
-}
-
-.centered-text .container {
-    justify-content: center;
-    text-align: center;
-}
-
-.content-box h3 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-.content-box p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-}
-
-/* Contact Section */
-.contact-section {
-    padding: 120px 20px;
-    text-align: center;
-    background: linear-gradient(to top, #111, var(--bg-color));
-}
-
-.btn.large {
-    font-size: 1.2rem;
-    padding: 20px 50px;
-    margin-top: 30px;
-}
-
-/* Footer */
-footer {
-    padding: 40px 50px;
-    border-top: 1px solid var(--glass-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    background-color: var(--bg-color);
-}
-
-.footer-center {
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: var(--text-primary);
-}
-
-.footer-right {
-    display: flex;
-    gap: 20px;
-}
-
-.footer-right a {
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-    transition: color 0.3s;
-}
-
-.footer-right a:hover {
-    color: var(--text-primary);
-    transform: scale(1.1);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .headline {
-        font-size: 2.5rem;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    /* Add toggle logic later */
-    .menu-toggle {
-        display: block;
-    }
-
-    .core-container {
-        width: 100%;
-        height: auto;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .central-character {
-        width: 80%;
-        order: 1;
-        margin-bottom: 40px;
-    }
-
-    .orbit-container {
-        display: contents;
-    }
-
-    .system-block {
-        position: relative;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        width: 100%;
-        max-width: 300px;
-        order: 2;
-        margin: 10px 0;
-    }
-
-    .container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .container.reverse {
-        justify-content: center;
-        text-align: center;
-    }
-
-    footer {
-        flex-direction: column;
-        gap: 20px;
-    }
-}
-
-/* Refactored Contact Section */
-.contact-section {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 20px;
-    background: radial-gradient(circle at center, #111 0%, var(--bg-color) 70%);
-}
-
-.contact-selection-wrapper {
-    text-align: center;
-    max-width: 800px;
-}
-
-.contact-title {
-    font-family: var(--font-heading);
-    font-size: 4.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-}
-
-.contact-subtitle {
-    font-family: var(--font-body);
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-    margin-bottom: 40px;
-}
-
-.contact-options {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-}
-
-.contact-options .btn {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    padding: 18px 45px;
-    min-width: 250px;
-}
-
-/* Modal System */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(15px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.modal-content {
-    background-color: var(--bg-modal);
-    width: 85%;
-    height: 85%;
-    max-width: 1000px;
-    max-height: 800px;
-    border: 1px solid var(--border-modal);
-    border-radius: 20px;
-    position: relative;
-    padding: 40px;
-    transform: scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    overflow-y: auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.modal-overlay.active .modal-content {
-    transform: scale(1);
-}
-
-.modal-close {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 2rem;
-    cursor: pointer;
-    transition: color 0.3s;
-    line-height: 1;
-}
-
-.modal-close:hover {
-    color: var(--text-primary);
-}
-
-/* Form Styling */
-.form-header {
-    margin-bottom: 40px;
-    text-align: left;
-}
-
-.form-header h3 {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    color: var(--accent-color);
-    margin-bottom: 5px;
-}
-
-.form-header p {
-    font-family: var(--font-body);
-    color: var(--text-secondary);
-    font-size: 1rem;
-}
-
-.motor-form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-field label {
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-}
-
-.form-field input,
-.form-field select,
-.form-field textarea {
-    background-color: #111118;
-    border: 1px solid var(--border-modal);
-    border-radius: 4px;
-    padding: 16px;
-    color: white;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    transition: all 0.3s;
-}
-
-.form-field input:focus,
-.form-field select:focus,
-.form-field textarea:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 10px rgba(13, 27, 42, 0.4);
-}
-
-.full-row {
-    grid-column: 1 / span 2;
-}
-
-.btn-submit {
-    margin-top: 20px;
-    padding: 18px;
-    font-size: 1.1rem;
-}
-
-/* Success State */
-.success-content {
-    text-align: center;
-    padding: 60px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.success-icon {
-    font-size: 5rem;
-    color: #00c04b;
-    margin-bottom: 10px;
-}
-
-.success-content h3 {
-    font-family: var(--font-heading);
-    font-size: 3rem;
-    text-transform: uppercase;
-}
-
-/* Helper Classes */
-.hidden {
-    display: none !important;
-}
-
-.no-scroll {
-    overflow: hidden;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .contact-title {
-        font-size: 2.5rem;
-    }
-
-    .contact-options {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .contact-options .btn {
-        min-width: auto;
-        width: 100%;
-    }
-
-    .modal-content {
-        width: 92%;
-        height: 90%;
-        padding: 25px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .full-row {
-        grid-column: auto;
-    }
-}
-
-.contact-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.contact-main-wrapper {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* --- FULL VIEWPORT EXPANSION (V5) --- */
+
+        /* 1. Remove Container Constraints */
+        .floating-screens-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+            display: block;
+            /* No more flex centering */
+            overflow: hidden;
+        }
+
+        /* 2. Base Screen Configuration */
+        .virtual-screen {
+            position: absolute;
+            background: rgba(5, 5, 10, 0.9);
+            /* Darker, more solid */
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 40px;
+            opacity: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.9),
+                0 0 40px var(--accent-glow);
+        }
+
+        /* 3. Animation Classes */
+        .virtual-screen.anim-enter {
+            animation: emergeFromDeep 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+            pointer-events: all;
+        }
+
+        .virtual-screen.anim-exit {
+            animation: flyPastCamera 0.5s ease-in forwards;
+            pointer-events: none;
+        }
+
+        /* 4. Panoramic Zoning Layout (V5) */
+
+        /* LEFT PANEL (Full Height Side) */
+        .screen-1 {
+            width: 30vw;
+            height: 70vh;
+            left: 3vw;
+            top: 15vh;
+            --base-transform: rotateY(25deg);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* RIGHT PANEL (Full Height Side - Next to Sidebar) */
+        .screen-3 {
+            width: 30vw;
+            height: 70vh;
+            right: 280px;
+            /* Sidebar (250px) + Gap (30px) */
+            top: 15vh;
+            --base-transform: rotateY(-25deg);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        /* CENTER HUD (Top Wide) */
+        .screen-2 {
+            width: 50vw;
+            height: 20vh;
+            left: 50%;
+            top: 5vh;
+            transform: translateX(-50%);
+            --base-transform: translateX(-50%) rotateX(10deg);
+        }
+
+        /* 5. SIDEBAR RAIL (Absolute Right Edge) */
+        .system-core-section.active-3d .system-block {
+            position: fixed !important;
+            right: 0 !important;
+            left: auto !important;
+            transform: none !important;
+            width: 250px !important;
+            height: auto !important;
+            padding: 20px !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--glass-border) !important;
+            background: rgba(5, 5, 5, 0.98) !important;
+            z-index: 5000 !important;
+            display: flex !important;
+            flex-direction: row !important;
+            /* Icon + Text inline if needed */
+            align-items: center !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            gap: 15px !important;
+            transition: background 0.3s !important;
+        }
+
+        .system-core-section.active-3d .system-block:hover,
+        .system-core-section.active-3d .system-block.active-in-3d {
+            background: var(--accent-color) !important;
+        }
+
+        /* Sidebar Vertical Stacking */
+        .system-core-section.active-3d .block-top-left {
+            top: 20% !important;
+        }
+
+        .system-core-section.active-3d .block-top-right {
+            top: 35% !important;
+        }
+
+        .system-core-section.active-3d .block-bottom-left {
+            top: 50% !important;
+        }
+
+        .system-core-section.active-3d .block-bottom-right {
+            top: 65% !important;
+        }
+
+        /* Hide Close Button (Move to Sidebar bottom or corner) */
+        .close-3d-btn {
+            bottom: 30px;
+            right: 30px;
+            left: auto;
+            transform: none;
+            z-index: 6000;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border: 2px solid white;
+        }
+
+        /* Screen Content Styles */
+        .screen-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
+        }
+
+        .screen-main-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .screen-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Close Button for 3D View */
+        .close-3d-btn {
+            position: fixed;
+            /* Fixed to viewport */
+            bottom: 40px;
+            right: 100px;
+            /* Left of the sidebar */
+            left: auto;
+            transform: none;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--glass-border);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 6000;
+            opacity: 0;
+            transition: all 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .system-core-section.active-3d .close-3d-btn {
+            opacity: 1;
+        }
+
+        .close-3d-btn:hover {
+            background: var(--glass-bg);
+            border-color: var(--text-primary);
+        }
+
+        /* Floating Animation */
+        @keyframes floatScreen {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .system-core-section.active-3d .virtual-screen {
+            animation: floatScreen 6s ease-in-out infinite;
+        }
+
+        .system-core-section.active-3d .screen-1 {
+            animation-delay: 0s;
+        }
+
+        .system-core-section.active-3d .screen-2 {
+            animation-delay: 1s;
+        }
+
+        .system-core-section.active-3d .screen-3 {
+            animation-delay: 2s;
+        }
+
+        /* Info Sections (Webs, Pauta, Services) */
+        .info-section {
+            padding: 100px 20px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .dark-bg {
+            background-color: var(--bg-secondary);
+        }
+
+        .darker-bg {
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+        }
+
+        .container.reverse {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .centered-text .container {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .content-box h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .content-box p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 120px 20px;
+            text-align: center;
+            background: linear-gradient(to top, #111, var(--bg-color));
+        }
+
+        .btn.large {
+            font-size: 1.2rem;
+            padding: 20px 50px;
+            margin-top: 30px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 50px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background-color: var(--bg-color);
+        }
+
+        .footer-center {
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-right a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .footer-right a:hover {
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .headline {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Add toggle logic later */
+            .menu-toggle {
+                display: block;
+            }
+
+            .core-container {
+                width: 100%;
+                height: auto;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .central-character {
+                width: 80%;
+                order: 1;
+                margin-bottom: 40px;
+            }
+
+            .orbit-container {
+                display: contents;
+            }
+
+            .system-block {
+                position: relative;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                width: 100%;
+                max-width: 300px;
+                order: 2;
+                margin: 10px 0;
+            }
+
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container.reverse {
+                justify-content: center;
+                text-align: center;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Refactored Contact Section */
+        .contact-section {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            background: radial-gradient(circle at center, #111 0%, var(--bg-color) 70%);
+        }
+
+        .contact-selection-wrapper {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .contact-title {
+            font-family: var(--font-heading);
+            font-size: 4.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .contact-subtitle {
+            font-family: var(--font-body);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .contact-options {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .contact-options .btn {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            padding: 18px 45px;
+            min-width: 250px;
+        }
+
+        /* Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background-color: var(--bg-modal);
+            width: 85%;
+            height: 85%;
+            max-width: 1000px;
+            max-height: 800px;
+            border: 1px solid var(--border-modal);
+            border-radius: 20px;
+            position: relative;
+            padding: 40px;
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Form Styling */
+        .form-header {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .form-header h3 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .form-header p {
+            font-family: var(--font-body);
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .motor-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field label {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            background-color: #111118;
+            border: 1px solid var(--border-modal);
+            border-radius: 4px;
+            padding: 16px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(13, 27, 42, 0.4);
+        }
+
+        .full-row {
+            grid-column: 1 / span 2;
+        }
+
+        .btn-submit {
+            margin-top: 20px;
+            padding: 18px;
+            font-size: 1.1rem;
+        }
+
+        /* Success State */
+        .success-content {
+            text-align: center;
+            padding: 60px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: #00c04b;
+            margin-bottom: 10px;
+        }
+
+        .success-content h3 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-transform: uppercase;
+        }
+
+        /* Helper Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-title {
+                font-size: 2.5rem;
+            }
+
+            .contact-options {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .contact-options .btn {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 92%;
+                height: 90%;
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-row {
+                grid-column: auto;
+            }
+        }
+
+        .contact-page {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .contact-main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
