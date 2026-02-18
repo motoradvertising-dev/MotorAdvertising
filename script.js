@@ -60,20 +60,20 @@ function initParticles() {
 
 function animateParticles() {
     ctx.clearRect(0, 0, width, height);
-    
+
     // Draw connecting lines
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
     ctx.lineWidth = 0.5;
-    
+
     for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
-        
+
         for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            
+
             if (distance < 100) {
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
@@ -82,7 +82,7 @@ function animateParticles() {
             }
         }
     }
-    
+
     requestAnimationFrame(animateParticles);
 }
 
@@ -99,15 +99,15 @@ blocks.forEach(block => {
     block.addEventListener('click', (e) => {
         // Prevent event bubbling if clicking inside an active block
         e.stopPropagation();
-        
+
         // Deactivate others
         blocks.forEach(b => {
             if (b !== block) b.classList.remove('active');
         });
-        
+
         // Toggle current
         block.classList.toggle('active');
-        
+
         // Toggle overlay
         if (block.classList.contains('active')) {
             overlay.classList.add('active');
@@ -127,14 +127,118 @@ overlay.addEventListener('click', () => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
+
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
             target.scrollIntoView({
                 behavior: 'smooth'
             });
-            
-            // Close mobile menu if open (implementation pending)
         }
     });
 });
+
+// --- Modal & Contact Logic ---
+
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3001'
+    : 'https://motor-advertising-production.up.railway.app'; // Replace with real Railway URL later
+
+const modal = document.getElementById('contact-modal');
+const modalClose = document.getElementById('modal-close');
+const btnEmpresa = document.getElementById('btn-soy-empresa');
+const btnProfesional = document.getElementById('btn-soy-profesional');
+const formEmpresa = document.getElementById('form-empresa');
+const formProfesional = document.getElementById('form-profesional');
+const successStep = document.getElementById('modal-success');
+const btnSuccessBack = document.getElementById('success-back');
+
+// Open Modal
+function openModal(type) {
+    modal.classList.add('active');
+    document.body.classList.add('no-scroll');
+
+    // Reset steps
+    formEmpresa.classList.add('hidden');
+    formProfesional.classList.add('hidden');
+    successStep.classList.add('hidden');
+
+    if (type === 'empresa') {
+        formEmpresa.classList.remove('hidden');
+    } else {
+        formProfesional.classList.remove('hidden');
+    }
+}
+
+// Close Modal
+function closeModal() {
+    modal.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+    // Reset forms
+    document.getElementById('empresa-contact-form').reset();
+    document.getElementById('profesional-contact-form').reset();
+}
+
+btnEmpresa.addEventListener('click', () => openModal('empresa'));
+btnProfesional.addEventListener('click', () => openModal('profesional'));
+modalClose.addEventListener('click', closeModal);
+
+// Close on backdrop click
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+});
+
+// Close on ESC
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+});
+
+btnSuccessBack.addEventListener('click', closeModal);
+
+// Form Submission Handling
+async function handleFormSubmit(e, type) {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = form.querySelector('.btn-submit');
+    const originalBtnText = submitBtn.innerText;
+
+    // Loading State
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+    const errorContainer = form.querySelector('.form-error');
+    if (errorContainer) errorContainer.classList.add('hidden');
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/contact/${type}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            form.closest('.form-step').classList.add('hidden');
+            successStep.classList.remove('hidden');
+        } else {
+            if (errorContainer) {
+                errorContainer.innerText = result.message || 'Error al enviar el formulario';
+                errorContainer.classList.remove('hidden');
+            }
+        }
+    } catch (error) {
+        console.error('Submission Error:', error);
+        if (errorContainer) {
+            errorContainer.innerText = 'No se pudo conectar con el servidor. Por favor intenta más tarde.';
+            errorContainer.classList.remove('hidden');
+        }
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalBtnText;
+    }
+}
+
+document.getElementById('empresa-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'empresa'));
+document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));

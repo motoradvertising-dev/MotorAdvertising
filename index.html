@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -22,7 +24,7 @@
             <li><a href="#webs">Webs</a></li>
             <li><a href="#pauta">Pauta</a></li>
             <li><a href="#servicios">Servicios</a></li>
-            <li><a href="index-contact.html" class="contact-link">Contacto</a></li>
+            <li><a href="#contacto" class="contact-link">Contacto</a></li>
         </ul>
         <div class="menu-toggle">
             <i class="fas fa-bars"></i>
@@ -122,11 +124,116 @@
     </section>
 
     <section id="contacto" class="contact-section">
-        <div class="contact-container">
-            <h2>Cuando el sistema está claro, el crecimiento deja de ser improvisación.</h2>
-            <button class="btn btn-primary large">Comenzar</button>
+        <div class="contact-selection-wrapper">
+            <h2 class="contact-title">Activar el sistema</h2>
+            <p class="contact-subtitle">Selecciona tu perfil para iniciar el proceso.</p>
+            <div class="contact-options">
+                <button class="btn btn-primary" id="btn-soy-empresa">Soy una Empresa</button>
+                <button class="btn btn-primary" id="btn-soy-profesional">Soy un Profesional</button>
+            </div>
         </div>
     </section>
+
+    <!-- Modal System -->
+    <div id="contact-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div id="modal-form-container">
+                <!-- Forms will be injected here or toggled -->
+
+                <!-- Empresa Form -->
+                <div id="form-empresa" class="form-step hidden">
+                    <div class="form-header">
+                        <h3>Perfil Empresa</h3>
+                        <p>Busco escalar mi marca con un sistema de crecimiento sólido.</p>
+                    </div>
+                    <form class="motor-form" id="empresa-contact-form">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label>Nombre completo</label>
+                                <input type="text" name="name" required placeholder="Ej. Juan Pérez">
+                            </div>
+                            <div class="form-field">
+                                <label>Email corporativo</label>
+                                <input type="email" name="email" required placeholder="juan@empresa.com">
+                            </div>
+                            <div class="form-field">
+                                <label>Nombre de la empresa/marca</label>
+                                <input type="text" name="company" required placeholder="Motor Ads">
+                            </div>
+                            <div class="form-field">
+                                <label>Presupuesto mensual estimado</label>
+                                <select name="budget" required>
+                                    <option value="" disabled selected>Selecciona un rango</option>
+                                    <option value="1k-3k">$1,000 - $3,000 USD</option>
+                                    <option value="3k-10k">$3,000 - $10,000 USD</option>
+                                    <option value="10k+">Más de $10,000 USD</option>
+                                </select>
+                            </div>
+                            <div class="form-field full-row">
+                                <label>Principal desafío actual</label>
+                                <textarea name="message" required
+                                    placeholder="Cuéntanos un poco sobre tus objetivos..."></textarea>
+                            </div>
+                        </div>
+                        <div id="empresa-error" class="form-error hidden"></div>
+                        <button type="submit" class="btn btn-primary btn-submit">Activar Motor</button>
+                    </form>
+                </div>
+
+                <!-- Profesional Form -->
+                <div id="form-profesional" class="form-step hidden">
+                    <div class="form-header">
+                        <h3>Perfil Profesional</h3>
+                        <p>Quiero ser parte del motor como Trafficker, CM o Creador.</p>
+                    </div>
+                    <form class="motor-form" id="profesional-contact-form">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label>Nombre completo</label>
+                                <input type="text" name="name" required placeholder="Ej. Juan Pérez">
+                            </div>
+                            <div class="form-field">
+                                <label>Email</label>
+                                <input type="email" name="email" required placeholder="juan@email.com">
+                            </div>
+                            <div class="form-field">
+                                <label>Especialidad</label>
+                                <select name="role" required>
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="trafficker">Trafficker</option>
+                                    <option value="community-manager">Community Manager</option>
+                                    <option value="productor-audiovisual">Productor Audiovisual</option>
+                                    <option value="analista">Analista de Datos</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label>Link a CV/Portafolio</label>
+                                <input type="url" name="portfolio" required placeholder="https://linkedin.com/in/...">
+                            </div>
+                            <div class="form-field full-row">
+                                <label>Resumen de experiencia</label>
+                                <textarea name="experience" required
+                                    placeholder="Describe tus mejores resultados..."></textarea>
+                            </div>
+                        </div>
+                        <div id="profesional-error" class="form-error hidden"></div>
+                        <button type="submit" class="btn btn-primary btn-submit">Enviar perfil</button>
+                    </form>
+                </div>
+
+                <!-- Success Screen -->
+                <div id="modal-success" class="form-step success-step hidden">
+                    <div class="success-content">
+                        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                        <h3>Información recibida.</h3>
+                        <p>Nuestro equipo te contactará pronto.</p>
+                        <button class="btn btn-secondary" id="success-back">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-left">Since 2025</div>
