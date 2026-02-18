@@ -126,16 +126,56 @@ if (blocks.length > 0) {
             const data = screenData[target];
 
             if (data) {
-                // Update screens
-                document.querySelector('#screen-center .screen-main-title').innerText = data.center.title;
-                document.querySelector('#screen-center .screen-description').innerText = data.center.desc;
-                document.querySelector('#screen-left .data-placeholder').innerHTML = `<p class="screen-description">${data.left.content}</p>`;
-                document.querySelector('#screen-left .screen-title').innerText = data.left.title;
-                document.querySelector('#screen-right .data-placeholder').innerHTML = `<p class="screen-description">${data.right.content}</p>`;
-                document.querySelector('#screen-right .screen-title').innerText = data.right.title;
+                const screens = document.querySelectorAll('.virtual-screen');
+                const updateContent = () => {
+                    document.querySelector('#screen-center .screen-main-title').innerText = data.center.title;
+                    document.querySelector('#screen-center .screen-description').innerText = data.center.desc;
+                    document.querySelector('#screen-left .data-placeholder').innerHTML = `<p class="screen-description">${data.left.content}</p>`;
+                    document.querySelector('#screen-left .screen-title').innerText = data.left.title;
+                    document.querySelector('#screen-right .data-placeholder').innerHTML = `<p class="screen-description">${data.right.content}</p>`;
+                    document.querySelector('#screen-right .screen-title').innerText = data.right.title;
+                };
 
-                // Activate 3D Mode
-                systemSection.classList.add('active-3d');
+                // Helper to trigger "Emerge" animation
+                const triggerEmerge = () => {
+                    screens.forEach(s => {
+                        s.classList.remove('reset-background');
+                        // Small delay to ensure CSS transition catches the change
+                        requestAnimationFrame(() => {
+                            s.style.opacity = ""; // Allow CSS to take over
+                        });
+                    });
+                };
+
+                if (systemSection.classList.contains('active-3d')) {
+                    // SEQUENCE: Fly Out -> Reset -> Update -> Fly In
+
+                    // 1. Fly Out Forward
+                    screens.forEach(s => s.classList.add('animate-out-forward'));
+
+                    setTimeout(() => {
+                        // 2. Update Content (Invisible)
+                        updateContent();
+
+                        // 3. Reset to Background (Instant, no transition)
+                        screens.forEach(s => {
+                            s.classList.remove('animate-out-forward');
+                            s.classList.add('reset-background');
+                        });
+
+                        // 4. Force Reflow
+                        void systemSection.offsetWidth;
+
+                        // 5. Fly In (Remove reset class)
+                        triggerEmerge();
+
+                    }, 600); // Wait for fly-out animation
+
+                } else {
+                    // FIRST ENTRY: Just update and show
+                    updateContent();
+                    systemSection.classList.add('active-3d');
+                }
 
                 // Mark active block in sidebar
                 blocks.forEach(b => b.classList.remove('active-in-3d'));
@@ -146,9 +186,16 @@ if (blocks.length > 0) {
 
     if (close3dBtn) {
         close3dBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent re-triggering via section click
+            e.stopPropagation();
+            // Reset everything
             systemSection.classList.remove('active-3d');
             blocks.forEach(b => b.classList.remove('active-in-3d'));
+
+            // Clean up animation classes just in case
+            const screens = document.querySelectorAll('.virtual-screen');
+            screens.forEach(s => {
+                s.classList.remove('animate-out-forward', 'reset-background');
+            });
         });
     }
 

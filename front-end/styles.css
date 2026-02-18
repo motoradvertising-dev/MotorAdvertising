@@ -377,6 +377,12 @@ body {
     z-index: 1000;
 }
 
+.system-core-section.active-3d .system-block.active-in-3d {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-glow);
+    background: rgba(13, 27, 42, 0.3);
+}
+
 /* Sidebar positioning for the 4 blocks */
 .system-core-section.active-3d .block-top-left {
     top: 20%;
@@ -429,40 +435,54 @@ body {
     pointer-events: all;
 }
 
-/* Screen Positions - Widened spread to avoid overlap */
+/* Screen Positions - Adjusted for "Around" Layout */
 .screen-1 {
-    /* Left */
-    transform: translateX(-550px) translateZ(-150px) rotateY(35deg) scale(0);
+    /* Left - Further out */
+    transform: translateX(-650px) translateZ(-150px) rotateY(35deg) scale(0);
 }
 
 .screen-2 {
-    /* Center Top */
-    transform: translateY(-300px) translateZ(100px) scale(0);
+    /* Center Top - ABOVE heads */
+    transform: translateY(-500px) translateZ(100px) scale(0);
     width: 450px;
-    height: 280px;
+    height: 180px;
+    /* Slimmer profile */
 }
 
 .screen-3 {
-    /* Right */
-    transform: translateX(550px) translateZ(-150px) rotateY(-35deg) scale(0);
+    /* Right - Further out */
+    transform: translateX(650px) translateZ(-150px) rotateY(-35deg) scale(0);
 }
 
+/* Active State Positions */
 .system-core-section.active-3d .screen-1 {
-    transform: translateX(-500px) translateZ(0) rotateY(30deg) scale(1);
+    transform: translateX(-600px) translateZ(0) rotateY(30deg) scale(1);
 }
 
 .system-core-section.active-3d .screen-2 {
-    transform: translateY(-320px) translateZ(150px) scale(1.1);
+    transform: translateY(-420px) translateZ(50px) scale(1);
+    /* High above */
 }
 
 .system-core-section.active-3d .screen-3 {
-    transform: translateX(250px) translateZ(0) rotateY(-30deg) scale(1.1);
-    /* Adjusted right screen further if needed */
+    transform: translateX(600px) translateZ(0) rotateY(-30deg) scale(1);
 }
 
-/* Re-adjusting Right to not mount on character if side icons are there */
-.system-core-section.active-3d .screen-3 {
-    transform: translateX(500px) translateZ(0) rotateY(-30deg) scale(1);
+/* Re-adjusting Right to not mount on screen edge */
+/* No special override needed if symmetrical */
+
+/* Exit Animation Class (Fly Forward) */
+.virtual-screen.animate-out-forward {
+    transform: translateZ(800px) scale(1.5) !important;
+    opacity: 0 !important;
+    transition: all 0.6s ease-in !important;
+}
+
+/* Reset Class (Deep Background) */
+.virtual-screen.reset-background {
+    transform: translateZ(-800px) scale(0) !important;
+    opacity: 0 !important;
+    transition: none !important;
 }
 
 /* Screen Content Styles */
