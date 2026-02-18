@@ -435,52 +435,48 @@ body {
     pointer-events: all;
 }
 
-/* Screen Positions - Adjusted for "Around" Layout */
+/* Screen Positions - Aggressive Viewport Spacing (V3) */
 .screen-1 {
-    /* Left - Further out */
-    transform: translateX(-650px) translateZ(-150px) rotateY(35deg) scale(0);
+    /* Left - Extreme Edge */
+    transform: translateX(-45vw) translateZ(-100px) rotateY(45deg) scale(0);
 }
 
 .screen-2 {
-    /* Center Top - ABOVE heads */
-    transform: translateY(-500px) translateZ(100px) scale(0);
-    width: 450px;
-    height: 180px;
-    /* Slimmer profile */
+    /* Center Top - Ceiling/HUD */
+    transform: translateY(-50vh) translateZ(100px) scale(0);
+    width: 50vw;
+    height: 20vh;
 }
 
 .screen-3 {
-    /* Right - Further out */
-    transform: translateX(650px) translateZ(-150px) rotateY(-35deg) scale(0);
+    /* Right - Extreme Edge */
+    transform: translateX(45vw) translateZ(-100px) rotateY(-45deg) scale(0);
 }
 
 /* Active State Positions */
 .system-core-section.active-3d .screen-1 {
-    transform: translateX(-600px) translateZ(0) rotateY(30deg) scale(1);
+    transform: translateX(-42vw) translateZ(0) rotateY(35deg) scale(1);
 }
 
 .system-core-section.active-3d .screen-2 {
-    transform: translateY(-420px) translateZ(50px) scale(1);
-    /* High above */
+    transform: translateY(-40vh) translateZ(50px) rotateX(10deg) scale(1);
 }
 
 .system-core-section.active-3d .screen-3 {
-    transform: translateX(600px) translateZ(0) rotateY(-30deg) scale(1);
+    /* Slightly less out to make room for sidebar if needed, or just surround */
+    transform: translateX(38vw) translateZ(0) rotateY(-35deg) scale(1);
 }
 
-/* Re-adjusting Right to not mount on screen edge */
-/* No special override needed if symmetrical */
-
-/* Exit Animation Class (Fly Forward) */
+/* Exit Animation Class (Fly Forward - Past Camera) */
 .virtual-screen.animate-out-forward {
-    transform: translateZ(800px) scale(1.5) !important;
+    transform: translateZ(1200px) scale(2) !important;
     opacity: 0 !important;
-    transition: all 0.6s ease-in !important;
+    transition: all 0.5s ease-in !important;
 }
 
-/* Reset Class (Deep Background) */
+/* Reset Class (Deep Space Background) */
 .virtual-screen.reset-background {
-    transform: translateZ(-800px) scale(0) !important;
+    transform: translateZ(-1500px) scale(0) !important;
     opacity: 0 !important;
     transition: none !important;
 }
