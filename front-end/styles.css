@@ -248,8 +248,10 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: all var(--transition-speed);
-    z-index: 50;
-    /* Ensure clickable above character layer */
+    z-index: 2000;
+    /* Ensure clickable above EVERYTHING in orbit */
+    pointer-events: auto;
+    /* Explicitly enable clicks */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -382,7 +384,6 @@ body {
     right: 0 !important;
     left: auto !important;
     top: 0 !important;
-    /* Reset top for calculation */
     bottom: auto !important;
     transform: none !important;
     width: 280px !important;
@@ -400,13 +401,13 @@ body {
     justify-content: flex-start !important;
     text-align: left !important;
     gap: 20px !important;
+    pointer-events: auto !important;
 }
 
 .system-core-section.active-3d .system-block:hover,
 .system-core-section.active-3d .system-block.active-in-3d {
     background: var(--accent-color) !important;
     padding-left: 40px !important;
-    /* Slide effect */
 }
 
 /* Sidebar Vertical Stacking */
@@ -426,7 +427,17 @@ body {
     top: 65vh !important;
 }
 
-/* 3. Screen Zoning (Fill the Emptiness) */
+/* 3. Screen Zoning */
+.floating-screens-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    /* KEY: Pass through clicks when screens are hidden */
+    z-index: 100;
+}
 
 /* LEFT SCREEN (Far Left) */
 .screen-1 {
