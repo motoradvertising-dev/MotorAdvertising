@@ -62,7 +62,7 @@ function animateParticles() {
     ctx.clearRect(0, 0, width, height);
 
     // Draw connecting lines
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
     ctx.lineWidth = 0.5;
 
     for (let i = 0; i < particles.length; i++) {
