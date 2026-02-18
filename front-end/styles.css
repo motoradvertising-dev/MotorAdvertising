@@ -557,19 +557,20 @@ body {
     }
 }
 
-.system-core-section.active-3d .virtual-screen {
+.system-core-section.active-3d .virtual-screen .screen-content {
     animation: floatScreen 6s ease-in-out infinite;
 }
 
-.system-core-section.active-3d .screen-1 {
+/* Stagger floating for inner content, not the container */
+.system-core-section.active-3d .screen-1 .screen-content {
     animation-delay: 0s;
 }
 
-.system-core-section.active-3d .screen-2 {
+.system-core-section.active-3d .screen-2 .screen-content {
     animation-delay: 1s;
 }
 
-.system-core-section.active-3d .screen-3 {
+.system-core-section.active-3d .screen-3 .screen-content {
     animation-delay: 2s;
 }
 
@@ -813,9 +814,10 @@ footer {
 }
 
 /* 3. Animation Classes */
-.virtual-screen.anim-enter {
+.system-core-section.active-3d .virtual-screen.anim-enter {
     visibility: visible;
-    /* Ensure opacity becomes 1 */
+    opacity: 1;
+    /* Force opacity update */
     animation: emergeFromDeep 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
     pointer-events: all;
 }
