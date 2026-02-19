@@ -388,7 +388,8 @@ body {
 
 /* 2. Sidebar Rail (Fixed Right Column - Only when Active) */
 .system-core-section.active-3d .system-block {
-    position: fixed !important;
+    position: absolute !important;
+    /* Changed from fixed to absolute to scroll with section */
     right: 0 !important;
     left: auto !important;
     top: 0 !important;
@@ -523,7 +524,7 @@ body {
 
 /* Close Button for 3D View */
 .close-3d-btn {
-    position: fixed;
+    position: absolute;
     /* Fixed to viewport */
     bottom: 40px;
     right: 100px;
