@@ -184,16 +184,13 @@ if (blocks.length > 0) {
 
                     // Clear any residuals
                     screens.forEach(s => {
-                        s.classList.remove('anim-exit', 'anim-enter');
+                        s.classList.remove('anim-exit');
+                        // Force reflow to ensuring clean state before adding enter
+                        void s.offsetWidth;
+                        s.classList.add('anim-enter');
                     });
 
                     updateContent();
-
-                    // FORCE REFLOW (Critical for animation start)
-                    void systemSection.offsetWidth;
-
-                    // Trigger Entry
-                    screens.forEach(s => s.classList.add('anim-enter'));
                 }
             }
         });

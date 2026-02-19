@@ -808,6 +808,8 @@ footer {
     border-radius: 12px;
     padding: 40px;
     opacity: 0;
+    /* HIDDEN STATE: Pre-set transform to deep to avoid flash */
+    transform: var(--base-transform) translateZ(-800px) scale(0.1);
     visibility: hidden;
     /* CRITICAL: Ensure it's incorrectly ignored by mouse and eye */
     pointer-events: none;
@@ -817,7 +819,6 @@ footer {
         0 0 40px var(--accent-glow);
 }
 
-/* 3. Animation Classes */
 /* 3. Animation Classes */
 .system-core-section.active-3d .virtual-screen.anim-enter {
     visibility: visible;
