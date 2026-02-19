@@ -379,6 +379,13 @@ body {
     transition: all 0.5s ease;
 }
 
+/* Shift character to center of "available space" (accounting for sidebar) */
+.system-core-section.active-3d .central-character {
+    left: 42%;
+    transform: translate(-50%, -50%) scale(0.9);
+    /* Slightly smaller to fit better */
+}
+
 /* 2. Sidebar Rail (Fixed Right Column - Only when Active) */
 .system-core-section.active-3d .system-block {
     position: fixed !important;
