@@ -442,9 +442,11 @@ body {
 
 /* LEFT SCREEN (Far Left) */
 .screen-1 {
-    width: 28vw;
+    width: 25vw;
+    /* Reduced width slightly */
     height: 60vh;
-    left: 3vw;
+    left: 2vw;
+    /* Pushed further left */
     top: 20vh;
     --base-transform: rotateY(25deg);
     border-left: 4px solid var(--accent-color);
@@ -452,10 +454,11 @@ body {
 
 /* RIGHT SCREEN (Inner Right - Next to Sidebar) */
 .screen-3 {
-    width: 28vw;
+    width: 25vw;
+    /* Reduced width slightly */
     height: 60vh;
-    right: 300px;
-    /* 280px Sidebar + 20px Gap */
+    right: 320px;
+    /* Increased gap from sidebar */
     top: 20vh;
     --base-transform: rotateY(-25deg);
     border-right: 4px solid var(--accent-color);
@@ -823,9 +826,22 @@ footer {
     pointer-events: all;
 }
 
+/* Cinematic Exit Keyframes */
+@keyframes flyPastCamera {
+    0% {
+        opacity: 1;
+        transform: var(--base-transform) translateZ(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: var(--base-transform) translateZ(1000px) scale(2);
+    }
+}
+
 .virtual-screen.anim-exit {
     visibility: visible;
-    animation: flyPastCamera 0.5s ease-in forwards;
+    animation: flyPastCamera 0.6s ease-in forwards;
     pointer-events: none;
 }
 
