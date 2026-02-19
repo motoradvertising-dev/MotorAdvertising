@@ -818,12 +818,39 @@ footer {
 }
 
 /* 3. Animation Classes */
+/* 3. Animation Classes */
 .system-core-section.active-3d .virtual-screen.anim-enter {
     visibility: visible;
     opacity: 1;
     /* Force opacity update */
-    animation: emergeFromDeep 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+    animation: emergeFromDeep 1.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
     pointer-events: all;
+}
+
+/* Cinematic Entry Keyframes (Enhanced) */
+@keyframes emergeFromDeep {
+    0% {
+        opacity: 0;
+        transform: var(--base-transform) translateZ(-800px) scale(0.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: var(--base-transform) translateZ(0) scale(1);
+    }
+}
+
+/* Slight variation in entry timing for organic feel */
+.system-core-section.active-3d .screen-1.anim-enter {
+    animation-delay: 0.1s;
+}
+
+.system-core-section.active-3d .screen-2.anim-enter {
+    animation-delay: 0s;
+}
+
+.system-core-section.active-3d .screen-3.anim-enter {
+    animation-delay: 0.2s;
 }
 
 /* Cinematic Exit Keyframes */
