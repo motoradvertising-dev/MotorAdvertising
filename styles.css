@@ -119,42 +119,103 @@ body {
     position: relative;
 }
 
-.hero-content {
-    max-width: 800px;
+.hero-logo-container {
     z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* Start smaller */
+    transform: scale(0.5);
+    /* 
+       Expansion uses ease-in-out for a very smooth and gradual start, but is now faster.
+    */
+    animation:
+        containerExpand 1.6s ease-in-out 1.2s forwards,
+        subtleFloat 6s ease-in-out infinite alternate 2.8s;
 }
 
-.headline {
-    font-family: var(--font-heading);
-    font-size: 4rem;
-    font-weight: 800;
-    margin-bottom: 20px;
-    letter-spacing: -1px;
-    line-height: 1.1;
-    text-transform: uppercase;
+.hero-logo-svg {
+    width: 80%;
+    max-width: 800px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
 }
 
-.headline .highlight {
-    color: var(--accent-color);
-    text-shadow: 0 0 20px var(--accent-glow);
+@keyframes containerExpand {
+    0% {
+        transform: scale(0.5);
+    }
+
+    70% {
+        transform: scale(1.65);
+    }
+
+    /* Soft overshoot bounce */
+    100% {
+        transform: scale(1.6);
+    }
+
+    /* Smooth settle */
 }
 
-.subheadline {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--text-secondary);
-    margin-bottom: 30px;
-    line-height: 1.4;
+/* Base class for jumping SVG paths */
+.anim-path {
+    opacity: 0;
+    transform: translateY(100px) scale(0.6);
+    /* Transform origin center of the SVG so they jump in place relatively */
+    transform-origin: center;
+    /* Much faster animation (0.5s vs 0.8s) and tighter sequence delay (0.035s vs 0.07s) */
+    animation: pathJump 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--delay) * 0.035s) forwards;
 }
 
-.support-text {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-bottom: 40px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 0.8;
+@keyframes pathJump {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.7);
+        filter: blur(4px);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-15px) scale(1.05);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes subtleFloat {
+    0% {
+        transform: scale(1.6) translateY(0);
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+    }
+
+    100% {
+        transform: scale(1.62) translateY(-8px);
+        filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-logo-svg {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-logo-svg {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-logo-svg {
+        width: 95%;
+    }
 }
 
 /* Buttons */
