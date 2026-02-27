@@ -70,15 +70,17 @@ body {
 }
 
 .nav-logo-svg {
-    height: 22px;
+    height: 28px;
+    /* Incremented base size for better visibility */
     width: auto;
     transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
     will-change: transform, filter;
 }
 
 .logo:hover .nav-logo-svg {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    transform: scale(1.15);
+    /* Much larger hover effect */
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
 }
 
 .nav-links {
