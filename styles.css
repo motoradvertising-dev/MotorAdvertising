@@ -63,10 +63,22 @@ body {
 }
 
 .logo {
-    font-weight: 800;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    outline: none;
+}
+
+.nav-logo-svg {
+    height: 22px;
+    width: auto;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
+    will-change: transform, filter;
+}
+
+.logo:hover .nav-logo-svg {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
 .nav-links {
@@ -125,13 +137,15 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* Start smaller */
-    transform: scale(0.5);
+    /* Hardware acceleration for smooth framerates */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0) scale(0.5);
     /* 
-       Expansion uses ease-in-out for a very smooth and gradual start, but is now faster.
+       Using an ultra-smooth Material Design cubic-bezier curve for maximum fluidity.
     */
     animation:
-        containerExpand 1.6s ease-in-out 1.2s forwards,
+        containerExpand 1.6s cubic-bezier(0.4, 0.0, 0.2, 1) 1.2s forwards,
         subtleFloat 6s ease-in-out infinite alternate 2.8s;
 }
 
@@ -140,20 +154,21 @@ body {
     max-width: 800px;
     height: auto;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+    will-change: filter, transform;
 }
 
 @keyframes containerExpand {
     0% {
-        transform: scale(0.5);
+        transform: translateZ(0) scale(0.5);
     }
 
     70% {
-        transform: scale(1.65);
+        transform: translateZ(0) scale(1.65);
     }
 
     /* Soft overshoot bounce */
     100% {
-        transform: scale(1.6);
+        transform: translateZ(0) scale(1.6);
     }
 
     /* Smooth settle */
@@ -172,30 +187,30 @@ body {
 @keyframes pathJump {
     0% {
         opacity: 0;
-        transform: translateY(80px) scale(0.7);
+        transform: translateZ(0) translateY(80px) scale(0.7);
         filter: blur(4px);
     }
 
     50% {
         opacity: 1;
-        transform: translateY(-15px) scale(1.05);
+        transform: translateZ(0) translateY(-15px) scale(1.05);
         filter: blur(0);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateZ(0) translateY(0) scale(1);
     }
 }
 
 @keyframes subtleFloat {
     0% {
-        transform: scale(1.6) translateY(0);
+        transform: translateZ(0) scale(1.6) translateY(0);
         filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
     }
 
     100% {
-        transform: scale(1.62) translateY(-8px);
+        transform: translateZ(0) scale(1.62) translateY(-8px);
         filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
     }
 }
