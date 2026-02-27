@@ -39,7 +39,7 @@ body {
     z-index: 1;
     /* Bring forward slightly but manage opacity for brighter elements */
     pointer-events: none;
-    opacity: 0.55;
+    opacity: 0.5;
 }
 
 /* Navbar */
