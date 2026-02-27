@@ -32,7 +32,8 @@ class Particle {
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2;
-        this.alpha = Math.random() * 0.5;
+        /* Increased base opacity for brighter particles */
+        this.alpha = (Math.random() * 0.5) + 0.3;
     }
 
     update() {
@@ -65,8 +66,8 @@ function animateParticles() {
 
     ctx.clearRect(0, 0, width, height);
 
-    // Draw connecting lines
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    // Draw connecting lines with higher opacity
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
     ctx.lineWidth = 0.5;
 
     for (let i = 0; i < particles.length; i++) {
