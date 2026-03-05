@@ -350,3 +350,77 @@ if (document.getElementById('empresa-contact-form')) {
 if (document.getElementById('profesional-contact-form')) {
     document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));
 }
+
+// =============================================
+// PORTFOLIO SECTION — Web Projects Interactivity
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const projectItems = document.querySelectorAll('.project-item');
+    const previewImages = document.querySelectorAll('.preview-img');
+    const detailContents = document.querySelectorAll('.details-content');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const mainVisitBtn = document.getElementById('main-visit-btn');
+    const previewVisitBtn = document.querySelector('.preview-cta');
+
+    if (!projectItems.length) return; // Exit if portfolio section not present
+
+    const projectLinks = {
+        'luxury-real-estate': 'https://luxury-real-estate.example.com',
+        'saas-funnel': 'https://saas-ui.example.com',
+        'tech-store': 'https://vortex-tech.example.com',
+        'fintech-corporate': 'https://nexus-fintech.example.com'
+    };
+
+    function switchProject(projectId) {
+        projectItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('data-project') === projectId);
+        });
+
+        previewImages.forEach(img => {
+            img.classList.toggle('active', img.getAttribute('data-project') === projectId);
+        });
+
+        detailContents.forEach(content => {
+            content.classList.toggle('active', content.getAttribute('data-project') === projectId);
+        });
+
+        const url = projectLinks[projectId] || '#';
+        if (mainVisitBtn) mainVisitBtn.href = url;
+        if (previewVisitBtn) previewVisitBtn.href = url;
+    }
+
+    projectItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            switchProject(item.getAttribute('data-project'));
+        });
+        item.addEventListener('click', () => {
+            switchProject(item.getAttribute('data-project'));
+        });
+    });
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            projectItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    setTimeout(() => { item.style.opacity = '1'; }, 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            const firstVisible = document.querySelector('.project-item[style*="display: block"]');
+            if (firstVisible) {
+                switchProject(firstVisible.getAttribute('data-project'));
+            }
+        });
+    });
+});
+
