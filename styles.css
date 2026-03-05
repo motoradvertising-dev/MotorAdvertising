@@ -1359,10 +1359,13 @@ footer {
     border-radius: 4px;
 }
 
-.project-details {
-    min-height: 150px;
-    padding-top: 20px;
-    border-top: 1px solid var(--glass-border);
+.project-details-card {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
 }
 
 .details-content {
@@ -1374,44 +1377,66 @@ footer {
     display: block;
 }
 
-.project-desc {
-    font-size: 1rem;
-    color: var(--text-secondary);
+.detail-category {
+    font-size: 0.8rem;
+    color: var(--accent-glow);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+    color: #4a90e2;
+    /* Accent blue for category */
+}
+
+.detail-name {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    text-transform: uppercase;
     margin-bottom: 20px;
-    line-height: 1.5;
+    letter-spacing: -1px;
+}
+
+.project-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    line-height: 1.6;
 }
 
 .project-features {
     list-style: none;
     padding-left: 0;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 .project-features li {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
 }
 
 .project-features li::before {
     content: "•";
-    color: var(--accent-color);
-    margin-right: 10px;
+    color: #4a90e2;
+    margin-right: 12px;
     font-weight: bold;
 }
 
 .project-features li strong {
     color: var(--text-primary);
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 .portfolio-actions {
     display: flex;
-    gap: 25px;
-    margin-top: 40px;
-    justify-content: center;
-    width: 100%;
+    gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 30px;
+    justify-content: flex-start;
 }
 
 .portfolio-actions .btn {
