@@ -132,15 +132,127 @@
             </div>
     </section>
 
-    <section id="webs" class="info-section dark-bg">
-        <div class="container">
-            <div class="content-box">
-                <h3>Infraestructura digital alineada a objetivos reales de negocio.</h3>
-                <p>No desarrollamos páginas aisladas.<br>Construimos estructuras estratégicas preparadas para convertir.
-                </p>
+    <section id="webs" class="portfolio-section">
+        <div class="portfolio-container">
+            <!-- Left Column: Visual Preview -->
+            <div class="portfolio-preview-column">
+                <div class="preview-frame">
+                    <div id="project-preview-container" class="preview-images">
+                        <!-- Images will be managed by JS -->
+                        <img src="luxury_real_estate_mockup_1772692422788.png" alt="Luxury Real Estate"
+                            class="preview-img active" data-project="luxury-real-estate">
+                        <img src="saas_funnel_mockup_1772692786485.png" alt="SaaS Funnel" class="preview-img"
+                            data-project="saas-funnel">
+                        <img src="ecommerce_tech_store_mockup_1772692802478.png" alt="Tech Store" class="preview-img"
+                            data-project="tech-store">
+                        <img src="corporate_fintech_mockup_1772692830188.png" alt="Fintech Corporate"
+                            class="preview-img" data-project="fintech-corporate">
+                    </div>
+                    <div class="preview-overlay">
+                        <a href="#" class="btn btn-primary preview-cta" target="_blank">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Navigation and Details -->
+            <div class="portfolio-content-column">
+                <div class="portfolio-header">
+                    <h2 class="section-title">Web Projects</h2>
+                    <p class="section-subtitle">High-performance websites and landing pages designed for growth and
+                        conversion.</p>
+                </div>
+
+                <!-- Filter System -->
+                <div class="portfolio-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="real-estate">Real Estate</button>
+                    <button class="filter-btn" data-filter="funnels">Funnels</button>
+                    <button class="filter-btn" data-filter="ecommerce">Ecommerce</button>
+                    <button class="filter-btn" data-filter="corporate">Corporate</button>
+                </div>
+
+                <!-- Project List -->
+                <div class="project-list">
+                    <div class="project-item active" data-project="luxury-real-estate" data-category="real-estate">
+                        <div class="project-item-header">
+                            <span class="project-category">Real Estate</span>
+                            <span class="project-year">2024</span>
+                        </div>
+                        <h3 class="project-name">Luxury Real Estate</h3>
+                        <div class="project-tags">
+                            <span class="tag">SEO</span>
+                            <span class="tag">Leads</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item" data-project="saas-funnel" data-category="funnels">
+                        <div class="project-item-header">
+                            <span class="project-category">SaaS Funnel</span>
+                            <span class="project-year">2024</span>
+                        </div>
+                        <h3 class="project-name">Cloud Systems UI</h3>
+                        <div class="project-tags">
+                            <span class="tag">Automation</span>
+                            <span class="tag">Conversion</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item" data-project="tech-store" data-category="ecommerce">
+                        <div class="project-item-header">
+                            <span class="project-category">Ecommerce</span>
+                            <span class="project-year">2023</span>
+                        </div>
+                        <h3 class="project-name">Vortex Tech Store</h3>
+                        <div class="project-tags">
+                            <span class="tag">Performance</span>
+                            <span class="tag">Sales</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item" data-project="fintech-corporate" data-category="corporate">
+                        <div class="project-item-header">
+                            <span class="project-category">Corporate</span>
+                            <span class="project-year">2023</span>
+                        </div>
+                        <h3 class="project-name">Nexus Fintech</h3>
+                        <div class="project-tags">
+                            <span class="tag">Brand</span>
+                            <span class="tag">Security</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Project Details -->
+                <div id="project-details" class="project-details">
+                    <div class="details-content active" data-project="luxury-real-estate">
+                        <p class="project-desc">Premium real estate portal designed to capture high-ticket investors and
+                            international leads.</p>
+                        <ul class="project-features">
+                            <li><strong>Platform:</strong> WordPress / Custom UI</li>
+                            <li><strong>Objective:</strong> High-ticket leads</li>
+                            <li><strong>Features:</strong> CRM integration, multilingual, interactive maps</li>
+                        </ul>
+                    </div>
+                    <div class="details-content" data-project="saas-funnel">
+                        <p class="project-desc">High-converting SaaS landing page designed to maximize software trials
+                            and user onboarding.</p>
+                        <ul class="project-features">
+                            <li><strong>Platform:</strong> Webflow</li>
+                            <li><strong>Objective:</strong> SaaS Trials</li>
+                            <li><strong>Features:</strong> Automated onboarding, analytics tracking, split testing</li>
+                        </ul>
+                    </div>
+                    <!-- Other details will be handled by JS or listed here hidden -->
+                </div>
+
+                <div class="portfolio-actions">
+                    <a href="#" class="btn btn-primary" id="main-visit-btn" target="_blank">Visit Website</a>
+                    <a href="#" class="btn btn-secondary">View Case Study</a>
+                </div>
             </div>
         </div>
     </section>
+
 
     <section id="pauta" class="info-section darker-bg">
         <div class="container reverse">

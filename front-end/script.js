@@ -265,3 +265,102 @@ if (document.getElementById('empresa-contact-form')) {
 if (document.getElementById('profesional-contact-form')) {
     document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));
 }
+
+// Portfolio Interactivity
+document.addEventListener('DOMContentLoaded', () => {
+    const projectItems = document.querySelectorAll('.project-item');
+    const previewImages = document.querySelectorAll('.preview-img');
+    const detailContents = document.querySelectorAll('.details-content');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const mainVisitBtn = document.getElementById('main-visit-btn');
+    const previewVisitBtn = document.querySelector('.preview-cta');
+
+    // Project data for links (example placeholder links)
+    const projectLinks = {
+        'luxury-real-estate': 'https://luxury-real-estate.example.com',
+        'saas-funnel': 'https://saas-ui.example.com',
+        'tech-store': 'https://vortex-tech.example.com',
+        'fintech-corporate': 'https://nexus-fintech.example.com'
+    };
+
+    function switchProject(projectId) {
+        // Update Project Items
+        projectItems.forEach(item => {
+            if (item.getAttribute('data-project') === projectId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+
+        // Update Preview Images (Fade transition)
+        previewImages.forEach(img => {
+            if (img.getAttribute('data-project') === projectId) {
+                img.classList.add('active');
+            } else {
+                img.classList.remove('active');
+            }
+        });
+
+        // Update Details (Slide up animation handled by CSS)
+        detailContents.forEach(content => {
+            if (content.getAttribute('data-project') === projectId) {
+                content.classList.add('active');
+            } else {
+                content.classList.remove('active');
+            }
+        });
+
+        // Update External Links
+        const url = projectLinks[projectId] || '#';
+        if (mainVisitBtn) mainVisitBtn.href = url;
+        if (previewVisitBtn) previewVisitBtn.href = url;
+    }
+
+    // Hover Interaction (Desktop)
+    projectItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const projectId = item.getAttribute('data-project');
+            switchProject(projectId);
+        });
+
+        // Handle Tap/Click for Mobile
+        item.addEventListener('click', () => {
+            const projectId = item.getAttribute('data-project');
+            switchProject(projectId);
+        });
+    });
+
+    // Filter Logic
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+
+            // Update button state
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter items
+            projectItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                    // Animation trigger
+                    item.style.opacity = '0';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                    }, 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Select first visible project after filtering
+            const firstVisible = document.querySelector('.project-item[style*="display: block"]');
+            if (firstVisible) {
+                switchProject(firstVisible.getAttribute('data-project'));
+            }
+        });
+    });
+});
+
