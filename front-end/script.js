@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Project data for links (example placeholder links)
     const projectLinks = {
         'luxury-real-estate': 'https://luxury-real-estate.example.com',
-        'saas-funnel': 'https://saas-ui.example.com',
+        'saas-funnel': 'https://itsizzy.com/',
         'tech-store': 'https://vortex-tech.example.com',
         'fintech-corporate': 'https://nexus-fintech.example.com'
     };
