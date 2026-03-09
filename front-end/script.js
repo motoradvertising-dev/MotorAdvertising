@@ -364,3 +364,70 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// --- Paid Media Animation Logic ---
+document.addEventListener("DOMContentLoaded", () => {
+    const pmSection = document.querySelector('.paid-media-section');
+    if (!pmSection) return;
+
+    const pmCounters = document.querySelectorAll('.pm-counter');
+    let animated = false;
+
+    const animateValue = (obj, start, end, duration, formatFloat) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            let val = progress * (end - start) + start;
+            if (formatFloat) val = val.toFixed(1);
+            else val = Math.floor(val);
+
+            // Format with commas for large numbers
+            if (end > 1000) {
+                obj.innerHTML = val.toLocaleString();
+            } else {
+                obj.innerHTML = val;
+            }
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    const startAnimations = () => {
+        if (animated) return;
+        animated = true;
+
+        // Add class to trigger CSS transitions and line draw
+        pmSection.classList.add('in-view');
+
+        // Animate counter numbers, but wait for their respective cards to fade in
+        pmCounters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target'));
+            const speed = counter.getAttribute('data-speed');
+            const duration = speed === 'fast' ? 1500 : 2000;
+            const isFloat = target % 1 !== 0;
+            const card = counter.closest('.pm-card');
+            const stage = parseInt(card.getAttribute('data-stage'));
+
+            // Calculate delay based on stage's transition delay
+            const delay = (stage * 0.8) * 1000;
+
+            setTimeout(() => {
+                animateValue(counter, 0, target, duration, isFloat);
+            }, delay);
+        });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startAnimations();
+            }
+        });
+    }, { threshold: 0.3 });
+
+    observer.observe(pmSection);
+});
+
