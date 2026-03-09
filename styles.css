@@ -1549,3 +1549,323 @@ footer {
         font-size: 1.5rem;
     }
 }
+
+/* PAID MEDIA PERFORMANCE SECTION */
+.paid-media-section {
+    min-height: 90vh;
+    background-color: #0F0F0F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pm-header {
+    text-align: center;
+    margin-bottom: 60px;
+    z-index: 2;
+}
+
+.pm-header .section-title {
+    font-family: var(--font-heading, "League Spartan", sans-serif);
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.pm-header .section-subtitle {
+    font-family: var(--font-body, "Montserrat", sans-serif);
+    color: #a0a0a0;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pm-pipeline-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+}
+
+.pm-pipeline-line {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.pm-pipeline-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--accent-color, #00C8FF);
+    box-shadow: 0 0 10px var(--accent-color, #00C8FF);
+    transition: width 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.paid-media-section.in-view .pm-pipeline-line::after {
+    width: 100%;
+    transition-duration: 4s;
+}
+
+.pm-cards-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    gap: 20px;
+}
+
+.pm-card {
+    flex: 1;
+    background: rgba(20, 20, 25, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Card Hover */
+.pm-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.pm-tooltip {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(255, 255, 255, 0.95);
+    color: #000;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pm-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
+.pm-card:hover .pm-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.paid-media-section.in-view .pm-card {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.paid-media-section.in-view .pm-card[data-stage="1"] {
+    transition-delay: 0.4s;
+}
+
+.paid-media-section.in-view .pm-card[data-stage="2"] {
+    transition-delay: 1.2s;
+}
+
+.paid-media-section.in-view .pm-card[data-stage="3"] {
+    transition-delay: 2.0s;
+}
+
+.paid-media-section.in-view .pm-card[data-stage="4"] {
+    transition-delay: 2.8s;
+}
+
+.paid-media-section.in-view .pm-card[data-stage="5"] {
+    transition-delay: 3.6s;
+}
+
+.pm-card-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color, #fff);
+    margin-bottom: 20px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pm-card-title {
+    font-family: var(--font-heading, "League Spartan", sans-serif);
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.pm-card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    font-family: var(--font-body, "Montserrat", sans-serif);
+}
+
+.pm-card-list li {
+    margin-bottom: 8px;
+}
+
+.pm-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+}
+
+.pm-metric {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 10px 5px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.pm-metric span:last-child {
+    font-size: 0.7rem;
+    color: #888;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+.pm-revenue-highlight {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00e676;
+    margin-top: 15px;
+    text-shadow: 0 0 20px rgba(0, 230, 118, 0.4);
+}
+
+.pm-chart-bar {
+    width: 6px;
+    background: var(--accent-color, #fff);
+    border-radius: 3px;
+    margin: 0 2px;
+    display: inline-block;
+}
+
+.paid-media-section.in-view .b1 {
+    animation: growBar 1.5s ease-out forwards 2.8s;
+    height: 10px;
+}
+
+.paid-media-section.in-view .b2 {
+    animation: growBar 1.5s ease-out forwards 3.0s;
+    height: 25px;
+}
+
+.paid-media-section.in-view .b3 {
+    animation: growBar 1.5s ease-out forwards 3.2s;
+    height: 40px;
+}
+
+@keyframes growBar {
+    0% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+
+    100% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+}
+
+@media (max-width: 1024px) {
+    .pm-card {
+        padding: 20px 10px;
+    }
+
+    .pm-card-title {
+        font-size: 1.2rem;
+    }
+
+    .pm-card-list {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .paid-media-section {
+        padding: 60px 20px;
+    }
+
+    .pm-cards-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .pm-card {
+        width: 100%;
+        max-width: 350px;
+        transform: translateY(30px);
+    }
+
+    .paid-media-section.in-view .pm-card {
+        transform: translateY(0);
+    }
+
+    .pm-pipeline-line {
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        height: 100%;
+        transform: translateX(-50%);
+    }
+
+    .pm-pipeline-line::after {
+        width: 100%;
+        height: 0%;
+        transition: height 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .paid-media-section.in-view .pm-pipeline-line::after {
+        height: 100%;
+    }
+}
