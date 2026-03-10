@@ -504,51 +504,112 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }, { threshold: 0.3 });
-
     snObserver.observe(snSection);
 
-    // Dynamic Core Updates & Cable Highlights
-    const nodes = document.querySelectorAll('.sn-node');
+    // DYNAMIC GRAPH RENDER & HOVER LOGIC
+    const container = document.getElementById('services-graph-container');
+    const svg = document.getElementById('services-svg');
+    const nodes = document.querySelectorAll('.service-node');
+    const hubLabel = document.getElementById('hub-label');
+    const hubTitle = document.getElementById('hub-title');
+    const hubDesc = document.getElementById('hub-desc');
+    const hubZap = document.getElementById('hub-icon-zap');
+    const hubCore = document.getElementById('hub-core');
 
-    const defaultContent = document.querySelector('.default-content');
-    const dynamicContent = document.querySelector('.dynamic-content');
-    const dynTitle = document.getElementById('dyn-title');
-    const dynDesc = document.getElementById('dyn-desc');
-    const dynKeywords = document.getElementById('dyn-keywords');
+    let hoveredNodeId = null;
+    let dimensions = { width: 0, height: 0 };
+
+    const services = [
+        { id: 1, title: 'Audiovisual Production', desc: 'High-impact cinematic content and storytelling.', x: 20, y: 25 },
+        { id: 2, title: 'SEO & SEM Positioning', desc: 'Dominating search results through data-driven strategy.', x: 15, y: 50 },
+        { id: 3, title: 'Content Strategy', desc: 'Crafting messages that resonate and convert audiences.', x: 20, y: 75 },
+        { id: 4, title: 'AI Video Production', desc: 'Next-gen automation meets creative excellence.', x: 80, y: 25 },
+        { id: 5, title: 'CRM & Automations', desc: 'Optimizing workflows for maximum business efficiency.', x: 85, y: 50 },
+        { id: 6, title: 'Chatbots', desc: '24/7 intelligent customer engagement solutions.', x: 80, y: 75 },
+    ];
+
+    function drawLines() {
+        if (!container || !svg) return;
+        dimensions = { width: container.clientWidth, height: container.clientHeight };
+        svg.setAttribute('viewBox', `0 0 ${dimensions.width} ${dimensions.height}`);
+
+        let pathsHtml = `<defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -8" result="goo" />
+            </filter>
+        </defs>
+        <g filter="url(#goo)">`;
+
+        const center = { x: 50, y: 50 };
+        const startX = (center.x / 100) * dimensions.width;
+        const startY = (center.y / 100) * dimensions.height;
+
+        services.forEach(s => {
+            const endX = (s.x / 100) * dimensions.width;
+            const endY = (s.y / 100) * dimensions.height;
+            const cp1x = startX + (endX - startX) * 0.4;
+            const cp1y = startY;
+            const cp2x = startX + (endX - startX) * 0.6;
+            const cp2y = endY;
+
+            const isHovered = hoveredNodeId === s.id;
+            const strokeColorOuter = isHovered ? "#22d3ee" : "#0c3a4a";
+            const strokeWidthOuter = isHovered ? "32" : "18";
+            const dashArray = isHovered ? "none" : "70, 40";
+            const animation = isHovered ? "none" : "veinFlow 15s linear infinite";
+
+            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.4)";
+            const strokeWidthInner = isHovered ? "6" : "3";
+
+            pathsHtml += `
+            <g class="vein-group">
+                <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
+                    stroke="${strokeColorOuter}" stroke-width="${strokeWidthOuter}" fill="none" stroke-linecap="round"
+                    style="transition: all 0.5s ease-in-out; stroke-dasharray: ${dashArray}; animation: ${animation};" />
+                <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
+                    stroke="${strokeColorInner}" stroke-width="${strokeWidthInner}" fill="none" stroke-linecap="round"
+                    style="transition: all 0.3s ease-in-out;" />
+            </g>`;
+        });
+
+        pathsHtml += `</g>`;
+        svg.innerHTML = pathsHtml;
+    }
 
     nodes.forEach(node => {
+        const id = parseInt(node.getAttribute('data-id'));
         node.addEventListener('mouseenter', () => {
-            // Cable highlight
-            const targetClass = node.classList[1];
-            const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
-            if (correspondingCable) {
-                correspondingCable.classList.add('highlighted');
-            }
+            hoveredNodeId = id;
+            node.classList.add('hovered');
 
-            // Dynamic text update
-            if (defaultContent && dynamicContent && dynTitle) {
-                dynTitle.textContent = node.getAttribute('data-title') || '';
-                dynDesc.textContent = node.getAttribute('data-desc') || '';
-                dynKeywords.textContent = node.getAttribute('data-keywords') || '';
+            const s = services.find(srv => srv.id === id);
+            hubLabel.textContent = 'Service Detail';
+            hubLabel.classList.add('active-label');
+            hubTitle.textContent = s.title;
+            hubTitle.classList.add('active-title');
+            hubDesc.textContent = s.desc;
+            hubZap.style.display = 'block';
 
-                defaultContent.classList.remove('active');
-                dynamicContent.classList.add('active');
-            }
+            hubCore.classList.add('hovered-core');
+            drawLines();
         });
-
         node.addEventListener('mouseleave', () => {
-            // Cable unhighlight
-            const targetClass = node.classList[1];
-            const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
-            if (correspondingCable) {
-                correspondingCable.classList.remove('highlighted');
-            }
+            hoveredNodeId = null;
+            node.classList.remove('hovered');
 
-            // Revert dynamic text
-            if (defaultContent && dynamicContent) {
-                dynamicContent.classList.remove('active');
-                defaultContent.classList.add('active');
-            }
+            hubLabel.textContent = 'Ecosystem';
+            hubLabel.classList.remove('active-label');
+            hubTitle.textContent = 'Motor Advertising';
+            hubTitle.classList.remove('active-title');
+            hubDesc.textContent = 'Technology-driven marketing';
+            hubZap.style.display = 'none';
+
+            hubCore.classList.remove('hovered-core');
+            drawLines();
         });
     });
+
+    window.addEventListener('resize', drawLines);
+    setTimeout(drawLines, 100);
 });
