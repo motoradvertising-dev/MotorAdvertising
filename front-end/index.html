@@ -358,12 +358,14 @@
             <svg class="sn-cables" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
                 <defs>
                     <linearGradient id="glowLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgba(0, 200, 255, 0.1)" />
-                        <stop offset="50%" stop-color="rgba(0, 200, 255, 0.8)" />
-                        <stop offset="100%" stop-color="rgba(0, 200, 255, 0.1)" />
+                        <stop offset="0%" stop-color="rgba(0, 200, 255, 0)" />
+                        <stop offset="20%" stop-color="rgba(0, 200, 255, 0.5)" />
+                        <stop offset="50%" stop-color="rgba(0, 200, 255, 1)" />
+                        <stop offset="80%" stop-color="rgba(0, 200, 255, 0.5)" />
+                        <stop offset="100%" stop-color="rgba(0, 200, 255, 0)" />
                     </linearGradient>
                     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="5" result="blur" />
+                        <feGaussianBlur stdDeviation="6" result="blur" />
                         <feMerge>
                             <feMergeNode in="blur" />
                             <feMergeNode in="SourceGraphic" />
@@ -371,59 +373,77 @@
                     </filter>
                 </defs>
                 <!-- Organic branches from center to nodes -->
-                <path class="sn-cable top-left" d="M500,500 C400,450 300,280 180,280" />
-                <path class="sn-cable top-right" d="M500,500 C600,450 700,280 820,280" />
-                <path class="sn-cable right" d="M500,500 C700,500 800,500 880,500" />
-                <path class="sn-cable bottom-right" d="M500,500 C600,550 700,720 820,720" />
-                <path class="sn-cable bottom-left" d="M500,500 C400,550 300,720 180,720" />
-                <path class="sn-cable left" d="M500,500 C300,500 200,500 120,500" />
+                <!-- Left Side -->
+                <path class="sn-cable top-left" d="M500,500 C450,470 300,350 150,250" />
+                <path class="sn-cable mid-left" d="M500,500 C400,520 280,480 120,500" />
+                <path class="sn-cable bottom-left" d="M500,500 C450,550 300,680 150,750" />
+
+                <!-- Right Side -->
+                <path class="sn-cable top-right" d="M500,500 C550,470 700,350 850,250" />
+                <path class="sn-cable mid-right" d="M500,500 C600,520 720,480 880,500" />
+                <path class="sn-cable bottom-right" d="M500,500 C550,550 700,680 850,750" />
             </svg>
 
             <!-- Central Core -->
             <div class="sn-core">
                 <div class="sn-core-pulse outer"></div>
                 <div class="sn-core-pulse inner"></div>
-                <div class="sn-core-center">
-                    <span class="sn-core-title">Motor Advertising</span>
-                    <span class="sn-core-tagline">Technology-driven marketing ecosystem</span>
+                <div class="sn-core-center" id="sn-core-center">
+                    <div class="sn-core-content default-content active">
+                        <span class="sn-core-title">Motor Advertising</span>
+                        <span class="sn-core-tagline">Technology-driven marketing ecosystem</span>
+                    </div>
+                    <div class="sn-core-content dynamic-content">
+                        <span class="sn-core-title" id="dyn-title"></span>
+                        <span class="sn-core-tagline" id="dyn-desc"></span>
+                        <span class="sn-core-keywords" id="dyn-keywords"></span>
+                    </div>
                 </div>
             </div>
 
             <!-- Service Nodes -->
-            <div class="sn-node top-left">
+            <!-- LEFT SIDE -->
+            <div class="sn-node top-left" data-title="Audiovisual production"
+                data-desc="High-quality visual production crafted for modern brands."
+                data-keywords="Campaign visuals / branded content / commercial production">
                 <div class="sn-node-icon"><i class="fas fa-video"></i></div>
                 <h4 class="sn-node-title">Audiovisual production</h4>
-                <div class="sn-node-desc">High-quality visual content built for modern brands.</div>
             </div>
 
-            <div class="sn-node top-right">
-                <div class="sn-node-icon"><i class="fas fa-brain"></i></div>
-                <h4 class="sn-node-title">AI video production</h4>
-                <div class="sn-node-desc">Fast, scalable creative production powered by AI workflows.</div>
-            </div>
-
-            <div class="sn-node right">
-                <div class="sn-node-icon"><i class="fas fa-project-diagram"></i></div>
-                <h4 class="sn-node-title">CRM & automations</h4>
-                <div class="sn-node-desc">Structured customer flows, segmentation and automated follow-up.</div>
-            </div>
-
-            <div class="sn-node bottom-right">
-                <div class="sn-node-icon"><i class="fas fa-comments"></i></div>
-                <h4 class="sn-node-title">Chatbots</h4>
-                <div class="sn-node-desc">Automated conversations that qualify, guide and convert users.</div>
-            </div>
-
-            <div class="sn-node bottom-left">
-                <div class="sn-node-icon"><i class="fas fa-pen-nib"></i></div>
-                <h4 class="sn-node-title">Content strategy</h4>
-                <div class="sn-node-desc">Strategic content systems designed to attract and convert attention.</div>
-            </div>
-
-            <div class="sn-node left">
+            <div class="sn-node mid-left" data-title="SEO &amp; SEM positioning"
+                data-desc="Visibility and acquisition strategies built for measurable growth."
+                data-keywords="search ranking / paid traffic / lead generation">
                 <div class="sn-node-icon"><i class="fas fa-search-dollar"></i></div>
                 <h4 class="sn-node-title">SEO & SEM positioning</h4>
-                <div class="sn-node-desc">Search visibility and paid acquisition built for measurable growth.</div>
+            </div>
+
+            <div class="sn-node bottom-left" data-title="Content strategy"
+                data-desc="Content systems designed to attract, guide and convert attention."
+                data-keywords="messaging / content planning / brand narrative">
+                <div class="sn-node-icon"><i class="fas fa-pen-nib"></i></div>
+                <h4 class="sn-node-title">Content strategy</h4>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="sn-node top-right" data-title="AI video production"
+                data-desc="Fast, scalable video creation powered by AI workflows."
+                data-keywords="AI creative / rapid production / scalable content">
+                <div class="sn-node-icon"><i class="fas fa-brain"></i></div>
+                <h4 class="sn-node-title">AI video production</h4>
+            </div>
+
+            <div class="sn-node mid-right" data-title="CRM &amp; automations"
+                data-desc="Structured customer journeys with automation and follow-up logic."
+                data-keywords="segmentation / flows / retention systems">
+                <div class="sn-node-icon"><i class="fas fa-project-diagram"></i></div>
+                <h4 class="sn-node-title">CRM & automations</h4>
+            </div>
+
+            <div class="sn-node bottom-right" data-title="Chatbots"
+                data-desc="Automated conversations that qualify, assist and convert users."
+                data-keywords="lead qualification / instant response / automation">
+                <div class="sn-node-icon"><i class="fas fa-comments"></i></div>
+                <h4 class="sn-node-title">Chatbots</h4>
             </div>
         </div>
     </section>

@@ -507,26 +507,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     snObserver.observe(snSection);
 
-    // Hover Interaction for Cables
+    // Dynamic Core Updates & Cable Highlights
     const nodes = document.querySelectorAll('.sn-node');
-    const cables = document.querySelectorAll('.sn-cable');
 
-    // Make sure nodes and cables match via class (top-left, etc)
+    const defaultContent = document.querySelector('.default-content');
+    const dynamicContent = document.querySelector('.dynamic-content');
+    const dynTitle = document.getElementById('dyn-title');
+    const dynDesc = document.getElementById('dyn-desc');
+    const dynKeywords = document.getElementById('dyn-keywords');
+
     nodes.forEach(node => {
         node.addEventListener('mouseenter', () => {
-            // grab the second class since it indicates position (top-left, left, etc)
+            // Cable highlight
             const targetClass = node.classList[1];
             const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
             if (correspondingCable) {
                 correspondingCable.classList.add('highlighted');
             }
+
+            // Dynamic text update
+            if (defaultContent && dynamicContent && dynTitle) {
+                dynTitle.textContent = node.getAttribute('data-title') || '';
+                dynDesc.textContent = node.getAttribute('data-desc') || '';
+                dynKeywords.textContent = node.getAttribute('data-keywords') || '';
+
+                defaultContent.classList.remove('active');
+                dynamicContent.classList.add('active');
+            }
         });
 
         node.addEventListener('mouseleave', () => {
+            // Cable unhighlight
             const targetClass = node.classList[1];
             const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
             if (correspondingCable) {
                 correspondingCable.classList.remove('highlighted');
+            }
+
+            // Revert dynamic text
+            if (defaultContent && dynamicContent) {
+                dynamicContent.classList.remove('active');
+                defaultContent.classList.add('active');
             }
         });
     });
