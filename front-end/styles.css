@@ -1735,7 +1735,6 @@ footer {
     font-weight: 900;
     letter-spacing: -0.05em;
     text-transform: uppercase;
-    font-style: italic;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     margin-bottom: 4px;
 }
@@ -1853,7 +1852,6 @@ footer {
 
 /* Hub Content Base */
 .hub-label {
-    font-family: var(--font-heading);
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -1875,7 +1873,6 @@ footer {
 }
 
 .hub-title {
-    font-family: var(--font-heading);
     font-size: 0.875rem;
     font-weight: 900;
     line-height: 1.25;
@@ -1984,7 +1981,6 @@ footer {
 }
 
 .node-title {
-    font-family: var(--font-heading);
     font-size: 0.75rem;
     font-weight: 900;
     text-transform: uppercase;

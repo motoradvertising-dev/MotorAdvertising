@@ -554,23 +554,25 @@ document.addEventListener("DOMContentLoaded", () => {
             const cp2y = endY;
 
             const isHovered = hoveredNodeId === s.id;
-            const dashArray = isHovered ? "none" : "8, 16";
-            const animation = isHovered ? "none" : "veinFlow 20s linear infinite";
 
-            const strokeColorOuter = isHovered ? "#22d3ee" : "rgba(6, 182, 212, 0.15)";
-            const strokeWidthOuter = isHovered ? "32" : "6";
+            // The outer thick path is what forms the visible dashes
+            const outerDash = isHovered ? "none" : "20, 24";
+            const outerAnimation = isHovered ? "none" : "veinFlow 15s linear infinite";
 
-            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.5)";
+            const strokeColorOuter = isHovered ? "#22d3ee" : "rgba(34, 211, 238, 0.4)";
+            const strokeWidthOuter = isHovered ? "28" : "12";
+
+            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.8)";
             const strokeWidthInner = isHovered ? "6" : "2";
 
             pathsHtml += `
             <g class="vein-group">
                 <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
                     stroke="${strokeColorOuter}" stroke-width="${strokeWidthOuter}" fill="none" stroke-linecap="round"
-                    style="transition: all 0.5s ease-in-out; stroke-dasharray: ${dashArray}; animation: ${animation};" />
+                    style="transition: all 0.5s ease-in-out; stroke-dasharray: ${outerDash}; animation: ${outerAnimation};" />
                 <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
                     stroke="${strokeColorInner}" stroke-width="${strokeWidthInner}" fill="none" stroke-linecap="round"
-                    style="transition: all 0.3s ease-in-out; stroke-dasharray: ${dashArray}; animation: ${animation};" />
+                    style="transition: all 0.3s ease-in-out;" />
             </g>`;
         });
 
