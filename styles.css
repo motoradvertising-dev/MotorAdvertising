@@ -1923,11 +1923,12 @@ footer {
 .sn-hub-container {
     position: relative;
     width: 100%;
-    max-width: 1100px;
-    height: 700px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 1200px;
+    aspect-ratio: 1200 / 800;
+    /* Force exact proportions so SVG maps perfectly */
+    margin: 0 auto;
+    display: block;
+    /* Removed flex to let absolute positioning handle everything */
     z-index: 5;
 }
 
@@ -1942,41 +1943,127 @@ footer {
     pointer-events: none;
 }
 
-.sn-cable {
+/* Nerves / Trails */
+.nerve-main {
     fill: none;
-    stroke: url(#glowLine);
+    stroke: rgba(0, 200, 255, 0.4);
     stroke-width: 3.5;
     stroke-linecap: round;
-    opacity: 0.15;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: url(#glow);
-    /* Dasharray handles the "growing" animation */
+    filter: url(#visceralFilter);
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.services-network-section.anim-active .sn-cable {
-    animation: growCable 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.nerve-branch {
+    fill: none;
+    stroke: rgba(0, 200, 255, 0.25);
+    stroke-width: 2;
+    stroke-linecap: round;
+    filter: url(#visceralFilter);
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Cable hover state */
-.sn-cable.highlighted {
-    opacity: 0.9 !important;
-    stroke: var(--accent-color, #00C8FF);
-    stroke-width: 4.5;
-    filter: drop-shadow(0 0 8px rgba(0, 200, 255, 0.8));
+.services-network-section.anim-active .nerve-main {
+    animation: growNerve 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes growCable {
+.services-network-section.anim-active .nerve-branch {
+    animation: growNerveBranch 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+.sn-cable.highlighted .nerve-main {
+    stroke: rgba(0, 255, 255, 1) !important;
+    stroke-width: 5;
+    filter: url(#visceralFilter) drop-shadow(0 0 10px rgba(0, 200, 255, 0.9));
+}
+
+.sn-cable.highlighted .nerve-branch {
+    stroke: rgba(0, 255, 255, 0.8) !important;
+    stroke-width: 3;
+}
+
+@keyframes growNerve {
     to {
         stroke-dashoffset: 0;
-        opacity: 0.35;
+    }
+}
+
+@keyframes growNerveBranch {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Pulse energy travelling through nerves */
+.sn-pulse {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0;
+    filter: url(#visceralFilter) blur(1px);
+    stroke-dasharray: 30 1000;
+    stroke-dashoffset: 1000;
+    animation: zipPulse 3s linear infinite;
+}
+
+.sn-pulse.top-left {
+    animation-delay: 0.2s;
+}
+
+.sn-pulse.mid-left {
+    animation-delay: 1.5s;
+}
+
+.sn-pulse.bottom-left {
+    animation-delay: 0.8s;
+}
+
+.sn-pulse.top-right {
+    animation-delay: 0.5s;
+}
+
+.sn-pulse.mid-right {
+    animation-delay: 2.2s;
+}
+
+.sn-pulse.bottom-right {
+    animation-delay: 1.2s;
+}
+
+@keyframes zipPulse {
+    0% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 0.8;
+    }
+
+    30% {
+        stroke-dashoffset: 0;
+        opacity: 0.8;
+    }
+
+    35% {
+        opacity: 0;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0;
     }
 }
 
 /* Central Core */
 .sn-core {
     position: absolute;
+    left: 50%;
+    top: 50%;
     width: 260px;
     height: 260px;
     display: flex;
@@ -1984,13 +2071,13 @@ footer {
     justify-content: center;
     z-index: 3;
     opacity: 0;
-    transform: scale(0.8);
+    transform: translate(-50%, -50%) scale(0.8);
     transition: opacity 1s ease, transform 1.5s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 .services-network-section.anim-active .sn-core {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .sn-core-pulse {
@@ -2097,19 +2184,23 @@ footer {
 /* Service Nodes */
 .sn-node {
     position: absolute;
-    width: 170px;
+    width: 200px;
     padding: 15px;
     text-align: center;
     z-index: 2;
     cursor: pointer;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate(-50%, -30%) scale(0.95);
     transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .services-network-section.anim-active .sn-node {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.sn-node:hover {
+    transform: translate(-50%, -50%) scale(1.08) !important;
 }
 
 /* Stagger Node Entry */
@@ -2137,37 +2228,35 @@ footer {
     transition-delay: 0.9s;
 }
 
-/* Positioning Nodes Desktop (3 Left / 3 Right) */
+/* Positioning Nodes Desktop (Exact percentages matching SVG) */
 .sn-node.top-left {
-    top: 15%;
-    left: 5%;
+    left: 15%;
+    top: 25%;
 }
 
 .sn-node.mid-left {
+    left: 8%;
     top: 50%;
-    left: 0;
-    transform: translateY(-50%);
 }
 
 .sn-node.bottom-left {
-    bottom: 15%;
-    left: 5%;
+    left: 15%;
+    top: 75%;
 }
 
 .sn-node.top-right {
-    top: 15%;
-    right: 5%;
+    left: 85%;
+    top: 25%;
 }
 
 .sn-node.mid-right {
+    left: 92%;
     top: 50%;
-    right: 0;
-    transform: translateY(-50%);
 }
 
 .sn-node.bottom-right {
-    bottom: 15%;
-    right: 5%;
+    left: 85%;
+    top: 75%;
 }
 
 .sn-node-icon {
@@ -2265,6 +2354,9 @@ footer {
 
     .sn-core {
         position: relative;
+        left: auto;
+        top: auto;
+        transform: scale(0.9) !important;
         margin-bottom: 50px;
     }
 

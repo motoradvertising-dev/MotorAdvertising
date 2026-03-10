@@ -355,33 +355,58 @@
 
         <div class="sn-hub-container">
             <!-- Cables canvas -->
-            <svg class="sn-cables" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+            <svg class="sn-cables" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
                 <defs>
-                    <linearGradient id="glowLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgba(0, 200, 255, 0)" />
-                        <stop offset="20%" stop-color="rgba(0, 200, 255, 0.5)" />
-                        <stop offset="50%" stop-color="rgba(0, 200, 255, 1)" />
-                        <stop offset="80%" stop-color="rgba(0, 200, 255, 0.5)" />
-                        <stop offset="100%" stop-color="rgba(0, 200, 255, 0)" />
-                    </linearGradient>
-                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="6" result="blur" />
-                        <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
+                    <filter id="visceralFilter" x="-20%" y="-20%" width="140%" height="140%">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R"
+                            yChannelSelector="G" result="displaced" />
                     </filter>
                 </defs>
-                <!-- Organic branches from center to nodes -->
-                <!-- Left Side -->
-                <path class="sn-cable top-left" d="M500,500 C450,470 300,350 150,250" />
-                <path class="sn-cable mid-left" d="M500,500 C400,520 280,480 120,500" />
-                <path class="sn-cable bottom-left" d="M500,500 C450,550 300,680 150,750" />
 
-                <!-- Right Side -->
-                <path class="sn-cable top-right" d="M500,500 C550,470 700,350 850,250" />
-                <path class="sn-cable mid-right" d="M500,500 C600,520 720,480 880,500" />
-                <path class="sn-cable bottom-right" d="M500,500 C550,550 700,680 850,750" />
+                <!-- Left Side Nodes -->
+                <!-- Top Left -->
+                <g class="sn-cable top-left">
+                    <path class="nerve-main" d="M 479,342 C 450,290 300,280 180,200" />
+                    <path class="nerve-branch" d="M 350,285 C 330,260 300,250 290,240" />
+                </g>
+                <path class="sn-pulse top-left" d="M 479,342 C 450,290 300,280 180,200" />
+
+                <!-- Mid Left -->
+                <g class="sn-cable mid-left">
+                    <path class="nerve-main" d="M 465,400 C 350,370 200,430 96,400" />
+                    <path class="nerve-branch" d="M 280,390 C 260,360 230,350 210,360" />
+                </g>
+                <path class="sn-pulse mid-left" d="M 465,400 C 350,370 200,430 96,400" />
+
+                <!-- Bottom Left -->
+                <g class="sn-cable bottom-left">
+                    <path class="nerve-main" d="M 479,458 C 450,510 300,520 180,600" />
+                    <path class="nerve-branch" d="M 350,515 C 330,540 300,550 290,560" />
+                </g>
+                <path class="sn-pulse bottom-left" d="M 479,458 C 450,510 300,520 180,600" />
+
+                <!-- Right Side Nodes -->
+                <!-- Top Right -->
+                <g class="sn-cable top-right">
+                    <path class="nerve-main" d="M 721,342 C 750,290 900,280 1020,200" />
+                    <path class="nerve-branch" d="M 850,285 C 870,260 900,250 910,240" />
+                </g>
+                <path class="sn-pulse top-right" d="M 721,342 C 750,290 900,280 1020,200" />
+
+                <!-- Mid Right -->
+                <g class="sn-cable mid-right">
+                    <path class="nerve-main" d="M 735,400 C 850,370 1000,430 1104,400" />
+                    <path class="nerve-branch" d="M 920,390 C 940,360 970,350 990,360" />
+                </g>
+                <path class="sn-pulse mid-right" d="M 735,400 C 850,370 1000,430 1104,400" />
+
+                <!-- Bottom Right -->
+                <g class="sn-cable bottom-right">
+                    <path class="nerve-main" d="M 721,458 C 750,510 900,520 1020,600" />
+                    <path class="nerve-branch" d="M 850,515 C 870,540 900,550 910,560" />
+                </g>
+                <path class="sn-pulse bottom-right" d="M 721,458 C 750,510 900,520 1020,600" />
             </svg>
 
             <!-- Central Core -->
