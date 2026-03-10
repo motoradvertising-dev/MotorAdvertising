@@ -431,3 +431,44 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(pmSection);
 });
 
+// --- Services Network Animation Logic ---
+document.addEventListener("DOMContentLoaded", () => {
+    const snSection = document.querySelector('.services-network-section');
+    if (!snSection) return;
+
+    // Trigger Scroll Animation
+    const snObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                snSection.classList.add('anim-active');
+            }
+        });
+    }, { threshold: 0.3 });
+
+    snObserver.observe(snSection);
+
+    // Hover Interaction for Cables
+    const nodes = document.querySelectorAll('.sn-node');
+    const cables = document.querySelectorAll('.sn-cable');
+
+    // Make sure nodes and cables match via class (top-left, etc)
+    nodes.forEach(node => {
+        node.addEventListener('mouseenter', () => {
+            // grab the second class since it indicates position (top-left, left, etc)
+            const targetClass = node.classList[1];
+            const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
+            if (correspondingCable) {
+                correspondingCable.classList.add('highlighted');
+            }
+        });
+
+        node.addEventListener('mouseleave', () => {
+            const targetClass = node.classList[1];
+            const correspondingCable = document.querySelector(`.sn-cable.${targetClass}`);
+            if (correspondingCable) {
+                correspondingCable.classList.remove('highlighted');
+            }
+        });
+    });
+});
+
