@@ -494,13 +494,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const cp2y = endY;
 
             const isHovered = hoveredNodeId === s.id;
-            const strokeColorOuter = isHovered ? "#22d3ee" : "#0c3a4a";
-            const strokeWidthOuter = isHovered ? "32" : "18";
-            const dashArray = isHovered ? "none" : "70, 40";
-            const animation = isHovered ? "none" : "veinFlow 15s linear infinite";
+            const dashArray = isHovered ? "none" : "8, 16";
+            const animation = isHovered ? "none" : "veinFlow 20s linear infinite";
 
-            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.4)";
-            const strokeWidthInner = isHovered ? "6" : "3";
+            const strokeColorOuter = isHovered ? "#22d3ee" : "rgba(6, 182, 212, 0.15)";
+            const strokeWidthOuter = isHovered ? "32" : "6";
+
+            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.5)";
+            const strokeWidthInner = isHovered ? "6" : "2";
 
             pathsHtml += `
             <g class="vein-group">
@@ -509,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     style="transition: all 0.5s ease-in-out; stroke-dasharray: ${dashArray}; animation: ${animation};" />
                 <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
                     stroke="${strokeColorInner}" stroke-width="${strokeWidthInner}" fill="none" stroke-linecap="round"
-                    style="transition: all 0.3s ease-in-out;" />
+                    style="transition: all 0.3s ease-in-out; stroke-dasharray: ${dashArray}; animation: ${animation};" />
             </g>`;
         });
 

@@ -1920,6 +1920,7 @@ footer {
 }
 
 .services-title {
+    font-family: var(--font-heading);
     font-size: 3rem;
     font-weight: 900;
     letter-spacing: -0.05em;
@@ -2042,6 +2043,7 @@ footer {
 
 /* Hub Content Base */
 .hub-label {
+    font-family: var(--font-heading);
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -2063,6 +2065,7 @@ footer {
 }
 
 .hub-title {
+    font-family: var(--font-heading);
     font-size: 0.875rem;
     font-weight: 900;
     line-height: 1.25;
@@ -2171,6 +2174,7 @@ footer {
 }
 
 .node-title {
+    font-family: var(--font-heading);
     font-size: 0.75rem;
     font-weight: 900;
     text-transform: uppercase;
@@ -2276,11 +2280,11 @@ footer {
 /* Vein Animation */
 @keyframes veinFlow {
     from {
-        stroke-dashoffset: 440;
+        stroke-dashoffset: 0;
     }
 
     to {
-        stroke-dashoffset: 0;
+        stroke-dashoffset: -400;
     }
 }
 
