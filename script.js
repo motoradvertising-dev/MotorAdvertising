@@ -614,5 +614,102 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.addEventListener('resize', drawLines);
+
+    // --- Three.js Dynamic Hub Integration ---
+    let sphere, scene, camera, renderer, frameId;
+    function initThreeJS() {
+        if (!window.THREE) {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+            script.onload = () => startThree();
+            document.head.appendChild(script);
+        } else {
+            startThree();
+        }
+    }
+
+    function startThree() {
+        if (!hubCore) return;
+
+        let container = document.getElementById('three-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'three-container';
+            container.style.position = 'absolute';
+            container.style.inset = '0';
+            container.style.zIndex = '0';
+            container.style.borderRadius = '50%';
+            container.style.overflow = 'hidden';
+            hubCore.insertBefore(container, hubCore.firstChild);
+        }
+
+        const width = hubCore.clientWidth;
+        const height = hubCore.clientHeight;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+        camera.position.z = 2.2;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.innerHTML = '';
+        container.appendChild(renderer.domElement);
+
+        const geometry = new THREE.IcosahedronGeometry(1, 15);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x000000,
+            emissive: 0x0891b2,
+            emissiveIntensity: 0.5,
+            shininess: 100,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        const light1 = new THREE.PointLight(0x22d3ee, 2, 10);
+        light1.position.set(2, 2, 2);
+        scene.add(light1);
+
+        const light2 = new THREE.PointLight(0x0e7490, 1, 10);
+        light2.position.set(-2, -2, 2);
+        scene.add(light2);
+
+        animateThree();
+    }
+
+    function animateThree() {
+        if (!window.THREE || !sphere) return;
+        frameId = requestAnimationFrame(animateThree);
+
+        sphere.rotation.y += 0.005;
+        sphere.rotation.x += 0.002;
+
+        const time = Date.now() * 0.002;
+        const speed = hoveredNodeId ? 1.5 : 1.0;
+        const scale = 1 + Math.sin(time * speed) * 0.05;
+        sphere.scale.set(scale, scale, scale);
+
+        sphere.material.emissiveIntensity = hoveredNodeId ? 1.4 : 0.6;
+        sphere.material.opacity = hoveredNodeId ? 0.95 : 0.6;
+
+        renderer.render(scene, camera);
+    }
+
+    initThreeJS();
+
+    window.addEventListener('resize', () => {
+        if (renderer && camera && hubCore) {
+            const width = hubCore.clientWidth;
+            const height = hubCore.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+    });
+
     setTimeout(drawLines, 100);
 });

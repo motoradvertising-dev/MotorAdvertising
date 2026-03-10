@@ -1828,8 +1828,8 @@ footer {
 
 .hub-core {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 224px;
+    height: 224px;
     border-radius: 50%;
     background-color: #000;
     border: 2px solid rgba(6, 182, 212, 0.8);
@@ -1845,9 +1845,14 @@ footer {
 
 @media (min-width: 768px) {
     .hub-core {
-        width: 224px;
-        height: 224px;
+        width: 320px;
+        height: 320px;
     }
+}
+
+.hub-core>*:not(#three-container) {
+    z-index: 10;
+    position: relative;
 }
 
 /* Hub Content Base */
