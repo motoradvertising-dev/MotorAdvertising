@@ -556,14 +556,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const isHovered = hoveredNodeId === s.id;
 
             // The outer thick path is what forms the visible dashes
-            const outerDash = isHovered ? "none" : "20, 24";
+            const outerDash = isHovered ? "none" : "80, 50";
             const outerAnimation = isHovered ? "none" : "veinFlow 15s linear infinite";
 
-            const strokeColorOuter = isHovered ? "#22d3ee" : "rgba(34, 211, 238, 0.4)";
-            const strokeWidthOuter = isHovered ? "28" : "12";
+            const strokeColorOuter = isHovered ? "#22d3ee" : "#0c3a4a";
+            const strokeWidthOuter = isHovered ? "40" : "22";
 
-            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.8)";
-            const strokeWidthInner = isHovered ? "6" : "2";
+            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.4)";
+            const strokeWidthInner = isHovered ? "8" : "4";
 
             pathsHtml += `
             <g class="vein-group">
