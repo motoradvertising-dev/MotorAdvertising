@@ -10,6 +10,7 @@
     "dev:back": "npm run dev --prefix back-end"
   },
   "dependencies": {
+    "glob": "^13.0.6",
     "http-server": "^14.1.1"
   }
 }
