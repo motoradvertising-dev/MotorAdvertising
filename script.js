@@ -339,103 +339,163 @@ if (document.getElementById('profesional-contact-form')) {
     document.getElementById('profesional-contact-form').addEventListener('submit', (e) => handleFormSubmit(e, 'profesional'));
 }
 
-// Portfolio Interactivity
-document.addEventListener('DOMContentLoaded', () => {
-    const projectItems = document.querySelectorAll('.project-item');
-    const previewImages = document.querySelectorAll('.preview-img');
-    const detailContents = document.querySelectorAll('.details-content');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const mainVisitBtn = document.getElementById('main-visit-btn');
-    const previewVisitBtn = document.querySelector('.preview-cta');
+// New Projects Showcase Logic
+(function() {
+    const projects = [
+        {
+          id: 0,
+          slug: 'luxury-real-estate',
+          title: "LUXURY REAL ESTATE",
+          category: "BIENES RAÍCES",
+          year: "2024",
+          description: "Portal inmobiliario premium diseñado para captar inversionistas de alto nivel y leads internacionales. Enfoque en visuales de gran formato.",
+          platform: "WordPress / UI Custom",
+          objective: "Leads de alto valor",
+          features: ["CRM", "Multilingüe"],
+          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
+          tags: ["SEO", "Leads"],
+          url: "https://luxury-real-estate.example.com"
+        },
+        {
+          id: 1,
+          slug: 'saas-funnel',
+          title: "IZZY PLATFORM",
+          category: "FUNNELS",
+          year: "2025",
+          description: "Plataforma de conversión optimizada para influencers con sistemas de seguimiento de métricas.",
+          platform: "Next.js / Tailwind",
+          objective: "Conversión",
+          features: ["Analytics", "Pagos"],
+          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
+          tags: ["Influencer", "Performance"],
+          url: "https://itsizzy.com/"
+        },
+        {
+          id: 2,
+          slug: 'tech-store',
+          title: "VORTEX TECH STORE",
+          category: "ECOMMERCE",
+          year: "2023",
+          description: "Tienda de tecnología con catálogo dinámico y proceso de checkout ultra-rápido.",
+          platform: "Shopify Headless",
+          objective: "Ventas Directas",
+          features: ["Stock Sync", "Filtros"],
+          image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000",
+          tags: ["Performance", "Ventas"],
+          url: "https://vortex-tech.example.com"
+        },
+        {
+          id: 3,
+          slug: 'fintech-corporate',
+          title: "NEXUS FINTECH",
+          category: "CORPORATIVO",
+          year: "2023",
+          description: "Sitio corporativo para servicios financieros con altos estándares de seguridad.",
+          platform: "Webflow",
+          objective: "Autoridad",
+          features: ["Seguridad", "Blog"],
+          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
+          tags: ["Marca", "Seguridad"],
+          url: "https://nexus-fintech.example.com"
+        }
+    ];
 
-    // Project data for links (example placeholder links)
-    const projectLinks = {
-        'luxury-real-estate': 'https://luxury-real-estate.example.com',
-        'saas-funnel': 'https://itsizzy.com/',
-        'tech-store': 'https://vortex-tech.example.com',
-        'fintech-corporate': 'https://nexus-fintech.example.com'
-    };
+    let activeFilter = 'TODOS';
+    let selectedProjectId = 0;
 
-    function switchProject(projectId) {
-        // Update Project Items
-        projectItems.forEach(item => {
-            if (item.getAttribute('data-project') === projectId) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
+    function renderSelector() {
+        const listContainer = document.getElementById('project-selector-list');
+        if (!listContainer) return;
+
+        const filtered = activeFilter === 'TODOS' 
+            ? projects 
+            : projects.filter(p => p.category === activeFilter);
+
+        listContainer.innerHTML = filtered.map(p => `
+            <div class="selector-item ${selectedProjectId === p.id ? 'active' : ''}" data-id="${p.id}">
+                <div class="selector-icon">
+                    <i class="fas ${p.category === 'ECOMMERCE' ? 'fa-globe' : 'fa-desktop'}"></i>
+                </div>
+                <div class="selector-content">
+                    <h4>${p.title}</h4>
+                    <p>${p.category}</p>
+                </div>
+                <i class="fas fa-chevron-right selector-arrow"></i>
+            </div>
+        `).join('');
+
+        // Bind events
+        listContainer.querySelectorAll('.selector-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                setSelectedProject(id);
+            });
         });
-
-        // Update Preview Images (Fade transition)
-        previewImages.forEach(img => {
-            if (img.getAttribute('data-project') === projectId) {
-                img.classList.add('active');
-            } else {
-                img.classList.remove('active');
-            }
-        });
-
-        // Update Details (Slide up animation handled by CSS)
-        detailContents.forEach(content => {
-            if (content.getAttribute('data-project') === projectId) {
-                content.classList.add('active');
-            } else {
-                content.classList.remove('active');
-            }
-        });
-
-        // Update External Links
-        const url = projectLinks[projectId] || '#';
-        if (mainVisitBtn) mainVisitBtn.href = url;
-        if (previewVisitBtn) previewVisitBtn.href = url;
     }
 
-    // Hover Interaction (Desktop)
-    projectItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            const projectId = item.getAttribute('data-project');
-            switchProject(projectId);
-        });
+    function setSelectedProject(id) {
+        selectedProjectId = id;
+        const p = projects.find(proj => proj.id === id);
+        if (!p) return;
 
-        // Handle Tap/Click for Mobile
-        item.addEventListener('click', () => {
-            const projectId = item.getAttribute('data-project');
-            switchProject(projectId);
-        });
-    });
+        // Update UI elements
+        const mainImg = document.getElementById('main-project-image');
+        const mainTitle = document.getElementById('main-project-title');
+        const mainDesc = document.getElementById('main-project-desc');
+        const mainCat = document.getElementById('main-project-category');
+        const mainPlatform = document.getElementById('main-project-platform');
+        const mainObj = document.getElementById('main-project-objective');
+        const mainYear = document.getElementById('main-project-year');
+        const mainTags = document.getElementById('main-project-tags');
+        const mainCTA = document.querySelector('.showcase-cta');
 
-    // Filter Logic
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filter = btn.getAttribute('data-filter');
+        if (mainImg) {
+            mainImg.style.opacity = '0';
+            setTimeout(() => {
+                mainImg.src = p.image;
+                mainImg.style.opacity = '1';
+            }, 300);
+        }
+        if (mainTitle) mainTitle.textContent = p.title;
+        if (mainDesc) mainDesc.textContent = p.description;
+        if (mainCat) mainCat.textContent = p.category;
+        if (mainPlatform) mainPlatform.textContent = p.platform;
+        if (mainObj) mainObj.textContent = p.objective;
+        if (mainYear) mainYear.textContent = p.year;
+        
+        if (mainTags) {
+            mainTags.innerHTML = p.tags.map(t => `<span class="tag-badge">${t}</span>`).join('');
+        }
 
-            // Update button state
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        if (mainCTA) {
+            // Set href if it was an <a> tag, or add listener
+            mainCTA.onclick = () => window.open(p.url, '_blank');
+        }
 
-            // Filter items
-            projectItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    item.style.display = 'block';
-                    // Animation trigger
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.style.display = 'none';
+        renderSelector(); // Update active state in list
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterBtns = document.querySelectorAll('.filter-btn-new');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                
+                // Switch to first project in filtered list
+                const filtered = activeFilter === 'TODOS' ? projects : projects.filter(p => p.category === activeFilter);
+                if (filtered.length > 0) {
+                    setSelectedProject(filtered[0].id);
                 }
+                renderSelector();
             });
-
-            // Select first visible project after filtering
-            const firstVisible = document.querySelector('.project-item[style*="display: block"]');
-            if (firstVisible) {
-                switchProject(firstVisible.getAttribute('data-project'));
-            }
         });
+
+        renderSelector();
+        setSelectedProject(0);
     });
-});
+})();
 
 // --- Paid Media Animation Logic ---
 document.addEventListener("DOMContentLoaded", () => {
