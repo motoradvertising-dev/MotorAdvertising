@@ -100,11 +100,89 @@ body {
     border-color: var(--text-primary);
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-logo-svg {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover .nav-logo-svg {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.5));
+}
+
 .menu-toggle {
     display: none;
     font-size: 1.5rem;
     color: var(--text-primary);
     cursor: pointer;
+}
+
+/* Splash Screen Animation */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+#splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-logo-container {
+    width: 80%;
+    max-width: 600px;
+}
+
+.splash-logo-svg {
+    width: 100%;
+    height: auto;
+}
+
+.anim-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLogo 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 0.5px;
+}
+
+@keyframes drawLogo {
+    0% {
+        stroke-dashoffset: 1000;
+        fill: rgba(255, 255, 255, 0);
+    }
+    70% {
+        fill: rgba(255, 255, 255, 0);
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        fill: rgba(255, 255, 255, 1);
+        stroke: none;
+    }
+}
+
+.slash-dark {
+    opacity: 0.33;
+}
+
+.slash-light {
+    opacity: 0.66;
 }
 
 /* Hero Section */

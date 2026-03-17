@@ -1,3 +1,14 @@
+// Splash Screen Handler
+window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        setTimeout(() => {
+            splash.classList.add('fade-out');
+            document.body.style.overflow = 'auto';
+        }, 3000); // 3 seconds total for the animation
+    }
+});
+
 // Sticky Navbar
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
@@ -1088,6 +1099,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const storyRight = document.getElementById('story-right');
     const storyTouchLeft = document.getElementById('story-touch-left');
     const storyTouchRight = document.getElementById('story-touch-right');
+    const casesGrid = document.getElementById('cases-grid');
+
+    function renderCases() {
+        if (!casesGrid) return;
+        casesGrid.innerHTML = CASES_DATA.map((c, i) => `
+            <div class="case-card" data-case="${i}">
+                <div class="case-card-image">
+                    <img src="${c.thumbnail}" alt="${c.title}">
+                    <div class="case-card-overlay">
+                        <div class="case-card-icon ${c.colorClass}" style="background:${c.color};"><i class="${c.icon}"></i></div>
+                    </div>
+                </div>
+                <div class="case-card-content">
+                    <div class="case-card-trigger" style="color:${c.color};">${c.trigger}</div>
+                    <h3 class="case-card-title">${c.title}</h3>
+                    <div class="case-card-footer">
+                        <span data-i18n="cases_view">Ver Análisis</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // Re-bind clicks
+        document.querySelectorAll('.case-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const idx = parseInt(card.getAttribute('data-case'));
+                openStory(idx);
+            });
+        });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCases();
+    });
 
     function openStory(index) {
         activeIndex = index;
@@ -1201,14 +1248,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Events
     if (storyClose) storyClose.addEventListener('click', closeStory);
-
-    // Card clicks
-    document.querySelectorAll('.case-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const idx = parseInt(card.getAttribute('data-case'));
-            openStory(idx);
-        });
-    });
 
     // Touch/click navigation on story image
     function onDown() {
