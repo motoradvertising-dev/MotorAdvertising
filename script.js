@@ -1,14 +1,3 @@
-// Splash Screen Handler
-window.addEventListener('load', () => {
-    const splash = document.getElementById('splash-screen');
-    if (splash) {
-        setTimeout(() => {
-            splash.classList.add('fade-out');
-            document.body.style.overflow = 'auto';
-        }, 3000); // 3 seconds total for the animation
-    }
-});
-
 // Sticky Navbar
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
