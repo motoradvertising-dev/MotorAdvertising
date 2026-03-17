@@ -1006,20 +1006,6 @@ footer {
     padding: 0 20px 40px;
 }
 
-.showcase-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    background: rgba(37, 99, 235, 0.1);
-    border: 1px solid rgba(37, 99, 235, 0.3);
-    color: #60a5fa;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-}
 
 .portfolio-main-title {
     font-family: var(--font-heading);
