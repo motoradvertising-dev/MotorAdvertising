@@ -55,128 +55,171 @@
 
     <div style="height: 100px;"></div>
 
-    <!-- MAIN SECTION: PAID MEDIA DASHBOARD -->
-    <section id="paid-media-dashboard" class="pm-dashboard-section info-section darker-bg">
-        <div class="container pm-dashboard-container">
-            
-            <div class="pm-dash-header">
-                <h2 class="section-title" data-i18n="pauta_dash_title">Rendimiento de pauta digital</h2>
-                <p class="section-subtitle" data-i18n="pauta_dash_subtitle">Campañas basadas en datos diseñadas para escalar ingresos y adquisición de clientes.</p>
-            </div>
+    <!-- Dependencies for the new React component -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          preflight: false,
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
 
-            <!-- Top Metrics Bar -->
-            <div class="pm-top-metrics">
-                <div class="pm-metric-card">
-                    <h4 class="pm-metric-value"><span class="pm-counter-dash" data-target="120">0</span>+</h4>
-                    <p class="pm-metric-label" data-i18n="pauta_metric_campaigns">Campañas activas</p>
-                </div>
-                <div class="pm-metric-card">
-                    <h4 class="pm-metric-value"><span class="pm-counter-dash" data-target="950">0</span>+</h4>
-                    <p class="pm-metric-label" data-i18n="pauta_metric_creatives">Creativos de contenido</p>
-                </div>
-                <div class="pm-metric-card">
-                    <h4 class="pm-metric-value"><span class="pm-counter-dash" data-target="94">0</span>%</h4>
-                    <p class="pm-metric-label" data-i18n="pauta_metric_retention">Retención de clientes</p>
-                </div>
-                <div class="pm-metric-card">
-                    <h4 class="pm-metric-value">$<span class="pm-counter-dash" data-target="2.4" data-float="true">0</span>M+</h4>
-                    <p class="pm-metric-label" data-i18n="pauta_metric_revenue">Ingresos generados</p>
-                </div>
-            </div>
+    <div id="pauta-react-root"></div>
 
-            <!-- Main Content Layout (Two Columns) -->
-            <div class="pm-dash-content">
-                
-                <!-- Left Side: Visual Marketing Flow & Text Block -->
-                <div class="pm-dash-left">
-                    <div class="pm-visual-flow">
-                        <div class="pm-ad-creative-preview">
-                            <div class="pm-ad-header">
-                                <i class="fab fa-instagram"></i>
-                                <span class="pm-ad-title" data-i18n="pauta_ad_sponsored">Publicidad</span>
-                            </div>
-                            <div class="pm-ad-image-placeholder">
-                                <i class="fas fa-play-circle pm-ad-play"></i>
-                            </div>
-                            <div class="pm-ad-footer">
-                                <div class="pm-ad-action" data-i18n="pauta_ad_cta">Más información</div>
-                            </div>
+    <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { 
+      TrendingUp, 
+      MousePointer2, 
+      Users, 
+      Zap, 
+      ChevronUp, 
+      LayoutDashboard
+    } = LucideReact;
 
-                            <!-- Floating Elements -->
-                            <div class="pm-floating-bubble bubble-1">
-                                <i class="fas fa-user-plus"></i> <span data-i18n="pauta_bubble_lead">Nuevo lead</span>
-                            </div>
-                            <div class="pm-floating-bubble bubble-2">
-                                <i class="fas fa-shopping-cart"></i> <span data-i18n="pauta_bubble_purchase">Compra $120</span>
-                            </div>
-                            <div class="pm-floating-bubble bubble-3">
-                                <i class="fas fa-chart-line"></i> <span data-i18n="pauta_bubble_eng">Interacción +32%</span>
-                            </div>
-                        </div>
-                    </div>
+    /**
+     * Componente de número animado que incrementa desde 0
+     */
+    const AnimatedNumber = ({ value, duration = 2000, suffix = "", prefix = "" }) => {
+      const [count, setCount] = useState(0);
+      const numericValue = parseFloat(value.toString().replace(/[^-0-9.]/g, ''));
+      const isFloat = value.toString().includes('.');
 
-                    <div class="pm-dash-text-block">
-                        <h3 class="pm-dash-text-title" data-i18n="pauta_text_title">Escala tu marca estratégicamente</h3>
-                        <p data-i18n="pauta_text_p1">Nuestros sistemas de pauta digital combinan producción creativa, segmentación de audiencia y optimización de rendimiento para impulsar un crecimiento medible.</p>
-                        <p data-i18n="pauta_text_p2">Cada campaña se diseña para maximizar el ROI, aumentar los leads calificados y transformar la inversión publicitaria en ingresos predecibles.</p>
-                    </div>
-                </div>
+      useEffect(() => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const currentCount = progress * numericValue;
+          
+          setCount(isFloat ? currentCount.toFixed(2) : Math.floor(currentCount));
+          
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        };
+        window.requestAnimationFrame(step);
+      }, [numericValue, duration, isFloat]);
 
-                <!-- Right Side: Analytics Panel & Chart -->
-                <div class="pm-dash-right">
-                    <div class="pm-analytics-panel">
-                        
-                        <div class="pm-analytics-grid">
-                            <div class="pm-analytics-item">
-                                <span class="pm-analytics-label" data-i18n="pauta_ana_reach">Alcance total</span>
-                                <span class="pm-analytics-value"><span class="pm-counter-dash" data-target="4.2" data-float="true">0</span>M</span>
-                            </div>
-                            <div class="pm-analytics-item">
-                                <span class="pm-analytics-label" data-i18n="pauta_ana_eng">Tasa de interacción</span>
-                                <span class="pm-analytics-value"><span class="pm-counter-dash" data-target="8.9" data-float="true">0</span>%</span>
-                            </div>
-                            <div class="pm-analytics-item">
-                                <span class="pm-analytics-label" data-i18n="pauta_ana_conv">Conversiones</span>
-                                <span class="pm-analytics-value"><span class="pm-counter-dash" data-target="1.2" data-float="true">0</span>K</span>
-                            </div>
-                            <div class="pm-analytics-item highlight">
-                                <span class="pm-analytics-label" data-i18n="pauta_ana_rev">Ingresos generados</span>
-                                <span class="pm-analytics-value">$<span class="pm-counter-dash" data-target="185">0</span>K</span>
-                            </div>
-                        </div>
+      return <span>{prefix}{count}{suffix}</span>;
+    };
 
-                        <div class="pm-performance-chart-container">
-                            <h5 class="pm-chart-title" data-i18n="pauta_chart_title">Tendencia de rendimiento mensual</h5>
-                            <div class="pm-bar-graph">
-                                <div class="pm-bar-col">
-                                    <div class="pm-bar anim-bar" data-height="40%"></div>
-                                    <span class="pm-bar-label" data-i18n="month_jan">Ene</span>
-                                </div>
-                                <div class="pm-bar-col">
-                                    <div class="pm-bar anim-bar" data-height="55%"></div>
-                                    <span class="pm-bar-label" data-i18n="month_feb">Feb</span>
-                                </div>
-                                <div class="pm-bar-col">
-                                    <div class="pm-bar anim-bar" data-height="70%"></div>
-                                    <span class="pm-bar-label" data-i18n="month_mar">Mar</span>
-                                </div>
-                                <div class="pm-bar-col">
-                                    <div class="pm-bar anim-bar" data-height="85%"></div>
-                                    <span class="pm-bar-label" data-i18n="month_apr">Abr</span>
-                                </div>
-                                <div class="pm-bar-col">
-                                    <div class="pm-bar anim-bar" data-height="100%"></div>
-                                    <span class="pm-bar-label" data-i18n="month_may">May</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
+    const MetricCard = ({ number, label, suffix, prefix, icon: Icon }) => (
+      <div className="bg-[#111111] p-8 rounded-[32px] border border-white/5 flex flex-col items-center text-center hover:bg-[#161616] hover:border-cyan-500/30 transition-all duration-500 group">
+        <div className="mb-4 p-3 bg-cyan-500/10 text-cyan-400 rounded-2xl group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+          <Icon size={24} />
         </div>
-    </section>
+        <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">
+          <AnimatedNumber value={number} suffix={suffix} prefix={prefix} />
+        </h3>
+        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em]">{label}</p>
+      </div>
+    );
+
+    const App = () => {
+      return (
+        <div className="w-full py-20 px-6 font-sans text-white selection:bg-cyan-500/30">
+          <div className="max-w-7xl mx-auto">
+            
+            {/* Header de la sección */}
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tighter">
+                Nuestros resultados
+              </h2>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto font-medium">
+                Calibramos el motor de tu inversión para alcanzar la máxima velocidad de conversión.
+              </p>
+            </div>
+
+            {/* Fila de KPIs Superiores */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+              <MetricCard icon={Users} number="38" suffix="K+" label="Qualified leads generated" />
+              <MetricCard icon={TrendingUp} number="4.7" suffix="x" label="Average ROAS" />
+              <MetricCard icon={MousePointer2} number="0.82" prefix="$" label="Average cost per lead" />
+              <MetricCard icon={Zap} number="120" suffix="+" label="Accounts scaled" />
+            </div>
+
+            {/* Sección de Performance con Dashboard */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              
+              {/* Texto Lateral */}
+              <div className="space-y-8">
+                <div className="space-y-6">
+                  <h3 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
+                    Potencia tu inversión con <br />
+                    pauta inteligente
+                  </h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">
+                    En Motor Advertising cada dólar invertido se gestiona con precisión estratégica. A través de datos, algoritmos y optimización constante, transformamos campañas publicitarias en crecimiento y ventas reales.
+                  </p>
+                  <ul className="space-y-4">
+                    {['Optimización basada en data', 'Estrategias de escalamiento vertical', 'Control de CPA en tiempo real'].map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3 text-slate-300 font-medium">
+                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <button className="bg-white text-black px-10 py-5 rounded-full font-bold hover:bg-cyan-400 transition-all duration-300 flex items-center gap-4 group shadow-xl shadow-cyan-500/5 text-left">
+                  Acelerar mis ventas ahora
+                  <ChevronUp className="rotate-90 group-hover:translate-x-1 transition-transform flex-shrink-0" size={20} />
+                </button>
+              </div>
+
+              {/* Dashboard Visual de Pauta (Motor Analytics) */}
+              <div className="relative group">
+                <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                
+                <div className="relative bg-[#0F0F0F] rounded-[48px] border border-white/10 p-8 md:p-12 overflow-hidden backdrop-blur-sm shadow-2xl">
+                  <div className="flex justify-between items-center mb-10">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-cyan-500/10 p-2.5 rounded-2xl text-cyan-400 border border-cyan-500/20">
+                        <LayoutDashboard size={20} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white tracking-tight leading-none">Motor analytics</h4>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-full border border-emerald-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      Live data
+                    </div>
+                  </div>
+
+                  {/* Grid de Métricas del Dashboard */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { label: 'Conversiones', value: '3800', suffix: '+', color: 'text-cyan-400' },
+                      { label: 'CTR promedio', value: '3.90', suffix: '%', color: 'text-blue-400' },
+                      { label: 'Optimized ad spend', value: '420', prefix: '$', suffix: 'K', color: 'text-purple-400' },
+                      { label: 'Revenue attributed', value: '2.10', prefix: '$', suffix: 'M', color: 'text-emerald-400' },
+                    ].map((m, i) => (
+                      <div key={i} className="bg-[#111111] p-8 rounded-[32px] border border-white/5 hover:border-white/20 transition-all duration-300 group/card">
+                        <p className={`${m.color} font-bold text-3xl mb-2 tracking-tighter group-hover/card:scale-105 transition-transform origin-left`}>
+                          <AnimatedNumber value={m.value} suffix={m.suffix} prefix={m.prefix} />
+                        </p>
+                        <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-relaxed">{m.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('pauta-react-root'));
+    root.render(<PautaDashboard />);
+    </script>
 
     <footer>
         <div class="footer-left" data-i18n="footer_since">Desde 2025</div>
