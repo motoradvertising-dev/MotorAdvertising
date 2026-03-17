@@ -69,20 +69,24 @@
     </script>
     <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
 
-    <div id="pauta-react-root"></div>
+    <div id="pauta-react-root">
+        <div style="display: flex; justify-content: center; align-items: center; min-height: 400px; color: #555;">
+            Cargando dashboard de resultados...
+        </div>
+    </div>
 
     <script type="text/babel">
     const { useState, useEffect } = React;
     
     // Lucide Icons from UMD global LucideReact
-    const { 
-      TrendingUp, 
-      MousePointer2, 
-      Users, 
-      Zap, 
-      ChevronUp, 
-      LayoutDashboard
-    } = LucideReact;
+    // Safer access to Lucide icons
+    const L = window.LucideReact || {};
+    const TrendingUp = L.TrendingUp || (() => null);
+    const MousePointer2 = L.MousePointer2 || (() => null);
+    const Users = L.Users || (() => null);
+    const Zap = L.Zap || (() => null);
+    const ChevronUp = L.ChevronUp || (() => null);
+    const LayoutDashboard = L.LayoutDashboard || (() => null);
 
     /**
      * Componente de número animado que incrementa desde 0
@@ -225,98 +229,6 @@
     const root = ReactDOM.createRoot(document.getElementById('pauta-react-root'));
     root.render(<App />);
     </script>
-
-    <section id="pauta" class="paid-media-section">
-        <div class="pm-header">
-            <h2 class="section-title" data-i18n="pm_title">Rendimiento de Pauta Digital</h2>
-            <p class="section-subtitle" data-i18n="pm_subtitle">De ideas creativas a ingresos medibles a través de publicidad basada en datos.</p>
-        </div>
-
-        <div class="pm-pipeline-container">
-            <!-- Connection Line Background -->
-            <div class="pm-pipeline-line"></div>
-
-            <div class="pm-cards-wrapper">
-                <!-- Stage 1 -->
-                <div class="pm-card" data-stage="1">
-                    <div class="pm-card-icon"><i class="fas fa-lightbulb"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_idea">Idea</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_idea_1">Estrategia de campaña</li>
-                        <li data-i18n="pm_idea_2">Segmentación de audiencia</li>
-                        <li data-i18n="pm_idea_3">Concepto creativo</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_idea_tip">Analizamos el comportamiento de la audiencia y definimos la dirección de la campaña.</div>
-                </div>
-
-                <!-- Stage 2 -->
-                <div class="pm-card" data-stage="2">
-                    <div class="pm-card-icon"><i class="fas fa-film"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_creative">Producción Creativa</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_creative_1">Producción de creativos</li>
-                        <li data-i18n="pm_creative_2">Videos de formato corto</li>
-                        <li data-i18n="pm_creative_3">Visuales de alta conversión</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_creative_tip">Producimos creativos diseñados específicamente para conversión y atención.
-                    </div>
-                </div>
-
-                <!-- Stage 3 -->
-                <div class="pm-card" data-stage="3">
-                    <div class="pm-card-icon">
-                        <i class="fab fa-facebook"></i>
-                        <i class="fab fa-google"></i>
-                        <i class="fab fa-tiktok"></i>
-                    </div>
-                    <h3 class="pm-card-title" data-i18n="pm_launch">Lanzamiento de Campaña</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_launch_1">Despliegue de campaña</li>
-                        <li data-i18n="pm_launch_2">Segmentación de audiencia</li>
-                        <li data-i18n="pm_launch_3">Optimización de presupuesto</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_launch_tip">Desplegamos campañas en las plataformas más efectivas para tu audiencia.
-                    </div>
-                </div>
-
-                <!-- Stage 4 -->
-                <div class="pm-card" data-stage="4">
-                    <div class="pm-card-icon pm-metrics-icon">
-                        <div class="pm-chart-bar b1"></div>
-                        <div class="pm-chart-bar b2"></div>
-                        <div class="pm-chart-bar b3"></div>
-                    </div>
-                    <h3 class="pm-card-title" data-i18n="pm_metrics">Métricas de Rendimiento</h3>
-                    <div class="pm-metrics-grid">
-                        <div class="pm-metric"><span class="pm-counter" data-target="3.90">0</span>% <span>CTR</span>
-                        </div>
-                        <div class="pm-metric"><span class="pm-counter" data-target="4.7">0</span>x <span>ROAS</span>
-                        </div>
-                        <div class="pm-metric">$<span class="pm-counter" data-target="0.82">0</span> <span>CPA</span>
-                        </div>
-                        <div class="pm-metric"><span class="pm-counter" data-target="3800">0</span> <span>Conv.</span>
-                        </div>
-                    </div>
-                    <div class="pm-tooltip" data-i18n="pm_metrics_tip">Optimizamos continuamente las campañas basándonos en datos en tiempo real.</div>
-                </div>
-
-                <!-- Stage 5 -->
-                <div class="pm-card" data-stage="5">
-                    <div class="pm-card-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_revenue">Ingresos</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_revenue_1">Leads generados</li>
-                        <li data-i18n="pm_revenue_2">Crecimiento en ventas</li>
-                        <li data-i18n="pm_revenue_3">Impacto en ingresos</li>
-                    </ul>
-                    <div class="pm-revenue-highlight">
-                        +$<span class="pm-counter" data-target="2100000" data-speed="fast">0</span>
-                    </div>
-                    <div class="pm-tooltip" data-i18n="pm_revenue_tip">Resultados de negocio medibles e impacto directo en ingresos.</div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Casos de Éxito Section -->
     <section id="casos" class="cases-section">
