@@ -1513,10 +1513,17 @@ footer {
     border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
 }
 
-.pm-card:hover .pm-tooltip {
+.pm-card:hover .pm-tooltip,
+.pm-card.active .pm-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+}
+
+.pm-card.active {
+    border-color: rgba(34, 211, 238, 0.5);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(34, 211, 238, 0.2);
+    transform: translateY(-5px);
 }
 
 .paid-media-section.in-view .pm-card {

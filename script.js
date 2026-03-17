@@ -502,6 +502,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.3 });
 
     observer.observe(pmSection);
+
+    // Interactive PM Cards (toggle for mobile/click)
+    document.querySelectorAll('.pm-card').forEach(card => {
+        card.addEventListener('click', () => {
+            // Deactivate others
+            document.querySelectorAll('.pm-card').forEach(c => {
+                if (c !== card) c.classList.remove('active');
+            });
+            card.classList.toggle('active');
+        });
+    });
 });
 
 // --- Services Network Animation Logic ---
