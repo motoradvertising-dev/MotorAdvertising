@@ -73,6 +73,8 @@
 
     <script type="text/babel">
     const { useState, useEffect } = React;
+    
+    // Lucide Icons from UMD global LucideReact
     const { 
       TrendingUp, 
       MousePointer2, 
@@ -123,6 +125,7 @@
 
     const App = () => {
       return (
+        /* Se eliminó el fondo bg-[#030303] y min-h-screen para que sea transparente y adaptable */
         <div className="w-full py-20 px-6 font-sans text-white selection:bg-cyan-500/30">
           <div className="max-w-7xl mx-auto">
             
@@ -175,6 +178,7 @@
 
               {/* Dashboard Visual de Pauta (Motor Analytics) */}
               <div className="relative group">
+                {/* Resplandor decorativo */}
                 <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
                 <div className="relative bg-[#0F0F0F] rounded-[48px] border border-white/10 p-8 md:p-12 overflow-hidden backdrop-blur-sm shadow-2xl">
@@ -211,6 +215,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -218,7 +223,7 @@
     };
 
     const root = ReactDOM.createRoot(document.getElementById('pauta-react-root'));
-    root.render(<PautaDashboard />);
+    root.render(<App />);
     </script>
 
     <section id="pauta" class="paid-media-section">

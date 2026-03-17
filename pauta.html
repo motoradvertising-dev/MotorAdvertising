@@ -72,12 +72,9 @@
     <div id="pauta-react-root"></div>
 
     <script type="text/babel">
-    /**
-     * Componente corregido para uso con CDN/UMD
-     */
     const { useState, useEffect } = React;
     
-    // Lucide Icons from UMD
+    // Lucide Icons from UMD global LucideReact
     const { 
       TrendingUp, 
       MousePointer2, 
@@ -117,7 +114,7 @@
     const MetricCard = ({ number, label, suffix, prefix, icon: Icon }) => (
       <div className="bg-[#111111] p-8 rounded-[32px] border border-white/5 flex flex-col items-center text-center hover:bg-[#161616] hover:border-cyan-500/30 transition-all duration-500 group">
         <div className="mb-4 p-3 bg-cyan-500/10 text-cyan-400 rounded-2xl group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
-          {Icon && <Icon size={24} />}
+          <Icon size={24} />
         </div>
         <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">
           <AnimatedNumber value={number} suffix={suffix} prefix={prefix} />
@@ -126,11 +123,13 @@
       </div>
     );
 
-    const PautaDashboard = () => {
+    const App = () => {
       return (
+        /* Se eliminó el fondo bg-[#030303] y min-h-screen para que sea transparente y adaptable */
         <div className="w-full py-20 px-6 font-sans text-white selection:bg-cyan-500/30">
           <div className="max-w-7xl mx-auto">
             
+            {/* Header de la sección */}
             <div className="text-center mb-16 space-y-4">
               <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tighter">
                 Nuestros resultados
@@ -140,6 +139,7 @@
               </p>
             </div>
 
+            {/* Fila de KPIs Superiores */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
               <MetricCard icon={Users} number="38" suffix="K+" label="Qualified leads generated" />
               <MetricCard icon={TrendingUp} number="4.7" suffix="x" label="Average ROAS" />
@@ -147,7 +147,10 @@
               <MetricCard icon={Zap} number="120" suffix="+" label="Accounts scaled" />
             </div>
 
+            {/* Sección de Performance con Dashboard */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              
+              {/* Texto Lateral */}
               <div className="space-y-8">
                 <div className="space-y-6">
                   <h3 className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-tight">
@@ -155,7 +158,7 @@
                     pauta inteligente
                   </h3>
                   <p className="text-slate-400 text-lg leading-relaxed">
-                    En Motor Advertising cada dólar invertido se gestiona con precisión estratégica. A través de datos, algoritmos and optimización constante, transformamos campañas publicitarias en crecimiento y ventas reales.
+                    En Motor Advertising cada dólar invertido se gestiona con precisión estratégica. A través de datos, algoritmos y optimización constante, transformamos campañas publicitarias en crecimiento y ventas reales.
                   </p>
                   <ul className="space-y-4">
                     {['Optimización basada en data', 'Estrategias de escalamiento vertical', 'Control de CPA en tiempo real'].map((item, idx) => (
@@ -173,7 +176,9 @@
                 </button>
               </div>
 
+              {/* Dashboard Visual de Pauta (Motor Analytics) */}
               <div className="relative group">
+                {/* Resplandor decorativo */}
                 <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
                 <div className="relative bg-[#0F0F0F] rounded-[48px] border border-white/10 p-8 md:p-12 overflow-hidden backdrop-blur-sm shadow-2xl">
@@ -192,6 +197,7 @@
                     </div>
                   </div>
 
+                  {/* Grid de Métricas del Dashboard */}
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       { label: 'Conversiones', value: '3800', suffix: '+', color: 'text-cyan-400' },
@@ -209,6 +215,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -216,7 +223,7 @@
     };
 
     const root = ReactDOM.createRoot(document.getElementById('pauta-react-root'));
-    root.render(<PautaDashboard />);
+    root.render(<App />);
     </script>
 
     <section id="pauta" class="paid-media-section">
