@@ -558,12 +558,12 @@ document.addEventListener("DOMContentLoaded", () => {
         svg.setAttribute('viewBox', `0 0 ${dimensions.width} ${dimensions.height}`);
 
         let pathsHtml = `<defs>
-            <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -8" result="goo" />
+            <filter id="venom-goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
             </filter>
         </defs>
-        <g filter="url(#goo)">`;
+        <g filter="url(#venom-goo)">`;
 
         const center = { x: 50, y: 50 };
         const startX = (center.x / 100) * dimensions.width;
@@ -572,31 +572,35 @@ document.addEventListener("DOMContentLoaded", () => {
         services.forEach(s => {
             const endX = (s.x / 100) * dimensions.width;
             const endY = (s.y / 100) * dimensions.height;
-            const cp1x = startX + (endX - startX) * 0.4;
+            const cp1x = startX + (endX - startX) * 0.5;
             const cp1y = startY;
-            const cp2x = startX + (endX - startX) * 0.6;
+            const cp2x = startX + (endX - startX) * 0.5;
             const cp2y = endY;
 
             const isHovered = hoveredNodeId === s.id;
 
-            // The outer thick path is what forms the visible dashes
-            const outerDash = isHovered ? "none" : "80, 50";
-            const outerAnimation = isHovered ? "none" : "veinFlow 15s linear infinite";
+            // Venom Style Layers
+            const strokeColorBase = isHovered ? "#22d3ee" : "#0c3a4a";
+            const strokeWidthBase = isHovered ? "16" : "10";
+            const dashArrayBase = '100, 50';
+            const animBase = `veinFlow ${isHovered ? '2s' : '12s'} linear infinite`;
 
-            const strokeColorOuter = isHovered ? "#22d3ee" : "#0c3a4a";
-            const strokeWidthOuter = isHovered ? "40" : "22";
-
-            const strokeColorInner = isHovered ? "#fff" : "rgba(34, 211, 238, 0.4)";
-            const strokeWidthInner = isHovered ? "8" : "4";
+            const strokeColorCore = isHovered ? "#fff" : "rgba(34, 211, 238, 0.2)";
+            const strokeWidthCore = isHovered ? "4" : "2";
+            const dashArrayCore = isHovered ? '40, 160' : '5, 200';
+            const animCore = `veinFlow ${isHovered ? '1.5s' : '8s'} linear infinite`;
 
             pathsHtml += `
             <g class="vein-group">
+                <!-- Base Organic Layer -->
                 <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
-                    stroke="${strokeColorOuter}" stroke-width="${strokeWidthOuter}" fill="none" stroke-linecap="round"
-                    style="transition: all 0.5s ease-in-out; stroke-dasharray: ${outerDash}; animation: ${outerAnimation};" />
+                    stroke="${strokeColorBase}" stroke-width="${strokeWidthBase}" fill="none" stroke-linecap="round"
+                    style="stroke-dasharray: ${dashArrayBase}; animation: ${animBase};" />
+                
+                <!-- Bright Core Pulse -->
                 <path d="M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}"
-                    stroke="${strokeColorInner}" stroke-width="${strokeWidthInner}" fill="none" stroke-linecap="round"
-                    style="transition: all 0.3s ease-in-out;" />
+                    stroke="${strokeColorCore}" stroke-width="${strokeWidthCore}" fill="none" stroke-linecap="round"
+                    style="stroke-dasharray: ${dashArrayCore}; animation: ${animCore};" />
             </g>`;
         });
 
