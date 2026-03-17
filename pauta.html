@@ -219,85 +219,107 @@
     root.render(<PautaDashboard />);
     </script>
 
-    <section id="webs" class="portfolio-section">
-        <header class="portfolio-header-compact">
-            <h1 class="portfolio-main-title">PROYECTOS WEB</h1>
-            <p class="portfolio-main-subtitle">Soluciones digitales de alto rendimiento diseñadas para la conversión.</p>
-        </header>
+    <section id="pauta" class="paid-media-section">
+        <div class="pm-header">
+            <h2 class="section-title" data-i18n="pm_title">Rendimiento de Pauta Digital</h2>
+            <p class="section-subtitle" data-i18n="pm_subtitle">De ideas creativas a ingresos medibles a través de publicidad basada en datos.</p>
+        </div>
 
-        <!-- Sticky Filters Nav -->
-        <nav class="portfolio-filters-nav">
-            <div class="filters-container">
-                <ul class="filters-list no-scrollbar">
-                    <li><button class="filter-btn-new active" data-filter="TODOS">TODOS</button></li>
-                    <li><button class="filter-btn-new" data-filter="BIENES RAÍCES">BIENES RAÍCES</button></li>
-                    <li><button class="filter-btn-new" data-filter="FUNNELS">FUNNELS</button></li>
-                    <li><button class="filter-btn-new" data-filter="ECOMMERCE">ECOMMERCE</button></li>
-                    <li><button class="filter-btn-new" data-filter="CORPORATIVO">CORPORATIVO</button></li>
-                </ul>
-            </div>
-        </nav>
+        <div class="pm-pipeline-container">
+            <!-- Connection Line Background -->
+            <div class="pm-pipeline-line"></div>
 
-        <div class="portfolio-main-grid">
-            <!-- Left Side: Showcase Principal -->
-            <div class="showcase-left">
-                <div class="showcase-card">
-                    <div class="showcase-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" 
-                             alt="Luxury Real Estate" id="main-project-image">
-                        <div class="showcase-category-tag" id="main-project-category">BIENES RAICES</div>
-                    </div>
-                    
-                    <div class="showcase-info">
-                        <div class="showcase-info-header">
-                            <div>
-                                <h2 class="showcase-title" id="main-project-title">LUXURY REAL ESTATE</h2>
-                                <p class="showcase-desc" id="main-project-desc">Portal inmobiliario premium diseñado para captar inversionistas de alto nivel y leads internacionales. Enfoque en visuales de gran formato.</p>
-                            </div>
-                            <div class="showcase-tags" id="main-project-tags">
-                                <span class="tag-badge">SEO</span>
-                                <span class="tag-badge">Leads</span>
-                            </div>
-                        </div>
+            <div class="pm-cards-wrapper">
+                <!-- Stage 1 -->
+                <div class="pm-card" data-stage="1">
+                    <div class="pm-card-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_idea">Idea</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_idea_1">Estrategia de campaña</li>
+                        <li data-i18n="pm_idea_2">Segmentación de audiencia</li>
+                        <li data-i18n="pm_idea_3">Concepto creativo</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_idea_tip">Analizamos el comportamiento de la audiencia y definimos la dirección de la campaña.</div>
+                </div>
 
-                        <div class="showcase-specs">
-                            <div class="spec-item">
-                                <p class="spec-label">PLATAFORMA</p>
-                                <p class="spec-value"><i class="fas fa-layer-group"></i> <span id="main-project-platform">WordPress / UI Custom</span></p>
-                            </div>
-                            <div class="spec-item">
-                                <p class="spec-label">OBJETIVO</p>
-                                <p class="spec-value"><i class="fas fa-bullseye"></i> <span id="main-project-objective">Leads de alto valor</span></p>
-                            </div>
-                            <div class="spec-item spec-year">
-                                <p class="spec-label">AÑO</p>
-                                <p class="spec-value"><i class="fas fa-globe"></i> <span id="main-project-year">2024</span></p>
-                            </div>
-                        </div>
-
-                        <button class="showcase-cta group">
-                            Explorar Caso <i class="fas fa-arrow-right"></i>
-                        </button>
+                <!-- Stage 2 -->
+                <div class="pm-card" data-stage="2">
+                    <div class="pm-card-icon"><i class="fas fa-film"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_creative">Producción Creativa</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_creative_1">Producción de creativos</li>
+                        <li data-i18n="pm_creative_2">Videos de formato corto</li>
+                        <li data-i18n="pm_creative_3">Visuales de alta conversión</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_creative_tip">Producimos creativos diseñados específicamente para conversión y atención.
                     </div>
                 </div>
-            </div>
 
-            <!-- Right Side: Project Selector -->
-            <div class="showcase-right">
-                <h3 class="selector-title">SELECCIONAR PROYECTO</h3>
-                <div class="project-selector-list" id="project-selector-list">
-                    <!-- Nodes rendered by script.js -->
+                <!-- Stage 3 -->
+                <div class="pm-card" data-stage="3">
+                    <div class="pm-card-icon">
+                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-google"></i>
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <h3 class="pm-card-title" data-i18n="pm_launch">Lanzamiento de Campaña</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_launch_1">Despliegue de campaña</li>
+                        <li data-i18n="pm_launch_2">Segmentación de audiencia</li>
+                        <li data-i18n="pm_launch_3">Optimización de presupuesto</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_launch_tip">Desplegamos campañas en las plataformas más efectivas para tu audiencia.
+                    </div>
                 </div>
 
-                <!-- Secondary CTA -->
-                <div class="secondary-cta-card">
-                    <h4 class="cta-card-title">¿Buscas algo diferente?</h4>
-                    <p class="cta-card-text">Cuéntanos tu idea y diseñaremos una solución a medida.</p>
-                    <button class="cta-card-btn">
-                        CONTACTAR AHORA <i class="fas fa-external-link-alt"></i>
-                    </button>
+                <!-- Stage 4 -->
+                <div class="pm-card" data-stage="4">
+                    <div class="pm-card-icon pm-metrics-icon">
+                        <div class="pm-chart-bar b1"></div>
+                        <div class="pm-chart-bar b2"></div>
+                        <div class="pm-chart-bar b3"></div>
+                    </div>
+                    <h3 class="pm-card-title" data-i18n="pm_metrics">Métricas de Rendimiento</h3>
+                    <div class="pm-metrics-grid">
+                        <div class="pm-metric"><span class="pm-counter" data-target="3.90">0</span>% <span>CTR</span>
+                        </div>
+                        <div class="pm-metric"><span class="pm-counter" data-target="4.7">0</span>x <span>ROAS</span>
+                        </div>
+                        <div class="pm-metric">$<span class="pm-counter" data-target="0.82">0</span> <span>CPA</span>
+                        </div>
+                        <div class="pm-metric"><span class="pm-counter" data-target="3800">0</span> <span>Conv.</span>
+                        </div>
+                    </div>
+                    <div class="pm-tooltip" data-i18n="pm_metrics_tip">Optimizamos continuamente las campañas basándonos en datos en tiempo real.</div>
+                </div>
+
+                <!-- Stage 5 -->
+                <div class="pm-card" data-stage="5">
+                    <div class="pm-card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_revenue">Ingresos</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_revenue_1">Leads generados</li>
+                        <li data-i18n="pm_revenue_2">Crecimiento en ventas</li>
+                        <li data-i18n="pm_revenue_3">Impacto en ingresos</li>
+                    </ul>
+                    <div class="pm-revenue-highlight">
+                        +$<span class="pm-counter" data-target="2100000" data-speed="fast">0</span>
+                    </div>
+                    <div class="pm-tooltip" data-i18n="pm_revenue_tip">Resultados de negocio medibles e impacto directo en ingresos.</div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Casos de Éxito Section -->
+    <section id="casos" class="cases-section">
+        <div class="cases-header">
+            <h2 class="cases-title" data-i18n="cases_title">Casos de Éxito</h2>
+            <p class="cases-subtitle" data-i18n="cases_subtitle">Operamos con una lógica clara: orden, aprendizaje y evolución constante, buscando siempre extraer el máximo potencial de cada marca con la que trabajamos.</p>
+        </div>
+
+        <div class="cases-grid" id="cases-grid">
+            <!-- Rendered dynamically by script.js -->
         </div>
     </section>
 
