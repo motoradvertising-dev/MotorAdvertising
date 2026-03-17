@@ -113,6 +113,34 @@ body {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+.anim-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLogo 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 0.5px;
+}
+
+.anim-path.slash-dark { opacity: 0.33; }
+.anim-path.slash-light { opacity: 0.66; }
+
+@keyframes drawLogo {
+    0% {
+        stroke-dashoffset: 1000;
+        fill: rgba(255, 255, 255, 0);
+    }
+    70% {
+        fill: rgba(255, 255, 255, 0);
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        fill: rgba(255, 255, 255, 1);
+        stroke: none;
+    }
+}
+
 .logo:hover .nav-logo-svg {
     transform: scale(1.05);
     filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.5));
