@@ -671,7 +671,7 @@ body {
 .contact-section {
     padding: 120px 20px;
     text-align: center;
-    background: linear-gradient(to top, #111, var(--bg-color));
+    background: transparent;
 }
 
 .btn.large {
@@ -781,7 +781,7 @@ footer {
     align-items: center;
     justify-content: center;
     padding: 100px 20px;
-    background: radial-gradient(circle at center, #111 0%, var(--bg-color) 70%);
+    background: transparent;
 }
 
 .contact-selection-wrapper {
