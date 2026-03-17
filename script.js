@@ -41,7 +41,7 @@ window.addEventListener('scroll', () => {
             }
         }
         draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha * 1.5})`; // More visible dots
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
@@ -57,8 +57,8 @@ window.addEventListener('scroll', () => {
 
     function animateParticles() {
         ctx.clearRect(0, 0, width, height);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; // More visible lines
+        ctx.lineWidth = 0.8;
         for (let i = 0; i < particles.length; i++) {
             particles[i].update();
             particles[i].draw();
@@ -66,7 +66,7 @@ window.addEventListener('scroll', () => {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 120) {
+                if (distance < 150) { // Slightly longer connection reach
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);

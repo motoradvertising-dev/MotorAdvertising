@@ -1,6 +1,6 @@
 :root {
-    --bg-color: #050505;
-    --bg-secondary: #0a0a0a;
+    --bg-color: #000000;
+    --bg-secondary: #000000;
     --bg-modal: #0B0B0F;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
@@ -38,7 +38,7 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.4;
+    opacity: 1; /* More visible nodes */
 }
 
 /* Navbar */
@@ -995,8 +995,7 @@ footer {
 /* Responsive */
 /* Portfolio Section Wrapper */
 .portfolio-section {
-    background-color: #0A0A0A;
-    /* Very dark neutral */
+    background-color: transparent;
     padding: 100px 40px;
     min-height: 100vh;
     display: flex;
@@ -1388,7 +1387,7 @@ footer {
 /* PAID MEDIA PERFORMANCE SECTION */
 .paid-media-section {
     min-height: 90vh;
-    background-color: #0F0F0F;
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
