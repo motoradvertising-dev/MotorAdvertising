@@ -771,6 +771,10 @@ document.addEventListener("DOMContentLoaded", () => {
             success_title: 'Information received.',
             success_desc: 'Our team will contact you soon.',
             success_back: 'Go back',
+            // Cases
+            cases_title: 'Success Cases',
+            cases_subtitle: 'We operate with clear logic: order, learning and constant evolution, always seeking to extract the maximum potential from every brand we work with.',
+            cases_view: 'View Analysis',
             // Footer
             footer_since: 'Since 2025',
         },
@@ -874,6 +878,9 @@ document.addEventListener("DOMContentLoaded", () => {
             success_title: 'Información recibida.',
             success_desc: 'Nuestro equipo te contactará pronto.',
             success_back: 'Volver',
+            cases_title: 'Casos de Éxito',
+            cases_subtitle: 'Operamos con una lógica clara: orden, aprendizaje y evolución constante, buscando siempre extraer el máximo potencial de cada marca con la que trabajamos.',
+            cases_view: 'Ver Análisis',
             footer_since: 'Desde 2025',
         }
     };
@@ -929,3 +936,274 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 })();
 
+// =========================================
+// STORY MODAL (Casos de Éxito)
+// =========================================
+(function() {
+    const CASES_DATA = [
+        {
+            title: 'Ecoraconsciente: El Placer de Viajar',
+            longDescription: 'San Andrés es un paraíso, pero la competencia es feroz. Para Ecoraconsciente, no vendimos "tours", vendimos la sensación de libertad. Diseñamos anuncios que capturan el ojo en 1 segundo y guían al usuario sin fricciones hasta la reserva. El resultado: un sistema de ventas automático que permite al dueño enfocarse en dar la mejor experiencia mientras los clientes llegan solos por la web.',
+            tags: ['Turismo', 'Ventas en Automático', 'San Andrés'],
+            trigger: 'Deseo y Libertad',
+            icon: 'fas fa-map-pin',
+            color: '#06b6d4',
+            colorClass: 'case-color-cyan',
+            thumbnail: 'https://images.unsplash.com/photo-1520116468816-95b69f847357?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'Justicia con Empatía',
+            longDescription: 'Nadie busca un abogado por gusto, sino por necesidad. Para Soluciones Legales, humanizamos la marca para que el cliente sintiera alivio desde el primer anuncio. Creamos un puente directo a WhatsApp donde la asesoría se siente cercana, logrando que personas con problemas legales complejos den el primer paso con confianza y rapidez.',
+            tags: ['Legal', 'Confianza', 'Leads Calificados'],
+            trigger: 'Paz Mental',
+            icon: 'fas fa-comment',
+            color: '#334155',
+            colorClass: 'case-color-slate',
+            thumbnail: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'La Magia de los Eventos',
+            longDescription: 'Un evento vacío es el mayor miedo de un organizador. Usamos el poder de la recomendación (influencers) y la velocidad de la tecnología (bots de WhatsApp) para crear un efecto de "no me lo puedo perder". Logramos que más de mil personas dijeran "presente", automatizando las dudas frecuentes para que el equipo solo se encargara de disfrutar el éxito del evento.',
+            tags: ['Eventos Masivos', 'Viralidad', 'Automatización'],
+            trigger: 'Sentido de Pertenencia',
+            icon: 'fas fa-share-nodes',
+            color: '#9333ea',
+            colorClass: 'case-color-purple',
+            thumbnail: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'Paola Florez: Peinados Profesionales',
+            longDescription: 'Paola tiene un talento único, y su curso "High Ticket" merecía un público a la altura. No buscamos miles de likes, buscamos a las alumnas correctas. Auditamos cada paso, desde el primer clic hasta la llamada de cierre, asegurando que cada inversión publicitaria se convirtiera en una profesional del peinado agradecida y capacitada.',
+            tags: ['Marca Personal', 'Cursos Premium', 'Estrategia'],
+            trigger: 'Autoridad y Éxito',
+            icon: 'fas fa-wand-magic-sparkles',
+            color: '#f43f5e',
+            colorClass: 'case-color-rose',
+            thumbnail: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'Vital Balance: Salud Sin Fronteras',
+            longDescription: 'Vender salud en EE.UU. requiere precisión y respeto. Para Vital Balance, personalizamos los anuncios por ciudad para que cada persona sintiera que le hablábamos directamente a ella. Con una web sencilla y el poder de una llamada por WhatsApp, facilitamos que miles de pacientes accedan a Insulife, mejorando sus vidas mientras la empresa escala con orden y control.',
+            tags: ['Salud', 'Mercado USA', 'Impacto Social'],
+            trigger: 'Cuidado y Familia',
+            icon: 'fas fa-heart-pulse',
+            color: '#059669',
+            colorClass: 'case-color-emerald',
+            thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'Cirugía Capilar: Clientes que Vuelven',
+            longDescription: 'A veces el tesoro está en casa. En lugar de gastar fortunas en clientes nuevos, fuimos por quienes ya amaban la marca. Con un retargeting inteligente, les presentamos la nueva Cirugía Capilar. Al ser una marca conocida, la confianza ya estaba ahí, logrando que el lanzamiento fuera un éxito rotundo con una inversión mínima.',
+            tags: ['Belleza', 'Fidelización', 'Lanzamiento'],
+            trigger: 'Familiaridad',
+            icon: 'fas fa-scissors',
+            color: '#f472b6',
+            colorClass: 'case-color-pink',
+            thumbnail: 'https://images.unsplash.com/photo-1560869713-7d0a294308ed?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'Macca: La Estrella del Barrio',
+            longDescription: 'Macca quería que todas sus vecinas supieran del nuevo tratamiento anti-frizz. Hicimos pauta solo a la redonda del local. Logramos que la gente que pasa a diario por el frente viera el anuncio en su celular y se animara a agendar su cita de una vez por WhatsApp. Dejamos de ser un salón más para ser el favorito de la zona.',
+            tags: ['Local', 'Agendamiento', 'Cercanía'],
+            trigger: 'Comodidad',
+            icon: 'fas fa-bullseye',
+            color: '#d97706',
+            colorClass: 'case-color-amber',
+            thumbnail: 'https://images.unsplash.com/photo-1522337363553-5604102f0dcc?w=800&h=1200&fit=crop',
+        },
+        {
+            title: 'YomiLove: El Poder de un Regalo',
+            longDescription: '¿A quién no le gusta un detalle? Creamos un video gancho para las amantes de las uñas. La promesa era simple: ven al salón, muestra este video y recibe un regalo. Esto rompió el hielo con clientas nuevas, llenó el local de energía y nos dio una forma real de decir: "Este anuncio trajo a esta persona hoy".',
+            tags: ['Uñas', 'Incentivo', 'Nuevas Clientas'],
+            trigger: 'Gratitud',
+            icon: 'fas fa-gift',
+            color: '#d946ef',
+            colorClass: 'case-color-fuchsia',
+            thumbnail: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&h=1200&fit=crop',
+        },
+    ];
+
+    let activeIndex = null;
+    let progress = 0;
+    let isPaused = false;
+    let interval = null;
+    let pressStartTime = 0;
+
+    const storyModal = document.getElementById('story-modal');
+    const storyClose = document.getElementById('story-close');
+    const storyImage = document.getElementById('story-image');
+    const storyProgressBar = document.getElementById('story-progress-bar');
+    const storyHeaderInfo = document.getElementById('story-header-info');
+    const storyPauseOverlay = document.getElementById('story-pause-overlay');
+    const storyRight = document.getElementById('story-right');
+    const storyTouchLeft = document.getElementById('story-touch-left');
+    const storyTouchRight = document.getElementById('story-touch-right');
+
+    function openStory(index) {
+        activeIndex = index;
+        progress = 0;
+        isPaused = false;
+        storyModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderStory();
+        startProgress();
+    }
+
+    function closeStory() {
+        activeIndex = null;
+        storyModal.classList.remove('active');
+        document.body.style.overflow = '';
+        stopProgress();
+    }
+
+    function nextStory() {
+        if (activeIndex < CASES_DATA.length - 1) {
+            activeIndex++;
+            progress = 0;
+            renderStory();
+        } else {
+            closeStory();
+        }
+    }
+
+    function prevStory() {
+        if (activeIndex > 0) {
+            activeIndex--;
+            progress = 0;
+            renderStory();
+        } else {
+            progress = 0;
+        }
+    }
+
+    function startProgress() {
+        stopProgress();
+        interval = setInterval(() => {
+            if (!isPaused && activeIndex !== null) {
+                progress += 1;
+                updateProgressBar();
+                if (progress >= 100) {
+                    nextStory();
+                }
+            }
+        }, 60);
+    }
+
+    function stopProgress() {
+        if (interval) clearInterval(interval);
+    }
+
+    function updateProgressBar() {
+        const segments = storyProgressBar.querySelectorAll('.story-progress-fill');
+        segments.forEach((seg, i) => {
+            if (i < activeIndex) seg.style.width = '100%';
+            else if (i === activeIndex) seg.style.width = progress + '%';
+            else seg.style.width = '0%';
+        });
+    }
+
+    function renderStory() {
+        if (activeIndex === null) return;
+        const c = CASES_DATA[activeIndex];
+
+        storyImage.src = c.thumbnail;
+
+        // Progress bar segments
+        storyProgressBar.innerHTML = CASES_DATA.map((_, i) =>
+            `<div class="story-progress-segment"><div class="story-progress-fill" style="width:${i < activeIndex ? '100%' : '0%'}"></div></div>`
+        ).join('');
+
+        // Header info
+        storyHeaderInfo.innerHTML = `
+            <div class="story-info-icon ${c.colorClass}" style="background:${c.color};"><i class="${c.icon}"></i></div>
+            <div class="story-info-text">
+                <div class="story-info-title">${c.title}</div>
+                <div class="story-info-trigger">${c.trigger}</div>
+            </div>
+        `;
+
+        // Right panel content
+        storyRight.innerHTML = `
+            <div class="story-label-line"><div class="line"></div><span>La Historia Detrás</span></div>
+            <h2 class="story-detail-title">${c.title}</h2>
+            <div class="story-detail-tags">${c.tags.map(t => `<span><i class="fas fa-tag"></i>${t}</span>`).join('')}</div>
+            <div class="story-how-label">Cómo lo logramos</div>
+            <p class="story-how-text">${c.longDescription}</p>
+            <div class="story-psych-card">
+                <div class="story-psych-glow" style="background:${c.color};"></div>
+                <div class="story-psych-label">Psicología de Ventas</div>
+                <div class="story-psych-content">
+                    <div class="story-psych-icon" style="background:${c.color};"><i class="${c.icon}"></i></div>
+                    <div>
+                        <div class="story-psych-title">Efecto: ${c.trigger}</div>
+                        <p class="story-psych-desc">Uso estrategias de comportamiento para que el anuncio no se sienta como una interrupción, sino como la respuesta a lo que tu cliente ya está buscando.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="story-cta-group">
+                <button class="story-cta-primary">Escalar mis resultados</button>
+                <button class="story-cta-secondary">Ver Proceso</button>
+            </div>
+        `;
+
+        storyPauseOverlay.classList.remove('active');
+    }
+
+    // Events
+    if (storyClose) storyClose.addEventListener('click', closeStory);
+
+    // Card clicks
+    document.querySelectorAll('.case-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const idx = parseInt(card.getAttribute('data-case'));
+            openStory(idx);
+        });
+    });
+
+    // Touch/click navigation on story image
+    function onDown() {
+        pressStartTime = Date.now();
+        isPaused = true;
+        storyPauseOverlay.classList.add('active');
+    }
+
+    function onUp(side) {
+        const duration = Date.now() - pressStartTime;
+        isPaused = false;
+        storyPauseOverlay.classList.remove('active');
+        if (duration < 250) {
+            if (side === 'left') prevStory();
+            else nextStory();
+        }
+    }
+
+    function onCancel() {
+        isPaused = false;
+        storyPauseOverlay.classList.remove('active');
+    }
+
+    if (storyTouchLeft) {
+        storyTouchLeft.addEventListener('pointerdown', onDown);
+        storyTouchLeft.addEventListener('pointerup', () => onUp('left'));
+        storyTouchLeft.addEventListener('pointercancel', onCancel);
+        storyTouchLeft.addEventListener('pointerleave', onCancel);
+    }
+    if (storyTouchRight) {
+        storyTouchRight.addEventListener('pointerdown', onDown);
+        storyTouchRight.addEventListener('pointerup', () => onUp('right'));
+        storyTouchRight.addEventListener('pointercancel', onCancel);
+        storyTouchRight.addEventListener('pointerleave', onCancel);
+    }
+
+    // Close on ESC
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && storyModal && storyModal.classList.contains('active')) closeStory();
+    });
+
+    // Close on backdrop click
+    if (storyModal) {
+        storyModal.addEventListener('click', (e) => {
+            if (e.target === storyModal) closeStory();
+        });
+    }
+})();
