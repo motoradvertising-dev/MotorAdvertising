@@ -2124,3 +2124,58 @@ footer {
         font-size: 1rem;
     }
 }
+
+/* =========================================
+   LANGUAGE SWITCHER
+   ========================================= */
+.lang-switcher {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 30px;
+    padding: 6px 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.lang-switcher:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.lang-btn.active {
+    color: #fff;
+    background: rgba(6, 182, 212, 0.2);
+    text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+.lang-divider {
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 0.75rem;
+    user-select: none;
+}

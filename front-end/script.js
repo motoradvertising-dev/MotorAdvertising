@@ -460,12 +460,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let dimensions = { width: 0, height: 0 };
 
     const services = [
-        { id: 1, title: 'Audiovisual Production', desc: 'High-impact cinematic content and storytelling.', x: 20, y: 25 },
-        { id: 2, title: 'SEO & SEM Positioning', desc: 'Dominating search results through data-driven strategy.', x: 15, y: 50 },
-        { id: 3, title: 'Content Strategy', desc: 'Crafting messages that resonate and convert audiences.', x: 20, y: 75 },
-        { id: 4, title: 'AI Video Production', desc: 'Next-gen automation meets creative excellence.', x: 80, y: 25 },
-        { id: 5, title: 'CRM & Automations', desc: 'Optimizing workflows for maximum business efficiency.', x: 85, y: 50 },
-        { id: 6, title: 'Chatbots', desc: '24/7 intelligent customer engagement solutions.', x: 80, y: 75 },
+        { id: 1, title_es: 'Producción Audiovisual', title_en: 'Audiovisual Production', desc_es: 'Contenido cinematográfico de alto impacto y storytelling.', desc_en: 'High-impact cinematic content and storytelling.', x: 20, y: 25 },
+        { id: 2, title_es: 'Posicionamiento SEO & SEM', title_en: 'SEO & SEM Positioning', desc_es: 'Dominando resultados de búsqueda con estrategia basada en datos.', desc_en: 'Dominating search results through data-driven strategy.', x: 15, y: 50 },
+        { id: 3, title_es: 'Estrategia de Contenidos', title_en: 'Content Strategy', desc_es: 'Creando mensajes que conectan y convierten audiencias.', desc_en: 'Crafting messages that resonate and convert audiences.', x: 20, y: 75 },
+        { id: 4, title_es: 'Producción Video IA', title_en: 'AI Video Production', desc_es: 'Automatización de nueva generación con excelencia creativa.', desc_en: 'Next-gen automation meets creative excellence.', x: 80, y: 25 },
+        { id: 5, title_es: 'CRM & Automatizaciones', title_en: 'CRM & Automations', desc_es: 'Optimizando flujos de trabajo para máxima eficiencia.', desc_en: 'Optimizing workflows for maximum business efficiency.', x: 85, y: 50 },
+        { id: 6, title_es: 'Chatbots Inteligentes', title_en: 'Smart Chatbots', desc_es: 'Soluciones de atención al cliente inteligente 24/7.', desc_en: '24/7 intelligent customer engagement solutions.', x: 80, y: 75 },
     ];
 
     function drawLines() {
@@ -527,11 +527,12 @@ document.addEventListener("DOMContentLoaded", () => {
             node.classList.add('hovered');
 
             const s = services.find(srv => srv.id === id);
-            hubLabel.textContent = 'Service Detail';
+            const lang = window._currentLang || 'es';
+            hubLabel.textContent = lang === 'es' ? 'Detalle del Servicio' : 'Service Detail';
             hubLabel.classList.add('active-label');
-            hubTitle.textContent = s.title;
+            hubTitle.textContent = s['title_' + lang];
             hubTitle.classList.add('active-title');
-            hubDesc.textContent = s.desc;
+            hubDesc.textContent = s['desc_' + lang];
             hubZap.style.display = 'block';
 
             hubCore.classList.add('hovered-core');
@@ -541,11 +542,12 @@ document.addEventListener("DOMContentLoaded", () => {
             hoveredNodeId = null;
             node.classList.remove('hovered');
 
-            hubLabel.textContent = 'Ecosystem';
+            const lang2 = window._currentLang || 'es';
+            hubLabel.textContent = lang2 === 'es' ? 'Ecosistema' : 'Ecosystem';
             hubLabel.classList.remove('active-label');
             hubTitle.textContent = 'Motor Advertising';
             hubTitle.classList.remove('active-title');
-            hubDesc.textContent = 'Technology-driven marketing';
+            hubDesc.textContent = lang2 === 'es' ? 'Marketing impulsado por tecnología' : 'Technology-driven marketing';
             hubZap.style.display = 'none';
 
             hubCore.classList.remove('hovered-core');
@@ -653,4 +655,277 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(drawLines, 100);
 });
+
+// =========================================
+// LANGUAGE SWITCHING SYSTEM (i18n)
+// =========================================
+(function() {
+    const translations = {
+        en: {
+            // Nav
+            nav_inicio: 'Home',
+            nav_webs: 'Webs',
+            nav_pauta: 'Paid Media',
+            nav_servicios: 'Services',
+            nav_contacto: 'Contact',
+            // Hero
+            hero_headline: 'Your brand. <span class="highlight">Our engine.</span>',
+            hero_subheadline: 'Marketing is not a series of isolated actions.<br>It\'s a system that must adapt, learn and evolve.',
+            hero_support: 'We interpret data, market behavior and brand momentum to decide how to move, when to scale and when to adjust.',
+            hero_cta_primary: 'Activate the engine',
+            hero_cta_secondary: 'Learn the system',
+            // System Core Blocks
+            block_captacion: 'Acquisition',
+            block_captacion_desc: 'We activate acquisition systems designed to attract real clients, not just traffic. Each campaign responds to a clear reading of context and data.',
+            block_conversion: 'Conversion',
+            block_conversion_desc: 'We design digital structures that transform attention into measurable results. Nothing is left to improvisation.',
+            block_automatizacion: 'Automation',
+            block_automatizacion_desc: 'We integrate technology to reduce friction, organize processes and amplify human judgment. Less improvisation, more structure.',
+            block_produccion: 'Production',
+            block_produccion_desc: 'We create and execute strategic assets aligned to the complete system. Each piece responds to a clear objective within the engine.',
+            // Screens
+            screen_analitica: 'Analytics',
+            screen_estrategia: 'Strategy',
+            screen_flujo: 'Flow',
+            // Portfolio
+            portfolio_visit: 'Visit Website',
+            portfolio_title: 'Web Projects',
+            portfolio_subtitle: 'High-performance websites and landing pages designed for growth and conversion.',
+            filter_all: 'All',
+            filter_realestate: 'Real Estate',
+            filter_funnels: 'Funnels',
+            filter_ecommerce: 'Ecommerce',
+            filter_corporate: 'Corporate',
+            cat_influencer: 'Influencer Platform',
+            tag_ventas: 'Sales',
+            tag_marca: 'Brand',
+            tag_seguridad: 'Security',
+            proj_luxury_desc: 'Premium real estate portal designed to capture high-ticket investors and international leads.',
+            label_plataforma: 'Platform:',
+            label_objetivo: 'Objective:',
+            label_caracteristicas: 'Features:',
+            proj_luxury_obj: 'High-ticket leads',
+            proj_luxury_feat: 'CRM integration, multilingual, interactive maps',
+            proj_izzy_desc: 'A premium influencer marketing platform connecting creators and brands to drive organic growth.',
+            proj_izzy_plat: 'Custom Application',
+            proj_izzy_obj: 'Brand & Creator Alignment',
+            proj_izzy_feat: 'Omnichannel Buy & Try, Performance Dashboard, Automated Workflows',
+            portfolio_casestudy: 'View Case Study',
+            // Paid Media
+            pm_title: 'Paid Media Performance',
+            pm_subtitle: 'From creative ideas to measurable revenue through data-driven advertising.',
+            pm_idea: 'Idea',
+            pm_idea_1: 'Campaign strategy',
+            pm_idea_2: 'Audience targeting',
+            pm_idea_3: 'Creative concept',
+            pm_idea_tip: 'We analyze audience behavior and define the campaign direction.',
+            pm_creative: 'Creative Production',
+            pm_creative_1: 'Ad creative production',
+            pm_creative_2: 'Short-form videos',
+            pm_creative_3: 'High-converting visuals',
+            pm_creative_tip: 'We produce creatives designed specifically for conversion and attention.',
+            pm_launch: 'Campaign Launch',
+            pm_launch_1: 'Campaign deployment',
+            pm_launch_2: 'Audience segmentation',
+            pm_launch_3: 'Budget optimization',
+            pm_launch_tip: 'We deploy campaigns across the most effective platforms for your audience.',
+            pm_metrics: 'Performance Metrics',
+            pm_metrics_tip: 'We continuously optimize campaigns based on real-time data.',
+            pm_revenue: 'Revenue',
+            pm_revenue_1: 'Leads generated',
+            pm_revenue_2: 'Sales growth',
+            pm_revenue_3: 'Revenue impact',
+            pm_revenue_tip: 'Measurable business results and direct revenue impact.',
+            // Services
+            services_title: 'Services',
+            services_subtitle: 'Integrated marketing capabilities powered by strategy, content, automation and performance.',
+            hub_label: 'Ecosystem',
+            hub_desc: 'Technology-driven marketing',
+            services_footer: 'High Performance Agency',
+            // Contact
+            contact_title: 'START THE CHANGE',
+            contact_subtitle: 'Select your profile to start the process.',
+            contact_empresa: 'I\'m a Company',
+            contact_profesional: 'I\'m a Professional',
+            // Forms
+            form_empresa_title: 'Company Profile',
+            form_empresa_desc: 'I want to scale my brand with a solid growth system.',
+            form_nombre: 'Full name',
+            form_email_corp: 'Corporate email',
+            form_empresa_nombre: 'Company/brand name',
+            form_presupuesto: 'Estimated monthly budget',
+            form_select_rango: 'Select a range',
+            form_mas_10k: 'More than $10,000 USD',
+            form_desafio: 'Current main challenge',
+            form_activar: 'Activate Engine',
+            form_prof_title: 'Professional Profile',
+            form_prof_desc: 'I want to be part of the engine as a Trafficker, CM or Creator.',
+            form_especialidad: 'Specialty',
+            form_select_opcion: 'Select an option',
+            form_productor: 'Audiovisual Producer',
+            form_analista: 'Data Analyst',
+            form_portfolio: 'CV/Portfolio link',
+            form_experiencia: 'Experience summary',
+            form_enviar: 'Send profile',
+            // Success
+            success_title: 'Information received.',
+            success_desc: 'Our team will contact you soon.',
+            success_back: 'Go back',
+            // Footer
+            footer_since: 'Since 2025',
+        },
+        es: {
+            nav_inicio: 'Inicio',
+            nav_webs: 'Webs',
+            nav_pauta: 'Pauta',
+            nav_servicios: 'Servicios',
+            nav_contacto: 'Contacto',
+            hero_headline: 'Tu marca. <span class="highlight">Nuestro motor.</span>',
+            hero_subheadline: 'El marketing no es una serie de acciones aisladas.<br>Es un sistema que debe adaptarse, aprender y evolucionar.',
+            hero_support: 'Interpretamos datos, comportamiento del mercado y momento de la marca para decidir cómo debe moverse, cuándo escalar y cuándo ajustar.',
+            hero_cta_primary: 'Activar el motor',
+            hero_cta_secondary: 'Conocer el sistema',
+            block_captacion: 'Captación',
+            block_captacion_desc: 'Activamos sistemas de adquisición diseñados para atraer clientes reales, no solo tráfico. Cada campaña responde a una lectura clara del contexto y los datos.',
+            block_conversion: 'Conversión',
+            block_conversion_desc: 'Diseñamos estructuras digitales que transforman atención en resultados medibles. Nada se deja a la improvisación.',
+            block_automatizacion: 'Automatización',
+            block_automatizacion_desc: 'Integramos tecnología para reducir fricción, ordenar procesos y amplificar el criterio humano. Menos improvisación, más estructura.',
+            block_produccion: 'Producción',
+            block_produccion_desc: 'Creamos y ejecutamos activos estratégicos alineados al sistema completo. Cada pieza responde a un objetivo claro dentro del motor.',
+            screen_analitica: 'Analítica',
+            screen_estrategia: 'Estrategia',
+            screen_flujo: 'Flujo',
+            portfolio_visit: 'Visitar Sitio Web',
+            portfolio_title: 'Proyectos Web',
+            portfolio_subtitle: 'Sitios web y landing pages de alto rendimiento diseñados para el crecimiento y la conversión.',
+            filter_all: 'Todos',
+            filter_realestate: 'Bienes Raíces',
+            filter_funnels: 'Funnels',
+            filter_ecommerce: 'Ecommerce',
+            filter_corporate: 'Corporativo',
+            cat_influencer: 'Plataforma de Influencers',
+            tag_ventas: 'Ventas',
+            tag_marca: 'Marca',
+            tag_seguridad: 'Seguridad',
+            proj_luxury_desc: 'Portal inmobiliario premium diseñado para captar inversionistas de alto nivel y leads internacionales.',
+            label_plataforma: 'Plataforma:',
+            label_objetivo: 'Objetivo:',
+            label_caracteristicas: 'Características:',
+            proj_luxury_obj: 'Leads de alto valor',
+            proj_luxury_feat: 'Integración CRM, multilingüe, mapas interactivos',
+            proj_izzy_desc: 'Plataforma premium de marketing de influencers que conecta creadores y marcas para impulsar el crecimiento orgánico.',
+            proj_izzy_plat: 'Aplicación Personalizada',
+            proj_izzy_obj: 'Alineación Marca y Creador',
+            proj_izzy_feat: 'Compra y Prueba Omnicanal, Panel de Rendimiento, Flujos Automatizados',
+            portfolio_casestudy: 'Ver Caso de Éxito',
+            pm_title: 'Rendimiento de Pauta Digital',
+            pm_subtitle: 'De ideas creativas a ingresos medibles a través de publicidad basada en datos.',
+            pm_idea: 'Idea',
+            pm_idea_1: 'Estrategia de campaña',
+            pm_idea_2: 'Segmentación de audiencia',
+            pm_idea_3: 'Concepto creativo',
+            pm_idea_tip: 'Analizamos el comportamiento de la audiencia y definimos la dirección de la campaña.',
+            pm_creative: 'Producción Creativa',
+            pm_creative_1: 'Producción de creativos',
+            pm_creative_2: 'Videos de formato corto',
+            pm_creative_3: 'Visuales de alta conversión',
+            pm_creative_tip: 'Producimos creativos diseñados específicamente para conversión y atención.',
+            pm_launch: 'Lanzamiento de Campaña',
+            pm_launch_1: 'Despliegue de campaña',
+            pm_launch_2: 'Segmentación de audiencia',
+            pm_launch_3: 'Optimización de presupuesto',
+            pm_launch_tip: 'Desplegamos campañas en las plataformas más efectivas para tu audiencia.',
+            pm_metrics: 'Métricas de Rendimiento',
+            pm_metrics_tip: 'Optimizamos continuamente las campañas basándonos en datos en tiempo real.',
+            pm_revenue: 'Ingresos',
+            pm_revenue_1: 'Leads generados',
+            pm_revenue_2: 'Crecimiento en ventas',
+            pm_revenue_3: 'Impacto en ingresos',
+            pm_revenue_tip: 'Resultados de negocio medibles e impacto directo en ingresos.',
+            services_title: 'Servicios',
+            services_subtitle: 'Capacidades de marketing integradas impulsadas por estrategia, contenido, automatización y rendimiento.',
+            hub_label: 'Ecosistema',
+            hub_desc: 'Marketing impulsado por tecnología',
+            services_footer: 'Agencia de Alto Rendimiento',
+            contact_title: 'INICIA EL CAMBIO',
+            contact_subtitle: 'Selecciona tu perfil para iniciar el proceso.',
+            contact_empresa: 'Soy una Empresa',
+            contact_profesional: 'Soy un Profesional',
+            form_empresa_title: 'Perfil Empresa',
+            form_empresa_desc: 'Busco escalar mi marca con un sistema de crecimiento sólido.',
+            form_nombre: 'Nombre completo',
+            form_email_corp: 'Email corporativo',
+            form_empresa_nombre: 'Nombre de la empresa/marca',
+            form_presupuesto: 'Presupuesto mensual estimado',
+            form_select_rango: 'Selecciona un rango',
+            form_mas_10k: 'Más de $10,000 USD',
+            form_desafio: 'Principal desafío actual',
+            form_activar: 'Activar Motor',
+            form_prof_title: 'Perfil Profesional',
+            form_prof_desc: 'Quiero ser parte del motor como Trafficker, CM o Creador.',
+            form_especialidad: 'Especialidad',
+            form_select_opcion: 'Selecciona una opción',
+            form_productor: 'Productor Audiovisual',
+            form_analista: 'Analista de Datos',
+            form_portfolio: 'Link a CV/Portafolio',
+            form_experiencia: 'Resumen de experiencia',
+            form_enviar: 'Enviar perfil',
+            success_title: 'Información recibida.',
+            success_desc: 'Nuestro equipo te contactará pronto.',
+            success_back: 'Volver',
+            footer_since: 'Desde 2025',
+        }
+    };
+
+    window._currentLang = localStorage.getItem('motor_lang') || 'es';
+
+    function applyLanguage(lang) {
+        window._currentLang = lang;
+        localStorage.setItem('motor_lang', lang);
+        document.documentElement.lang = lang;
+
+        const dict = translations[lang];
+        if (!dict) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    // Don't overwrite input values
+                } else {
+                    el.innerHTML = dict[key];
+                }
+            }
+        });
+
+        // Update hub default text if not hovered
+        const hubLabel = document.getElementById('hub-label');
+        const hubDesc = document.getElementById('hub-desc');
+        if (hubLabel && !hubLabel.classList.contains('active-label')) {
+            hubLabel.textContent = dict.hub_label;
+        }
+        if (hubDesc && !document.getElementById('hub-core')?.classList.contains('hovered-core')) {
+            hubDesc.textContent = dict.hub_desc;
+        }
+
+        // Update lang switcher buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Apply saved language on load
+        applyLanguage(window._currentLang);
+
+        // Bind language switcher buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                applyLanguage(lang);
+            });
+        });
+    });
+})();
 
