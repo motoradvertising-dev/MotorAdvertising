@@ -93,11 +93,23 @@
      */
     const AnimatedNumber = ({ value, duration = 2000, suffix = "", prefix = "" }) => {
       const [count, setCount] = useState(0);
+      const [isVisible, setIsVisible] = useState(false);
+      const ref = React.useRef(null);
       const numericValue = parseFloat(value.toString().replace(/[^-0-9.]/g, ''));
       const isFloat = value.toString().includes('.');
 
       useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) setIsVisible(true);
+        }, { threshold: 0.1 });
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+      }, []);
+
+      useEffect(() => {
+        if (!isVisible) return;
         let startTimestamp = null;
+        let animationFrame;
         const step = (timestamp) => {
           if (!startTimestamp) startTimestamp = timestamp;
           const progress = Math.min((timestamp - startTimestamp) / duration, 1);
@@ -106,14 +118,16 @@
           setCount(isFloat ? currentCount.toFixed(2) : Math.floor(currentCount));
           
           if (progress < 1) {
-            window.requestAnimationFrame(step);
+            animationFrame = window.requestAnimationFrame(step);
           }
         };
-        window.requestAnimationFrame(step);
-      }, [numericValue, duration, isFloat]);
+        animationFrame = window.requestAnimationFrame(step);
+        return () => window.cancelAnimationFrame(animationFrame);
+      }, [isVisible, numericValue, duration, isFloat]);
 
-      return <span>{prefix}{count}{suffix}</span>;
+      return <span ref={ref}>{prefix}{count}{suffix}</span>;
     };
+
 
     const MetricCard = ({ number, label, suffix, prefix, icon: Icon }) => (
       <div className="bg-[#111111] p-8 rounded-[32px] border border-white/5 flex flex-col items-center text-center hover:bg-[#161616] hover:border-cyan-500/30 transition-all duration-500 group">

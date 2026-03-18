@@ -39,7 +39,9 @@ body {
     z-index: -1;
     pointer-events: none;
     opacity: 1; /* More visible nodes */
+    will-change: transform;
 }
+
 
 /* Navbar */
 .navbar {
@@ -53,7 +55,10 @@ body {
     z-index: 1000;
     transition: background-color 0.3s ease, padding 0.3s ease;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    will-change: background-color, padding, backdrop-filter;
 }
+
 
 .navbar.scrolled {
     background-color: rgba(0, 0, 0, 0.9);
@@ -253,7 +258,9 @@ body {
     position: relative;
     padding: 50px 0;
     overflow: hidden;
+    backface-visibility: hidden;
 }
+
 
 .core-container {
     position: relative;
@@ -294,7 +301,8 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 8px;
     cursor: pointer;
-    transition: all var(--transition-speed);
+    transition: transform var(--transition-speed), opacity var(--transition-speed), border-color var(--transition-speed), background var(--transition-speed);
+
     z-index: 2000;
     /* Ensure clickable above EVERYTHING in orbit */
     pointer-events: auto;
@@ -484,7 +492,9 @@ body {
     pointer-events: none;
     /* KEY: Pass through clicks when screens are hidden */
     z-index: 100;
+    will-change: transform;
 }
+
 
 /* LEFT SCREEN (Far Left) */
 .screen-1 {
@@ -603,6 +613,11 @@ body {
         transform: translateY(-10px);
     }
 }
+.virtual-screen {
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
 
 .system-core-section.active-3d .virtual-screen .screen-content {
     animation: floatScreen 6s ease-in-out infinite;

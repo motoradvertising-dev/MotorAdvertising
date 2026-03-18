@@ -1,12 +1,27 @@
-// Sticky Navbar
+// Throttle helper
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+// Sticky Navbar - Throttled
 const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', throttle(() => {
     if (window.scrollY > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-});
+}, 100));
+
 
 // Particle system (Moving Nodes Background)
 (function() {
@@ -50,12 +65,31 @@ window.addEventListener('scroll', () => {
 
     function initParticles() {
         particles = [];
-        for (let i = 0; i < 80; i++) {
+        const particleCount = window.innerWidth < 768 ? 30 : 50; // Dynamic count
+        for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
     }
 
+
+    let animationFrameId;
+    let isVisible = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+                if (!animationFrameId) animateParticles();
+            } else {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        });
+    }, { threshold: 0.1 });
+
     function animateParticles() {
+        if (!isVisible) return;
+        
         ctx.clearRect(0, 0, width, height);
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; // More visible lines
         ctx.lineWidth = 0.8;
@@ -65,8 +99,8 @@ window.addEventListener('scroll', () => {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 150) { // Slightly longer connection reach
+                const distSq = dx * dx + dy * dy;
+                if (distSq < 22500) { // 150 * 150
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
@@ -74,13 +108,15 @@ window.addEventListener('scroll', () => {
                 }
             }
         }
-        requestAnimationFrame(animateParticles);
+
+        animationFrameId = requestAnimationFrame(animateParticles);
     }
 
     window.addEventListener('resize', resize);
     resize();
     initParticles();
-    animateParticles();
+    observer.observe(canvas);
+
 })();
 
 // 3D Interaction Logic
@@ -156,11 +192,11 @@ if (blocks.length > 0) {
                         // 4. Update Content
                         updateContent();
 
-                        // 5. Force Reflow
-                        void systemSection.offsetWidth;
+                        // 5. Trigger Deep Entry via RAF to avoid layout thrashing
+                        requestAnimationFrame(() => {
+                            screens.forEach(s => s.classList.add('anim-enter'));
+                        });
 
-                        // 6. Trigger Deep Entry
-                        screens.forEach(s => s.classList.add('anim-enter'));
 
                     }, 550); // Slightly less than 0.6s to overlap ensuring continuous motion
 
@@ -175,11 +211,11 @@ if (blocks.length > 0) {
 
                     updateContent();
 
-                    // FORCE REFLOW (Critical for animation start)
-                    void systemSection.offsetWidth;
+                    // Trigger Entry via RAF
+                    requestAnimationFrame(() => {
+                        screens.forEach(s => s.classList.add('anim-enter'));
+                    });
 
-                    // Trigger Entry
-                    screens.forEach(s => s.classList.add('anim-enter'));
                 }
             }
         });
@@ -619,10 +655,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let pathsHtml = `<defs>
             <filter id="venom-goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
                 <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
             </filter>
         </defs>
+
         <g filter="url(#venom-goo)">`;
 
         const center = { x: 50, y: 50 };
@@ -746,7 +783,8 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = '';
         container.appendChild(renderer.domElement);
 
-        const geometry = new THREE.IcosahedronGeometry(1, 15);
+        const geometry = new THREE.IcosahedronGeometry(1, 10); // Reduced subdivision from 15 to 10
+
         const material = new THREE.MeshPhongMaterial({
             color: 0x000000,
             emissive: 0x0891b2,
@@ -771,8 +809,21 @@ document.addEventListener("DOMContentLoaded", () => {
         animateThree();
     }
 
+    let hubVisible = false;
+    const hubObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            hubVisible = entry.isIntersecting;
+            if (hubVisible) {
+                if (!frameId) animateThree();
+            } else {
+                cancelAnimationFrame(frameId);
+                frameId = null;
+            }
+        });
+    }, { threshold: 0.1 });
+
     function animateThree() {
-        if (!window.THREE || !sphere) return;
+        if (!window.THREE || !sphere || !hubVisible) return;
         frameId = requestAnimationFrame(animateThree);
 
         sphere.rotation.y += 0.005;
@@ -801,7 +852,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    if (hubCore) {
+        hubObserver.observe(hubCore);
+    }
+
     setTimeout(drawLines, 100);
+
 });
 
 // =========================================
@@ -1200,14 +1256,15 @@ document.addEventListener("DOMContentLoaded", () => {
             thumbnail: 'https://images.unsplash.com/photo-1560869713-7d0a294308ed?w=800&h=1200&fit=crop',
         },
         {
-            title: 'Paola Florez: Peinados Profesionales',
-            longDescription: 'Paola tiene un talento único, y su curso "High Ticket" merecía un público a la altura. No buscamos miles de likes, buscamos a las alumnas correctas. Auditamos cada paso, desde el primer clic hasta la llamada de cierre, asegurando que cada inversión publicitaria se convirtiera en una profesional del peinado agradecida y capacitada.',
-            tags: ['Marca Personal', 'Cursos Premium', 'Estrategia'],
-            trigger: 'Autoridad y Éxito',
-            icon: 'fas fa-wand-magic-sparkles',
-            color: '#f43f5e',
-            colorClass: 'case-color-rose',
-            thumbnail: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&h=1200&fit=crop',
+            title: 'Vital Balance: KetoXL - Salud Integral',
+            longDescription: 'KetoXL de Vital Balance atacó la necesidad latente de mejorar la salud y el bienestar físico. Implementamos una estrategia de distribución omnicanal que cubrió todas las ciudades, permitiendo que miles de personas descubrieran un aliado seguro para adelgazar. No solo vendimos un producto, vendimos la posibilidad de un cambio de vida real y duradero a través de la suplementación inteligente.',
+            tags: ['Salud Integral', 'Pérdida de Peso', 'Alcance Nacional'],
+            trigger: 'Salud y Resultados',
+            icon: 'fas fa-weight-scale',
+            color: '#10b981',
+            colorClass: 'case-color-emerald',
+            thumbnail: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=800&h=1200&fit=crop',
+            videoUrl: '', // Add placeholder or real URL here later
         },
         {
             title: 'YomiLove: El Poder de un Regalo',
@@ -1230,6 +1287,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const storyModal = document.getElementById('story-modal');
     const storyClose = document.getElementById('story-close');
     const storyImage = document.getElementById('story-image');
+    const storyVideo = document.getElementById('story-video');
     const storyProgressBar = document.getElementById('story-progress-bar');
     const storyHeaderInfo = document.getElementById('story-header-info');
     const storyPauseOverlay = document.getElementById('story-pause-overlay');
@@ -1287,6 +1345,8 @@ document.addEventListener("DOMContentLoaded", () => {
         activeIndex = null;
         storyModal.classList.remove('active');
         document.body.style.overflow = '';
+        storyVideo.pause();
+        storyVideo.src = '';
         stopProgress();
     }
 
@@ -1340,7 +1400,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (activeIndex === null) return;
         const c = CASES_DATA[activeIndex];
 
-        storyImage.src = c.thumbnail;
+        if (c.videoUrl) {
+            storyImage.style.display = 'none';
+            storyVideo.style.display = 'block';
+            storyVideo.src = c.videoUrl;
+            storyVideo.play().catch(e => console.log('Video autoplay blocked or error:', e));
+        } else {
+            storyImage.style.display = 'block';
+            storyVideo.style.display = 'none';
+            storyVideo.pause();
+            storyVideo.src = '';
+            storyImage.src = c.thumbnail;
+        }
 
         // Progress bar segments
         storyProgressBar.innerHTML = CASES_DATA.map((_, i) =>
@@ -1391,12 +1462,16 @@ document.addEventListener("DOMContentLoaded", () => {
         pressStartTime = Date.now();
         isPaused = true;
         storyPauseOverlay.classList.add('active');
+        storyVideo.pause();
     }
 
     function onUp(side) {
         const duration = Date.now() - pressStartTime;
         isPaused = false;
         storyPauseOverlay.classList.remove('active');
+        if (activeIndex !== null && CASES_DATA[activeIndex].videoUrl) {
+            storyVideo.play().catch(e => console.log('Video play error on release:', e));
+        }
         if (duration < 250) {
             if (side === 'left') prevStory();
             else nextStory();
