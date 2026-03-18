@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración Inicial - Motor Advertising</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Scoped styles for the new page components avoid conflicts with global styles.css */
+        .creation-container {
+            margin-top: 100px; /* Offset for the fixed navbar */
+        }
+        
+        * { box-sizing:border-box; }
+        :root {
+          --black: #050505;
+          --white: #f2f0eb;
+          --grey2: #2c2c2c;
+          --grey3: #555;
+          --grey4: #888;
+          --accent: #efb810;
+          --accent2: #ff4d00;
+          --line: #1e1e1e;
+          --font: 'League Spartan', sans-serif;
+        }
+
+        .header-creation { border-bottom: 1px solid var(--line); padding: 0 48px; position: relative; overflow: hidden; background: var(--black); }
+        .header-top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--line); }
+        .logo-creation { font-size: 13px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); }
+        .logo-creation span { color: var(--accent); }
+        .header-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey4); display: flex; align-items: center; gap: 10px; }
+        .dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: blink 2s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+        .header-hero { padding: 72px 0 96px; position: relative; display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: end; }
+        .header-pre { font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--grey4); margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+        .header-pre::before { content: ''; display: block; width: 28px; height: 1px; background: var(--grey4); }
+        .header-creation h1 { font-size: clamp(56px, 9vw, 112px); font-weight: 900; line-height: 0.9; letter-spacing: -0.04em; text-transform: uppercase; margin: 0; }
+        .header-creation h1 .outline { color: transparent; -webkit-text-stroke: 1.5px var(--white); }
+        .header-creation h1 .yl { color: var(--accent); }
+        .header-desc { font-size: 14px; font-weight: 400; color: var(--grey4); line-height: 1.75; border-left: 1px solid var(--line); padding-left: 24px; }
+        .big-num { position: absolute; right: -20px; bottom: -30px; font-size: 220px; font-weight: 900; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1px #1a1a1a; line-height: 1; user-select: none; pointer-events: none; z-index: 0; }
+        
+        .sticky-bar { position: sticky; top: 70px; z-index: 100; background: var(--black); border-bottom: 1px solid var(--line); padding: 0 48px; }
+        .sticky-inner { display: flex; align-items: center; gap: 20px; height: 52px; }
+        .prog-label { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey3); white-space: nowrap; }
+        .prog-track { flex: 1; height: 1px; background: var(--grey2); position: relative; }
+        .prog-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); transition: width 0.6s cubic-bezier(.4,0,.2,1); width: 0%; }
+        .prog-count { font-size: 12px; font-weight: 800; color: var(--grey4); white-space: nowrap; }
+        .prog-count b { color: var(--white); }
+        .steps-wrap { padding: 40px 48px; background: var(--black); }
+        .step { border-bottom: 1px solid var(--line); transition: background 0.3s; }
+        .step.done { background: rgba(239,184,16,0.02); }
+        .step-head { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; cursor: pointer; padding: 28px 0; user-select: none; }
+        .step-head:hover .stt { color: var(--accent); }
+        .step-idx { font-size: 11px; font-weight: 800; letter-spacing: 0.2em; color: var(--grey3); }
+        .step.done .step-idx { color: var(--accent); }
+        .stt { font-size: clamp(20px, 3.5vw, 36px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; line-height: 1; transition: color 0.2s; color: var(--white); }
+        .step.done .stt { color: var(--grey3); text-decoration: line-through; }
+        .shr { display: flex; align-items: center; }
+        .s-chev { width: 38px; height: 38px; border: 1px solid var(--grey2); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--grey3); transition: transform 0.3s, border-color 0.2s, color 0.2s; flex-shrink: 0; }
+        .step.open .s-chev { transform: rotate(180deg); border-color: var(--accent); color: var(--accent); }
+        .step-body { display: none; padding: 0 0 44px 72px; max-width: 720px; }
+        .step.open .step-body { display: block; }
+        .instr { margin-bottom: 24px; border: 1px solid var(--line); }
+        .instr-row { display: flex; border-bottom: 1px solid var(--line); }
+        .instr-row:last-child { border-bottom: none; }
+        .instr-n { width: 42px; display: flex; align-items: flex-start; justify-content: center; padding-top: 15px; font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 0.1em; border-right: 1px solid var(--line); flex-shrink: 0; }
+        .instr-t { padding: 13px 16px; font-size: 14px; font-weight: 400; color: #909090; line-height: 1.65; }
+        .instr-t strong { color: var(--white); font-weight: 700; }
+        .instr-t em { font-style: normal; color: var(--accent); font-weight: 600; }
+        .links-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+        .xlink { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--grey2); padding: 9px 18px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+        .xlink:hover { border-color: var(--accent); color: var(--accent); background: rgba(239,184,16,0.04); }
+        .fblock { margin-bottom: 24px; border: 1px solid var(--line); }
+        .fblock-head { padding: 9px 16px; font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey3); border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.015); }
+        .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 16px; }
+        .fgrid.one { grid-template-columns: 1fr; }
+        .fg { display: flex; flex-direction: column; gap: 5px; }
+        .fl { font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey3); }
+        .fi { background: var(--black); border: 1px solid var(--grey2); padding: 10px 12px; font-size: 14px; font-weight: 500; font-family: var(--font); color: var(--white); outline: none; width: 100%; transition: border-color 0.2s; }
+        .fi:focus { border-color: var(--accent); }
+        .fi::placeholder { color: var(--grey3); font-weight: 400; }
+        .cklist { margin-bottom: 22px; border: 1px solid var(--line); }
+        .cki { display: flex; align-items: center; cursor: pointer; border-bottom: 1px solid var(--line); transition: background 0.15s; user-select: none; }
+        .cki:last-child { border-bottom: none; }
+        .cki:hover { background: rgba(255,255,255,0.02); }
+        .cki.on { background: rgba(239,184,16,0.04); }
+        .cki input { display: none; }
+        .ckbox { width: 42px; height: 42px; border-right: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--grey3); flex-shrink: 0; transition: background 0.2s, color 0.2s; }
+        .cki.on .ckbox { background: var(--accent); color: var(--black); border-color: var(--accent); }
+        .ckt { padding: 11px 16px; font-size: 13px; font-weight: 500; color: var(--grey4); line-height: 1.5; transition: color 0.2s; }
+        .cki.on .ckt { color: var(--white); }
+        .note { border-left: 2px solid var(--accent2); padding: 13px 16px; font-size: 13px; color: #999; line-height: 1.7; background: rgba(255,77,0,0.04); margin-bottom: 22px; }
+        .note strong { color: var(--white); font-weight: 700; }
+        .note-yl { border-left-color: var(--accent); background: rgba(239,184,16,0.04); }
+        .dbtn { display: inline-flex; align-items: center; background: var(--accent); color: var(--black); border: none; padding: 13px 26px; font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; }
+        .dbtn:hover { opacity: 0.85; }
+        
+        .creation-final { padding: 80px 48px 100px; border-top: 1px solid var(--line); position: relative; overflow: hidden; background: var(--black); }
+        .final-pre { font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--grey4); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+        .final-pre::before { content:''; display:block; width:28px; height:1px; background:var(--grey4); }
+        .final-h { font-size: clamp(44px, 8vw, 96px); font-weight: 900; letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.9; margin-bottom: 32px; color: var(--white); margin: 0 0 32px 0; }
+        .final-h .yl { color: var(--accent); }
+        .final-h .out { color: transparent; -webkit-text-stroke: 1.5px var(--white); }
+        .final-sub { font-size: 14px; color: var(--grey4); max-width: 400px; line-height: 1.75; margin-bottom: 36px; }
+        .sbtn { display: inline-flex; align-items: center; gap: 14px; background: var(--white); color: var(--black); border: none; padding: 17px 40px; font-family: var(--font); font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+        .sbtn:hover { background: var(--accent); }
+        .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .serr { font-size: 13px; font-weight: 700; color: var(--accent2); display: none; margin-top: 14px; }
+        .final-bg-creation { position: absolute; right: -40px; bottom: -40px; font-size: 280px; font-weight: 900; color: transparent; -webkit-text-stroke: 1px #141414; line-height: 1; pointer-events: none; user-select: none; }
+        .soverlay { display: none; position: fixed; inset: 0; background: var(--black); z-index: 999; align-items: center; justify-content: center; padding: 32px; }
+        .soverlay.show { display: flex; }
+        .sinner { max-width: 500px; animation: fadeUp 0.5s ease both; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+        .sinner .pre { font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+        .sinner .pre::before { content:''; display:block; width:28px; height:1px; background:var(--accent); }
+        .sinner h2 { font-size: clamp(48px, 9vw, 88px); font-weight: 900; letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.9; margin-bottom: 28px; color: var(--white); margin: 0 0 28px 0; }
+        .sinner h2 em { font-style:normal; color:var(--accent); }
+        .sinner p { font-size: 15px; color: var(--grey4); line-height: 1.75; max-width: 380px; }
+
+        @media(max-width:680px) {
+          .header-creation, .sticky-bar, .steps-wrap, .creation-final { padding-left: 20px; padding-right: 20px; }
+          .header-hero { grid-template-columns: 1fr; }
+          .hero-right { display: none; }
+          .step-head { grid-template-columns: 48px 1fr auto; }
+          .step-body { padding-left: 48px; }
+          .big-num { display: none; }
+          .fgrid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="data-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html#inicio" class="logo">
+            <svg class="nav-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
+                <path class="slash-dark" fill="#ffffff" opacity="0.33" d="M37.55,23.21l-11.41,64.36h-9.12L28.43,23.21h9.12Z" />
+                <path class="slash-light" fill="#ffffff" opacity="0.66" d="M61.08,23.21l-11.41,64.36h-11.34l11.41-64.36h11.34Z" />
+                <path fill="#ffffff" d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
+                <path fill="#ffffff" d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM158.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                <path fill="#ffffff" d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM271.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM342.06,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                <path fill="#ffffff" d="M437.52,23.01l26.06,64.56h-15.81l-4.77-12.91h-24.57l-4.77,12.91h-15.81l26.06-64.56h13.62ZM437.99,61.74l-7.2-18.78h-.16l-7.2,18.78h14.55Z" />
+                <path fill="#ffffff" d="M466.09,23.01h18.7c8.97,0,16.64,3.06,23.01,9.19,6.36,6.13,9.55,13.81,9.55,23.04s-3.17,16.99-9.51,23.12c-6.34,6.13-14.02,9.19-23.04,9.19h-18.7V23.01ZM480.8,74.42h2.27c5.37,0,9.77-1.81,13.19-5.44,3.42-3.63,5.15-8.18,5.2-13.66,0-5.48-1.71-10.04-5.12-13.69-3.42-3.65-7.84-5.48-13.26-5.48h-2.27v38.27Z" />
+                <path fill="#ffffff" d="M537.37,87.56l-27.08-64.56h16.59l16.28,42.41,16.28-42.41h16.59l-27.08,64.56h-11.58Z" />
+                <path fill="#ffffff" d="M615.47,23.01v12.91h-22.22v12.83h21.28v12.91h-21.28v12.99h22.22v12.91h-36.93V23.01h36.93Z" />
+                <path fill="#ffffff" d="M623.92,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM638.63,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                <path fill="#ffffff" d="M672.75,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                <path fill="#ffffff" d="M747.42,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                <path fill="#ffffff" d="M777.17,21.83c3.49,0,6.91.51,10.25,1.53,3.34,1.02,5.82,2.02,7.43,3.01l2.35,1.56-5.95,11.74c-.47-.31-1.12-.72-1.96-1.21-.83-.5-2.4-1.16-4.7-2-2.3-.83-4.43-1.25-6.42-1.25-2.45,0-4.34.52-5.67,1.56-1.33,1.04-2,2.45-2,4.23,0,.89.31,1.71.94,2.46.63.76,1.69,1.56,3.21,2.43,1.51.86,2.84,1.55,3.99,2.07,1.15.52,2.92,1.3,5.32,2.35,4.17,1.77,7.73,4.19,10.68,7.24,2.95,3.05,4.42,6.51,4.42,10.37s-.67,6.94-2,9.7c-1.33,2.77-3.16,4.93-5.48,6.5-2.32,1.56-4.89,2.73-7.71,3.48-2.82.76-5.87,1.13-9.16,1.13-2.82,0-5.58-.29-8.29-.86-2.71-.57-4.98-1.29-6.81-2.15-1.83-.86-3.47-1.71-4.93-2.54-1.46-.83-2.53-1.54-3.21-2.11l-1.02-.86,7.36-12.36c.63.52,1.49,1.19,2.58,2,1.1.81,3.04,1.89,5.83,3.25,2.79,1.36,5.25,2.03,7.39,2.03,6.21,0,9.31-2.11,9.31-6.34,0-.89-.22-1.71-.67-2.46-.44-.76-1.23-1.51-2.35-2.27-1.12-.76-2.11-1.36-2.97-1.8-.86-.44-2.27-1.12-4.23-2.03-1.96-.91-3.4-1.6-4.34-2.07-3.91-1.93-6.94-4.34-9.08-7.24-2.14-2.9-3.21-6.01-3.21-9.35,0-5.79,2.14-10.52,6.42-14.2,4.28-3.68,9.16-5.52,14.63-5.52Z" />
+                <path fill="#ffffff" d="M829.94,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                <path fill="#ffffff" d="M853.15,47.5v40.06h-14.71V23.01h14.71l25.67,40.06h.16V23.01h14.71v64.56h-14.71l-25.67-40.06h-.16Z" />
+                <path fill="#ffffff" d="M961.45,51.41v14.01c-1.67,7.67-5.32,13.47-10.96,17.41-5.63,3.94-11.92,5.91-18.86,5.91-8.71,0-16.13-3.26-22.26-9.78-6.13-6.52-9.19-14.4-9.19-23.63s3-17.32,9-23.79c6-6.47,13.48-9.7,22.46-9.7,10.49,0,18.78,3.68,24.88,11.03l-9.62,10.56c-3.44-5.53-8.24-8.29-14.4-8.29-4.54,0-8.41,1.97-11.62,5.91-3.21,3.94-4.81,8.7-4.81,14.28s1.6,10.16,4.81,14.05c3.21,3.89,7.08,5.83,11.62,5.83,3.76,0,7.03-1.13,9.82-3.4,2.79-2.27,4.19-5.28,4.19-9.04h-14.87v-11.35h29.81Z" />
+            </svg>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#inicio">Inicio</a></li>
+            <li><a href="index.html#webs">Webs</a></li>
+            <li><a href="pauta.html">Pauta</a></li>
+            <li><a href="index.html#servicios">Servicios</a></li>
+            <li><a href="index-contact.html" class="contact-link">Contacto</a></li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <div class="creation-container">
+        <header class="header-creation">
+          <div class="header-top">
+            <div class="logo-creation">Pauta <span>&middot;</span> Digital</div>
+            <div class="header-tag"><span class="dot-live"></span> Proceso de incorporación</div>
+          </div>
+          <div class="header-hero">
+            <div class="hero-left">
+              <div class="header-pre">Configuración inicial</div>
+              <h1>Tu marca<br><span class="outline">empieza</span><br><span class="yl">aquí.</span></h1>
+            </div>
+            <div class="hero-right">
+              <p class="header-desc">Sigue cada paso en orden. Tómate tu tiempo, guarda tus datos en cada sección y marca cada tarea cuando la completes.</p>
+            </div>
+            <div class="big-num">07</div>
+          </div>
+        </header>
+
+        <div class="sticky-bar">
+          <div class="sticky-inner">
+            <span class="prog-label">Progreso</span>
+            <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+            <span class="prog-count" id="pc"><b>0</b> / 7 pasos</span>
+          </div>
+        </div>
+
+        <div class="steps-wrap">
+
+          <div class="step" id="s1">
+            <div class="step-head" onclick="tog('s1')">
+              <span class="step-idx">01</span>
+              <span class="stt">Cuenta Gmail</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Ve a <strong>gmail.com</strong> y crea una cuenta nueva. Usa un nombre profesional que represente tu negocio.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Durante el registro, <strong>vincula tu número de celular</strong> a la cuenta. Es obligatorio para poder recuperarla en caso de emergencia.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Registra el correo y contraseña en el formulario de abajo y compártelos con nosotros. Crearemos todo el ecosistema desde esta cuenta.</div></div>
+              </div>
+              <div class="links-row"><a class="xlink" href="https://accounts.google.com/signup" target="_blank">Crear cuenta Gmail &nearr;</a></div>
+              <div class="fblock">
+                <div class="fblock-head">Datos de acceso &mdash; Gmail</div>
+                <div class="fgrid">
+                  <div class="fg"><label class="fl">Correo Gmail</label><input class="fi" type="email" placeholder="tunegocio@gmail.com" id="f1" oninput="sv('f1')"></div>
+                  <div class="fg"><label class="fl">Contraseña</label><input class="fi" type="text" placeholder="Contraseña elegida" id="f2" oninput="sv('f2')"></div>
+                </div>
+                <div class="fgrid one" style="padding-top:0">
+                  <div class="fg"><label class="fl">Número de celular vinculado</label><input class="fi" type="tel" placeholder="+57 300 000 0000" id="f3" oninput="sv('f3')"></div>
+                </div>
+              </div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Cuenta de Gmail creada correctamente</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Número de celular vinculado a la cuenta</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Correo y contraseña registrados arriba</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s1',1)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s2">
+            <div class="step-head" onclick="tog('s2')">
+              <span class="step-idx">02</span>
+              <span class="stt">Hostinger</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Ve a <strong>hostinger.com</strong> y haz clic en <strong>Registrarse</strong>.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Selecciona <strong>Continuar con Google</strong> y elige el Gmail del Paso 1. Ambas cuentas quedarán vinculadas automáticamente.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Completa el registro y confirma tu correo si recibes algún mensaje de verificación.</div></div>
+              </div>
+              <div class="links-row"><a class="xlink" href="https://www.hostinger.com" target="_blank">Ir a Hostinger &nearr;</a></div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Cuenta en Hostinger creada usando el Gmail del Paso 1</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Acceso a la cuenta confirmado</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s2',2)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s3">
+            <div class="step-head" onclick="tog('s3')">
+              <span class="step-idx">03</span>
+              <span class="stt">Facebook &amp; Instagram</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Desde tu <strong>Facebook personal</strong>, ve a Páginas y crea una nueva página con el nombre oficial de tu marca.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Crea una cuenta nueva de <strong>Instagram</strong> usando el Gmail del Paso 1. El usuario debe reflejar tu marca de forma clara y profesional.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Registra el usuario y contraseña de Instagram en el formulario de abajo.</div></div>
+              </div>
+              <div class="links-row">
+                <a class="xlink" href="https://www.facebook.com/pages/create" target="_blank">Crear Página Facebook &nearr;</a>
+                <a class="xlink" href="https://www.instagram.com/accounts/emailsignup/" target="_blank">Crear Instagram &nearr;</a>
+              </div>
+              <div class="fblock">
+                <div class="fblock-head">Datos &mdash; Redes Sociales</div>
+                <div class="fgrid">
+                  <div class="fg"><label class="fl">Usuario de Instagram</label><input class="fi" type="text" placeholder="@tumarca" id="f4" oninput="sv('f4')"></div>
+                  <div class="fg"><label class="fl">Contraseña Instagram</label><input class="fi" type="text" placeholder="Contraseña elegida" id="f5" oninput="sv('f5')"></div>
+                </div>
+                <div class="fgrid one" style="padding-top:0">
+                  <div class="fg"><label class="fl">Nombre de la Página de Facebook</label><input class="fi" type="text" placeholder="Nombre exacto de tu página" id="f6" oninput="sv('f6')"></div>
+                </div>
+              </div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Página de Facebook creada desde mi perfil personal</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Cuenta de Instagram creada con el Gmail del Paso 1</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Usuario y contraseña de Instagram registrados arriba</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s3',3)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s4">
+            <div class="step-head" onclick="tog('s4')">
+              <span class="step-idx">04</span>
+              <span class="stt">Portafolio Comercial</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Ve a <strong>business.facebook.com</strong> e inicia sesión con tu Facebook personal.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Al entrar, Meta te pedirá crear un <strong>Portafolio Comercial</strong>. Haz clic en el botón azul <strong>Crear portafolio</strong> que aparece en pantalla.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Ingresa el <strong>nombre oficial de tu empresa o marca</strong> exactamente como aparecerá en todos los anuncios y activos digitales.</div></div>
+                <div class="instr-row"><span class="instr-n">04</span><div class="instr-t">Completa los datos: <strong>correo del negocio</strong> (usa el Gmail del Paso 1) y <strong>sitio web</strong> si ya lo tienes (puedes dejarlo vacío por ahora).</div></div>
+                <div class="instr-row"><span class="instr-n">05</span><div class="instr-t">Confirma la creación. Con el portafolio activo puedes continuar con los siguientes pasos.</div></div>
+              </div>
+              <div class="links-row"><a class="xlink" href="https://business.facebook.com/" target="_blank">Ir a Meta Business Suite &nearr;</a></div>
+              <div class="fblock">
+                <div class="fblock-head">Datos del Portafolio Comercial</div>
+                <div class="fgrid">
+                  <div class="fg"><label class="fl">Nombre del negocio / marca</label><input class="fi" type="text" placeholder="Nombre oficial" id="f7" oninput="sv('f7')"></div>
+                  <div class="fg"><label class="fl">Sitio web (si tienes)</label><input class="fi" type="text" placeholder="www.tunegocio.com" id="f8" oninput="sv('f8')"></div>
+                </div>
+              </div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Ingrese a business.facebook.com</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Portafolio Comercial creado con el nombre de mi empresa</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Correo y datos del negocio ingresados correctamente</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s4',4)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s5">
+            <div class="step-head" onclick="tog('s5')">
+              <span class="step-idx">05</span>
+              <span class="stt">Vincula Instagram y WhatsApp</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Dentro de <strong>business.facebook.com</strong>, asegúrate de que en la parte superior aparezca seleccionada la página que creaste, no tu perfil personal.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Ve al menú izquierdo, luego <strong>Configuración</strong>, <strong>Cuentas</strong>, <strong>Cuentas de Instagram</strong>. Agrega y vincula la cuenta del Paso 3.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Luego ve a <strong>Cuenta de WhatsApp</strong> y vincula el número del negocio. Ese número debe estar en <strong>WhatsApp Business</strong>.</div></div>
+              </div>
+              <div class="note"><strong>Importante sobre WhatsApp Business:</strong> El número a vincular debe estar en la app WhatsApp Business, no en WhatsApp regular. Si aún no lo tienes, descárgala y migra tu número. No perderás conversaciones siempre y cuando tu WhatsApp tenga un correo vinculado y las copias de seguridad automáticas activas. Verifica esto antes de migrar.</div>
+              <div class="links-row"><a class="xlink" href="https://business.facebook.com/settings" target="_blank">Ir a Configuración de Meta &nearr;</a></div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">La página correcta está seleccionada en Business Manager</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Cuenta de Instagram vinculada en Configuración, Cuentas, Instagram</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Tengo WhatsApp Business instalado en el número del negocio</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Número de WhatsApp Business vinculado en la cuenta</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s5',5)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s6">
+            <div class="step-head" onclick="tog('s6')">
+              <span class="step-idx">06</span>
+              <span class="stt">Cuenta Publicitaria</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Dentro de <strong>business.facebook.com</strong>, ve a <strong>Configuración</strong>, <strong>Cuentas</strong>, <strong>Cuentas publicitarias</strong>.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">Haz clic en <strong>Agregar</strong> y luego en <strong>Crear una nueva cuenta publicitaria</strong>.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">Asigna un nombre, elige la <strong>moneda y zona horaria</strong> de tu país y confirma la creación.</div></div>
+              </div>
+              <div class="links-row"><a class="xlink" href="https://business.facebook.com/settings/ad-accounts" target="_blank">Ir a Cuentas Publicitarias &nearr;</a></div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Cuenta publicitaria creada en Meta Business Manager</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Moneda y zona horaria configuradas correctamente</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s6',6)">Paso completado</button>
+            </div>
+          </div>
+
+          <div class="step" id="s7">
+            <div class="step-head" onclick="tog('s7')">
+              <span class="step-idx">07</span>
+              <span class="stt">Invita a tu Asesor</span>
+              <div class="shr"><div class="s-chev">&#9662;</div></div>
+            </div>
+            <div class="step-body">
+              <div class="instr">
+                <div class="instr-row"><span class="instr-n">01</span><div class="instr-t">Dentro de <strong>business.facebook.com</strong>, en el menú izquierdo ve a <strong>Usuarios</strong> y luego <strong>Personas</strong>.</div></div>
+                <div class="instr-row"><span class="instr-n">02</span><div class="instr-t">A la derecha, haz clic en el botón azul <strong>Invitar personas</strong>.</div></div>
+                <div class="instr-row"><span class="instr-n">03</span><div class="instr-t">En el campo de correo ingresa el correo de tu asesor (indicado en la nota de abajo).</div></div>
+                <div class="instr-row"><span class="instr-n">04</span><div class="instr-t">Selecciona <strong>Acceso de administrador</strong> (acceso total a todo) y envía la invitación.</div></div>
+              </div>
+              <div class="note note-yl">El correo al que debes enviar la invitación es: <strong style="color:var(--accent)">juanjosemenesestoloza@hotmail.com</strong></div>
+              <div class="links-row"><a class="xlink" href="https://business.facebook.com/settings/people" target="_blank">Ir a Usuarios, Personas &nearr;</a></div>
+              <div class="cklist">
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Fui a Usuarios, Personas en Business Manager</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">Invite a juanjosemenesestoloza@hotmail.com con acceso total</span></label>
+                <label class="cki" onclick="ck(this)"><input type="checkbox"><div class="ckbox">&#10003;</div><span class="ckt">La invitación fue enviada correctamente</span></label>
+              </div>
+              <button class="dbtn" onclick="markDone('s7',7)">Paso completado</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="creation-final">
+          <div class="final-pre">Todo listo</div>
+          <h2 class="final-h">Notifica<br>a tu <span class="out">equipo</span><br><span class="yl">ahora.</span></h2>
+          <p class="final-sub">Cuando los 7 pasos estén completados, presiona el botón. Tu asesor recibirá una alerta con el resumen de tu configuración.</p>
+          <button class="sbtn" id="sbtn" onclick="submitAll()">Finalizar y Notificar</button>
+          <p class="serr" id="serr">Completa todos los pasos antes de finalizar.</p>
+          <div class="final-bg-creation">&rarr;</div>
+        </div>
+
+        <div class="soverlay" id="sov">
+          <div class="sinner">
+            <div class="pre">Proceso finalizado</div>
+            <h2>Todo<br><em>listo.</em></h2>
+            <p>Tu asesor ha sido notificado y revisará tu configuración en las próximas horas. Bienvenido al ecosistema digital. Puedes cerrar esta página.</p>
+          </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-left" data-i18n="footer_since">Desde 2025</div>
+        <div class="footer-center">MOTOR ADVERTISING</div>
+        <div class="footer-right">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </footer>
+
+    <script>
+    var TOTAL = 7;
+    var doneSet = [];
+    var fd = {};
+
+    function tog(id) {
+      var el = document.getElementById(id);
+      var isOpen = el.classList.contains('open');
+      var allOpen = document.querySelectorAll('.step.open');
+      for (var i = 0; i < allOpen.length; i++) { allOpen[i].classList.remove('open'); }
+      if (!isOpen) { el.classList.add('open'); }
+    }
+
+    function ck(lbl) {
+      setTimeout(function() {
+        var cb = lbl.querySelector('input');
+        if (cb.checked) { lbl.classList.add('on'); } else { lbl.classList.remove('on'); }
+      }, 0);
+    }
+
+    function sv(id) { fd[id] = document.getElementById(id).value; }
+
+    function markDone(id, n) {
+      var el = document.getElementById(id);
+      el.classList.add('done');
+      if (doneSet.indexOf(n) === -1) { doneSet.push(n); }
+      updProg();
+      document.getElementById('serr').style.display = 'none';
+      
+      // Close current step
+      el.classList.remove('open');
+      
+      // Open next step
+      var nxt = document.getElementById('s' + (n + 1));
+      if (nxt && !nxt.classList.contains('done')) {
+        setTimeout(function() { 
+            nxt.classList.add('open'); 
+            nxt.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        }, 250);
+      }
+    }
+
+    function updProg() {
+      var pct = (doneSet.length / TOTAL) * 100;
+      document.getElementById('pf').style.width = pct + '%';
+      document.getElementById('pc').innerHTML = '<b>' + doneSet.length + '</b> / ' + TOTAL + ' pasos';
+    }
+
+    function submitAll() {
+      if (doneSet.length < TOTAL) { document.getElementById('serr').style.display = 'block'; return; }
+      var btn = document.getElementById('sbtn');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+      
+      var lines = [
+        '--- CONFIGURACIÓN INICIAL DE PAUTA ---',
+        'Cliente completó exitosamente los 7 pasos.',
+        '',
+        'DATOS REGISTRADOS:',
+        '- Negocio/Marca: ' + (fd['f7'] || 'No especificado'),
+        '- Gmail: ' + (fd['f1'] || 'No especificado'),
+        '- Contraseña Gmail: ' + (fd['f2'] || 'No especificado'),
+        '- Celular Gmail: ' + (fd['f3'] || 'No especificado'),
+        '- Instagram: ' + (fd['f4'] || 'No especificado'),
+        '- Contraseña Instagram: ' + (fd['f5'] || 'No especificado'),
+        '- Página Facebook: ' + (fd['f6'] || 'No especificado'),
+        '- Sitio Web: ' + (fd['f8'] || 'No especificado'),
+        '',
+        'Fecha: ' + new Date().toLocaleString('es-CO'),
+        '---------------------------------------'
+      ];
+      
+      var body = lines.join('\n');
+      var subject = 'CONFIGURACIÓN DE MARCA COMPLETADA: ' + (fd['f7'] || 'Nuevo Cliente');
+      
+      // Intentar mailto
+      window.location.href = 'mailto:juanjosemenesestoloza@hotmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      
+      setTimeout(function() { 
+          document.getElementById('sov').classList.add('show'); 
+      }, 1000);
+    }
+
+    document.getElementById('s1').classList.add('open');
+
+    // Navbar scroll effect
+    const nav = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.querySelector('i').classList.toggle('fa-bars');
+            menuToggle.querySelector('i').classList.toggle('fa-times');
+        });
+    }
+    </script>
+</body>
+</html>
