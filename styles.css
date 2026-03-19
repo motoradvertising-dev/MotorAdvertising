@@ -1624,7 +1624,7 @@ footer {
 
 .paid-media-section.in-view .pm-pipeline-line::after {
     width: 100%;
-    transition-duration: 4s;
+    transition-duration: 1.5s;
 }
 
 .pm-cards-wrapper {
@@ -1710,23 +1710,23 @@ footer {
 }
 
 .paid-media-section.in-view .pm-card[data-stage="1"] {
-    transition-delay: 0.4s;
+    transition-delay: 0.2s;
 }
 
 .paid-media-section.in-view .pm-card[data-stage="2"] {
-    transition-delay: 1.2s;
+    transition-delay: 0.4s;
 }
 
 .paid-media-section.in-view .pm-card[data-stage="3"] {
-    transition-delay: 2.0s;
+    transition-delay: 0.6s;
 }
 
 .paid-media-section.in-view .pm-card[data-stage="4"] {
-    transition-delay: 2.8s;
+    transition-delay: 0.8s;
 }
 
 .paid-media-section.in-view .pm-card[data-stage="5"] {
-    transition-delay: 3.6s;
+    transition-delay: 1.0s;
 }
 
 .pm-card-icon {
@@ -1876,7 +1876,7 @@ footer {
     .pm-pipeline-line::after {
         width: 100%;
         height: 0%;
-        transition: height 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transition: height 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .paid-media-section.in-view .pm-pipeline-line::after {
