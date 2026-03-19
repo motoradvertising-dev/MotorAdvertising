@@ -266,24 +266,27 @@
         </div>
     </footer>
 
-    <!-- STORY MODAL -->
-    <div id="story-modal" class="story-modal">
-        <button id="story-close" class="story-close"><i class="fas fa-times"></i></button>
+    <!-- Story Modal -->
+    <div class="story-modal" id="story-modal">
         <div class="story-modal-inner">
-            <div class="story-left" id="story-left">
+            <button class="story-close" id="story-close"><i class="fas fa-xmark"></i></button>
+            <div class="story-left">
                 <div class="story-progress-bar" id="story-progress-bar"></div>
                 <div class="story-header-info" id="story-header-info"></div>
-                <img src="" alt="" class="story-image" id="story-image">
-                <div class="story-image-gradient"></div>
                 <div class="story-pause-overlay" id="story-pause-overlay">
-                    <i class="fas fa-pause"></i>
+                    <div class="story-pause-icon"><i class="fas fa-pause"></i></div>
+                    <span>PAUSADO PARA LECTURA</span>
                 </div>
-                <div class="story-touch-zone story-touch-left" id="story-touch-left"></div>
-                <div class="story-touch-zone story-touch-right" id="story-touch-right"></div>
+                <img class="story-image" id="story-image" src="" alt="Story">
+                <video class="story-video" id="story-video" src="" loop playsinline style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; inset:0; z-index:5;"></video>
+                <div class="story-image-gradient"></div>
+                <div class="story-touch-zones">
+                    <div class="story-touch-left" id="story-touch-left"></div>
+                    <div class="story-touch-center" id="story-touch-center"></div>
+                    <div class="story-touch-right" id="story-touch-right"></div>
+                </div>
             </div>
-            <div class="story-right" id="story-right">
-                <!-- Content injected by JS -->
-            </div>
+            <div class="story-right" id="story-right"></div>
         </div>
     </div>
 
