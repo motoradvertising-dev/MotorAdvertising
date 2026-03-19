@@ -677,12 +677,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const isHovered = hoveredNodeId === s.id;
 
             // Venom Style Layers
-            const strokeColorBase = isHovered ? "#22d3ee" : "#0c3a4a";
+            const strokeColorBase = isHovered ? "#0F394A" : "#0F394A";
             const strokeWidthBase = isHovered ? "16" : "10";
             const dashArrayBase = '100, 50';
             const animBase = `veinFlow ${isHovered ? '2s' : '12s'} linear infinite`;
 
-            const strokeColorCore = isHovered ? "#fff" : "rgba(34, 211, 238, 0.2)";
+            const strokeColorCore = isHovered ? "#fff" : "rgba(15, 57, 74, 0.2)";
             const strokeWidthCore = isHovered ? "4" : "2";
             const dashArrayCore = isHovered ? '40, 160' : '5, 200';
             const animCore = `veinFlow ${isHovered ? '1.5s' : '8s'} linear infinite`;
@@ -1201,7 +1201,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tags: ['Turismo', 'Ventas en Automático', 'San Andrés'],
             trigger: 'Deseo y Libertad',
             icon: 'fas fa-map-pin',
-            color: '#06b6d4',
+            color: '#0F394A',
             colorClass: 'case-color-cyan',
             thumbnail: 'https://images.unsplash.com/photo-1520116468816-95b69f847357?w=800&h=1200&fit=crop',
             videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900522/Video_amanecer_ecoraconsiente_ai77wl.mp4',
@@ -1212,7 +1212,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tags: ['Legal', 'Confianza', 'Leads Calificados'],
             trigger: 'Paz Mental',
             icon: 'fas fa-comment',
-            color: '#334155',
+            color: '#0F394A',
             colorClass: 'case-color-slate',
             thumbnail: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=1200&fit=crop',
             videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773899658/Compa%C3%B1ia_soluciones_legales_f8volg.mp4',
