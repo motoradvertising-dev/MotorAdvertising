@@ -1309,7 +1309,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="case-card" data-case="${i}">
                 <div class="case-card-image">
                     <img src="${c.thumbnail}" alt="${c.title}">
-                    ${c.videoUrl ? `<video class="case-hover-video" src="${c.videoUrl}" playsinline loop muted></video>` : ''}
+                    ${c.videoUrl ? `<video class="case-hover-video" src="${c.videoUrl}" playsinline loop></video>` : ''}
                     <div class="case-card-overlay">
                         <div class="case-card-icon ${c.colorClass}" style="background:${c.color};"><i class="${c.icon}"></i></div>
                     </div>
@@ -1434,7 +1434,12 @@ document.addEventListener("DOMContentLoaded", () => {
             storyImage.style.display = 'none';
             storyVideo.style.display = 'block';
             storyVideo.src = c.videoUrl;
-            storyVideo.play().catch(e => console.log('Video autoplay blocked or error:', e));
+            storyVideo.muted = false;
+            storyVideo.play().catch(e => {
+                console.log('Story video autoplay with sound blocked, trying muted');
+                storyVideo.muted = true;
+                storyVideo.play();
+            });
         } else {
             storyImage.style.display = 'block';
             storyVideo.style.display = 'none';
