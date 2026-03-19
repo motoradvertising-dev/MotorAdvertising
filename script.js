@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const isHovered = hoveredNodeId === s.id;
 
             // Venom Style Layers
-            const strokeColorBase = isHovered ? "#0F394A" : "#0F394A";
+            const strokeColorBase = isHovered ? "#22d3ee" : "#0c3a4a";
             const strokeWidthBase = isHovered ? "16" : "10";
             const dashArrayBase = '100, 50';
             const animBase = `veinFlow ${isHovered ? '2s' : '12s'} linear infinite`;
