@@ -1204,6 +1204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#06b6d4',
             colorClass: 'case-color-cyan',
             thumbnail: 'https://images.unsplash.com/photo-1520116468816-95b69f847357?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/Video amanecer ecoraconsiente.mp4'
         },
         {
             title: 'Justicia con Empatía',
@@ -1214,6 +1215,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#334155',
             colorClass: 'case-color-slate',
             thumbnail: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/Compañia soluciones legales.mp4'
         },
         {
             title: 'La Magia de los Eventos',
@@ -1224,6 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#9333ea',
             colorClass: 'case-color-purple',
             thumbnail: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/Evento techno.mp4'
         },
         {
             title: 'Macca: La Estrella del Barrio',
@@ -1234,6 +1237,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#d97706',
             colorClass: 'case-color-amber',
             thumbnail: 'https://images.unsplash.com/photo-1522337363553-5604102f0dcc?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/Macca .mp4'
         },
         {
             title: 'Vital Balance: Salud Sin Fronteras',
@@ -1244,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#059669',
             colorClass: 'case-color-emerald',
             thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/INSULIFE Vital Balance.mp4'
         },
         {
             title: 'Cirugía Capilar: Clientes que Vuelven',
@@ -1254,6 +1259,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#f472b6',
             colorClass: 'case-color-pink',
             thumbnail: 'https://images.unsplash.com/photo-1560869713-7d0a294308ed?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/CIRUGIA CAPIALR YOMI.mp4'
         },
         {
             title: 'Vital Balance: KetoXL - Salud Integral',
@@ -1264,7 +1270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#10b981',
             colorClass: 'case-color-emerald',
             thumbnail: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=800&h=1200&fit=crop',
-            videoUrl: '', // Add placeholder or real URL here later
+            videoUrl: 'assets/keto xl Vital Balance.mp4'
         },
         {
             title: 'YomiLove: El Poder de un Regalo',
@@ -1275,6 +1281,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#d946ef',
             colorClass: 'case-color-fuchsia',
             thumbnail: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&h=1200&fit=crop',
+            videoUrl: 'assets/Regalo Yomi.mp4'
         },
     ];
 
@@ -1302,6 +1309,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="case-card" data-case="${i}">
                 <div class="case-card-image">
                     <img src="${c.thumbnail}" alt="${c.title}">
+                    ${c.videoUrl ? `<video class="case-hover-video" src="${c.videoUrl}" playsinline loop muted></video>` : ''}
                     <div class="case-card-overlay">
                         <div class="case-card-icon ${c.colorClass}" style="background:${c.color};"><i class="${c.icon}"></i></div>
                     </div>
@@ -1319,6 +1327,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Re-bind clicks
         document.querySelectorAll('.case-card').forEach(card => {
+            const video = card.querySelector('.case-hover-video');
+            
+            card.addEventListener('mouseenter', () => {
+                if (video) {
+                    video.muted = false; // Intento un-mute en el hover (browser puede bloquear)
+                    video.currentTime = 0;
+                    video.play().catch(e => {
+                        console.log('Autoplay with sound blocked, trying muted');
+                        video.muted = true;
+                        video.play();
+                    });
+                    video.style.opacity = '1';
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (video) {
+                    video.pause();
+                    video.style.opacity = '0';
+                }
+            });
+
             card.addEventListener('click', () => {
                 const idx = parseInt(card.getAttribute('data-case'));
                 openStory(idx);
