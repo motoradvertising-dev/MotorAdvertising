@@ -1200,6 +1200,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'San Andrés es un paraíso, pero la competencia es feroz. Para Ecoraconsciente, no vendimos "tours", vendimos la sensación de libertad. Diseñamos anuncios que capturan el ojo en 1 segundo y guían al usuario sin fricciones hasta la reserva. El resultado: un sistema de ventas automático que permite al dueño enfocarse en dar la mejor experiencia mientras los clientes llegan solos por la web.',
             tags: ['Turismo', 'Ventas en Automático', 'San Andrés'],
             trigger: 'Deseo y Libertad',
+            psychDesc: 'Al evocar aspiraciones profundas de escape y libertad, reducimos la resistencia cognitiva. El cliente no percibe el anuncio como un esfuerzo de venta, sino como una inversión emocional inminente.',
             icon: 'fas fa-map-pin',
             color: '#0F394A',
             colorClass: 'case-color-cyan',
@@ -1211,6 +1212,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'Nadie busca un abogado por gusto, sino por necesidad. Para Soluciones Legales, humanizamos la marca para que el cliente sintiera alivio desde el primer anuncio. Creamos un puente directo a WhatsApp donde la asesoría se siente cercana, logrando que personas con problemas legales complejos den el primer paso con confianza y rapidez.',
             tags: ['Legal', 'Confianza', 'Leads Calificados'],
             trigger: 'Paz Mental',
+            psychDesc: 'Utilizamos el principio de reducción de incertidumbre. Presentar una solución clara y empática antes de que la ansiedad escale, posiciona a la marca como el "salvador" lógico ante una urgencia.',
             icon: 'fas fa-comment',
             color: '#0F394A',
             colorClass: 'case-color-slate',
@@ -1222,6 +1224,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'Un evento vacío es el mayor miedo de un organizador. Usamos el poder de la recomendación (influencers) y la velocidad de la tecnología (bots de WhatsApp) para crear un efecto de "no me lo puedo perder". Logramos que más de mil personas dijeran "presente", automatizando las dudas frecuentes para que el equipo solo se encargara de disfrutar el éxito del evento.',
             tags: ['Eventos Masivos', 'Viralidad', 'Automatización'],
             trigger: 'Sentido de Pertenencia',
+            psychDesc: 'Aplicamos FOMO extremo sumado a "Social Proof". Cuando las métricas demuestran adopción masiva, asistir deja de ser una opción y se convierte en una validación social obligatoria.',
             icon: 'fas fa-share-nodes',
             color: '#9333ea',
             colorClass: 'case-color-purple',
@@ -1233,6 +1236,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'Para posicionar el nuevo tratamiento anti-frizz de Macca, aplicamos el principio de hiper-segmentación y el efecto de "mera exposición". Diseñamos campañas de geolocalización milimétrica impactando exclusivamente a perfiles de alta intención en el perímetro del estudio. Al reducir la fricción en el embudo y dirigir el tráfico hacia un agendamiento conversacional (WhatsApp), logramos saturar la disponibilidad y consolidar la marca como la autoridad estética de la zona.',
             tags: ['Hiper-segmentación', 'Embudo Conversacional', 'Autoridad'],
             trigger: 'Priming',
+            psychDesc: 'Aprovechamos el "Efecto de mera exposición" hiper-local. Al mostrar la solución repetidamente en la zona de confort del objetivo, el lead desarrolla preferencia e intención de compra de forma subconsciente.',
             icon: 'fas fa-bullseye',
             color: '#d97706',
             colorClass: 'case-color-amber',
@@ -1244,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'Vender salud en EE.UU. requiere precisión y respeto. Para Vital Balance, personalizamos los anuncios por ciudad para que cada persona sintiera que le hablábamos directamente a ella. Con una web sencilla y el poder de una llamada por WhatsApp, facilitamos que miles de pacientes accedan a Insulife, mejorando sus vidas mientras la empresa escala con orden y control.',
             tags: ['Salud', 'Mercado USA', 'Impacto Social'],
             trigger: 'Cuidado y Familia',
+            psychDesc: 'Activamos el efecto de "Identidad de Endogrupo". Al hipersegmentar por contexto cultural, el paciente percibe que el mensaje fue diseñado exclusivamente para proteger y cuidar a su círculo más íntimo.',
             icon: 'fas fa-heart-pulse',
             color: '#059669',
             colorClass: 'case-color-emerald',
@@ -1255,6 +1260,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'A veces el tesoro está en casa. En lugar de gastar fortunas en clientes nuevos, fuimos por quienes ya amaban la marca. Con un retargeting inteligente, les presentamos la nueva Cirugía Capilar. Al ser una marca conocida, la confianza ya estaba ahí, logrando que el lanzamiento fuera un éxito rotundo con una inversión mínima.',
             tags: ['Belleza', 'Fidelización', 'Lanzamiento'],
             trigger: 'Familiaridad',
+            psychDesc: 'Apalancamos el "Sesgo de Familiaridad". Vender es exponencialmente más económico hacia quienes ya confían. Con retargeting, eliminamos la fricción de consideración; el prospecto cruza directo a la decisión.',
             icon: 'fas fa-scissors',
             color: '#f472b6',
             colorClass: 'case-color-pink',
@@ -1266,6 +1272,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: 'KetoXL de Vital Balance atacó la necesidad latente de mejorar la salud y el bienestar físico. Implementamos una estrategia de distribución omnicanal que cubrió todas las ciudades, permitiendo que miles de personas descubrieran un aliado seguro para adelgazar. No solo vendimos un producto, vendimos la posibilidad de un cambio de vida real y duradero a través de la suplementación inteligente.',
             tags: ['Salud Integral', 'Pérdida de Peso', 'Alcance Nacional'],
             trigger: 'Salud y Resultados',
+            psychDesc: 'Implementamos el sesgo de "Aversión a la Pérdida". Al visualizar una transformación integral asimilable, el usuario percibe que el costo de no intentar este cambio es infinitamente mayor que el precio del suplemento.',
             icon: 'fas fa-weight-scale',
             color: '#10b981',
             colorClass: 'case-color-emerald',
@@ -1277,6 +1284,7 @@ document.addEventListener("DOMContentLoaded", () => {
             longDescription: '¿A quién no le gusta un detalle? Creamos un video gancho para las amantes de las uñas. La promesa era simple: ven al salón, muestra este video y recibe un regalo. Esto rompió el hielo con clientas nuevas, llenó el local de energía y nos dio una forma real de decir: "Este anuncio trajo a esta persona hoy".',
             tags: ['Uñas', 'Incentivo', 'Nuevas Clientas'],
             trigger: 'Gratitud',
+            psychDesc: 'Activamos velozmente el poderoso "Principio de Reciprocidad". Ofrecer valor por adelantado sin fricción obliga e incentiva subconscientemente al consumidor a sentirse en deuda, multiplicando la conversión.',
             icon: 'fas fa-gift',
             color: '#d946ef',
             colorClass: 'case-color-fuchsia',
@@ -1488,7 +1496,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="story-psych-icon" style="background:${c.color};"><i class="${c.icon}"></i></div>
                     <div>
                         <div class="story-psych-title">Efecto: ${c.trigger}</div>
-                        <p class="story-psych-desc">Uso estrategias de comportamiento para que el anuncio no se sienta como una interrupción, sino como la respuesta a lo que tu cliente ya está buscando.</p>
+                        <p class="story-psych-desc">${c.psychDesc}</p>
                     </div>
                 </div>
             </div>
