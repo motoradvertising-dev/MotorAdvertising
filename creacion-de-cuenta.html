@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuración Inicial - Motor Advertising</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Scoped styles for the new page components avoid conflicts with global styles.css */
@@ -23,10 +23,9 @@
           --accent: #efb810;
           --accent2: #ff4d00;
           --line: #1e1e1e;
-          --font: 'League Spartan', sans-serif;
         }
 
-        .header-creation { border-bottom: 1px solid var(--line); padding: 0 48px; position: relative; overflow: hidden; background: var(--black); }
+        .header-creation { border-bottom: 1px solid var(--line); padding: 0 40px; position: relative; overflow: hidden; background: var(--black); }
         .header-top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--line); }
         .logo-creation { font-size: 13px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); }
         .logo-creation span { color: var(--accent); }
@@ -42,14 +41,14 @@
         .header-desc { font-size: 14px; font-weight: 400; color: var(--grey4); line-height: 1.75; border-left: 1px solid var(--line); padding-left: 24px; }
         .big-num { position: absolute; right: -20px; bottom: -30px; font-size: 220px; font-weight: 900; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1px #1a1a1a; line-height: 1; user-select: none; pointer-events: none; z-index: 0; }
         
-        .sticky-bar { position: sticky; top: 70px; z-index: 100; background: var(--black); border-bottom: 1px solid var(--line); padding: 0 48px; }
+        .sticky-bar { position: sticky; top: 70px; z-index: 100; background: var(--black); border-bottom: 1px solid var(--line); padding: 0 40px; }
         .sticky-inner { display: flex; align-items: center; gap: 20px; height: 52px; }
         .prog-label { font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey3); white-space: nowrap; }
         .prog-track { flex: 1; height: 1px; background: var(--grey2); position: relative; }
         .prog-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); transition: width 0.6s cubic-bezier(.4,0,.2,1); width: 0%; }
         .prog-count { font-size: 12px; font-weight: 800; color: var(--grey4); white-space: nowrap; }
         .prog-count b { color: var(--white); }
-        .steps-wrap { padding: 40px 48px; background: var(--black); }
+        .steps-wrap { padding: 40px 40px; background: var(--black); }
         .step { border-bottom: 1px solid var(--line); transition: background 0.3s; }
         .step.done { background: rgba(239,184,16,0.02); }
         .step-head { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; cursor: pointer; padding: 28px 0; user-select: none; }
@@ -98,7 +97,7 @@
         .dbtn { display: inline-flex; align-items: center; background: var(--accent); color: var(--black); border: none; padding: 13px 26px; font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; }
         .dbtn:hover { opacity: 0.85; }
         
-        .creation-final { padding: 80px 48px 100px; border-top: 1px solid var(--line); position: relative; overflow: hidden; background: var(--black); }
+        .creation-final { padding: 80px 40px 100px; border-top: 1px solid var(--line); position: relative; overflow: hidden; background: var(--black); }
         .final-pre { font-size: 11px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--grey4); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
         .final-pre::before { content:''; display:block; width:28px; height:1px; background:var(--grey4); }
         .final-h { font-size: clamp(44px, 8vw, 96px); font-weight: 900; letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.9; margin-bottom: 32px; color: var(--white); margin: 0 0 32px 0; }
@@ -183,7 +182,6 @@
             <div class="hero-right">
               <p class="header-desc">Sigue cada paso en orden. Tómate tu tiempo, guarda tus datos en cada sección y marca cada tarea cuando la completes.</p>
             </div>
-            <div class="big-num">07</div>
           </div>
         </header>
 
