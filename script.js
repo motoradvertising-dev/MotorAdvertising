@@ -1204,6 +1204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#06b6d4',
             colorClass: 'case-color-cyan',
             thumbnail: 'https://images.unsplash.com/photo-1520116468816-95b69f847357?w=800&h=1200&fit=crop',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900522/Video_amanecer_ecoraconsiente_ai77wl.mp4',
         },
         {
             title: 'Justicia con Empatía',
@@ -1214,6 +1215,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#334155',
             colorClass: 'case-color-slate',
             thumbnail: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=1200&fit=crop',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773899658/Compa%C3%B1ia_soluciones_legales_f8volg.mp4',
         },
         {
             title: 'La Magia de los Eventos',
@@ -1224,6 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#9333ea',
             colorClass: 'case-color-purple',
             thumbnail: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=1200&fit=crop',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773899990/Evento_techno_axo2o0.mp4',
         },
         {
             title: 'Macca: La Estrella del Barrio',
@@ -1233,7 +1236,8 @@ document.addEventListener("DOMContentLoaded", () => {
             icon: 'fas fa-bullseye',
             color: '#d97706',
             colorClass: 'case-color-amber',
-            thumbnail: 'https://images.unsplash.com/photo-1522337363553-5604102f0dcc?w=800&h=1200&fit=crop',
+            thumbnail: 'assets/macca_thumb.png',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900383/Macca_lc8teo.mp4',
         },
         {
             title: 'Vital Balance: Salud Sin Fronteras',
@@ -1244,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#059669',
             colorClass: 'case-color-emerald',
             thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=1200&fit=crop',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900190/INSULIFE_Vital_Balance_kxxewe.mp4',
         },
         {
             title: 'Cirugía Capilar: Clientes que Vuelven',
@@ -1253,7 +1258,8 @@ document.addEventListener("DOMContentLoaded", () => {
             icon: 'fas fa-scissors',
             color: '#f472b6',
             colorClass: 'case-color-pink',
-            thumbnail: 'https://images.unsplash.com/photo-1560869713-7d0a294308ed?w=800&h=1200&fit=crop',
+            thumbnail: 'assets/cirugia_capilar_thumb.png',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773899315/CIRUGIA_CAPIALR_YOMI_fa7ntv.mp4',
         },
         {
             title: 'Vital Balance: KetoXL - Salud Integral',
@@ -1264,7 +1270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#10b981',
             colorClass: 'case-color-emerald',
             thumbnail: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=800&h=1200&fit=crop',
-            videoUrl: '', 
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900300/keto_xl_Vital_Balance_ws3wls.mp4', 
         },
         {
             title: 'YomiLove: El Poder de un Regalo',
@@ -1275,6 +1281,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: '#d946ef',
             colorClass: 'case-color-fuchsia',
             thumbnail: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&h=1200&fit=crop',
+            videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900466/Regalo_Yomi_jylqri.mp4',
         },
     ];
 
@@ -1301,6 +1308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         casesGrid.innerHTML = CASES_DATA.map((c, i) => `
             <div class="case-card" data-case="${i}">
                 <img src="${c.thumbnail}" alt="${c.title}" class="case-thumb">
+                ${c.videoUrl ? `<video src="${c.videoUrl}" class="case-video-hover" loop playsinline></video>` : ''}
                 <div class="case-overlay"></div>
                 <div class="case-card-content">
                     <div class="case-card-trigger" style="color:${c.color};">${c.trigger}</div>
@@ -1315,6 +1323,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Re-bind clicks
         document.querySelectorAll('.case-card').forEach(card => {
+            const video = card.querySelector('.case-video-hover');
+            
+            card.addEventListener('mouseenter', () => {
+                if (video) {
+                    video.currentTime = 0;
+                    video.muted = false;
+                    video.play().catch(e => {
+                        console.log('Hover video play with sound blocked, playing muted');
+                        video.muted = true;
+                        video.play();
+                    });
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (video) {
+                    video.pause();
+                }
+            });
+
             card.addEventListener('click', () => {
                 const idx = parseInt(card.getAttribute('data-case'));
                 openStory(idx);
