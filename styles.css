@@ -2855,13 +2855,19 @@ footer {
 }
 
 .story-touch-left {
-    width: 33%;
+    width: 25%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.story-touch-center {
+    width: 50%;
     height: 100%;
     cursor: pointer;
 }
 
 .story-touch-right {
-    width: 67%;
+    width: 25%;
     height: 100%;
     cursor: pointer;
 }

@@ -1396,6 +1396,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function startProgress() {
         stopProgress();
+        const c = CASES_DATA[activeIndex];
+        if (c.videoUrl) {
+            // El progreso se manejará con los eventos del video
+            return;
+        }
         interval = setInterval(() => {
             if (!isPaused && activeIndex !== null) {
                 progress += 1;
@@ -1428,7 +1433,20 @@ document.addEventListener("DOMContentLoaded", () => {
             storyImage.style.display = 'none';
             storyVideo.style.display = 'block';
             storyVideo.src = c.videoUrl;
+            storyVideo.loop = false; // Queremos que termine para ir al siguiente
             storyVideo.muted = false;
+            
+            storyVideo.ontimeupdate = () => {
+                if (storyVideo.duration) {
+                    progress = (storyVideo.currentTime / storyVideo.duration) * 100;
+                    updateProgressBar();
+                }
+            };
+            
+            storyVideo.onended = () => {
+                nextStory();
+            };
+
             storyVideo.play().catch(e => {
                 console.log('Story video autoplay with sound blocked, trying muted');
                 storyVideo.muted = true;
@@ -1481,48 +1499,38 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         storyPauseOverlay.classList.remove('active');
+        isPaused = false;
     }
 
     // Events
     if (storyClose) storyClose.addEventListener('click', closeStory);
 
-    // Touch/click navigation on story image
-    function onDown() {
-        pressStartTime = Date.now();
-        isPaused = true;
-        storyPauseOverlay.classList.add('active');
-        storyVideo.pause();
-    }
+    const storyTouchCenter = document.getElementById('story-touch-center');
 
-    function onUp(side) {
-        const duration = Date.now() - pressStartTime;
-        isPaused = false;
-        storyPauseOverlay.classList.remove('active');
-        if (activeIndex !== null && CASES_DATA[activeIndex].videoUrl) {
-            storyVideo.play().catch(e => console.log('Video play error on release:', e));
-        }
-        if (duration < 250) {
-            if (side === 'left') prevStory();
-            else nextStory();
+    function togglePausePlay() {
+        if (isPaused) {
+            isPaused = false;
+            storyPauseOverlay.classList.remove('active');
+            if (CASES_DATA[activeIndex].videoUrl) {
+                storyVideo.play().catch(e => console.log('Video play error:', e));
+            }
+        } else {
+            isPaused = true;
+            storyPauseOverlay.classList.add('active');
+            if (CASES_DATA[activeIndex].videoUrl) {
+                storyVideo.pause();
+            }
         }
     }
 
-    function onCancel() {
-        isPaused = false;
-        storyPauseOverlay.classList.remove('active');
+    if (storyTouchCenter) {
+        storyTouchCenter.addEventListener('click', togglePausePlay);
     }
-
     if (storyTouchLeft) {
-        storyTouchLeft.addEventListener('pointerdown', onDown);
-        storyTouchLeft.addEventListener('pointerup', () => onUp('left'));
-        storyTouchLeft.addEventListener('pointercancel', onCancel);
-        storyTouchLeft.addEventListener('pointerleave', onCancel);
+        storyTouchLeft.addEventListener('click', prevStory);
     }
     if (storyTouchRight) {
-        storyTouchRight.addEventListener('pointerdown', onDown);
-        storyTouchRight.addEventListener('pointerup', () => onUp('right'));
-        storyTouchRight.addEventListener('pointercancel', onCancel);
-        storyTouchRight.addEventListener('pointerleave', onCancel);
+        storyTouchRight.addEventListener('click', nextStory);
     }
 
     // Close on ESC
