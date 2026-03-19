@@ -575,13 +575,13 @@ document.addEventListener("DOMContentLoaded", () => {
         pmCounters.forEach(counter => {
             const target = parseFloat(counter.getAttribute('data-target'));
             const speed = counter.getAttribute('data-speed');
-            const duration = speed === 'fast' ? 1500 : 2000;
+            const duration = speed === 'fast' ? 800 : 1200;
             const isFloat = target % 1 !== 0;
             const card = counter.closest('.pm-card');
             const stage = parseInt(card.getAttribute('data-stage'));
 
-            // Calculate delay based on stage's transition delay
-            const delay = (stage * 0.8) * 1000;
+            // Calculate delay based on new fast stage's transition delay
+            const delay = (stage * 0.2) * 1000;
 
             setTimeout(() => {
                 animateValue(counter, 0, target, duration, isFloat);

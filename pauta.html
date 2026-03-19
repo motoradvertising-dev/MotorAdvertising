@@ -91,7 +91,7 @@
     /**
      * Componente de número animado que incrementa desde 0
      */
-    const AnimatedNumber = ({ value, duration = 2000, suffix = "", prefix = "" }) => {
+    const AnimatedNumber = ({ value, duration = 1000, suffix = "", prefix = "" }) => {
       const [count, setCount] = useState(0);
       const [isVisible, setIsVisible] = useState(false);
       const ref = React.useRef(null);
@@ -221,7 +221,7 @@
                       { label: 'Conversiones', value: '3800', suffix: '+', color: 'text-cyan-400' },
                       { label: 'CTR promedio', value: '3.90', suffix: '%', color: 'text-blue-400' },
                       { label: 'Optimized ad spend', value: '420', prefix: '$', suffix: 'K', color: 'text-purple-400' },
-                      { label: 'Revenue attributed', value: '2.10', prefix: '$', suffix: 'M', color: 'text-emerald-400' },
+                      { label: 'Revenue attributed', value: '500', prefix: '$', suffix: 'K', color: 'text-emerald-400' },
                     ].map((m, i) => (
                       <div key={i} className="bg-[#111111] p-8 rounded-[32px] border border-white/5 hover:border-white/20 transition-all duration-300 group/card">
                         <p className={`${m.color} font-bold text-3xl mb-2 tracking-tighter group-hover/card:scale-105 transition-transform origin-left`}>
