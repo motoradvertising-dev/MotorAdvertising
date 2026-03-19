@@ -23,7 +23,11 @@
           --accent: #efb810;
           --accent2: #ff4d00;
           --line: #1e1e1e;
+          --font-heading: 'League Spartan', sans-serif;
+          --font-body: 'Montserrat', sans-serif;
         }
+        body { background: var(--black); color: var(--white); font-family: var(--font-body); font-size: 16px; line-height: 1.5; overflow-x: hidden; }
+        h1, .stt, .logo-creation, .step-idx, .prog-count, .prog-label, .sbtn, .dbtn, .final-h { font-family: var(--font-heading); }
 
         .header-creation { border-bottom: 1px solid var(--line); padding: 0 40px; position: relative; overflow: hidden; background: var(--black); }
         .header-top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--line); }
