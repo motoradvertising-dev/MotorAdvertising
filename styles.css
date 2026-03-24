@@ -1204,6 +1204,14 @@ footer {
     box-shadow: 0 10px 20px rgba(15, 57, 74, 0.2);
 }
 
+@media (max-width: 768px) {
+    .filters-list {
+        justify-content: flex-start;
+        padding-left: 0px;
+        padding-right: 20px;
+    }
+}
+
 /* Main Grid */
 .portfolio-main-grid {
     max-width: 1280px;
@@ -1220,8 +1228,13 @@ footer {
 }
 
 @media (max-width: 1024px) {
+    .portfolio-main-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 0 16px;
+    }
     .showcase-left {
-        grid-column: span 12;
+        grid-column: span 1;
     }
 }
 
@@ -1364,7 +1377,7 @@ footer {
 
 @media (max-width: 1024px) {
     .showcase-right {
-        grid-column: span 12;
+        grid-column: span 1;
         margin-top: 20px;
     }
 }
