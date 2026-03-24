@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="120" fill="#000000"/>
+  <g transform="translate(140, 160) skewX(-15)">
+    <!-- First Slash -->
+    <rect x="-60" y="0" width="35" height="190" fill="#888888"/>
+    <!-- Second Slash -->
+    <rect x="-10" y="0" width="35" height="190" fill="#888888"/>
+    <!-- Letter M -->
+    <path d="M 40,190 L 40,0 L 90,0 L 135,120 L 180,0 L 230,0 L 230,190 L 190,190 L 190,70 L 145,190 L 125,190 L 80,70 L 80,190 Z" fill="#ffffff"/>
+  </g>
+</svg>
