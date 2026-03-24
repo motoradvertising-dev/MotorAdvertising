@@ -1,0 +1,29 @@
+diff --git a/styles.css b/styles.css
+index 0b970d3..8102a01 100644
+--- a/styles.css
++++ b/styles.css
+@@ -162,18 +162,21 @@ body {
+ @keyframes containerExpand {
+     0% {
+         transform: translateZ(0) scale(0.5);
++        /* Start with zero glow */
++        filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+     }
+ 
+     70% {
+         transform: translateZ(0) scale(1.65);
++        /* Glow reaches almost full opacity at the peak of the bounce */
++        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
+     }
+ 
+-    /* Soft overshoot bounce */
++    /* Soft overshoot bounce and settle into final glow */
+     100% {
+         transform: translateZ(0) scale(1.6);
++        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+     }
+-
+-    /* Smooth settle */
+ }
+ 
+ /* Base class for jumping SVG paths */
