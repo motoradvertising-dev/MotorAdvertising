@@ -921,6 +921,22 @@ footer {
     min-width: 250px;
 }
 
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+        letter-spacing: 1px;
+    }
+    .contact-options {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    .contact-options .btn {
+        min-width: 100%;
+        width: 100%;
+    }
+}
+
 /* Modal System */
 .modal-overlay {
     position: fixed;
