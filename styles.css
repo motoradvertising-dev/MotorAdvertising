@@ -253,13 +253,13 @@ body {
 
 @media (max-width: 768px) {
     .hero-logo-svg {
-        width: 90%;
+        width: 60%;
     }
 }
 
 @media (max-width: 480px) {
     .hero-logo-svg {
-        width: 95%;
+        width: 55%;
     }
 }
 
