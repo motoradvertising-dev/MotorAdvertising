@@ -23,6 +23,43 @@ window.addEventListener('scroll', throttle(() => {
 }, 100));
 
 
+// Mobile Menu Toggle
+(function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            // Inline style backup if CSS is not loaded yet or for direct control
+            if (navLinks.classList.contains('active')) {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.right = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.background = 'rgba(0, 0, 0, 0.98)';
+                navLinks.style.padding = '30px';
+                navLinks.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+            } else {
+                navLinks.style.display = '';
+            }
+        });
+
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navLinks.style.display = '';
+            });
+        });
+    }
+})();
+
+
+
 // Particle system (Moving Nodes Background)
 (function() {
     const canvas = document.getElementById('data-canvas');
