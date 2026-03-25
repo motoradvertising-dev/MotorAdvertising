@@ -245,6 +245,33 @@ body {
     }
 }
 
+.scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    opacity: 0;
+    cursor: pointer;
+    text-decoration: none;
+    animation: fadeInScroll 1.5s ease-out 3s forwards, floatUpDown 3s ease-in-out infinite 3.5s;
+    transition: opacity 0.3s;
+}
+
+.scroll-indicator:hover {
+    opacity: 0.8 !important;
+}
+
+@keyframes fadeInScroll {
+    0% { opacity: 0; margin-bottom: -10px; }
+    100% { opacity: 1; margin-bottom: 0px; }
+}
+
+@keyframes floatUpDown {
+    0%, 100% { bottom: 20px; }
+    50% { bottom: 14px; }
+}
+
 @media (min-width: 1200px) {
     .hero-logo-svg {
         width: 70%;
