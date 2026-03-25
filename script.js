@@ -12,6 +12,29 @@ function throttle(func, limit) {
     }
 }
 
+// Force Hero Video Autoplay Safari/Mobile Safeguard
+document.addEventListener('DOMContentLoaded', () => {
+    const heroVideo = document.querySelector('.hero-video-bg');
+    if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.playsInline = true;
+        
+        const forcePlay = () => {
+            heroVideo.play().catch(e => console.log("Autoplay strictly blocked:", e));
+        };
+        
+        const playPromise = heroVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // If initial autoplay fails, bind it to the very first user interaction
+                window.addEventListener('touchstart', forcePlay, { once: true });
+                window.addEventListener('click', forcePlay, { once: true });
+                window.addEventListener('scroll', forcePlay, { once: true });
+            });
+        }
+    }
+});
+
 // Sticky Navbar - Throttled
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', throttle(() => {
