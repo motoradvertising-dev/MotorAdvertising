@@ -466,39 +466,53 @@
       document.getElementById('pc').innerHTML = '<b>' + doneSet.length + '</b> / ' + TOTAL + ' pasos';
     }
 
-    function submitAll() {
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3001'
+        : 'https://motor-advertising-production.up.railway.app';
+
+    async function submitAll() {
       if (doneSet.length < TOTAL) { document.getElementById('serr').style.display = 'block'; return; }
       var btn = document.getElementById('sbtn');
       btn.disabled = true;
       btn.textContent = 'Enviando...';
       
-      var lines = [
-        '--- CONFIGURACIÓN INICIAL DE PAUTA ---',
-        'Cliente completó exitosamente los 7 pasos.',
-        '',
-        'DATOS REGISTRADOS:',
-        '- Negocio/Marca: ' + (fd['f7'] || 'No especificado'),
-        '- Gmail: ' + (fd['f1'] || 'No especificado'),
-        '- Contraseña Gmail: ' + (fd['f2'] || 'No especificado'),
-        '- Celular Gmail: ' + (fd['f3'] || 'No especificado'),
-        '- Instagram: ' + (fd['f4'] || 'No especificado'),
-        '- Contraseña Instagram: ' + (fd['f5'] || 'No especificado'),
-        '- Página Facebook: ' + (fd['f6'] || 'No especificado'),
-        '- Sitio Web: ' + (fd['f8'] || 'No especificado'),
-        '',
-        'Fecha: ' + new Date().toLocaleString('es-CO'),
-        '---------------------------------------'
-      ];
+      const payload = {
+        negocio: fd['f7'] || 'No especificado',
+        gmail: fd['f1'] || 'No especificado',
+        contrasena_gmail: fd['f2'] || 'No especificado',
+        celular: fd['f3'] || 'No especificado',
+        instagram: fd['f4'] || 'No especificado',
+        contrasena_instagram: fd['f5'] || 'No especificado',
+        pagina_facebook: fd['f6'] || 'No especificado',
+        sitio_web: fd['f8'] || 'No especificado'
+      };
       
-      var body = lines.join('\n');
-      var subject = 'CONFIGURACIÓN DE MARCA COMPLETADA: ' + (fd['f7'] || 'Nuevo Cliente');
-      
-      // Intentar mailto
-      window.location.href = 'mailto:juanjosemenesestoloza@hotmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      
-      setTimeout(function() { 
-          document.getElementById('sov').classList.add('show'); 
-      }, 1000);
+      try {
+          const response = await fetch(`${API_BASE_URL}/api/contact/cuenta`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+              document.getElementById('sov').classList.add('show');
+          } else {
+              document.getElementById('serr').innerText = result.message || 'Error al enviar la configuración.';
+              document.getElementById('serr').style.display = 'block';
+              btn.disabled = false;
+              btn.textContent = 'Finalizar y Notificar';
+          }
+      } catch (error) {
+          console.error('Submission Error:', error);
+          document.getElementById('serr').innerText = 'No se pudo conectar con el servidor. Por favor intenta más tarde.';
+          document.getElementById('serr').style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Finalizar y Notificar';
+      }
     }
 
     document.getElementById('s1').classList.add('open');

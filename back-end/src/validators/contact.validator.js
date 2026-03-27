@@ -54,7 +54,20 @@ const validateProfesional = (req, res, next) => {
     next();
 };
 
+const validateCuentas = (req, res, next) => {
+    const { negocio, gmail, instragram, page, sitio } = req.body;
+    
+    // We only validate that negocio is provided since some steps might be skipped intentionally or left blank by mistake, 
+    // but the name is required to know who is creating this.
+    if (!negocio) {
+        return res.status(400).json({ success: false, message: 'El nombre del negocio es obligatorio.' });
+    }
+
+    next();
+};
+
 module.exports = {
     validateEmpresa,
-    validateProfesional
+    validateProfesional,
+    validateCuentas
 };
