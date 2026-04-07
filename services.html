@@ -530,7 +530,7 @@
     });
 
     const chatObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const card=e.target;const msgs=card.querySelectorAll('.chat-msg');const container=card.querySelector('.chat-messages');
-    msgs.forEach((m,i)=>{setTimeout(()=>{m.classList.add('visible');container.scrollTop=container.scrollHeight;},parseInt(m.dataset.delay)+i*200);});
+    msgs.forEach((m,i)=>{setTimeout(()=>{m.classList.add('visible');},parseInt(m.dataset.delay)+i*200);});
     chatObs.unobserve(card);}});},{threshold:.3});
     document.querySelectorAll('.chat-card').forEach(c=>chatObs.observe(c));
 

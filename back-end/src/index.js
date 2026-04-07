@@ -16,6 +16,8 @@ app.use(express.json());
 const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:8080',
+    'https://motoradvertising.co',
+    'https://www.motoradvertising.co',
     process.env.FRONTEND_ORIGIN
 ].filter(Boolean);
 
