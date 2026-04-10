@@ -3184,15 +3184,24 @@ footer {
 .conversational-scroll-section {
     position: relative;
     background: var(--bg-color);
-    padding-bottom: 10vh;
+    padding-bottom: 30vh;
 }
 
-.conversational-sticky-container {
+.scroll-wrapper {
+    display: grid;
+    grid-template-columns: 100%;
+    position: relative;
+}
+
+.sticky-bg, .scroll-content {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.sticky-bg {
     position: sticky;
     top: 0;
     height: 100vh;
-    width: 100%;
-    margin-bottom: -100vh; /* Vital: Removes structural footprint so the track overlaps and drives height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3213,13 +3222,11 @@ footer {
     -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
-/* Track scrolls natively */
-.conversation-track {
-    position: relative;
+.scroll-content {
     width: 100%;
     max-width: 100vw;
     z-index: 10;
-    padding-top: 60vh; /* Starts exactly at bottom edge of trigger zone so it shows immediately */
+    padding-top: 60vh;
     pointer-events: none;
 }
 
@@ -3227,7 +3234,7 @@ footer {
     width: 100%;
     display: flex;
     justify-content: center; /* ALIGN EVERYTHING TO CENTER FIRST */
-    margin-bottom: 70vh; /* Large gap prevents overlap and supplies height to sticky flow */
+    margin-bottom: 70vh; /* large gap ensures track drives height */
 }
 .conversation-msg:last-child {
     margin-bottom: 30vh;
