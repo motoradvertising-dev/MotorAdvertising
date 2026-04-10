@@ -3234,10 +3234,10 @@ footer {
     width: 100%;
     display: flex;
     justify-content: center; /* ALIGN EVERYTHING TO CENTER FIRST */
-    margin-bottom: 70vh; /* large gap ensures track drives height */
+    margin-bottom: 30vh; /* perfectly maps to the 30vh IntersectionObserver active window */
 }
 .conversation-msg:last-child {
-    margin-bottom: 30vh;
+    margin-bottom: 40vh; /* buffer to gracefully end section */
 }
 
 /* Left Message: From center, shift left */
