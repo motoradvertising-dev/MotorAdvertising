@@ -3210,7 +3210,7 @@ footer {
 }
 
 .sticky-character {
-    width: 420px;
+    width: 480px;
     pointer-events: none;
 }
 
@@ -3248,7 +3248,7 @@ footer {
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .conversation-msg.visible.msg-left .msg-bubble {
-    transform: translateX(-260px) scale(1); /* Move it left 260px */
+    transform: translateX(-480px) scale(1); /* Pushed out past the 240px arm + 200px box radius */
     opacity: 1;
 }
 
@@ -3259,7 +3259,7 @@ footer {
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .conversation-msg.visible.msg-right .msg-bubble {
-    transform: translateX(260px) scale(1); /* Move it right 260px */
+    transform: translateX(480px) scale(1); /* Pushed out past the 240px arm + 200px box radius */
     opacity: 1;
 }
 
@@ -3348,10 +3348,16 @@ footer {
     font-weight: 700;
 }
 
+@media (max-width: 1400px) {
+    .sticky-character { width: 450px; }
+    .conversation-msg.visible.msg-left .msg-bubble { transform: translateX(-380px) scale(1); }
+    .conversation-msg.visible.msg-right .msg-bubble { transform: translateX(380px) scale(1); }
+}
+
 @media (max-width: 1024px) {
     .sticky-character { width: 380px; }
-    .conversation-msg.visible.msg-left .msg-bubble { transform: translateX(-220px) scale(1); }
-    .conversation-msg.visible.msg-right .msg-bubble { transform: translateX(220px) scale(1); }
+    .conversation-msg.visible.msg-left .msg-bubble { transform: translateX(-280px) scale(1); }
+    .conversation-msg.visible.msg-right .msg-bubble { transform: translateX(280px) scale(1); }
 }
 
 @media (max-width: 768px) {
