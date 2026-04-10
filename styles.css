@@ -3212,72 +3212,90 @@ footer {
     -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
-.conversation-track {
+/* Scroll Triggers (Invisible) */
+.scroll-triggers-track {
     position: relative;
     width: 100%;
-    max-width: 1000px;
-    margin: -100vh auto 0 auto; /* Pull up to overlay sticky */
-    z-index: 10;
-    padding-top: 30vh; /* Start fading after scrolling */
+    margin-top: -100vh; /* Start right when section hits top */
+}
+
+.scroll-trigger {
+    height: 100vh; /* 100vh scroll distance per message */
+    width: 100%;
     pointer-events: none;
 }
 
-.conversation-msg {
+/* Sticky Messages Container */
+.sticky-messages-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 650px 1fr; /* Matching character width + gaps */
-    margin-bottom: 50vh; /* Spacer between messages */
+    grid-template-columns: 1fr 650px 1fr;
+    align-items: center; /* Center them perfectly around the character */
+    pointer-events: none;
+    z-index: 10;
 }
 
-/* Remove margin for the last one */
-.conversation-msg:last-child {
-    margin-bottom: 30vh;
+.visual-msg {
+    grid-row: 1; /* ALL messages span the EXACT same row */
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
 }
 
+.visual-msg.active {
+    opacity: 1;
+}
 
-
-.msg-left .msg-bubble {
+.msg-left {
     grid-column: 1;
     justify-self: end;
+}
+
+.msg-right {
+    grid-column: 3;
+    justify-self: start;
+}
+
+.msg-center {
+    grid-column: 2;
+    justify-self: center;
+    align-self: end;
+    margin-bottom: 15vh;
+}
+
+.msg-left .msg-bubble {
     transform: translateX(80px) scale(0.5);
     transform-origin: right center;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    margin-right: 0px; /* Hugs the character closely */
-    opacity: 0;
 }
 
-.conversation-msg.visible .msg-left .msg-bubble {
+.visual-msg.active.msg-left .msg-bubble {
     transform: translateX(0) scale(1);
-    opacity: 1;
 }
 
 .msg-right .msg-bubble {
-    grid-column: 3;
-    justify-self: start;
     transform: translateX(-80px) scale(0.5);
     transform-origin: left center;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    margin-left: 0px; /* Hugs the character closely */
-    opacity: 0;
 }
 
-.conversation-msg.visible .msg-right .msg-bubble {
+.visual-msg.active.msg-right .msg-bubble {
     transform: translateX(0) scale(1);
-    opacity: 1;
 }
 
 .msg-center .msg-bubble {
-    grid-column: 2;
-    justify-self: center;
     transform: translateY(40px) scale(0.5);
     transform-origin: bottom center;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 0;
 }
 
-.conversation-msg.visible .msg-center .msg-bubble {
+.visual-msg.active.msg-center .msg-bubble {
     transform: translateY(0) scale(1);
-    opacity: 1;
 }
 
 .msg-bubble {
@@ -3354,17 +3372,16 @@ footer {
 }
 
 @media (max-width: 1024px) {
-    .conversation-track { max-width: 900px; }
-    .conversation-msg { grid-template-columns: 1fr 500px 1fr; }
+    .sticky-messages-container { grid-template-columns: 1fr 500px 1fr; }
     .sticky-character { width: 500px; }
 }
 
 @media (max-width: 768px) {
     .sticky-character {
         width: 300px;
-        opacity: 0.4; /* dim character to read text easily */
+        opacity: 0.4;
     }
-    .conversation-msg {
+    .sticky-messages-container {
         display: flex;
         justify-content: center;
     }
@@ -3376,15 +3393,13 @@ footer {
         z-index: 20;
     }
     .msg-left .msg-bubble { 
-        margin-right: 0;
-        transform: translateX(-20px) translateY(20px) scale(0.9);
+        transform: translateX(-20px) translateY(20px) scale(0.5);
         transform-origin: center;
     }
     .msg-right .msg-bubble { 
-        margin-left: 0;
-        transform: translateX(20px) translateY(20px) scale(0.9);
+        transform: translateX(20px) translateY(20px) scale(0.5);
         transform-origin: center;
     }
-    .conversation-msg.visible .msg-left .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
-    .conversation-msg.visible .msg-right .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
+    .visual-msg.active.msg-left .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
+    .visual-msg.active.msg-right .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
 }
