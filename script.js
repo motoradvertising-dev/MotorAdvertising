@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     entry.target.classList.remove("visible");
                 }
             });
-        }, { rootMargin: "-35% 0px -35% 0px" });
+        }, { rootMargin: "-15% 0px -15% 0px" });
         messages.forEach(msg => observer.observe(msg));
     }
 });
