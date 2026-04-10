@@ -3219,7 +3219,7 @@ footer {
     max-width: 100vw;
     margin: -100vh auto 0 auto; /* Overlay sticky logic */
     z-index: 10;
-    padding-top: 30vh; /* Reduced padding so first message appears early */
+    padding-top: 60vh; /* Starts exactly at bottom edge of trigger zone so it shows immediately */
     pointer-events: none;
 }
 
@@ -3227,7 +3227,7 @@ footer {
     width: 100%;
     display: flex;
     justify-content: center; /* ALIGN EVERYTHING TO CENTER FIRST */
-    margin-bottom: 40vh; /* gap between messages scrolling up */
+    margin-bottom: 70vh; /* Large gap prevents overlap and supplies height to sticky flow */
 }
 .conversation-msg:last-child {
     margin-bottom: 30vh;
