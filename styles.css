@@ -3228,8 +3228,8 @@ footer {
     display: flex;
     opacity: 0;
     transform: translateY(40px);
-    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-    margin-bottom: 70vh; /* Spacer between messages */
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-bottom: 50vh; /* Spacer between messages */
 }
 
 /* Remove margin for the last one */
@@ -3239,21 +3239,27 @@ footer {
 
 .conversation-msg.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0) translateY(0) scale(1) !important;
 }
 
 .msg-left {
-    justify-content: flex-start;
-    padding-left: 5%;
+    justify-content: flex-end;
+    padding-right: calc(50vw + 160px); /* Position completely to the left of the character */
+    transform: translateX(50px) translateY(20px) scale(0.9);
+    transform-origin: right center;
 }
 
 .msg-right {
-    justify-content: flex-end;
-    padding-right: 5%;
+    justify-content: flex-start;
+    padding-left: calc(50vw + 160px); /* Position completely to the right of the character */
+    transform: translateX(-50px) translateY(20px) scale(0.9);
+    transform-origin: left center;
 }
 
 .msg-center {
     justify-content: center;
+    transform: translateY(40px) scale(0.9);
+    transform-origin: bottom center;
 }
 
 .msg-bubble {
@@ -3282,16 +3288,33 @@ footer {
     font-weight: 700;
 }
 
+@media (max-width: 1024px) {
+    .msg-left { padding-right: calc(50vw + 120px); }
+    .msg-right { padding-left: calc(50vw + 120px); }
+}
+
 @media (max-width: 768px) {
     .sticky-character {
         width: 300px;
-        opacity: 0.8;
+        opacity: 0.4; /* dim character to read text easily */
     }
     .msg-bubble {
         font-size: 1.2rem;
         padding: 15px 20px;
         max-width: 300px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 20;
     }
-    .msg-left { padding-left: 5%; }
-    .msg-right { padding-right: 5%; }
+    .msg-left { 
+        justify-content: center; 
+        padding-right: 0; 
+        transform: translateX(-20px) translateY(20px) scale(0.9);
+        transform-origin: center;
+    }
+    .msg-right { 
+        justify-content: center; 
+        padding-left: 0; 
+        transform: translateX(20px) translateY(20px) scale(0.9);
+        transform-origin: center;
+    }
 }
