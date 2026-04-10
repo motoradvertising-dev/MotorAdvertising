@@ -179,132 +179,22 @@ window.addEventListener('scroll', throttle(() => {
 
 })();
 
-// 3D Interaction Logic
-const systemSection = document.querySelector('.system-core-section');
-const blocks = document.querySelectorAll('.system-block');
-const close3dBtn = document.querySelector('.close-3d-btn');
-
-const screenData = {
-    captacion: {
-        center: { title: "Estrategia de Captación", desc: "Atracción inteligente basada en intención real." },
-        left: { title: "Fuentes", content: "Meta Ads, Google Search, TikTok Ads." },
-        right: { title: "Eficacia", content: "Costo por lead optimizado mediante IA." }
-    },
-    conversion: {
-        center: { title: "Embudos de Conversión", desc: "Arquitectura persuasiva de alto impacto." },
-        left: { title: "UX/UI", content: "Fricción cero. Enfoque total en el checkout." },
-        right: { title: "Tracking", content: "Medición absoluta del viaje del usuario." }
-    },
-    automatizacion: {
-        center: { title: "Motores de Escala", desc: "Sistemas autónomos que operan 24/7." },
-        left: { title: "CRM", content: "Nutrición automática de prospectos." },
-        right: { title: "Backend", content: "Procesos optimizados sin error humano." }
-    },
-    produccion: {
-        center: { title: "Activos Estratégicos", desc: "Narrativa visual diseñada para vender." },
-        left: { title: "Video", content: "Storytelling que retiene y convence." },
-        right: { title: "Creative", content: "Diseño modular para testing constante." }
-    }
-};
-
-if (blocks.length > 0) {
-    blocks.forEach(block => {
-        block.addEventListener('click', (e) => {
-            const target = block.getAttribute('data-target');
-            const data = screenData[target];
-
-            if (data) {
-                // 1. Mark Sidebar State immediately
-                blocks.forEach(b => b.classList.remove('active-in-3d'));
-                block.classList.add('active-in-3d');
-
-                // 2. Animation Sequencer
-                const screens = document.querySelectorAll('.virtual-screen');
-                const isAlreadyActive = systemSection.classList.contains('active-3d');
-
-                // Function to update content (Safe to call anytime screens are invisible)
-                const updateContent = () => {
-                    document.querySelector('#screen-center .screen-main-title').innerText = data.center.title;
-                    document.querySelector('#screen-center .screen-description').innerText = data.center.desc;
-                    document.querySelector('#screen-left .data-placeholder').innerHTML = `<p class="screen-description">${data.left.content}</p>`;
-                    document.querySelector('#screen-left .screen-title').innerText = data.left.title;
-                    document.querySelector('#screen-right .data-placeholder').innerHTML = `<p class="screen-description">${data.right.content}</p>`;
-                    document.querySelector('#screen-right .screen-title').innerText = data.right.title;
-                };
-
-                if (isAlreadyActive) {
-                    // --- SWITCHING BLOCKS (Cinematic Transition) ---
-
-                    // 1. Trigger Fly Past Escape
-                    screens.forEach(s => {
-                        s.classList.remove('anim-enter');
-                        s.classList.add('anim-exit');
-                    });
-
-                    // 2. Wait for exit to clear screen (600ms match CSS)
-                    setTimeout(() => {
-                        // 3. Reset State (Instant)
-                        screens.forEach(s => {
-                            s.classList.remove('anim-exit');
-                            // CSS ensures they are now opacity: 0 and deep position
-                        });
-
-                        // 4. Update Content
-                        updateContent();
-
-                        // 5. Trigger Deep Entry via RAF to avoid layout thrashing
-                        requestAnimationFrame(() => {
-                            screens.forEach(s => s.classList.add('anim-enter'));
-                        });
-
-
-                    }, 550); // Slightly less than 0.6s to overlap ensuring continuous motion
-
+// Conversational Scroll Logic
+document.addEventListener("DOMContentLoaded", () => {
+    const messages = document.querySelectorAll(".conversation-msg");
+    if (messages.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
                 } else {
-                    // --- FIRST ENTRY ---
-                    systemSection.classList.add('active-3d');
-
-                    // Clear any residuals
-                    screens.forEach(s => {
-                        s.classList.remove('anim-exit', 'anim-enter');
-                    });
-
-                    updateContent();
-
-                    // Trigger Entry via RAF
-                    requestAnimationFrame(() => {
-                        screens.forEach(s => s.classList.add('anim-enter'));
-                    });
-
+                    entry.target.classList.remove("visible");
                 }
-            }
-        });
-    });
-
-    if (close3dBtn) {
-        close3dBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            // Hard Reset
-            systemSection.classList.remove('active-3d');
-            blocks.forEach(b => b.classList.remove('active-in-3d'));
-
-            // Clear all animation classes
-            const screens = document.querySelectorAll('.virtual-screen');
-            screens.forEach(s => {
-                s.classList.remove('anim-enter', 'anim-exit');
             });
-        });
+        }, { threshold: 0.5 });
+        messages.forEach(msg => observer.observe(msg));
     }
-
-    // Also close on background click within section, but NOT on screens
-    systemSection.addEventListener('click', (e) => {
-        if (e.target === systemSection || e.target.classList.contains('core-container')) {
-            systemSection.classList.remove('active-3d');
-            blocks.forEach(b => b.classList.remove('active-in-3d'));
-        }
-    });
-}
+});
 
 // Smooth Scroll for Anchors
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -938,15 +828,11 @@ document.addEventListener("DOMContentLoaded", () => {
             hero_support: 'We interpret data, market behavior and brand momentum to decide how to move, when to scale and when to adjust.',
             hero_cta_primary: 'Activate the engine',
             hero_cta_secondary: 'Learn the system',
-            // System Core Blocks
-            block_captacion: 'Acquisition',
-            block_captacion_desc: 'We activate acquisition systems designed to attract real clients, not just traffic. Each campaign responds to a clear reading of context and data.',
-            block_conversion: 'Conversion',
-            block_conversion_desc: 'We design digital structures that transform attention into measurable results. Nothing is left to improvisation.',
-            block_automatizacion: 'Automation',
-            block_automatizacion_desc: 'We integrate technology to reduce friction, organize processes and amplify human judgment. Less improvisation, more structure.',
-            block_produccion: 'Production',
-            block_produccion_desc: 'We create and execute strategic assets aligned to the complete system. Each piece responds to a clear objective within the engine.',
+            // Conversational Scroll
+            conv_1: 'You don\'t need more content.',
+            conv_2: 'You don\'t need more followers.',
+            conv_3: 'You need a system that converts attention into money.',
+            conv_4: 'That\'s exactly what we build.',
             // Screens
             screen_analitica: 'Analytics',
             screen_estrategia: 'Strategy',
@@ -1078,14 +964,10 @@ document.addEventListener("DOMContentLoaded", () => {
             hero_support: 'Interpretamos datos, comportamiento del mercado y momento de la marca para decidir cómo debe moverse, cuándo escalar y cuándo ajustar.',
             hero_cta_primary: 'Activar el motor',
             hero_cta_secondary: 'Conocer el sistema',
-            block_captacion: 'Captación',
-            block_captacion_desc: 'Activamos sistemas de adquisición diseñados para atraer clientes reales, no solo tráfico. Cada campaña responde a una lectura clara del contexto y los datos.',
-            block_conversion: 'Conversión',
-            block_conversion_desc: 'Diseñamos estructuras digitales que transforman atención en resultados medibles. Nada se deja a la improvisación.',
-            block_automatizacion: 'Automatización',
-            block_automatizacion_desc: 'Integramos tecnología para reducir fricción, ordenar procesos y amplificar el criterio humano. Menos improvisación, más estructura.',
-            block_produccion: 'Producción',
-            block_produccion_desc: 'Creamos y ejecutamos activos estratégicos alineados al sistema completo. Cada pieza responde a un objetivo claro dentro del motor.',
+            conv_1: 'No necesitas más contenido.',
+            conv_2: 'No necesitas más seguidores.',
+            conv_3: 'Necesitas un sistema que convierta atención en dinero.',
+            conv_4: 'Eso es exactamente lo que construimos.',
             screen_analitica: 'Analítica',
             screen_estrategia: 'Estrategia',
             screen_flujo: 'Flujo',
