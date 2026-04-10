@@ -3247,7 +3247,7 @@ footer {
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.conversation-msg.visible .msg-left .msg-bubble {
+.conversation-msg.visible.msg-left .msg-bubble {
     transform: translateX(-260px) scale(1); /* Move it left 260px */
     opacity: 1;
 }
@@ -3258,7 +3258,7 @@ footer {
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.conversation-msg.visible .msg-right .msg-bubble {
+.conversation-msg.visible.msg-right .msg-bubble {
     transform: translateX(260px) scale(1); /* Move it right 260px */
     opacity: 1;
 }
@@ -3269,7 +3269,7 @@ footer {
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.conversation-msg.visible .msg-center .msg-bubble {
+.conversation-msg.visible.msg-center .msg-bubble {
     transform: translateY(0px) scale(1);
     opacity: 1;
 }
@@ -3350,8 +3350,8 @@ footer {
 
 @media (max-width: 1024px) {
     .sticky-character { width: 380px; }
-    .conversation-msg.visible .msg-left .msg-bubble { transform: translateX(-220px) scale(1); }
-    .conversation-msg.visible .msg-right .msg-bubble { transform: translateX(220px) scale(1); }
+    .conversation-msg.visible.msg-left .msg-bubble { transform: translateX(-220px) scale(1); }
+    .conversation-msg.visible.msg-right .msg-bubble { transform: translateX(220px) scale(1); }
 }
 
 @media (max-width: 768px) {
@@ -3372,6 +3372,6 @@ footer {
     .msg-right .msg-bubble {
         transform: translateX(0) scale(0.5);
     }
-    .conversation-msg.visible .msg-left .msg-bubble { transform: translateX(-20px) translateY(20px) scale(1); }
-    .conversation-msg.visible .msg-right .msg-bubble { transform: translateX(20px) translateY(20px) scale(1); }
+    .conversation-msg.visible.msg-left .msg-bubble { transform: translateX(-20px) translateY(20px) scale(1); }
+    .conversation-msg.visible.msg-right .msg-bubble { transform: translateX(20px) translateY(20px) scale(1); }
 }
