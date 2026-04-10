@@ -181,22 +181,18 @@ window.addEventListener('scroll', throttle(() => {
 
 // Conversational Scroll Logic
 document.addEventListener("DOMContentLoaded", () => {
-    const triggers = document.querySelectorAll(".scroll-trigger");
-    if (triggers.length > 0) {
+    const messages = document.querySelectorAll(".conversation-msg");
+    if (messages.length > 0) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                const targetId = entry.target.getAttribute("data-target");
-                const visualMsg = document.getElementById(targetId);
-                if (!visualMsg) return;
-                
                 if (entry.isIntersecting) {
-                    visualMsg.classList.add("active");
+                    entry.target.classList.add("visible");
                 } else {
-                    visualMsg.classList.remove("active");
+                    entry.target.classList.remove("visible");
                 }
             });
-        }, { rootMargin: "-40% 0px -40% 0px" });
-        triggers.forEach(t => observer.observe(t));
+        }, { rootMargin: "-35% 0px -35% 0px" });
+        messages.forEach(msg => observer.observe(msg));
     }
 });
 
