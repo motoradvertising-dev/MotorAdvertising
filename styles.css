@@ -3192,6 +3192,7 @@ footer {
     top: 0;
     height: 100vh;
     width: 100%;
+    margin-bottom: -100vh; /* Vital: Removes structural footprint so the track overlaps and drives height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3217,7 +3218,6 @@ footer {
     position: relative;
     width: 100%;
     max-width: 100vw;
-    margin: -100vh auto 0 auto; /* Overlay sticky logic */
     z-index: 10;
     padding-top: 60vh; /* Starts exactly at bottom edge of trigger zone so it shows immediately */
     pointer-events: none;
