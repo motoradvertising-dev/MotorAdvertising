@@ -3200,7 +3200,7 @@ footer {
 }
 
 .sticky-character {
-    width: 420px;
+    width: 600px;
     pointer-events: none;
 }
 
@@ -3215,7 +3215,7 @@ footer {
 .conversation-track {
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: -100vh auto 0 auto; /* Pull up to overlay sticky */
     z-index: 10;
     padding-top: 80vh; /* Start fading after scrolling */
@@ -3224,10 +3224,10 @@ footer {
 
 .conversation-msg {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 650px 1fr; /* Matching character width + gaps */
     opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     margin-bottom: 50vh; /* Spacer between messages */
 }
 
@@ -3238,27 +3238,44 @@ footer {
 
 .conversation-msg.visible {
     opacity: 1;
-    transform: translateX(0) translateY(0) scale(1) !important;
 }
 
-.msg-left {
-    justify-content: flex-end;
-    padding-right: calc(50vw + 160px); /* Position completely to the left of the character */
+.msg-left .msg-bubble {
+    grid-column: 1;
+    justify-self: end;
     transform: translateX(50px) translateY(20px) scale(0.9);
     transform-origin: right center;
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-right: 0px; /* Hugs the character closely */
 }
 
-.msg-right {
-    justify-content: flex-start;
-    padding-left: calc(50vw + 160px); /* Position completely to the right of the character */
+.conversation-msg.visible .msg-left .msg-bubble {
+    transform: translateX(0) translateY(0) scale(1);
+}
+
+.msg-right .msg-bubble {
+    grid-column: 3;
+    justify-self: start;
     transform: translateX(-50px) translateY(20px) scale(0.9);
     transform-origin: left center;
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-left: 0px; /* Hugs the character closely */
 }
 
-.msg-center {
-    justify-content: center;
+.conversation-msg.visible .msg-right .msg-bubble {
+    transform: translateX(0) translateY(0) scale(1);
+}
+
+.msg-center .msg-bubble {
+    grid-column: 2;
+    justify-self: center;
     transform: translateY(40px) scale(0.9);
     transform-origin: bottom center;
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.conversation-msg.visible .msg-center .msg-bubble {
+    transform: translateY(0) scale(1);
 }
 
 .msg-bubble {
@@ -3335,14 +3352,19 @@ footer {
 }
 
 @media (max-width: 1024px) {
-    .msg-left { padding-right: calc(50vw + 120px); }
-    .msg-right { padding-left: calc(50vw + 120px); }
+    .conversation-track { max-width: 900px; }
+    .conversation-msg { grid-template-columns: 1fr 500px 1fr; }
+    .sticky-character { width: 500px; }
 }
 
 @media (max-width: 768px) {
     .sticky-character {
         width: 300px;
         opacity: 0.4; /* dim character to read text easily */
+    }
+    .conversation-msg {
+        display: flex;
+        justify-content: center;
     }
     .msg-bubble {
         font-size: 1.2rem;
@@ -3351,16 +3373,16 @@ footer {
         box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         z-index: 20;
     }
-    .msg-left { 
-        justify-content: center; 
-        padding-right: 0; 
+    .msg-left .msg-bubble { 
+        margin-right: 0;
         transform: translateX(-20px) translateY(20px) scale(0.9);
         transform-origin: center;
     }
-    .msg-right { 
-        justify-content: center; 
-        padding-left: 0; 
+    .msg-right .msg-bubble { 
+        margin-left: 0;
         transform: translateX(20px) translateY(20px) scale(0.9);
         transform-origin: center;
     }
+    .conversation-msg.visible .msg-left .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
+    .conversation-msg.visible .msg-right .msg-bubble { transform: translateX(0) translateY(0) scale(1); }
 }
