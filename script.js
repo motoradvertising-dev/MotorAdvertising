@@ -358,17 +358,17 @@ if (document.getElementById('profesional-contact-form')) {
         },
         {
           id: 2,
-          slug: 'tech-store',
-          title: "VORTEX TECH STORE",
-          category: "ECOMMERCE",
-          year: "2023",
-          description: "Tienda de tecnología con catálogo dinámico y proceso de checkout ultra-rápido.",
-          platform: "Shopify Headless",
-          objective: "Ventas Directas",
-          features: ["Stock Sync", "Filtros"],
-          image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000",
-          tags: ["Performance", "Ventas"],
-          url: "https://vortex-tech.example.com"
+          slug: 'gmc-granite',
+          title: "GMC GRANITE INC",
+          category: "CORPORATIVO",
+          year: "2024",
+          description: "Sitio web corporativo para especialistas en fabricación e instalación de superficies de granito, cuarzo y mármol.",
+          platform: "UI Custom",
+          objective: "Generación de Leads",
+          features: ["Portafolio", "Cotizaciones"],
+          image: "https://images.unsplash.com/photo-1556910103-1c02745a8a1c?auto=format&fit=crop&q=80&w=1000",
+          tags: ["Corporativo", "Leads"],
+          url: "https://gmcgraniteinc.com/"
         },
         {
           id: 3,
