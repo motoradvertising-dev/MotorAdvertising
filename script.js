@@ -366,7 +366,7 @@ if (document.getElementById('profesional-contact-form')) {
           platform: "UI Custom",
           objective: "Generación de Leads",
           features: ["Portafolio", "Cotizaciones"],
-          image: "https://images.unsplash.com/photo-1556910103-1c02745a8a1c?auto=format&fit=crop&q=80&w=1000",
+          image: "assets/gmc_granite_mockup.png",
           tags: ["Corporativo", "Leads"],
           url: "https://gmcgraniteinc.com/"
         },
