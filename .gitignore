@@ -1,5 +1,24 @@
+# SSH keys
 motor_ads_access
 motor_ads_access.pub
-
 motor_ads_deploy_final
 motor_ads_deploy_final.pub
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backups & temp files
+*_backup.*
+*_local_backup.*
+*.patch
+*.diff
+head_*.txt
+head_*.css
+remote_*.*
+temp_*.*
+styles_diff*.*
