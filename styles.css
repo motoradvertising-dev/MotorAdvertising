@@ -27,6 +27,8 @@ body {
     font-family: var(--font-body);
     overflow-x: hidden;
     line-height: 1.6;
+    /* Mobile scroll: enable native momentum scrolling */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Background Canvas */
@@ -38,8 +40,8 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    opacity: 1; /* More visible nodes */
-    will-change: transform;
+    opacity: 1;
+    transform: translateZ(0);
 }
 
 
@@ -53,16 +55,17 @@ body {
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    transition: background-color 0.3s ease, padding 0.3s ease;
+    /* Animate only background-color, NOT padding (padding change triggers layout reflow on scroll) */
+    transition: background-color 0.3s ease;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    will-change: background-color, padding, backdrop-filter;
+    will-change: background-color;
+    transform: translateZ(0);
 }
 
 
 .navbar.scrolled {
     background-color: rgba(0, 0, 0, 0.9);
-    padding: 15px 40px;
     border-bottom: 1px solid var(--glass-border);
 }
 
@@ -256,6 +259,7 @@ body {
     text-decoration: none;
     animation: fadeInScroll 1.5s ease-out 3s forwards, floatUpDown 3s ease-in-out infinite 3.5s;
     transition: opacity 0.3s;
+    will-change: transform, opacity;
 }
 
 .scroll-indicator:hover {
@@ -263,13 +267,15 @@ body {
 }
 
 @keyframes fadeInScroll {
-    0% { opacity: 0; margin-bottom: -10px; }
-    100% { opacity: 1; margin-bottom: 0px; }
+    /* Use transform instead of margin-bottom (no layout recalc) */
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
+/* Use transform instead of bottom property (bottom change triggers layout reflow) */
 @keyframes floatUpDown {
-    0%, 100% { bottom: 20px; }
-    50% { bottom: 14px; }
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
 }
 
 @media (min-width: 1200px) {
@@ -4452,5 +4458,82 @@ footer {
         bottom: 20px;
         left: 20px;
         padding: 6px 12px;
+    }
+}
+
+/* ==========================================================
+   MOBILE SCROLL PERFORMANCE — removes GPU-expensive effects
+   that cause jank / jumps during touch-scroll on iOS & Android
+   ========================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Kill backdrop-filter on navbar: fires a full composite
+          repaint on EVERY scroll pixel on iOS — biggest jank source */
+    .navbar {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background-color: rgba(0, 0, 0, 0.88) !important;
+    }
+
+    /* 2. Kill backdrop-filter on glass elements that may be
+          partially visible during scroll (offscreen paints still fire) */
+    .modal-overlay,
+    .virtual-screen,
+    .pm-slide,
+    .system-block {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* 3. Own GPU compositing layers for scroll-adjacent sections
+          Prevents the browser from repainting them on every scroll tick */
+    .hero-section,
+    .system-core-section,
+    .brand-motor-section,
+    .services-network-section,
+    .paid-media-section,
+    .conversation-section {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    /* 4. Disable hover transforms on mobile — touch taps fire :hover
+          which triggers transform / box-shadow repaints mid-scroll */
+    .diff-card:hover,
+    .nav-wa-btn:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .wa-sticky-btn:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* 5. Reduce waPulse to zero-cost — box-shadow animations are
+          expensive on mobile compositing */
+    @keyframes waPulse {
+        0%, 100% { box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4); }
+    }
+
+    /* 6. Hide particle canvas (killed in JS too) */
+    #data-canvas {
+        display: none !important;
+    }
+
+    /* 7. Free GPU memory from finished animations */
+    .hero-logo-container,
+    .hero-logo-svg,
+    .scroll-indicator {
+        will-change: auto;
+    }
+
+    /* 8. Prevent overscroll bounce from triggering layout shifts */
+    html, body {
+        overscroll-behavior-y: none;
+    }
+
+    /* 9. Prevent modal open from causing the ~15px scrollbar jump */
+    .no-scroll {
+        overflow: hidden;
+        scrollbar-gutter: stable;
     }
 }

@@ -27,9 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (playPromise !== undefined) {
             playPromise.catch(() => {
                 // If initial autoplay fails, bind it to the very first user interaction
-                window.addEventListener('touchstart', forcePlay, { once: true });
+                // passive: true ensures these don't block the scroll compositor
+                window.addEventListener('touchstart', forcePlay, { once: true, passive: true });
                 window.addEventListener('click', forcePlay, { once: true });
-                window.addEventListener('scroll', forcePlay, { once: true });
+                window.addEventListener('scroll', forcePlay, { once: true, passive: true });
             });
         }
     }
@@ -84,7 +85,10 @@ window.addEventListener('scroll', throttle(() => {
 
 
 // Particle system (Moving Nodes Background)
+// Disabled entirely on mobile — O(n²) per frame causes scroll jank
 (function() {
+    if (window.innerWidth < 768) return; // Skip entirely on mobile
+
     const canvas = document.getElementById('data-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -693,8 +697,10 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('resize', drawLines);
 
     // --- Three.js Dynamic Hub Integration ---
+    // Disabled on mobile: WebGL rAF loop blocks scroll compositor
     let sphere, scene, camera, renderer, frameId;
     function initThreeJS() {
+        if (window.innerWidth < 768) return; // Skip on mobile
         if (!window.THREE) {
             const script = document.createElement('script');
             script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
@@ -1540,14 +1546,14 @@ document.addEventListener("DOMContentLoaded", () => {
             goToPage(currentPage < totalPages - 1 ? currentPage + 1 : 0);
         });
 
-        // Touch swipe
+        // Touch swipe — passive listeners so browser scroll is never blocked
         let startX = 0;
-        track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+        track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
         track.addEventListener('touchend', (e) => {
             const diff = startX - e.changedTouches[0].clientX;
             if (diff > 50) goToPage(Math.min(currentPage + 1, totalPages - 1));
             if (diff < -50) goToPage(Math.max(currentPage - 1, 0));
-        });
+        }, { passive: true });
     });
 })();
 
