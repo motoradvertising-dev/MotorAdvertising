@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motor Advertising | Sistema de Crecimiento</title>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=3">
-    <link rel="stylesheet" href="styles.css?v=3.3">
+    <link rel="stylesheet" href="styles.css?v=4.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -19,54 +19,64 @@
     <canvas id="data-canvas"></canvas>
 
     <nav class="navbar">
-        <a href="#inicio" class="logo">
-            <svg class="nav-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
-                <path class="slash-dark" fill="#ffffff" opacity="0.33"
-                    d="M37.55,23.21l-11.41,64.36h-9.12L28.43,23.21h9.12Z" />
-                <path class="slash-light" fill="#ffffff" opacity="0.66"
-                    d="M61.08,23.21l-11.41,64.36h-11.34l11.41-64.36h11.34Z" />
-                <path fill="#ffffff"
-                    d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
-                <path fill="#ffffff"
-                    d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM158.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
-                <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
-                <path fill="#ffffff"
-                    d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM271.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
-                <path fill="#ffffff"
-                    d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM342.06,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
-                <path fill="#ffffff"
-                    d="M437.52,23.01l26.06,64.56h-15.81l-4.77-12.91h-24.57l-4.77,12.91h-15.81l26.06-64.56h13.62ZM437.99,61.74l-7.2-18.78h-.16l-7.2,18.78h14.55Z" />
-                <path fill="#ffffff"
-                    d="M466.09,23.01h18.7c8.97,0,16.64,3.06,23.01,9.19,6.36,6.13,9.55,13.81,9.55,23.04s-3.17,16.99-9.51,23.12c-6.34,6.13-14.02,9.19-23.04,9.19h-18.7V23.01ZM480.8,74.42h2.27c5.37,0,9.77-1.81,13.19-5.44,3.42-3.63,5.15-8.18,5.2-13.66,0-5.48-1.71-10.04-5.12-13.69-3.42-3.65-7.84-5.48-13.26-5.48h-2.27v38.27Z" />
-                <path fill="#ffffff"
-                    d="M537.37,87.56l-27.08-64.56h16.59l16.28,42.41,16.28-42.41h16.59l-27.08,64.56h-11.58Z" />
-                <path fill="#ffffff"
-                    d="M615.47,23.01v12.91h-22.22v12.83h21.28v12.91h-21.28v12.99h22.22v12.91h-36.93V23.01h36.93Z" />
-                <path fill="#ffffff"
-                    d="M623.92,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM638.63,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
-                <path fill="#ffffff" d="M672.75,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
-                <path fill="#ffffff" d="M747.42,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
-                <path fill="#ffffff"
-                    d="M777.17,21.83c3.49,0,6.91.51,10.25,1.53,3.34,1.02,5.82,2.02,7.43,3.01l2.35,1.56-5.95,11.74c-.47-.31-1.12-.72-1.96-1.21-.83-.5-2.4-1.16-4.7-2-2.3-.83-4.43-1.25-6.42-1.25-2.45,0-4.34.52-5.67,1.56-1.33,1.04-2,2.45-2,4.23,0,.89.31,1.71.94,2.46.63.76,1.69,1.56,3.21,2.43,1.51.86,2.84,1.55,3.99,2.07,1.15.52,2.92,1.3,5.32,2.35,4.17,1.77,7.73,4.19,10.68,7.24,2.95,3.05,4.42,6.51,4.42,10.37s-.67,6.94-2,9.7c-1.33,2.77-3.16,4.93-5.48,6.5-2.32,1.56-4.89,2.73-7.71,3.48-2.82.76-5.87,1.13-9.16,1.13-2.82,0-5.58-.29-8.29-.86-2.71-.57-4.98-1.29-6.81-2.15-1.83-.86-3.47-1.71-4.93-2.54-1.46-.83-2.53-1.54-3.21-2.11l-1.02-.86,7.36-12.36c.63.52,1.49,1.19,2.58,2,1.1.81,3.04,1.89,5.83,3.25,2.79,1.36,5.25,2.03,7.39,2.03,6.21,0,9.31-2.11,9.31-6.34,0-.89-.22-1.71-.67-2.46-.44-.76-1.23-1.51-2.35-2.27-1.12-.76-2.11-1.36-2.97-1.8-.86-.44-2.27-1.12-4.23-2.03-1.96-.91-3.4-1.6-4.34-2.07-3.91-1.93-6.94-4.34-9.08-7.24-2.14-2.9-3.21-6.01-3.21-9.35,0-5.79,2.14-10.52,6.42-14.2,4.28-3.68,9.16-5.52,14.63-5.52Z" />
-                <path fill="#ffffff" d="M829.94,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
-                <path fill="#ffffff"
-                    d="M853.15,47.5v40.06h-14.71V23.01h14.71l25.67,40.06h.16V23.01h14.71v64.56h-14.71l-25.67-40.06h-.16Z" />
-                <path fill="#ffffff"
-                    d="M961.45,51.41v14.01c-1.67,7.67-5.32,13.47-10.96,17.41-5.63,3.94-11.92,5.91-18.86,5.91-8.71,0-16.13-3.26-22.26-9.78-6.13-6.52-9.19-14.4-9.19-23.63s3-17.32,9-23.79c6-6.47,13.48-9.7,22.46-9.7,10.49,0,18.78,3.68,24.88,11.03l-9.62,10.56c-3.44-5.53-8.24-8.29-14.4-8.29-4.54,0-8.41,1.97-11.62,5.91-3.21,3.94-4.81,8.7-4.81,14.28s1.6,10.16,4.81,14.05c3.21,3.89,7.08,5.83,11.62,5.83,3.76,0,7.03-1.13,9.82-3.4,2.79-2.27,4.19-5.28,4.19-9.04h-14.87v-11.35h29.81Z" />
-            </svg>
-        </a>
+        <!-- Language Switcher (LEFT) -->
+        <div class="nav-left-group">
+            <!-- Language switcher removed from here -->
+            <a href="#inicio" class="logo">
+                <svg class="nav-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
+                    <path class="slash-dark" fill="#ffffff" opacity="0.33"
+                        d="M37.55,23.21l-11.41,64.36h-9.12L28.43,23.21h9.12Z" />
+                    <path class="slash-light" fill="#ffffff" opacity="0.66"
+                        d="M61.08,23.21l-11.41,64.36h-11.34l11.41-64.36h11.34Z" />
+                    <path fill="#ffffff"
+                        d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
+                    <path fill="#ffffff"
+                        d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM158.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff"
+                        d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM271.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff"
+                        d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM342.06,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff"
+                        d="M437.52,23.01l26.06,64.56h-15.81l-4.77-12.91h-24.57l-4.77,12.91h-15.81l26.06-64.56h13.62ZM437.99,61.74l-7.2-18.78h-.16l-7.2,18.78h14.55Z" />
+                    <path fill="#ffffff"
+                        d="M466.09,23.01h18.7c8.97,0,16.64,3.06,23.01,9.19,6.36,6.13,9.55,13.81,9.55,23.04s-3.17,16.99-9.51,23.12c-6.34,6.13-14.02,9.19-23.04,9.19h-18.7V23.01ZM480.8,74.42h2.27c5.37,0,9.77-1.81,13.19-5.44,3.42-3.63,5.15-8.18,5.2-13.66,0-5.48-1.71-10.04-5.12-13.69-3.42-3.65-7.84-5.48-13.26-5.48h-2.27v38.27Z" />
+                    <path fill="#ffffff"
+                        d="M537.37,87.56l-27.08-64.56h16.59l16.28,42.41,16.28-42.41h16.59l-27.08,64.56h-11.58Z" />
+                    <path fill="#ffffff"
+                        d="M615.47,23.01v12.91h-22.22v12.83h21.28v12.91h-21.28v12.99h22.22v12.91h-36.93V23.01h36.93Z" />
+                    <path fill="#ffffff"
+                        d="M623.92,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM638.63,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff" d="M672.75,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M747.42,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff"
+                        d="M777.17,21.83c3.49,0,6.91.51,10.25,1.53,3.34,1.02,5.82,2.02,7.43,3.01l2.35,1.56-5.95,11.74c-.47-.31-1.12-.72-1.96-1.21-.83-.5-2.4-1.16-4.7-2-2.3-.83-4.43-1.25-6.42-1.25-2.45,0-4.34.52-5.67,1.56-1.33,1.04-2,2.45-2,4.23,0,.89.31,1.71.94,2.46.63.76,1.69,1.56,3.21,2.43,1.51.86,2.84,1.55,3.99,2.07,1.15.52,2.92,1.3,5.32,2.35,4.17,1.77,7.73,4.19,10.68,7.24,2.95,3.05,4.42,6.51,4.42,10.37s-.67,6.94-2,9.7c-1.33,2.77-3.16,4.93-5.48,6.5-2.32,1.56-4.89,2.73-7.71,3.48-2.82.76-5.87,1.13-9.16,1.13-2.82,0-5.58-.29-8.29-.86-2.71-.57-4.98-1.29-6.81-2.15-1.83-.86-3.47-1.71-4.93-2.54-1.46-.83-2.53-1.54-3.21-2.11l-1.02-.86,7.36-12.36c.63.52,1.49,1.19,2.58,2,1.1.81,3.04,1.89,5.83,3.25,2.79,1.36,5.25,2.03,7.39,2.03,6.21,0,9.31-2.11,9.31-6.34,0-.89-.22-1.71-.67-2.46-.44-.76-1.23-1.51-2.35-2.27-1.12-.76-2.11-1.36-2.97-1.8-.86-.44-2.27-1.12-4.23-2.03-1.96-.91-3.4-1.6-4.34-2.07-3.91-1.93-6.94-4.34-9.08-7.24-2.14-2.9-3.21-6.01-3.21-9.35,0-5.79,2.14-10.52,6.42-14.2,4.28-3.68,9.16-5.52,14.63-5.52Z" />
+                    <path fill="#ffffff" d="M829.94,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff"
+                        d="M853.15,47.5v40.06h-14.71V23.01h14.71l25.67,40.06h.16V23.01h14.71v64.56h-14.71l-25.67-40.06h-.16Z" />
+                    <path fill="#ffffff"
+                        d="M961.45,51.41v14.01c-1.67,7.67-5.32,13.47-10.96,17.41-5.63,3.94-11.92,5.91-18.86,5.91-8.71,0-16.13-3.26-22.26-9.78-6.13-6.52-9.19-14.4-9.19-23.63s3-17.32,9-23.79c6-6.47,13.48-9.7,22.46-9.7,10.49,0,18.78,3.68,24.88,11.03l-9.62,10.56c-3.44-5.53-8.24-8.29-14.4-8.29-4.54,0-8.41,1.97-11.62,5.91-3.21,3.94-4.81,8.7-4.81,14.28s1.6,10.16,4.81,14.05c3.21,3.89,7.08,5.83,11.62,5.83,3.76,0,7.03-1.13,9.82-3.4,2.79-2.27,4.19-5.28,4.19-9.04h-14.87v-11.35h29.81Z" />
+                </svg>
+            </a>
+        </div>
         <ul class="nav-links">
             <li><a href="#inicio" data-i18n="nav_inicio">Inicio</a></li>
-            <li><a href="#webs" data-i18n="nav_webs">Webs</a></li>
-            <li><a href="pauta.html" data-i18n="nav_pauta">Pauta</a></li>
             <li><a href="services.html" data-i18n="nav_servicios">Servicios</a></li>
-            <li><a href="index-contact.html" class="contact-link" data-i18n="nav_contacto">Contacto</a></li>
+            <li><a href="pauta.html" data-i18n="nav_pauta">Pauta</a></li>
+            <li><a href="#casos" data-i18n="nav_casos">Casos</a></li>
+            <li><a href="#webs" data-i18n="nav_webs">Proyectos</a></li>
         </ul>
-        <div class="menu-toggle">
-            <i class="fas fa-bars"></i>
+        <div class="nav-right-group">
+            <a href="index-contact.html" class="nav-wa-btn" id="nav-btn-agendar">
+                <span>Agendar una cita</span>
+            </a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </nav>
 
+    <!-- ==================== 1. HERO ==================== -->
     <section id="inicio" class="hero-section">
         <video class="hero-video-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.4; pointer-events: none;" autoplay loop muted playsinline>
             <source src="https://raw.githubusercontent.com/Amadeusguitarte/Motoradsvideos77/main/motoraddds_4.mp4" type="video/mp4">
@@ -131,7 +141,7 @@
             </div>
         </div>
         
-        <a href="#webs" class="scroll-indicator">
+        <a href="#marca" class="scroll-indicator">
             <svg viewBox="0 0 100 100" width="120" height="120">
                 <text x="50" y="54" fill="rgba(255,255,255,0.7)" font-family="Georgia, serif" font-size="13" font-style="italic" text-anchor="middle" letter-spacing="1">Scroll</text>
                 <path d="M 40 25 C 70 15, 90 30, 85 55 C 80 80, 50 95, 30 80 C 10 65, 10 35, 30 20 C 50 5, 75 15, 80 35 C 85 55, 75 75, 55 85" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round"/>
@@ -140,6 +150,18 @@
         </a>
     </section>
 
+    <!-- ==================== 2. TU MARCA / NUESTRO MOTOR ==================== -->
+    <section id="marca" class="brand-motor-section">
+        <div class="brand-motor-inner">
+            <p class="brand-motor-eyebrow">Escalamos marcas de manera rentable con anuncios.</p>
+            <h2 class="brand-motor-title">TU MARCA. NUESTRO MOTOR</h2>
+            <p class="brand-motor-desc">Para lograr resultados medibles y eficientes trabajamos de la mano de tu empresa como si fuéramos el motor que le da vida.</p>
+            <a href="#contacto" class="brand-motor-cta">Quiero escalar mis ventas</a>
+            <p class="brand-motor-micro">Cuéntanos tu idea y evaluaremos cómo ayudarte.</p>
+        </div>
+    </section>
+
+    <!-- ==================== 3. CONVERSATIONAL SCROLL ==================== -->
     <section class="conversational-scroll-section">
         <div class="scroll-wrapper">
             <div class="sticky-bg">
@@ -165,232 +187,7 @@
         </div>
     </section>
 
-    <section id="webs" class="portfolio-section">
-        <header class="portfolio-header-compact">
-            <h1 class="portfolio-main-title">PROYECTOS WEB</h1>
-            <p class="portfolio-main-subtitle">Soluciones digitales de alto rendimiento diseñadas para la conversión.
-            </p>
-        </header>
-
-        <!-- Sticky Filters Nav -->
-        <nav class="portfolio-filters-nav">
-            <div class="filters-container">
-                <ul class="filters-list no-scrollbar">
-                    <li><button class="filter-btn-new active" data-filter="TODOS">TODOS</button></li>
-                    <li><button class="filter-btn-new" data-filter="BIENES RAÍCES">BIENES RAÍCES</button></li>
-                    <li><button class="filter-btn-new" data-filter="FUNNELS">FUNNELS</button></li>
-                    <li><button class="filter-btn-new" data-filter="ECOMMERCE">ECOMMERCE</button></li>
-                    <li><button class="filter-btn-new" data-filter="CORPORATIVO">CORPORATIVO</button></li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="portfolio-main-grid">
-            <!-- Left Side: Showcase Principal -->
-            <div class="showcase-left">
-                <div class="showcase-card">
-                    <div class="showcase-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000"
-                            alt="Luxury Real Estate" id="main-project-image">
-                        <div class="showcase-category-tag" id="main-project-category">BIENES RAICES</div>
-                    </div>
-
-                    <div class="showcase-info">
-                        <div class="showcase-info-header">
-                            <div>
-                                <h2 class="showcase-title" id="main-project-title">LUXURY REAL ESTATE</h2>
-                                <p class="showcase-desc" id="main-project-desc">Portal inmobiliario premium diseñado
-                                    para captar inversionistas de alto nivel y leads internacionales. Enfoque en
-                                    visuales de gran formato.</p>
-                            </div>
-                            <div class="showcase-tags" id="main-project-tags">
-                                <span class="tag-badge">SEO</span>
-                                <span class="tag-badge">Leads</span>
-                            </div>
-                        </div>
-
-                        <div class="showcase-specs">
-                            <div class="spec-item">
-                                <p class="spec-label">PLATAFORMA</p>
-                                <p class="spec-value"><i class="fas fa-layer-group"></i> <span
-                                        id="main-project-platform">WordPress / UI Custom</span></p>
-                            </div>
-                            <div class="spec-item">
-                                <p class="spec-label">OBJETIVO</p>
-                                <p class="spec-value"><i class="fas fa-bullseye"></i> <span
-                                        id="main-project-objective">Leads de alto valor</span></p>
-                            </div>
-                            <div class="spec-item spec-year">
-                                <p class="spec-label">AÑO</p>
-                                <p class="spec-value"><i class="fas fa-globe"></i> <span
-                                        id="main-project-year">2024</span></p>
-                            </div>
-                        </div>
-
-                        <button class="showcase-cta group">
-                            Explorar Caso <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Side: Project Selector -->
-            <div class="showcase-right">
-                <h3 class="selector-title">SELECCIONAR PROYECTO</h3>
-                <div class="project-selector-list" id="project-selector-list">
-                    <!-- Nodes rendered by script.js -->
-                </div>
-
-                <!-- Secondary CTA -->
-                <div class="secondary-cta-card">
-                    <h4 class="cta-card-title">¿Buscas algo diferente?</h4>
-                    <p class="cta-card-text">Cuéntanos tu idea y diseñaremos una solución a medida.</p>
-                    <button class="cta-card-btn">
-                        CONTACTAR AHORA <i class="fas fa-external-link-alt"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="pauta" class="paid-media-section">
-        <div class="pm-header">
-            <h2 class="section-title" data-i18n="pm_title">Rendimiento de Pauta Digital</h2>
-            <p class="section-subtitle" data-i18n="pm_subtitle">De ideas creativas a ingresos medibles a través de
-                publicidad basada en datos.</p>
-        </div>
-
-        <div class="pm-pipeline-container">
-            <!-- Connection Line Background -->
-            <div class="pm-pipeline-line"></div>
-
-            <div class="pm-cards-wrapper">
-                <!-- Stage 1 -->
-                <div class="pm-card" data-stage="1">
-                    <div class="pm-card-icon"><i class="fas fa-lightbulb"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_idea">Idea</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_idea_1">Estrategia de campaña</li>
-                        <li data-i18n="pm_idea_2">Segmentación de audiencia</li>
-                        <li data-i18n="pm_idea_3">Concepto creativo</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_idea_tip">Analizamos el comportamiento de la audiencia y
-                        definimos la dirección de la campaña.</div>
-                </div>
-
-                <!-- Stage 2 -->
-                <div class="pm-card" data-stage="2">
-                    <div class="pm-card-icon"><i class="fas fa-film"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_creative">Producción Creativa</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_creative_1">Producción de creativos</li>
-                        <li data-i18n="pm_creative_2">Videos de formato corto</li>
-                        <li data-i18n="pm_creative_3">Visuales de alta conversión</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_creative_tip">Producimos creativos diseñados específicamente
-                        para conversión y atención.
-                    </div>
-                </div>
-
-                <!-- Stage 3 -->
-                <div class="pm-card" data-stage="3">
-                    <div class="pm-card-icon">
-                        <i class="fab fa-facebook"></i>
-                        <i class="fab fa-google"></i>
-                        <i class="fab fa-tiktok"></i>
-                    </div>
-                    <h3 class="pm-card-title" data-i18n="pm_launch">Lanzamiento de Campaña</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_launch_1">Despliegue de campaña</li>
-                        <li data-i18n="pm_launch_2">Segmentación de audiencia</li>
-                        <li data-i18n="pm_launch_3">Optimización de presupuesto</li>
-                    </ul>
-                    <div class="pm-tooltip" data-i18n="pm_launch_tip">Desplegamos campañas en las plataformas más
-                        efectivas para tu audiencia.
-                    </div>
-                </div>
-
-                <!-- Stage 4 -->
-                <div class="pm-card" data-stage="4">
-                    <div class="pm-card-icon pm-metrics-icon">
-                        <div class="pm-chart-bar b1"></div>
-                        <div class="pm-chart-bar b2"></div>
-                        <div class="pm-chart-bar b3"></div>
-                    </div>
-                    <h3 class="pm-card-title" data-i18n="pm_metrics">Métricas de Rendimiento</h3>
-                    <div class="pm-metrics-grid">
-                        <div class="pm-metric"><span class="pm-counter" data-target="3.90">0</span>% <span>CTR</span>
-                        </div>
-                        <div class="pm-metric"><span class="pm-counter" data-target="4.7">0</span>x <span>ROAS</span>
-                        </div>
-                        <div class="pm-metric">$<span class="pm-counter" data-target="0.82">0</span> <span>CPA</span>
-                        </div>
-                        <div class="pm-metric"><span class="pm-counter" data-target="3800">0</span> <span>Conv.</span>
-                        </div>
-                    </div>
-                    <div class="pm-tooltip" data-i18n="pm_metrics_tip">Optimizamos continuamente las campañas basándonos
-                        en datos en tiempo real.</div>
-                </div>
-
-                <!-- Stage 5 -->
-                <div class="pm-card" data-stage="5">
-                    <div class="pm-card-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="pm-card-title" data-i18n="pm_revenue">Ingresos</h3>
-                    <ul class="pm-card-list">
-                        <li data-i18n="pm_revenue_1">Leads generados</li>
-                        <li data-i18n="pm_revenue_2">Crecimiento en ventas</li>
-                        <li data-i18n="pm_revenue_3">Impacto en ingresos</li>
-                    </ul>
-                    <div class="pm-revenue-highlight">
-                        +$<span class="pm-counter" data-target="500000" data-speed="fast">0</span>
-                    </div>
-                    <div class="pm-tooltip" data-i18n="pm_revenue_tip">Resultados de negocio medibles e impacto directo
-                        en ingresos.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Casos de Éxito Section -->
-    <section id="casos" class="cases-section">
-        <div class="cases-header">
-            <h2 class="cases-title" data-i18n="cases_title">Casos de Éxito</h2>
-            <p class="cases-subtitle" data-i18n="cases_subtitle">Operamos con una lógica clara: orden, aprendizaje y
-                evolución constante, buscando siempre extraer el máximo potencial de cada marca con la que trabajamos.
-            </p>
-        </div>
-
-        <div class="cases-grid" id="cases-grid">
-            <!-- Rendered dynamically by script.js -->
-        </div>
-    </section>
-
-    <!-- Story Modal -->
-    <div class="story-modal" id="story-modal">
-        <div class="story-modal-inner">
-            <button class="story-close" id="story-close"><i class="fas fa-xmark"></i></button>
-            <div class="story-left">
-                <div class="story-progress-bar" id="story-progress-bar"></div>
-                <div class="story-header-info" id="story-header-info"></div>
-                <div class="story-pause-overlay" id="story-pause-overlay">
-                    <div class="story-pause-icon"><i class="fas fa-pause"></i></div>
-                    <span>PAUSADO PARA LECTURA</span>
-                </div>
-                <img class="story-image" id="story-image" src="" alt="Story">
-                <video class="story-video" id="story-video" src="" loop playsinline style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; inset:0; z-index:5;"></video>
-                <div class="story-image-gradient"></div>
-                <div class="story-touch-zones">
-                    <div class="story-touch-left" id="story-touch-left"></div>
-                    <div class="story-touch-center" id="story-touch-center"></div>
-                    <div class="story-touch-right" id="story-touch-right"></div>
-                </div>
-            </div>
-            <div class="story-right" id="story-right"></div>
-        </div>
-    </div>
-
-
+    <!-- ==================== 4. SERVICIOS ==================== -->
     <section class="services-network-section" id="servicios">
         <!-- Background Effect -->
         <div class="services-bg">
@@ -499,6 +296,321 @@
         </div>
     </section>
 
+    <!-- ==================== 5. ¿POR QUÉ TRABAJAR CON NOSOTROS? ==================== -->
+    <section class="why-us-section" id="why-us">
+        <h2 class="why-us-title">¿Por qué trabajar con nosotros?</h2>
+        <div class="why-us-grid">
+            <div class="why-us-card">
+                <div class="why-us-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Resultados medibles</h3>
+                <p>No prometemos métricas de vanidad. Cada campaña está diseñada para generar retorno de inversión real y cuantificable.</p>
+            </div>
+            <div class="why-us-card">
+                <div class="why-us-icon"><i class="fas fa-chess"></i></div>
+                <h3>Estrategia personalizada</h3>
+                <p>Analizamos tu negocio, tu audiencia y tu competencia para construir un plan a la medida que escale contigo.</p>
+            </div>
+            <div class="why-us-card">
+                <div class="why-us-icon"><i class="fas fa-users-cog"></i></div>
+                <h3>Equipo dedicado</h3>
+                <p>Trabajarás con un equipo senior que entiende la urgencia de los resultados y la importancia de cada peso invertido.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. CASOS DE ÉXITO ==================== -->
+    <section id="casos" class="cases-section">
+        <div class="cases-header">
+            <p class="cases-eyebrow">Casos de éxito</p>
+            <h2 class="cases-title" data-i18n="cases_title">Los resultados hablan por sí solos</h2>
+        </div>
+
+        <div class="cases-grid" id="cases-grid">
+            <!-- Rendered dynamically by script.js -->
+        </div>
+    </section>
+
+    <!-- Story Modal -->
+    <div class="story-modal" id="story-modal">
+        <div class="story-modal-inner">
+            <button class="story-close" id="story-close"><i class="fas fa-xmark"></i></button>
+            <div class="story-left">
+                <div class="story-progress-bar" id="story-progress-bar"></div>
+                <div class="story-header-info" id="story-header-info"></div>
+                <div class="story-pause-overlay" id="story-pause-overlay">
+                    <div class="story-pause-icon"><i class="fas fa-pause"></i></div>
+                    <span>PAUSADO PARA LECTURA</span>
+                </div>
+                <img class="story-image" id="story-image" src="" alt="Story">
+                <video class="story-video" id="story-video" src="" loop playsinline style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; inset:0; z-index:5;"></video>
+                <div class="story-image-gradient"></div>
+                <div class="story-touch-zones">
+                    <div class="story-touch-left" id="story-touch-left"></div>
+                    <div class="story-touch-center" id="story-touch-center"></div>
+                    <div class="story-touch-right" id="story-touch-right"></div>
+                </div>
+            </div>
+            <div class="story-right" id="story-right"></div>
+        </div>
+    </div>
+
+    
+
+    <!-- ==================== 7. RENDIMIENTO DE PAUTA DIGITAL (CAROUSEL) ==================== -->
+    <section id="pauta" class="paid-media-section">
+        <div class="pm-header">
+            <h2 class="section-title" data-i18n="pm_title">RENDIMIENTO DE PAUTA DIGITAL</h2>
+            <p class="section-subtitle" data-i18n="pm_subtitle">De ideas creativas a ingresos medibles a través de
+                publicidad basada en datos.</p>
+        </div>
+
+        <div class="pm-pipeline-container">
+            <!-- Connection Line Background -->
+            <div class="pm-pipeline-line"></div>
+
+            <div class="pm-cards-wrapper">
+                <!-- Stage 1 -->
+                <div class="pm-card" data-stage="1">
+                    <div class="pm-card-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_idea">Idea</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_idea_1">Estrategia de campaña</li>
+                        <li data-i18n="pm_idea_2">Segmentación de audiencia</li>
+                        <li data-i18n="pm_idea_3">Concepto creativo</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_idea_tip">Analizamos el comportamiento de la audiencia y
+                        definimos la dirección de la campaña.</div>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="pm-card" data-stage="2">
+                    <div class="pm-card-icon"><i class="fas fa-film"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_creative">Producción Creativa</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_creative_1">Producción de creativos</li>
+                        <li data-i18n="pm_creative_2">Videos de formato corto</li>
+                        <li data-i18n="pm_creative_3">Visuales de alta conversión</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_creative_tip">Producimos creativos diseñados específicamente
+                        para conversión y atención.
+                    </div>
+                </div>
+
+                <!-- Stage 3 -->
+                <div class="pm-card" data-stage="3">
+                    <div class="pm-card-icon">
+                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-google"></i>
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <h3 class="pm-card-title" data-i18n="pm_launch">Lanzamiento de Campaña</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_launch_1">Despliegue de campaña</li>
+                        <li data-i18n="pm_launch_2">Segmentación de audiencia</li>
+                        <li data-i18n="pm_launch_3">Optimización de presupuesto</li>
+                    </ul>
+                    <div class="pm-tooltip" data-i18n="pm_launch_tip">Desplegamos campañas en las plataformas más
+                        efectivas para tu audiencia.
+                    </div>
+                </div>
+
+                <!-- Stage 4 -->
+                <div class="pm-card" data-stage="4">
+                    <div class="pm-card-icon pm-metrics-icon">
+                        <div class="pm-chart-bar b1"></div>
+                        <div class="pm-chart-bar b2"></div>
+                        <div class="pm-chart-bar b3"></div>
+                    </div>
+                    <h3 class="pm-card-title" data-i18n="pm_metrics">Métricas de Rendimiento</h3>
+                    <div class="pm-metrics-grid">
+                        <div class="pm-metric"><span class="pm-counter" data-target="3.90">0</span>% <span>CTR</span>
+                        </div>
+                        <div class="pm-metric"><span class="pm-counter" data-target="4.7">0</span>x <span>ROAS</span>
+                        </div>
+                        <div class="pm-metric">$<span class="pm-counter" data-target="0.82">0</span> <span>CPA</span>
+                        </div>
+                        <div class="pm-metric"><span class="pm-counter" data-target="3800">0</span> <span>Conv.</span>
+                        </div>
+                    </div>
+                    <div class="pm-tooltip" data-i18n="pm_metrics_tip">Optimizamos continuamente las campañas basándonos
+                        en datos en tiempo real.</div>
+                </div>
+
+                <!-- Stage 5 -->
+                <div class="pm-card" data-stage="5">
+                    <div class="pm-card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="pm-card-title" data-i18n="pm_revenue">Ingresos</h3>
+                    <ul class="pm-card-list">
+                        <li data-i18n="pm_revenue_1">Leads generados</li>
+                        <li data-i18n="pm_revenue_2">Crecimiento en ventas</li>
+                        <li data-i18n="pm_revenue_3">Impacto en ingresos</li>
+                    </ul>
+                    <div class="pm-revenue-highlight">
+                        +$<span class="pm-counter" data-target="500000" data-speed="fast">0</span>
+                    </div>
+                    <div class="pm-tooltip" data-i18n="pm_revenue_tip">Resultados de negocio medibles e impacto directo
+                        en ingresos.</div>
+                </div>
+            </div>
+        </div>
+    </section><!-- ==================== 8. ¿QUÉ NOS HACE DIFERENTES? ==================== -->
+    <section class="differentiators-section" id="diferenciadores">
+        <h2 class="differentiators-title">¿Qué Nos Hace Diferentes?</h2>
+        <div class="differentiators-grid">
+            <div class="diff-card">
+                <div class="diff-icon"><i class="fas fa-user-tie"></i></div>
+                <h3>Nuestro equipo<br><strong>100% senior</strong></h3>
+                <p>Tu éxito no será un experimento. Asignamos únicamente a especialistas comprobados con más de 5 años operando campañas que escalan resultados reales.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Nuestra posición a la<br><strong>vanguardia de la industria</strong></h3>
+                <p>Dominamos el juego antes de que cambien las reglas. Implementamos tácticas y formatos de nueva generación para asegurar que tu mensaje destaque frente a la competencia.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon"><i class="fas fa-robot"></i></div>
+                <h3>Nuestra adopción profunda de<br><strong>inteligencia artificial</strong></h3>
+                <p>Multiplicamos tu impacto mediante tecnología avanzada. Usamos inteligencia artificial para predecir comportamientos, afinar perfilaciones y optimizar tu presupuesto constantemente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 9. PROYECTOS WEB ==================== -->
+    <section id="webs" class="portfolio-section">
+        <header class="portfolio-header-compact">
+            <h1 class="portfolio-main-title">PROYECTOS WEB</h1>
+            <p class="portfolio-main-subtitle">Soluciones digitales de alto rendimiento diseñadas para la conversión.
+            </p>
+        </header>
+
+        <!-- Sticky Filters Nav -->
+        <nav class="portfolio-filters-nav">
+            <div class="filters-container">
+                <ul class="filters-list no-scrollbar">
+                    <li><button class="filter-btn-new active" data-filter="TODOS">TODOS</button></li>
+                    <li><button class="filter-btn-new" data-filter="BIENES RAÍCES">BIENES RAÍCES</button></li>
+                    <li><button class="filter-btn-new" data-filter="FUNNELS">FUNNELS</button></li>
+                    <li><button class="filter-btn-new" data-filter="ECOMMERCE">ECOMMERCE</button></li>
+                    <li><button class="filter-btn-new" data-filter="CORPORATIVO">CORPORATIVO</button></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="portfolio-main-grid">
+            <!-- Left Side: Showcase Principal -->
+            <div class="showcase-left">
+                <div class="showcase-card">
+                    <div class="showcase-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000"
+                            alt="Luxury Real Estate" id="main-project-image">
+                        <div class="showcase-category-tag" id="main-project-category">BIENES RAICES</div>
+                    </div>
+
+                    <div class="showcase-info">
+                        <div class="showcase-info-header">
+                            <div>
+                                <h2 class="showcase-title" id="main-project-title">LUXURY REAL ESTATE</h2>
+                                <p class="showcase-desc" id="main-project-desc">Portal inmobiliario premium diseñado
+                                    para captar inversionistas de alto nivel y leads internacionales. Enfoque en
+                                    visuales de gran formato.</p>
+                            </div>
+                            <div class="showcase-tags" id="main-project-tags">
+                                <span class="tag-badge">SEO</span>
+                                <span class="tag-badge">Leads</span>
+                            </div>
+                        </div>
+
+                        <div class="showcase-specs">
+                            <div class="spec-item">
+                                <p class="spec-label">PLATAFORMA</p>
+                                <p class="spec-value"><i class="fas fa-layer-group"></i> <span
+                                        id="main-project-platform">WordPress / UI Custom</span></p>
+                            </div>
+                            <div class="spec-item">
+                                <p class="spec-label">OBJETIVO</p>
+                                <p class="spec-value"><i class="fas fa-bullseye"></i> <span
+                                        id="main-project-objective">Leads de alto valor</span></p>
+                            </div>
+                            <div class="spec-item spec-year">
+                                <p class="spec-label">AÑO</p>
+                                <p class="spec-value"><i class="fas fa-globe"></i> <span
+                                        id="main-project-year">2024</span></p>
+                            </div>
+                        </div>
+
+                        <button class="showcase-cta group">
+                            Explorar Caso <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Project Selector -->
+            <div class="showcase-right">
+                <h3 class="selector-title">SELECCIONAR PROYECTO</h3>
+                <div class="project-selector-list" id="project-selector-list">
+                    <!-- Nodes rendered by script.js -->
+                </div>
+
+                <!-- Secondary CTA -->
+                <div class="secondary-cta-card">
+                    <h4 class="cta-card-title">¿Buscas algo diferente?</h4>
+                    <p class="cta-card-text">Cuéntanos tu idea y diseñaremos una solución a medida.</p>
+                    <button class="cta-card-btn">
+                        AGENDAR LLAMADA <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 10. TESTIMONIOS ==================== -->
+    <section class="testimonials-section" id="testimonios">
+        <h2 class="testimonials-title" data-i18n="test_title">TESTIMONIOS</h2>
+        <div class="testimonials-carousel-wrapper">
+            <button class="testimonial-arrow testimonial-arrow-left" id="test-arrow-left"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonials-track-wrapper">
+                <div class="testimonials-track" id="testimonials-track">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4 class="testimonial-name">Jorge G.</h4>
+                        <p class="testimonial-role">Product owner by controlatusalud SAS</p>
+                        <div class="testimonial-location"><i class="fas fa-map-marker-alt"></i> Latin America</div>
+                        <p class="testimonial-text">Desde que empezamos con Motor Advertising, las cosas han mejorado mucho: la selección de los anuncios adecuados, la realización de inversiones apropiadas y el seguimiento de los KPIs correctos, todo con su excelente asesoramiento.</p>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4 class="testimonial-name">Camila R.</h4>
+                        <p class="testimonial-role">Brand Manager, Shapes Secrets</p>
+                        <div class="testimonial-location"><i class="fas fa-map-marker-alt"></i> USA</div>
+                        <p class="testimonial-text">Extremadamente agradecidos con Motor Advertising. Su sólida gestión y estrategia en Meta Ads han sido un impulso invaluable para nuestra empresa. Su dedicación y enfoque han marcado una gran diferencia en nuestra trayectoria.</p>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4 class="testimonial-name">Andrés M.</h4>
+                        <p class="testimonial-role">CEO, GraniteInc Construction</p>
+                        <div class="testimonial-location"><i class="fas fa-map-marker-alt"></i> USA</div>
+                        <p class="testimonial-text">El equipo de Motor transformó completamente nuestra presencia digital. Pasamos de no tener leads a recibir más de 40 solicitudes de cotización mensuales gracias a su sistema de pauta y landing pages.</p>
+                    </div>
+                    <!-- Testimonial 4 -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4 class="testimonial-name">Valentina P.</h4>
+                        <p class="testimonial-role">Directora Comercial, Vivir IPS</p>
+                        <div class="testimonial-location"><i class="fas fa-map-marker-alt"></i> Colombia</div>
+                        <p class="testimonial-text">Trabajar con Motor Advertising ha sido un antes y un después. No solo gestionan campañas, sino que entienden nuestro negocio y nos ayudan a tomar mejores decisiones basadas en datos reales de rendimiento.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="testimonial-arrow testimonial-arrow-right" id="test-arrow-right"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="testimonials-dots" id="testimonials-dots"></div>
+    </section>
+
+    <!-- ==================== 11. CTA / CONTACTO ==================== -->
     <section id="contacto" class="contact-section">
         <div class="contact-selection-wrapper">
             <h2 class="contact-title" data-i18n="contact_title">INICIA EL CAMBIO</h2>
@@ -517,8 +629,6 @@
         <div class="modal-content">
             <button class="modal-close" id="modal-close">&times;</button>
             <div id="modal-form-container">
-                <!-- Forms will be injected here or toggled -->
-
                 <!-- Empresa Form -->
                 <div id="form-empresa" class="form-step hidden">
                     <div class="form-header">
@@ -609,18 +719,95 @@
         </div>
     </div>
 
-    <footer>
-        <div class="footer-left" data-i18n="footer_since">Desde 2025</div>
-        <div class="footer-center">MOTOR ADVERTISING</div>
-        <div class="footer-right">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
+    <!-- ==================== 12. FOOTER ==================== -->
+    <footer class="footer-new">
+        <div class="footer-new-inner">
+            <div class="footer-col brand-col">
+                <svg class="footer-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#ffffff" d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
+                    <path fill="#ffffff" d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91Z" />
+                    <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91Z" />
+                    <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01Z" />
+                </svg>
+                <p class="footer-brand-text">MOTOR ADVERTISING</p>
+                <p class="footer-brand-desc">Escalamos marcas de manera rentable con anuncios y sistemas de crecimiento altamente optimizados.</p>
+            </div>
+            
+            <div class="footer-col nav-col">
+                <h4 class="footer-heading">Navegación</h4>
+                <nav class="footer-nav">
+                    <a href="#inicio">Inicio</a>
+                    <a href="services.html">Servicios</a>
+                    <a href="pauta.html">Pauta</a>
+                </nav>
+            </div>
+
+            <div class="footer-col links-col">
+                <h4 class="footer-heading">Proyectos</h4>
+                <nav class="footer-nav">
+                    <a href="#casos">Casos de éxito</a>
+                    <a href="#webs">Proyectos Web</a>
+                    <a href="index-contact.html">Contacto</a>
+                </nav>
+            </div>
+
+            <div class="footer-col action-col">
+                <h4 class="footer-heading">Hablemos</h4>
+                <a href="index-contact.html" class="footer-cta-btn">
+                    <i class="fab fa-whatsapp"></i> Agendar llamada
+                </a>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Motor Advertising. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- Language Switcher -->
-    <div class="lang-switcher" id="lang-switcher">
+    <!-- Sticky WhatsApp Widget -->
+    <div class="wa-widget-container">
+        <!-- The Popup Window -->
+        <div class="wa-popup" id="wa-popup">
+            <div class="wa-popup-header">
+                <div class="wa-popup-avatar">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="wa-online-dot"></div>
+                </div>
+                <div class="wa-popup-info">
+                    <strong>MotorAdvertising</strong>
+                    <span>En línea</span>
+                </div>
+                <button class="wa-popup-close" id="wa-popup-close"><i class="fas fa-times"></i></button>
+            </div>
+            <a href="https://wa.link/9k84s7" target="_blank" class="wa-popup-body-link">
+                <div class="wa-popup-body">
+                    <div class="wa-message">
+                        ¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?
+                        <span class="wa-message-time" id="wa-time-now">Ahora</span>
+                    </div>
+                </div>
+                <div class="wa-popup-footer">
+                    <div class="wa-input-fake">Escribe un mensaje...</div>
+                    <div class="wa-send-btn"><i class="fas fa-paper-plane"></i></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- The Floating Button -->
+        <a href="https://wa.link/9k84s7" target="_blank" class="wa-sticky-btn" id="wa-sticky-btn">
+            <i class="fab fa-whatsapp"></i>
+            <span class="wa-badge" id="wa-badge">1</span>
+        </a>
+    </div>
+
+    <!-- Sticky Language Switcher (Mobile & Desktop Floating) -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
         <button class="lang-btn active" data-lang="es" title="Español">ES</button>
         <span class="lang-divider">|</span>
         <button class="lang-btn" data-lang="en" title="English">EN</button>
@@ -628,7 +815,7 @@
 
     <div class="overlay"></div>
 
-    <script src="script.js?v=3.3"></script>
+    <script src="script.js?v=4.0"></script>
 </body>
 
 </html>

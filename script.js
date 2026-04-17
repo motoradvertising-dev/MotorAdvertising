@@ -822,6 +822,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_pauta: 'Paid Media',
             nav_servicios: 'Services',
             nav_contacto: 'Contact',
+            test_title: 'TESTIMONIALS',
             // Hero
             hero_headline: 'Your brand. <span class="highlight">Our engine.</span>',
             hero_subheadline: 'Marketing is not a series of isolated actions.<br>It\'s a system that must adapt, learn and evolve.',
@@ -862,7 +863,7 @@ document.addEventListener("DOMContentLoaded", () => {
             proj_izzy_feat: 'Omnichannel Buy & Try, Performance Dashboard, Automated Workflows',
             portfolio_casestudy: 'View Case Study',
             // Paid Media
-            pm_title: 'Paid Media Performance',
+            pm_title: 'PAID MEDIA PERFORMANCE',
             pm_subtitle: 'From creative ideas to measurable revenue through data-driven advertising.',
             pm_idea: 'Idea',
             pm_idea_1: 'Campaign strategy',
@@ -922,7 +923,7 @@ document.addEventListener("DOMContentLoaded", () => {
             success_desc: 'Our team will contact you soon.',
             success_back: 'Go back',
             // Pauta Dashboard
-            pauta_dash_title: 'Paid Media Performance',
+            pauta_dash_title: 'DIGITAL PAID MEDIA PERFORMANCE',
             pauta_dash_subtitle: 'Data-driven campaigns designed to scale revenue and customer acquisition.',
             pauta_metric_campaigns: 'Active campaigns',
             pauta_metric_creatives: 'Content creatives',
@@ -959,6 +960,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_pauta: 'Pauta',
             nav_servicios: 'Servicios',
             nav_contacto: 'Contacto',
+            test_title: 'TESTIMONIOS',
             hero_headline: 'Tu marca. <span class="highlight">Nuestro motor.</span>',
             hero_subheadline: 'El marketing no es una serie de acciones aisladas.<br>Es un sistema que debe adaptarse, aprender y evolucionar.',
             hero_support: 'Interpretamos datos, comportamiento del mercado y momento de la marca para decidir cómo debe moverse, cuándo escalar y cuándo ajustar.',
@@ -994,7 +996,7 @@ document.addEventListener("DOMContentLoaded", () => {
             proj_izzy_obj: 'Alineación Marca y Creador',
             proj_izzy_feat: 'Compra y Prueba Omnicanal, Panel de Rendimiento, Flujos Automatizados',
             portfolio_casestudy: 'Ver Caso de Éxito',
-            pm_title: 'Rendimiento de Pauta Digital',
+            pm_title: 'RENDIMIENTO DE PAUTA DIGITAL',
             pm_subtitle: 'De ideas creativas a ingresos medibles a través de publicidad basada en datos.',
             pm_idea: 'Idea',
             pm_idea_1: 'Estrategia de campaña',
@@ -1050,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", () => {
             success_desc: 'Nuestro equipo te contactará pronto.',
             success_back: 'Volver',
             // Pauta Dashboard
-            pauta_dash_title: 'Rendimiento de pauta digital',
+            pauta_dash_title: 'RENDIMIENTO DE PAUTA DIGITAL',
             pauta_dash_subtitle: 'Campañas basadas en datos diseñadas para escalar ingresos y adquisición de clientes.',
             pauta_metric_campaigns: 'Campañas activas',
             pauta_metric_creatives: 'Creativos de contenido',
@@ -1495,3 +1497,99 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 })();
+
+// ==========================================
+// V4.0 — TESTIMONIALS CAROUSEL
+// ==========================================
+(function() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('testimonials-track');
+        const dotsContainer = document.getElementById('testimonials-dots');
+        const arrowLeft = document.getElementById('test-arrow-left');
+        const arrowRight = document.getElementById('test-arrow-right');
+        if (!track || !dotsContainer) return;
+
+        const cards = track.querySelectorAll('.testimonial-card');
+        const isMobile = window.innerWidth < 768;
+        const cardsPerView = isMobile ? 1 : 2;
+        const totalPages = Math.ceil(cards.length / cardsPerView);
+        let currentPage = 0;
+
+        // Create dots
+        for (let i = 0; i < totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToPage(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            const offset = isMobile ? currentPage * 100 : currentPage * 100;
+            track.style.transform = `translateX(-${offset}%)`;
+            dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentPage);
+            });
+        }
+
+        if (arrowLeft) arrowLeft.addEventListener('click', () => {
+            goToPage(currentPage > 0 ? currentPage - 1 : totalPages - 1);
+        });
+        if (arrowRight) arrowRight.addEventListener('click', () => {
+            goToPage(currentPage < totalPages - 1 ? currentPage + 1 : 0);
+        });
+
+        // Touch swipe
+        let startX = 0;
+        track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+        track.addEventListener('touchend', (e) => {
+            const diff = startX - e.changedTouches[0].clientX;
+            if (diff > 50) goToPage(Math.min(currentPage + 1, totalPages - 1));
+            if (diff < -50) goToPage(Math.max(currentPage - 1, 0));
+        });
+    });
+})();
+
+// --- WhatsApp Widget Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const waPopup = document.getElementById('wa-popup');
+    const waBadge = document.getElementById('wa-badge');
+    const waClose = document.getElementById('wa-popup-close');
+    const waTimeNow = document.getElementById('wa-time-now');
+
+    if(waPopup && waBadge && waClose) {
+        // Set dynamic time
+        if(waTimeNow) {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            waTimeNow.textContent = hours + ':' + minutes + ' ' + ampm;
+        }
+
+        // Show popup after 7 seconds
+        setTimeout(() => {
+            waPopup.classList.add('show');
+            waBadge.classList.add('show');
+        }, 7000);
+
+        // Close logic
+        waClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            waPopup.classList.remove('show');
+        });
+        
+        // Hide badge when button is clicked
+        const stickyBtn = document.getElementById('wa-sticky-btn');
+        if(stickyBtn) {
+            stickyBtn.addEventListener('click', () => {
+                waBadge.classList.remove('show');
+            });
+        }
+    }
+});
