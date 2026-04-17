@@ -1184,7 +1184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             icon: 'fas fa-bullseye',
             color: '#d97706',
             colorClass: 'case-color-amber',
-            thumbnail: "/assets/macca_thumb.png',
+            thumbnail: '/assets/macca_thumb.png',
             videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773900383/Macca_lc8teo.mp4',
         },
         {
@@ -1208,7 +1208,7 @@ document.addEventListener("DOMContentLoaded", () => {
             icon: 'fas fa-scissors',
             color: '#f472b6',
             colorClass: 'case-color-pink',
-            thumbnail: "/assets/cirugia_capilar_thumb.png',
+            thumbnail: '/assets/cirugia_capilar_thumb.png',
             videoUrl: 'https://res.cloudinary.com/dhw9jix2n/video/upload/v1773899315/CIRUGIA_CAPIALR_YOMI_fa7ntv.mp4',
         },
         {
