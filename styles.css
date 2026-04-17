@@ -4008,7 +4008,7 @@ footer {
 .footer-new {
     display: block !important;
     margin-top: auto !important;
-    padding: 50px 5% 20px;
+    padding: 30px 5% 10px;
     background: #08080b;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
@@ -4021,14 +4021,14 @@ footer {
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-    gap: 60px;
+    gap: 30px;
     align-items: start;
 }
 
 .footer-logo-svg {
     height: 35px;
     width: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     opacity: 0.9;
 }
 
@@ -4038,29 +4038,29 @@ footer {
     font-weight: 800;
     letter-spacing: 3px;
     color: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .footer-brand-desc {
     color: #888;
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    line-height: 1.5;
     max-width: 350px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .footer-heading {
     font-family: var(--font-heading);
     color: #fff;
-    margin-bottom: 25px;
-    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
 .footer-nav {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .footer-nav a {
@@ -4089,13 +4089,13 @@ footer {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
     color: #fff;
-    padding: 14px 28px;
+    padding: 10px 24px;
     border-radius: 50px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .footer-cta-btn:hover {
@@ -4107,7 +4107,7 @@ footer {
 
 .footer-social {
     display: flex;
-    gap: 15px;
+    gap: 10px;
 }
 
 .footer-social a {
@@ -4131,8 +4131,8 @@ footer {
 .footer-bottom {
     display: block !important;
     width: 100% !important;
-    margin: 40px 0 0 !important;
-    padding: 20px 0 !important;
+    margin: 20px 0 0 !important;
+    padding: 15px 0 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
     text-align: center !important;
     clear: both !important;
