@@ -334,6 +334,21 @@ if (document.getElementById('profesional-contact-form')) {
     const projects = [
         {
           id: 0,
+          slug: 'saas-funnel',
+          title: "IZZY PLATFORM",
+          category: "FUNNELS",
+          year: "2025",
+          description: "Plataforma de conversión optimizada para influencers con sistemas de seguimiento de métricas.",
+          platform: "Next.js / Tailwind",
+          objective: "Conversión",
+          features: ["Analytics", "Pagos"],
+          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
+          video: "https://raw.githubusercontent.com/Amadeusguitarte/motorads2/main/Izzyweb.mp4",
+          tags: ["Influencer", "Performance"],
+          url: "https://itsizzy.com/"
+        },
+        {
+          id: 1,
           slug: 'luxury-real-estate',
           title: "LUXURY REAL ESTATE",
           category: "BIENES RAÍCES",
@@ -345,20 +360,6 @@ if (document.getElementById('profesional-contact-form')) {
           image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
           tags: ["SEO", "Leads"],
           url: "https://luxury-real-estate.example.com"
-        },
-        {
-          id: 1,
-          slug: 'saas-funnel',
-          title: "IZZY PLATFORM",
-          category: "FUNNELS",
-          year: "2025",
-          description: "Plataforma de conversión optimizada para influencers con sistemas de seguimiento de métricas.",
-          platform: "Next.js / Tailwind",
-          objective: "Conversión",
-          features: ["Analytics", "Pagos"],
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
-          tags: ["Influencer", "Performance"],
-          url: "https://itsizzy.com/"
         },
         {
           id: 2,
@@ -430,6 +431,7 @@ if (document.getElementById('profesional-contact-form')) {
 
         // Update UI elements
         const mainImg = document.getElementById('main-project-image');
+        const mainVideo = document.getElementById('main-project-video');
         const mainTitle = document.getElementById('main-project-title');
         const mainDesc = document.getElementById('main-project-desc');
         const mainCat = document.getElementById('main-project-category');
@@ -441,9 +443,22 @@ if (document.getElementById('profesional-contact-form')) {
 
         if (mainImg) {
             mainImg.style.opacity = '0';
+            if (mainVideo) mainVideo.style.opacity = '0';
             setTimeout(() => {
-                mainImg.src = p.image;
-                mainImg.style.opacity = '1';
+                if (p.video && mainVideo) {
+                    mainVideo.src = p.video;
+                    mainVideo.style.display = 'block';
+                    mainVideo.style.opacity = '1';
+                    mainImg.style.display = 'none';
+                } else {
+                    mainImg.src = p.image;
+                    mainImg.style.display = 'block';
+                    mainImg.style.opacity = '1';
+                    if (mainVideo) {
+                        mainVideo.style.display = 'none';
+                        mainVideo.src = '';
+                    }
+                }
             }, 300);
         }
         if (mainTitle) mainTitle.textContent = p.title;
