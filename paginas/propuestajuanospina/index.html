@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta · Motor Advertising × JEO</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #005CAC;
+  --blue-bright: #0070D4;
+  --blue-dim: rgba(0, 92, 172, 0.12);
+  --blue-border: rgba(0, 92, 172, 0.35);
+  --blue-glow: rgba(0, 92, 172, 0.2);
+  --bg: #060809;
+  --bg-1: #0A0E12;
+  --bg-2: #0E1419;
+  --bg-3: #121A22;
+  --text: #C8D8E8;
+  --text-muted: #5A7A96;
+  --text-dim: #2A3D50;
+  --white: #EEF4FA;
+  --green: #00C896;
+  --red: #E03060;
+  --border: rgba(255,255,255,0.05);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── SCANLINE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── GRID ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,92,172,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,92,172,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── TICKER BAR ── */
+.ticker-bar {
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--blue-border);
+  padding: 8px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 48px;
+  animation: ticker 30s linear infinite;
+  width: max-content;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.ticker-sym { color: var(--white); font-weight: 500; }
+.ticker-val { color: var(--text-muted); }
+.ticker-up { color: var(--green); }
+.ticker-down { color: var(--red); }
+.ticker-sep { color: var(--text-dim); }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── LAYOUT ── */
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 36px; position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+header {
+  padding: 60px 0 72px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 56px;
+  gap: 24px;
+}
+
+.logo-block { display: flex; flex-direction: column; gap: 6px; }
+
+.logo-main {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+}
+
+.logo-cross {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.logo-cross span { color: var(--text-muted); }
+
+.doc-info {
+  text-align: right;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  line-height: 2.2;
+  color: var(--text-dim);
+}
+
+.doc-info b { color: var(--blue); font-weight: 500; }
+
+/* ── HERO ── */
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+  margin-bottom: 22px;
+}
+
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 14px;
+  background: var(--blue);
+}
+
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 74px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+
+h1 .accent { color: var(--blue-bright); }
+h1 .thin { font-weight: 300; }
+
+.hero-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  max-width: 540px;
+  line-height: 1.8;
+  border-left: 2px solid var(--blue);
+  padding-left: 16px;
+  margin-bottom: 48px;
+}
+
+/* ── KPI ROW ── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--blue-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-1);
+  box-shadow: 0 0 40px rgba(0,92,172,0.1);
+}
+
+.kpi-cell {
+  padding: 22px 20px;
+  border-right: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.kpi-cell:last-child { border-right: none; }
+.kpi-cell:hover { background: var(--bg-2); }
+
+.kpi-cell::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+
+.kpi-cell:hover::after { transform: scaleX(1); }
+
+.kpi-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.kpi-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--white);
+  line-height: 1;
+}
+
+.kpi-val .unit {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.kpi-change {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  margin-top: 5px;
+  color: var(--green);
+}
+
+/* ── SECTION ── */
+section { padding: 68px 0; border-bottom: 1px solid var(--border); }
+section:last-of-type { border-bottom: none; }
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+.sec-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  padding: 5px 10px;
+  border-radius: 2px;
+  margin-right: 18px;
+  flex-shrink: 0;
+}
+
+.sec-title-wrap {}
+
+h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 30px);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.sec-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+p { font-size: 14px; color: var(--text-muted); line-height: 1.85; }
+
+/* ── ARCHITECTURE CARDS ── */
+.arch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--blue-border);
+  border: 1px solid var(--blue-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.arch-card {
+  background: var(--bg-1);
+  padding: 28px 26px;
+  transition: background 0.3s;
+  position: relative;
+}
+
+.arch-card:hover { background: var(--bg-2); }
+
+.arch-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--blue-bright);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-code::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--blue);
+}
+
+.arch-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.arch-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.arch-list li {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.arch-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-size: 10px;
+  top: 2px;
+}
+
+/* ── FLOW ── */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.flow-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+
+.flow-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.flow-num {
+  width: 36px; height: 36px;
+  border: 1px solid var(--blue-border);
+  background: var(--blue-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--blue-bright);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+}
+
+.flow-vline {
+  width: 1px;
+  flex: 1;
+  min-height: 12px;
+  background: linear-gradient(to bottom, var(--blue-border), transparent);
+  margin-top: 2px;
+}
+
+.flow-body {
+  flex: 1;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  margin-bottom: 3px;
+  transition: border-color 0.3s, background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.flow-body::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--blue);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.flow-body:hover { border-color: var(--blue-border); background: var(--bg-2); }
+.flow-body:hover::before { opacity: 1; }
+
+.flow-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 3px;
+}
+
+.flow-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+/* ── BENEFITS ── */
+.ben-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ben-cell {
+  background: var(--bg-1);
+  padding: 20px 12px;
+  text-align: center;
+  transition: background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.ben-cell:hover { background: var(--bg-2); }
+
+.ben-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+
+.ben-cell:hover::after { transform: scaleX(1); }
+
+.ben-icon { font-size: 18px; margin-bottom: 10px; display: block; }
+
+.ben-text {
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.02em;
+}
+
+/* ── INVESTMENT ── */
+.inv-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3px;
+  background: var(--blue-border);
+  border: 1px solid var(--blue-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.inv-main-block {
+  background: var(--bg-1);
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.inv-main-block::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,92,172,0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.inv-ticker-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.inv-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 68px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.inv-price .currency {
+  font-size: 32px;
+  color: var(--blue-bright);
+  font-weight: 700;
+  vertical-align: baseline;
+  line-height: 1;
+  display: inline;
+}
+
+.inv-price .code {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+.inv-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.inv-stats {
+  background: var(--bg-1);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.inv-stat {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.inv-stat:last-child { border-bottom: none; }
+
+.inv-stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+}
+
+.inv-stat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.inv-stat-val .tag {
+  font-size: 11px;
+  color: var(--green);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+/* ── REQUIREMENTS ── */
+.req-list { display: flex; flex-direction: column; gap: 6px; }
+
+.req-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.req-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: var(--blue-dim);
+  transition: width 0.4s;
+}
+
+.req-row:hover { border-color: var(--blue-border); }
+.req-row:hover::before { width: 100%; }
+
+.req-row > * { position: relative; z-index: 1; }
+
+.req-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--blue-bright);
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  padding: 3px 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.req-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.req-text strong { color: var(--text); font-weight: 500; }
+
+/* ── LIMITS ── */
+.limit-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.limit-cell {
+  background: var(--bg-1);
+  padding: 22px 20px;
+  position: relative;
+}
+
+.limit-cell::before {
+  content: '✕';
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.limit-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* ── CONSIDERATIONS ── */
+.cons-list { display: flex; flex-direction: column; gap: 10px; }
+
+.cons-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding: 12px 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+
+.cons-item:hover { border-color: var(--blue-border); }
+
+.cons-marker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--blue-bright);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 52px 0 60px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+
+.footer-left { display: flex; flex-direction: column; gap: 6px; }
+
+.footer-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.footer-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.footer-right {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 2.2;
+}
+
+.footer-right b { color: var(--blue); font-weight: 500; }
+
+/* ── SECTION TICKER ── */
+.section-ticker {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  background: rgba(0,92,172,0.03);
+}
+.section-ticker .ticker-track { animation-duration: 22s; gap: 40px; }
+.section-ticker .ticker-item { font-size: 10px; gap: 6px; }
+
+/* ── CTA BUTTON ── */
+.cta-section {
+  padding: 80px 0 72px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+}
+.cta-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.cta-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 44px);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.cta-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--blue);
+  color: var(--white);
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 20px 52px;
+  border: 1px solid var(--blue-bright);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+}
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.cta-btn:hover { background: var(--blue-bright); box-shadow: 0 0 40px rgba(0,92,172,0.5); }
+.cta-btn:hover::before { transform: translateX(100%); }
+.cta-btn .arrow { font-size: 20px; animation: arrow-pulse 1.5s ease-in-out infinite; }
+@keyframes arrow-pulse {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+.cta-note {
+  margin-top: 22px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+.cta-note span { color: var(--green); }
+
+/* ── CANDLESTICK DECO ── */
+.candle-deco {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 220px;
+  opacity: 0.07;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 0 20px 20px;
+}
+
+.candle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.candle-wick { width: 1px; background: var(--text-muted); flex-shrink: 0; }
+.candle-body { width: 100%; border-radius: 1px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim { animation: fade-up 0.6s ease forwards; opacity: 0; }
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.15s; }
+.d3 { animation-delay: 0.28s; }
+.d4 { animation-delay: 0.42s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .wrap { padding: 0 18px; }
+  header { padding: 40px 0 52px; }
+  .header-top { flex-direction: column; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .arch-grid, .inv-layout, .limit-row { grid-template-columns: 1fr; }
+  .ben-grid { grid-template-columns: repeat(3, 1fr); }
+  h1 { font-size: 42px; }
+  .footer-row { flex-direction: column; align-items: flex-start; }
+  .footer-right { text-align: left; }
+  section { padding: 48px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TICKER ── -->
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <!-- first half -->
+    <div class="ticker-item"><span class="ticker-sym">CONV</span><span class="ticker-val">RATE</span><span class="ticker-sep">|</span><span class="ticker-up">▲ +34.2%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">LEADS</span><span class="ticker-val">FLOW</span><span class="ticker-sep">|</span><span class="ticker-up">▲ ACTIVE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">FUNNEL</span><span class="ticker-val">OPT</span><span class="ticker-sep">|</span><span class="ticker-up">▲ LIVE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">AUTO</span><span class="ticker-val">ONBOARD</span><span class="ticker-sep">|</span><span class="ticker-up">▲ READY</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SUB</span><span class="ticker-val">LVL</span><span class="ticker-sep">|</span><span class="ticker-val">3 TIERS</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DISCORD</span><span class="ticker-val">INT</span><span class="ticker-sep">|</span><span class="ticker-up">▲ SYNC</span></div>
+    <div class="ticker-item"><span class="ticker-sym">EMAIL</span><span class="ticker-val">AUTO</span><span class="ticker-sep">|</span><span class="ticker-up">▲ CONFIG</span></div>
+    <div class="ticker-item"><span class="ticker-sym">RETARGETING</span><span class="ticker-val">DB</span><span class="ticker-sep">|</span><span class="ticker-up">▲ BUILD</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ROI</span><span class="ticker-val">EXP</span><span class="ticker-sep">|</span><span class="ticker-up">▲ HIGH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SUPPORT</span><span class="ticker-val">30D</span><span class="ticker-sep">|</span><span class="ticker-up">▲ INCL</span></div>
+    <div class="ticker-item"><span class="ticker-sym">MOTOR</span><span class="ticker-val">ADV</span><span class="ticker-sep">|</span><span class="ticker-up">▲ LAUNCH</span></div>
+    <!-- mirror for seamless loop -->
+    <div class="ticker-item"><span class="ticker-sym">CONV</span><span class="ticker-val">RATE</span><span class="ticker-sep">|</span><span class="ticker-up">▲ +34.2%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">LEADS</span><span class="ticker-val">FLOW</span><span class="ticker-sep">|</span><span class="ticker-up">▲ ACTIVE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">FUNNEL</span><span class="ticker-val">OPT</span><span class="ticker-sep">|</span><span class="ticker-up">▲ LIVE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">AUTO</span><span class="ticker-val">ONBOARD</span><span class="ticker-sep">|</span><span class="ticker-up">▲ READY</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SUB</span><span class="ticker-val">LVL</span><span class="ticker-sep">|</span><span class="ticker-val">3 TIERS</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DISCORD</span><span class="ticker-val">INT</span><span class="ticker-sep">|</span><span class="ticker-up">▲ SYNC</span></div>
+    <div class="ticker-item"><span class="ticker-sym">EMAIL</span><span class="ticker-val">AUTO</span><span class="ticker-sep">|</span><span class="ticker-up">▲ CONFIG</span></div>
+    <div class="ticker-item"><span class="ticker-sym">RETARGETING</span><span class="ticker-val">DB</span><span class="ticker-sep">|</span><span class="ticker-up">▲ BUILD</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ROI</span><span class="ticker-val">EXP</span><span class="ticker-sep">|</span><span class="ticker-up">▲ HIGH</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SUPPORT</span><span class="ticker-val">30D</span><span class="ticker-sep">|</span><span class="ticker-up">▲ INCL</span></div>
+    <div class="ticker-item"><span class="ticker-sym">MOTOR</span><span class="ticker-val">ADV</span><span class="ticker-sep">|</span><span class="ticker-up">▲ LAUNCH</span></div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="wrap">
+    <div class="header-top anim d1">
+      <div class="logo-block">
+        <div class="logo-main">Motor Advertising</div>
+        <div class="logo-cross">×&nbsp;&nbsp;<span>Juan Esteban Ospina</span></div>
+      </div>
+      <div class="doc-info">
+        REF: <b>MA-JEO-2025-001</b><br>
+        TIPO: <b>PROPUESTA TÉCNICA</b><br>
+        ESTADO: <b style="color:var(--green)">ACTIVO</b><br>
+        VERSIÓN: <b>1.0</b>
+      </div>
+    </div>
+
+    <div class="hero-tag anim d2">SYS // CAPTACIÓN · CONVERSIÓN · ONBOARDING</div>
+    <h1 class="anim d3">
+      <span class="thin">Sistema</span><br>
+      <span class="accent">automatizado</span><br>
+      <span class="thin">de</span> crecimiento
+    </h1>
+    <p class="hero-sub anim d4">Arquitectura digital diseñada para transformar tráfico en suscriptores activos — filtrando prospectos, convirtiendo en clientes y automatizando cada etapa del ingreso al ecosistema.</p>
+
+    <!-- KPI row -->
+    <div class="kpi-row anim d4">
+      <div class="kpi-cell">
+        <div class="kpi-label">Activos del sistema</div>
+        <div class="kpi-val">4 <span class="unit">módulos</span></div>
+        <div class="kpi-change">▲ FULL STACK</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Niveles de suscripción</div>
+        <div class="kpi-val">3 <span class="unit">tiers</span></div>
+        <div class="kpi-change">▲ AUTO-ASSIGN</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Inversión total</div>
+        <div class="kpi-val">$1.5K <span class="unit">usd</span></div>
+        <div class="kpi-change" style="color:var(--blue-bright)">◆ FIXED PRICE</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Soporte incluido</div>
+        <div class="kpi-val">30 <span class="unit">días</span></div>
+        <div class="kpi-change">▲ POST-ENTREGA</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── 01. OBJETO ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·01</div>
+      <div class="sec-title-wrap">
+        <h2>Objeto del acuerdo</h2>
+        <div class="sec-sub">Scope · Objetivo estratégico</div>
+      </div>
+    </div>
+    <p>Diseñar e implementar un sistema de captación, conversión y onboarding automatizado mediante una arquitectura digital enfocada en transformar tráfico en <strong style="color:var(--text)">suscriptores activos</strong> dentro de la comunidad de Juan Esteban Ospina. El objetivo es filtrar prospectos calificados, convertirlos en clientes y automatizar su ingreso al ecosistema, optimizando cada etapa del proceso con precisión de operación.</p>
+  </div>
+</section>
+
+<!-- ── 02. ARQUITECTURA ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·02</div>
+      <div class="sec-title-wrap">
+        <h2>Arquitectura del sistema</h2>
+        <div class="sec-sub">4 módulos · Stack completo de conversión</div>
+      </div>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-code">MOD-A · Captación</div>
+        <div class="arch-name">Landing principal</div>
+        <ul class="arch-list">
+          <li>Desarrollo de landing orientada a conversión</li>
+          <li>Integración de video principal de JEO</li>
+          <li>Estructura narrativa: atención → interés → filtrado</li>
+          <li>CTAs hacia siguiente fase del embudo</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <div class="arch-code">MOD-B · Cierre</div>
+        <div class="arch-name">Página de conversión</div>
+        <ul class="arch-list">
+          <li>Página enfocada en monetización</li>
+          <li>Video explicativo: comunidad + 3 niveles</li>
+          <li>Sistema de pago integrado</li>
+          <li>Proceso explicado paso a paso</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <div class="arch-code">MOD-C · Activación</div>
+        <div class="arch-name">Onboarding automatizado</div>
+        <ul class="arch-list">
+          <li>Redirección automática a calendario de agendamiento</li>
+          <li>Integración con Google Calendar</li>
+          <li>Asignación automática en Discord por nivel</li>
+          <li>Recolección de datos para remarketing (email / WhatsApp)</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <div class="arch-code">MOD-D · Retención</div>
+        <div class="arch-name">Notificaciones automáticas</div>
+        <ul class="arch-list">
+          <li>Confirmación de compra + acceso + próximos pasos</li>
+          <li>Recordatorio previo al vencimiento</li>
+          <li>Notificación de vencimiento con CTA de renovación</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 03. FLUJO ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·03</div>
+      <div class="sec-title-wrap">
+        <h2>Lógica de funcionamiento</h2>
+        <div class="sec-sub">Pipeline · 9 pasos del flujo principal</div>
+      </div>
+    </div>
+    <div class="flow-steps">
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">01</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Entrada al funnel</div><div class="flow-desc">Usuario ingresa a la landing principal del sistema.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">02</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Consumo de contenido estratégico</div><div class="flow-desc">Interacción con video principal + narrativa diseñada para filtrar prospectos calificados.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">03</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Avance a conversión</div><div class="flow-desc">El prospecto avanza a la página de cierre mediante llamado a la acción.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">04</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Selección de nivel</div><div class="flow-desc">El usuario elige su nivel de suscripción entre los 3 tiers disponibles.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">05</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Ejecución del pago</div><div class="flow-desc">Transacción procesada mediante sistema de pago integrado.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">06</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Agendamiento de mentoría</div><div class="flow-desc">Redirección automática al calendario para agendar sesión inicial.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">07</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Asignación en Discord</div><div class="flow-desc">El sistema asigna automáticamente al usuario al grupo de Discord correspondiente a su nivel.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">08</div><div class="flow-vline"></div></div>
+        <div class="flow-body"><div class="flow-title">Ciclo de notificaciones</div><div class="flow-desc">Activación de secuencia de correos automáticos según estado del usuario.</div></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num-col"><div class="flow-num">09</div></div>
+        <div class="flow-body"><div class="flow-title">Registro en base de datos</div><div class="flow-desc">Datos estructurados del usuario quedan almacenados para seguimiento, recordatorios y remarketing.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MINI TICKER ── -->
+<div class="section-ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-sym">CONV·RATE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ +34.2%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">RETENTION</span><span class="ticker-sep">·</span><span class="ticker-up">▲ BOOST</span></div>
+    <div class="ticker-item"><span class="ticker-sym">REVENUE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ FLOW OPT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ONBOARD</span><span class="ticker-sep">·</span><span class="ticker-up">STD PROCESS</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DATA</span><span class="ticker-sep">·</span><span class="ticker-up">▲ STRUCTURED</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SCALE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ READY</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ERRORS</span><span class="ticker-sep">·</span><span class="ticker-down">▼ REDUCED</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SPEED</span><span class="ticker-sep">·</span><span class="ticker-up">▲ MAX</span></div>
+    <div class="ticker-item"><span class="ticker-sym">CONV·RATE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ +34.2%</span></div>
+    <div class="ticker-item"><span class="ticker-sym">RETENTION</span><span class="ticker-sep">·</span><span class="ticker-up">▲ BOOST</span></div>
+    <div class="ticker-item"><span class="ticker-sym">REVENUE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ FLOW OPT</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ONBOARD</span><span class="ticker-sep">·</span><span class="ticker-up">STD PROCESS</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DATA</span><span class="ticker-sep">·</span><span class="ticker-up">▲ STRUCTURED</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SCALE</span><span class="ticker-sep">·</span><span class="ticker-up">▲ READY</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ERRORS</span><span class="ticker-sep">·</span><span class="ticker-down">▼ REDUCED</span></div>
+    <div class="ticker-item"><span class="ticker-sym">SPEED</span><span class="ticker-sep">·</span><span class="ticker-up">▲ MAX</span></div>
+  </div>
+</div>
+
+<!-- ── 04. BENEFICIOS ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·04</div>
+      <div class="sec-title-wrap">
+        <h2>Beneficios del sistema</h2>
+        <div class="sec-sub">Output · Impacto esperado en operación</div>
+      </div>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-cell"><span class="ben-icon">🎯</span><div class="ben-text">Filtrado inteligente de prospectos</div></div>
+      <div class="ben-cell"><span class="ben-icon">📈</span><div class="ben-text">Mayor tasa de conversión</div></div>
+      <div class="ben-cell"><span class="ben-icon">⚡</span><div class="ben-text">Venta 100% automatizada</div></div>
+      <div class="ben-cell"><span class="ben-icon">🔄</span><div class="ben-text">Onboarding estandarizado</div></div>
+      <div class="ben-cell"><span class="ben-icon">🔒</span><div class="ben-text">Retención de usuarios mejorada</div></div>
+      <div class="ben-cell"><span class="ben-icon">🗄️</span><div class="ben-text">Base de datos para escalar</div></div>
+      <div class="ben-cell"><span class="ben-icon">💹</span><div class="ben-text">Flujo de ingresos optimizado</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05. QA ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·05</div>
+      <div class="sec-title-wrap">
+        <h2>Pruebas y control de calidad</h2>
+        <div class="sec-sub">QA · Validación previa a entrega</div>
+      </div>
+    </div>
+    <p>Antes de la entrega final se realizarán <strong style="color:var(--white)">pruebas unitarias</strong> sobre cada módulo del sistema para validar el flujo completo, detectar errores o fallos y garantizar estabilidad y correcto funcionamiento en condiciones reales de operación.</p>
+  </div>
+</section>
+
+<!-- ── 06. INVERSIÓN ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·06</div>
+      <div class="sec-title-wrap">
+        <h2>Inversión del servicio</h2>
+        <div class="sec-sub">Pricing · Estructura de costos</div>
+      </div>
+    </div>
+    <div class="inv-layout">
+      <div class="inv-main-block">
+        <div class="inv-ticker-label"><div class="live-dot"></div>PRECIO DE ENTRADA</div>
+        <div class="inv-price"><span class="currency">$</span>1,500<span class="code">USD</span></div>
+        <div class="inv-note">Desarrollo e implementación completa del sistema</div>
+      </div>
+      <div class="inv-stats">
+        <div class="inv-stat">
+          <div class="inv-stat-label">Mantenimiento incluido</div>
+          <div class="inv-stat-val">30 días <span class="tag">▲ GRATIS</span></div>
+        </div>
+        <div class="inv-stat">
+          <div class="inv-stat-label">Intervenciones posteriores</div>
+          <div class="inv-stat-val">$200 USD <span style="font-size:11px; color:var(--text-dim); font-family:'IBM Plex Mono',monospace; font-weight:400">/ intervención</span></div>
+        </div>
+        <div class="inv-stat">
+          <div class="inv-stat-label">Funcionalidades adicionales</div>
+          <div class="inv-stat-val" style="font-size:14px; font-family:'Barlow',sans-serif; font-weight:300; color:var(--text-muted)">Cotización separada según alcance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 07. REQUERIMIENTOS ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·07</div>
+      <div class="sec-title-wrap">
+        <h2>Requerimientos</h2>
+        <div class="sec-sub">Input · Entregables del cliente</div>
+      </div>
+    </div>
+    <div class="req-list">
+      <div class="req-row">
+        <div class="req-id">R·01</div>
+        <div class="req-text"><strong>Contenido audiovisual</strong> — Videos de Juan Esteban Ospina para landing y página de conversión</div>
+      </div>
+      <div class="req-row">
+        <div class="req-id">R·02</div>
+        <div class="req-text"><strong>Acceso a plataformas</strong> — Sistema de pagos, cuenta Google, servidor de Discord</div>
+      </div>
+      <div class="req-row">
+        <div class="req-id">R·03</div>
+        <div class="req-text"><strong>Definición de niveles</strong> — Estructura, precios y beneficios de los 3 tiers de suscripción</div>
+      </div>
+      <div class="req-row">
+        <div class="req-id">R·04</div>
+        <div class="req-text"><strong>Información de mentoría</strong> — Proceso estructurado de onboarding y agendamiento</div>
+      </div>
+      <div class="req-row" style="border-color:var(--blue-border); background: rgba(0,92,172,0.05);">
+        <div class="req-id">R·05</div>
+        <div class="req-text"><strong>Medio de pago activo</strong> (a cargo del cliente) para cobertura de <strong>dominio</strong>, <strong>hosting</strong> y <strong>configuración de seguridad SSH</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 08. LIMITACIONES ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·08</div>
+      <div class="sec-title-wrap">
+        <h2>Limitaciones del servicio</h2>
+        <div class="sec-sub">Out of scope · No incluido en esta propuesta</div>
+      </div>
+    </div>
+    <div class="limit-row">
+      <div class="limit-cell">
+        <div class="limit-title">Automatizaciones conversacionales</div>
+      </div>
+      <div class="limit-cell">
+        <div class="limit-title">Email marketing avanzado</div>
+      </div>
+      <div class="limit-cell">
+        <div class="limit-title">Campañas de mailing masivo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 09. CONSIDERACIONES ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">SYS·09</div>
+      <div class="sec-title-wrap">
+        <h2>Consideraciones adicionales</h2>
+        <div class="sec-sub">Roadmap · Escalabilidad e integraciones</div>
+      </div>
+    </div>
+    <div class="cons-list">
+      <div class="cons-item"><div class="cons-marker">◆</div>El sistema está diseñado para escalar a futuro sin necesidad de rediseñar la arquitectura base.</div>
+      <div class="cons-item"><div class="cons-marker">◆</div>Puede integrarse con nuevas herramientas de marketing, CRM o analítica según las necesidades del proyecto.</div>
+      <div class="cons-item"><div class="cons-marker">◆</div>Cualquier funcionalidad adicional no contemplada en esta propuesta será evaluada y cotizada por separado.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL TICKER ── -->
+<div class="section-ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-sym">STATUS</span><span class="ticker-sep">·</span><span class="ticker-up">▲ PROPUESTA ACTIVA</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DEAL</span><span class="ticker-sep">·</span><span class="ticker-up">▲ READY TO CLOSE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">LAUNCH</span><span class="ticker-sep">·</span><span class="ticker-up">▲ AWAITING SIGNAL</span></div>
+    <div class="ticker-item"><span class="ticker-sym">MOTOR·ADV</span><span class="ticker-sep">·</span><span class="ticker-up">▲ EJECUTANDO</span></div>
+    <div class="ticker-item"><span class="ticker-sym">JEO</span><span class="ticker-sep">·</span><span class="ticker-up">▲ GO LIVE SOON</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ACCEPT</span><span class="ticker-sep">·</span><span class="ticker-up">▲ CONFIRM NOW</span></div>
+    <div class="ticker-item"><span class="ticker-sym">STATUS</span><span class="ticker-sep">·</span><span class="ticker-up">▲ PROPUESTA ACTIVA</span></div>
+    <div class="ticker-item"><span class="ticker-sym">DEAL</span><span class="ticker-sep">·</span><span class="ticker-up">▲ READY TO CLOSE</span></div>
+    <div class="ticker-item"><span class="ticker-sym">LAUNCH</span><span class="ticker-sep">·</span><span class="ticker-up">▲ AWAITING SIGNAL</span></div>
+    <div class="ticker-item"><span class="ticker-sym">MOTOR·ADV</span><span class="ticker-sep">·</span><span class="ticker-up">▲ EJECUTANDO</span></div>
+    <div class="ticker-item"><span class="ticker-sym">JEO</span><span class="ticker-sep">·</span><span class="ticker-up">▲ GO LIVE SOON</span></div>
+    <div class="ticker-item"><span class="ticker-sym">ACCEPT</span><span class="ticker-sep">·</span><span class="ticker-up">▲ CONFIRM NOW</span></div>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<div class="cta-section">
+  <div class="wrap">
+    <div class="cta-label">// SIGUIENTE PASO · CONFIRMAR PROPUESTA</div>
+    <div class="cta-heading">¿Listo para ejecutar?</div>
+    <div class="cta-sub">REF: MA-JEO-2025-001 · SISTEMA COMPLETO</div>
+    <a class="cta-btn" href="https://wa.link/x57gdn" target="_blank" rel="noopener">
+      Aceptar propuesta <span class="arrow">→</span>
+    </a>
+    <div class="cta-note">Serás redirigido a WhatsApp para confirmar · <span>Respuesta en menos de 24h</span></div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap">
+    <div style="height:1px; background: linear-gradient(90deg, var(--blue) 0%, transparent 50%); opacity:0.4; margin-bottom:40px;"></div>
+    <div class="footer-row">
+      <div class="footer-left">
+        <div class="footer-title">Motor Advertising</div>
+        <div class="footer-sub">× Juan Esteban Ospina · Propuesta técnica 2025</div>
+      </div>
+      <div class="footer-right">
+        REF: <b>MA-JEO-2025-001</b><br>
+        ESTADO: <b style="color:var(--green)">ACTIVO</b><br>
+        DOC CONFIDENCIAL
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
