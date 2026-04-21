@@ -4,1183 +4,979 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Propuesta de Automatización · VIVIR IPS</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --accent: #19B8E9;
-    --accent-dim: rgba(25, 184, 233, 0.12);
-    --accent-border: rgba(25, 184, 233, 0.3);
-    --bg: #080C0F;
-    --bg-card: #0D1419;
-    --bg-card2: #101820;
-    --text: #E8F0F5;
-    --text-muted: #6B8BA0;
-    --text-dim: #3A5568;
-    --border: rgba(255,255,255,0.06);
-    --white: #ffffff;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ─── GRID BACKGROUND ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(25,184,233,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(25,184,233,0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ─── PULSE GLOW ─── */
-  .glow-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
-    z-index: 0;
-    animation: pulse-orb 8s ease-in-out infinite;
-  }
-  .glow-orb-1 { width: 500px; height: 500px; background: rgba(25,184,233,0.07); top: -100px; right: -100px; }
-  .glow-orb-2 { width: 400px; height: 400px; background: rgba(25,184,233,0.04); bottom: 20%; left: -150px; animation-delay: 4s; }
-
-  @keyframes pulse-orb {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.1); }
-  }
-
-  /* ─── LAYOUT ─── */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
-
-  /* ─── HEADER ─── */
-  header {
-    padding: 64px 0 80px;
-    position: relative;
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-  }
-
-  .header-inner { display: flex; flex-direction: column; gap: 48px; }
-
-  .logo-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .brand-icon {
-    width: 44px;
-    height: 44px;
-    border: 1.5px solid var(--accent);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .brand-icon::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent-dim);
-  }
-
-  .brand-icon svg { position: relative; z-index: 1; }
-
-  .brand-name {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .brand-sub {
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-  }
-
-  .doc-badge {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--text-dim);
-    letter-spacing: 0.08em;
-    text-align: right;
-    line-height: 1.9;
-  }
-
-  .doc-badge span { color: var(--accent); }
-
-  .hero-content { max-width: 720px; }
-
-  .tag-line {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  .tag-line::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(36px, 5vw, 54px);
-    font-weight: 400;
-    line-height: 1.15;
-    color: var(--white);
-    margin-bottom: 20px;
-    letter-spacing: -0.02em;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .hero-desc {
-    font-size: 18px;
-    color: var(--text-muted);
-    max-width: 580px;
-    line-height: 1.8;
-  }
-
-  .divider-line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
-    margin: 40px 0;
-    opacity: 0.4;
-  }
-
-  /* ─── STATS ROW ─── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin: 56px 0;
-  }
-
-  .stat-item {
-    background: var(--bg-card);
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-
-  .stat-item::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-
-  .stat-item:hover { background: var(--bg-card2); }
-  .stat-item:hover::after { transform: scaleX(1); }
-
-  .stat-number {
-    font-family: 'DM Serif Display', serif;
-    font-size: 32px;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 15px;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-  }
-
-  /* ─── SECTIONS ─── */
-  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
-  section:last-of-type { border-bottom: none; }
-
-  .section-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-
-  .section-number {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    padding: 6px 10px;
-    border: 1px solid var(--accent-border);
-    border-radius: 4px;
-    background: var(--accent-dim);
-    white-space: nowrap;
-    margin-top: 4px;
-  }
-
-  .section-title-wrap { flex: 1; }
-
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(24px, 3vw, 30px);
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-
-  .section-subtitle {
-    font-size: 16px;
-    color: var(--text-muted);
-    letter-spacing: 0.03em;
-  }
-
-  p { color: var(--text-muted); font-size: 18px; line-height: 1.8; }
-
-  /* ─── ARQUITECTURA ─── */
-  .arch-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .arch-card {
-    background: var(--bg-card);
-    padding: 32px 24px;
-    position: relative;
-    transition: background 0.3s;
-  }
-
-  .arch-card:hover { background: var(--bg-card2); }
-
-  .arch-step {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  .arch-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-
-  .arch-title {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 10px;
-  }
-
-  .arch-desc { font-size: 16px; color: var(--text-muted); line-height: 1.7; }
-
-  .arch-list {
-    list-style: none;
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .arch-list li {
-    font-size: 16px;
-    color: var(--text-muted);
-    padding-left: 14px;
-    position: relative;
-  }
-
-  .arch-list li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 16px;
-    line-height: 1.4;
-  }
-
-  .arch-connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 0;
-    gap: 4px;
-  }
-
-  /* ─── FLOW ─── */
-  .flow-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .flow-step {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    position: relative;
-    padding-bottom: 32px;
-  }
-
-  .flow-step:last-child { padding-bottom: 0; }
-
-  .flow-line-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .flow-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--accent-dim);
-    border: 1.5px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  .flow-connector {
-    width: 1px;
-    flex: 1;
-    min-height: 24px;
-    background: linear-gradient(to bottom, var(--accent-border), transparent);
-  }
-
-  .flow-content {
-    flex: 1;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 22px;
-    transition: border-color 0.3s;
-    margin-bottom: 8px;
-  }
-
-  .flow-content:hover { border-color: var(--accent-border); }
-
-  .flow-label {
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-
-  .flow-text { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
-
-  /* ─── SCENARIOS ─── */
-  .scenarios-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 8px;
-  }
-
-  .scenario-card {
-    border-radius: 14px;
-    padding: 28px 24px;
-    border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scenario-card.success {
-    background: linear-gradient(135deg, rgba(25,184,233,0.06), rgba(25,184,233,0.02));
-    border-color: var(--accent-border);
-  }
-
-  .scenario-card.warning {
-    background: linear-gradient(135deg, rgba(255,165,0,0.06), rgba(255,165,0,0.02));
-    border-color: rgba(255,165,0,0.2);
-  }
-
-  .scenario-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-  }
-
-  .success .scenario-badge { background: rgba(25,184,233,0.1); color: var(--accent); }
-  .warning .scenario-badge { background: rgba(255,165,0,0.1); color: #FFA500; }
-
-  .scenario-title {
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 14px;
-  }
-
-  .scenario-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .scenario-list li {
-    font-size: 16px;
-    color: var(--text-muted);
-    padding-left: 18px;
-    position: relative;
-  }
-
-  .success .scenario-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 13px;
-    top: 2px;
-  }
-
-  .warning .scenario-list li::before {
-    content: '!';
-    position: absolute;
-    left: 0;
-    color: #FFA500;
-    font-size: 13px;
-    font-weight: 700;
-    top: 1px;
-  }
-
-  /* ─── BENEFITS ─── */
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-
-  .benefit-item {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px 18px;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .benefit-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .benefit-item:hover { border-color: var(--accent-border); transform: translateY(-2px); }
-  .benefit-item:hover::before { opacity: 1; }
-
-  .benefit-icon {
-    font-size: 22px;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .benefit-label {
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--white);
-    line-height: 1.4;
-  }
-
-  /* ─── REQUIREMENTS ─── */
-  .req-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .req-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 16px 20px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    transition: border-color 0.3s;
-  }
-
-  .req-item:hover { border-color: var(--accent-border); }
-
-  .req-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    background: var(--accent-dim);
-    border: 1px solid var(--accent-border);
-    border-radius: 4px;
-    padding: 3px 7px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .req-text { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
-  .req-text strong { color: var(--text); font-weight: 500; }
-
-  /* ─── INVESTMENT ─── */
-  .investment-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .inv-main {
-    background: linear-gradient(135deg, rgba(25,184,233,0.1), rgba(25,184,233,0.04));
-    border: 1.5px solid var(--accent-border);
-    border-radius: 16px;
-    padding: 36px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .inv-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-
-  .inv-amount {
-    font-family: 'DM Serif Display', serif;
-    font-size: 48px;
-    color: var(--white);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .inv-currency {
-    font-size: 15px;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-  }
-
-  .inv-secondary {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .inv-item-label {
-    font-size: 13px;
-    color: var(--text-dim);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .inv-item-value {
-    font-size: 20px;
-    font-family: 'DM Serif Display', serif;
-    color: var(--white);
-  }
-
-  .inv-divider { height: 1px; background: var(--border); }
-
-  /* ─── CONSIDERATIONS ─── */
-  .consider-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .consider-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 16px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  .consider-item::before {
-    content: '—';
-    color: var(--accent);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* ─── CTA BUTTON ─── */
-  .cta-button {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    padding: 18px 48px;
-    border-radius: 8px;
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(25, 184, 233, 0.2);
-  }
-  .cta-button:hover {
-    background: #1dc2f3;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(25, 184, 233, 0.4);
-  }
-
-  /* ─── FOOTER ─── */
-  footer {
-    padding: 56px 0 64px;
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-  }
-
-  .footer-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 40px;
-  }
-
-  .footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .footer-logo {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--white);
-    letter-spacing: 0.06em;
-  }
-
-  .footer-tagline {
-    font-size: 14px;
-    color: var(--text-dim);
-  }
-
-  .footer-meta {
-    text-align: right;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 2;
-  }
-
-  .footer-meta span { color: var(--accent); }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate { animation: fade-up 0.7s ease forwards; opacity: 0; }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.25s; }
-  .delay-3 { animation-delay: 0.4s; }
-  .delay-4 { animation-delay: 0.55s; }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 700px) {
-    .container { padding: 0 20px; }
-    header { padding: 40px 0 56px; }
-    .logo-row { flex-direction: column; align-items: flex-start; }
-    .arch-grid, .scenarios-grid, .benefits-grid, .investment-block { grid-template-columns: 1fr; }
-    .stats-row { grid-template-columns: 1fr; }
-    .footer-inner { flex-direction: column; align-items: flex-start; }
-    .footer-meta { text-align: left; }
-    section { padding: 48px 0; }
-  }
+:root {
+  --accent:       #19B8E9;
+  --accent-dim:   rgba(25,184,233,0.10);
+  --accent-mid:   rgba(25,184,233,0.20);
+  --accent-border:rgba(25,184,233,0.28);
+  --green:        #0FD88A;
+  --green-dim:    rgba(15,216,138,0.10);
+  --red:          #FF4D6A;
+  --red-dim:      rgba(255,77,106,0.10);
+  --amber:        #FFB020;
+  --amber-dim:    rgba(255,176,32,0.10);
+  --bg:           #07090C;
+  --bg-1:         #0B0F14;
+  --bg-2:         #0F151C;
+  --bg-3:         #141D26;
+  --text:         #D8E8F2;
+  --text-muted:   #5E7A90;
+  --text-dim:     #2E4358;
+  --white:        #EEF5FA;
+  --border:       rgba(255,255,255,0.055);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(25,184,233,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(25,184,233,0.025) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;animation:orb-pulse 9s ease-in-out infinite;}
+.orb-1{width:520px;height:520px;background:rgba(25,184,233,0.06);top:-120px;right:-120px;}
+.orb-2{width:380px;height:380px;background:rgba(25,184,233,0.035);bottom:15%;left:-140px;animation-delay:4.5s;}
+@keyframes orb-pulse{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+.wrap{max-width:940px;margin:0 auto;padding:0 36px;position:relative;z-index:1;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,9,12,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-inner{display:flex;align-items:center;height:48px;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-brand{font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:0 20px;border-right:1px solid var(--border);flex-shrink:0;height:100%;display:flex;align-items:center;}
+.nav-link{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:0 16px;height:100%;display:flex;align-items:center;border-right:1px solid var(--border);white-space:nowrap;text-decoration:none;transition:color .2s,background .2s;cursor:pointer;}
+.nav-link:hover,.nav-link.active{color:var(--accent);background:var(--accent-dim);}
+
+/* HEADER */
+header{padding:72px 0 88px;border-bottom:1px solid var(--border);}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:52px;gap:20px;}
+.brand-block{display:flex;align-items:center;gap:14px;}
+.brand-icon{width:46px;height:46px;border:1.5px solid var(--accent-border);border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--accent-dim);}
+.brand-name{font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.brand-sub{font-size:11px;color:var(--text-muted);}
+.doc-meta{text-align:right;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:2.1;color:var(--text-dim);}
+.doc-meta b{color:var(--accent);font-weight:500;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(38px,5.5vw,60px);font-weight:400;line-height:1.1;color:var(--white);margin-bottom:22px;letter-spacing:-.02em;}
+h1 em{font-style:italic;color:var(--accent);}
+.hero-lead{font-size:14.5px;color:var(--text-muted);max-width:560px;line-height:1.85;border-left:2px solid var(--accent-border);padding-left:16px;margin-bottom:52px;}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--accent-border);border-radius:6px;overflow:hidden;background:var(--bg-1);}
+.kpi{padding:22px 18px;border-right:1px solid var(--border);transition:background .3s;position:relative;overflow:hidden;}
+.kpi:last-child{border-right:none;}
+.kpi:hover{background:var(--bg-2);}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.kpi:hover::after{transform:scaleX(1);}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;}
+.kpi-value{font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent);line-height:1;}
+.kpi-sub{font-size:11px;color:var(--text-muted);margin-top:4px;}
+
+/* SECTIONS */
+section{padding:76px 0;border-bottom:1px solid var(--border);}
+section:last-of-type{border-bottom:none;}
+.sec-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:44px;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--accent);border:1px solid var(--accent-border);background:var(--accent-dim);padding:5px 10px;border-radius:3px;white-space:nowrap;margin-top:5px;flex-shrink:0;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,30px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:4px;}
+.sec-sub{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);}
+p{font-size:14px;color:var(--text-muted);line-height:1.85;}
+
+/* PROBLEM CARDS */
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border-radius:6px;overflow:hidden;margin-bottom:32px;}
+.prob-card{background:var(--bg-1);padding:26px 22px;transition:background .3s;position:relative;}
+.prob-card:hover{background:var(--bg-2);}
+.prob-icon{font-size:24px;margin-bottom:12px;display:block;}
+.prob-title{font-weight:500;font-size:13px;color:var(--red);margin-bottom:6px;}
+.prob-desc{font-size:12.5px;color:var(--text-muted);line-height:1.6;}
+.prob-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);opacity:.35;}
+
+/* FLOW TOGGLE */
+.flow-toggle{display:flex;gap:2px;margin-bottom:28px;background:var(--bg-1);border:1px solid var(--border);border-radius:5px;padding:4px;width:fit-content;}
+.ftog-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 20px;border-radius:3px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;transition:all .25s;}
+.ftog-btn.active{background:var(--accent);color:#000;font-weight:600;}
+.flow-panel{display:none;}
+.flow-panel.active{display:block;}
+.proc-flow{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:8px;}
+.proc-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:128px;position:relative;padding:0 4px;}
+.proc-node{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;flex-shrink:0;z-index:1;cursor:default;transition:transform .25s;}
+.proc-node:hover{transform:scale(1.1);}
+.proc-node.manual{background:var(--red-dim);border:1.5px solid rgba(255,77,106,.4);color:var(--red);}
+.proc-node.auto{background:var(--accent-dim);border:1.5px solid var(--accent-border);color:var(--accent);}
+.proc-connector{position:absolute;top:26px;left:50%;width:100%;height:1px;z-index:0;}
+.proc-step:last-child .proc-connector{display:none;}
+.proc-connector.manual-line{background:linear-gradient(90deg,rgba(255,77,106,.35),rgba(255,77,106,.08));}
+.proc-connector.auto-line{background:linear-gradient(90deg,var(--accent-border),rgba(25,184,233,.08));}
+.proc-label{font-size:11.5px;text-align:center;color:var(--text-muted);margin-top:10px;line-height:1.4;max-width:110px;}
+.proc-label strong{display:block;color:var(--text);font-weight:500;font-size:12.5px;margin-bottom:3px;}
+.proc-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:10px;margin-top:7px;display:inline-block;}
+.badge-manual{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,77,106,.2);}
+.badge-auto{background:var(--green-dim);color:var(--green);border:1px solid rgba(15,216,138,.2);}
+
+/* TREE */
+.tree-container{background:var(--bg-1);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.tree-header{background:var(--bg-2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:10px;}
+.tree-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--accent);}
+.tree-body{padding:16px 20px;}
+.tree-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;transition:background .2s;}
+.tree-row:hover{background:var(--accent-dim);}
+.tree-row.active{background:var(--accent-dim);border-left:2px solid var(--accent);}
+.tree-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center;}
+.tree-name{font-size:12.5px;color:var(--text-muted);}
+.tree-name.folder{color:var(--text);font-weight:500;}
+.tree-tag{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;white-space:nowrap;flex-shrink:0;}
+.tag-ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(15,216,138,.2);}
+.tag-err{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,77,106,.2);}
+.tag-chk{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);}
+.tree-children{margin-left:28px;border-left:1px dashed var(--text-dim);padding-left:12px;overflow:hidden;transition:max-height .4s ease,opacity .3s;}
+.tree-children.collapsed{max-height:0;opacity:0;pointer-events:none;}
+.tree-children.expanded{max-height:900px;opacity:1;}
+.tree-detail{background:var(--bg-2);border:1px solid var(--accent-border);border-radius:6px;padding:14px 16px;margin:6px 0 4px;font-size:12.5px;color:var(--text-muted);line-height:1.7;display:none;}
+.tree-detail.visible{display:block;animation:fade-in .25s ease;}
+
+/* VALIDATIONS STEPPER */
+.val-stepper{display:grid;grid-template-columns:220px 1fr;gap:2px;background:var(--border);border-radius:8px;overflow:hidden;}
+.val-tabs{background:var(--bg-1);display:flex;flex-direction:column;}
+.val-tab{padding:20px 18px;cursor:pointer;border-left:3px solid transparent;transition:all .25s;position:relative;}
+.val-tab:hover{background:var(--bg-2);}
+.val-tab.active{background:var(--bg-2);border-left-color:var(--accent);}
+.val-tab-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.val-tab-title{font-size:13px;font-weight:500;color:var(--white);line-height:1.3;}
+.val-status-dot{width:8px;height:8px;border-radius:50%;background:var(--text-dim);position:absolute;right:14px;top:50%;transform:translateY(-50%);transition:background .3s;}
+.val-tab.active .val-status-dot,.val-tab.done .val-status-dot{background:var(--green);}
+.val-panel{background:var(--bg-1);padding:36px 30px;display:none;flex-direction:column;gap:20px;}
+.val-panel.active{display:flex;animation:fade-in .3s ease;}
+.val-ph{display:flex;align-items:center;gap:14px;}
+.val-ph-icon{width:48px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--accent-dim);border:1px solid var(--accent-border);flex-shrink:0;}
+.val-ph-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--white);}
+.val-ph-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:2px;}
+.val-desc{font-size:13.5px;color:var(--text-muted);line-height:1.8;}
+.val-impact{background:var(--green-dim);border:1px solid rgba(15,216,138,.2);border-radius:6px;padding:14px 16px;}
+.val-impact-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.val-impact-text{font-size:13px;color:var(--text);line-height:1.6;}
+.val-example{background:var(--bg-3);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
+.ex-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.ex-row{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 0;border-bottom:1px solid var(--border);}
+.ex-row:last-child{border-bottom:none;}
+.ex-row .spacer{flex:1;}
+.chk-ok{color:var(--green);}
+.chk-err{color:var(--red);}
+.val-nav{display:flex;gap:8px;margin-top:4px;}
+.val-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;border-radius:3px;transition:all .25s;}
+.val-btn:hover{border-color:var(--accent-border);color:var(--accent);}
+.val-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+.val-btn.primary:hover{background:#0fa8d5;}
+
+/* REPORT */
+.report-wrap{background:var(--bg-1);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;}
+.report-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-2);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+.report-bar-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--accent);}
+.rchips{display:flex;gap:8px;}
+.rchip{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 10px;border-radius:3px;}
+.rchip-ok{background:var(--green-dim);color:var(--green);}
+.rchip-err{background:var(--red-dim);color:var(--red);}
+.report-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:11px;}
+.report-table th{background:var(--bg-2);padding:10px 12px;text-align:left;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--border);}
+.report-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-muted);transition:background .2s;}
+.report-table tr:hover td{background:var(--bg-2);}
+.report-table tr:last-child td{border-bottom:none;}
+.st-ok{color:var(--green);}
+.st-err{color:var(--red);}
+
+/* PHASES */
+.phases-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border-radius:6px 6px 0 0;overflow:hidden;}
+.phase-card{background:var(--bg-1);padding:22px 18px;cursor:pointer;transition:background .25s;position:relative;overflow:hidden;}
+.phase-card:hover,.phase-card.active{background:var(--bg-2);}
+.phase-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .35s;}
+.phase-card.active::after{transform:scaleX(1);}
+.phase-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;}
+.phase-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:10px;}
+.phase-pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:10px;}
+.pill-now{background:var(--green-dim);color:var(--green);border:1px solid rgba(15,216,138,.2);}
+.pill-next{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);}
+.pill-future{background:var(--bg-3);color:var(--text-dim);border:1px solid var(--border);}
+.phase-detail{background:var(--bg-1);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;padding:28px 26px;display:none;}
+.phase-detail.active{display:block;animation:fade-in .3s ease;}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.feat-list li{display:flex;gap:10px;font-size:13px;color:var(--text-muted);line-height:1.5;}
+.feat-list li::before{content:'→';color:var(--accent);flex-shrink:0;font-size:12px;margin-top:2px;}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:20px;padding-bottom:28px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:38px;}
+.tl-dot{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--accent-border);background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);z-index:1;}
+.tl-line{width:1px;flex:1;min-height:16px;background:linear-gradient(to bottom,var(--accent-border),transparent);margin-top:3px;}
+.tl-body{flex:1;background:var(--bg-1);border:1px solid var(--border);border-radius:8px;padding:16px 18px;transition:border-color .3s;}
+.tl-body:hover{border-color:var(--accent-border);}
+.tl-title{font-weight:500;font-size:13.5px;color:var(--white);margin-bottom:4px;}
+.tl-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
+.tl-duration{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,176,32,.2);margin-top:8px;}
+
+/* INVESTMENT */
+.inv-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:2px;background:var(--accent-border);border-radius:6px;overflow:hidden;}
+.inv-main{background:linear-gradient(135deg,rgba(25,184,233,.1),rgba(25,184,233,.04));padding:40px 34px;position:relative;overflow:hidden;}
+.inv-main::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(25,184,233,.1),transparent 70%);pointer-events:none;}
+.inv-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.inv-amount{font-family:'DM Serif Display',serif;font-size:60px;line-height:1;color:var(--white);margin-bottom:6px;}
+.inv-currency{font-size:12px;color:var(--text-muted);letter-spacing:.06em;}
+.inv-side{background:var(--bg-1);padding:30px 26px;display:flex;flex-direction:column;}
+.inv-row{padding:16px 0;border-bottom:1px solid var(--border);}
+.inv-row:last-child{border-bottom:none;}
+.inv-row-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px;}
+.inv-row-val{font-size:17px;font-weight:500;color:var(--white);}
+.itag{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:400;margin-left:6px;}
+
+/* VALUE LIST */
+.value-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.val-item-simple{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:var(--bg-1);border:1px solid var(--border);border-radius:8px;transition:border-color .3s;}
+.val-item-simple:hover{border-color:var(--accent-border);}
+.val-item-simple::before{content:'✓';color:var(--green);font-size:13px;flex-shrink:0;margin-top:1px;}
+.val-item-text{font-size:13.5px;color:var(--text-muted);line-height:1.6;}
+
+/* CTA SECTION */
+.cta-sec { text-align: center; padding: 60px 20px; background: var(--bg-1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.cta-inner { max-width: 600px; margin: 0 auto; background: var(--bg-1); border: 1px solid var(--accent-border); border-radius: 8px; padding: 40px 30px; position: relative; overflow: hidden; }
+.cta-inner::before { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(25,184,233,0.1), transparent 70%); pointer-events: none; }
+.cta-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--white); margin-bottom: 12px; }
+.cta-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
+.cta-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--accent); color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 36px; border-radius: 6px; text-decoration: none; transition: background 0.3s; }
+.cta-btn:hover { background: #15a4d1; }
+
+/* FOOTER */
+footer{padding:56px 0 64px;position:relative;z-index:1;}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;}
+.footer-name{font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--white);margin-bottom:5px;}
+.footer-tag{font-size:12px;color:var(--text-dim);}
+.footer-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);text-align:right;line-height:2.2;}
+.footer-meta b{color:var(--accent);font-weight:500;}
+.hr-accent{width:100%;height:1px;background:linear-gradient(90deg,var(--accent),transparent 55%);opacity:.3;}
+
+/* ANIMATIONS */
+@keyframes fade-in{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fade-up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.anim{animation:fade-up .65s ease forwards;opacity:0;}
+.d1{animation-delay:.08s;}.d2{animation-delay:.2s;}.d3{animation-delay:.34s;}.d4{animation-delay:.5s;}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+  .wrap{padding:0 18px;}
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .problem-grid{grid-template-columns:1fr 1fr;}
+  .val-stepper{grid-template-columns:1fr;}
+  .phases-row,.pd-grid,.inv-grid,.value-list{grid-template-columns:1fr;}
+  .hdr-top{flex-direction:column;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+  .footer-meta{text-align:left;}
+}
 </style>
 </head>
 <body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-<div class="glow-orb glow-orb-1"></div>
-<div class="glow-orb glow-orb-2"></div>
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-inner">
+      <span class="nav-brand">VIVIR IPS</span>
+      <a class="nav-link active" href="#contexto">01 · Contexto</a>
+      <a class="nav-link" href="#funcionamiento">02 · Funcionamiento</a>
+      <a class="nav-link" href="#validaciones">03 · Validaciones</a>
+      <a class="nav-link" href="#resultados">04 · Resultados</a>
+      <a class="nav-link" href="#fases">05 · Fases</a>
+      <a class="nav-link" href="#inversion">06 · Inversión</a>
+    </div>
+  </div>
+</nav>
 
-<!-- ─── HEADER ─── -->
+<!-- HEADER -->
 <header>
-  <div class="container">
-    <div class="header-inner">
-
-      <div class="logo-row animate">
-        <div class="brand">
-          <div class="brand-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="1.8">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-            </svg>
-          </div>
-          <div>
-            <div class="brand-name">Vivir IPS</div>
-            <div class="brand-sub">Institución Prestadora de Salud</div>
-          </div>
+  <div class="wrap">
+    <div class="hdr-top anim d1">
+      <div class="brand-block">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
         </div>
-        <div class="doc-badge">
-          DOCUMENTO <span>CONFIDENCIAL</span><br>
-          REF: <span>BOT-FAC-2025</span><br>
-          FECHA: <span>2025 · COLOMBIA</span>
+        <div>
+          <div class="brand-name">Vivir IPS</div>
+          <div class="brand-sub">Institución Prestadora de Salud</div>
         </div>
       </div>
-
-      <div class="hero-content">
-        <div class="tag-line animate delay-1">Propuesta técnica · Automatización</div>
-        <h1 class="animate delay-2">Sistema inteligente de<br><em>validación y flujo documental</em></h1>
-        <p class="hero-desc animate delay-3">Diseño e implementación de un bot automatizado que optimiza el proceso de facturación mediante validación, organización y distribución inteligente de documentos entre las áreas operativas de VIVIR IPS.</p>
+      <div class="doc-meta">
+        REF: <b>AUTO-FAC-2025-01</b><br>
+        FASE: <b>1 · MVP</b><br>
+        ESTADO: <b style="color:var(--green)">ACTIVO</b><br>
+        VERSIÓN: <b>1.0</b>
       </div>
-
+    </div>
+    <div class="hero-eyebrow anim d2">Propuesta técnica · Sistema de Validación para Facturación</div>
+    <h1 class="anim d3">Sistema de <em>validación</em><br>inteligente para IPS</h1>
+    <p class="hero-lead anim d4">Un motor automatizado que verifica la coherencia entre soportes documentales en Drive y la base de facturación — eliminando errores antes de que lleguen a la EPS y se conviertan en glosas.</p>
+    <div class="kpi-row anim d4">
+      <div class="kpi">
+        <div class="kpi-label">Validaciones automáticas</div>
+        <div class="kpi-value">4</div>
+        <div class="kpi-sub">por paciente, por ciclo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Tiempo hasta resultados</div>
+        <div class="kpi-value">&lt;3</div>
+        <div class="kpi-sub">semanas de implementación</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Cambios en flujo actual</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">integración no invasiva</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Fases de evolución</div>
+        <div class="kpi-value">4</div>
+        <div class="kpi-sub">escalabilidad completa</div>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- ─── STATS ─── -->
-<div class="container">
-  <div class="stats-row animate delay-4">
-    <div class="stat-item">
-      <div class="stat-number">3</div>
-      <div class="stat-label">Capas funcionales del sistema</div>
+<!-- 01 CONTEXTO -->
+<section id="contexto">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <div><h2>Contexto y oportunidad</h2><div class="sec-sub">El problema actual · Por qué automatizar ahora</div></div>
     </div>
-    <div class="stat-item">
-      <div class="stat-number">4</div>
-      <div class="stat-label">Tipos de servicio contemplados</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">1 mes</div>
-      <div class="stat-label">Soporte y mantenimiento incluido</div>
-    </div>
-  </div>
-</div>
 
-<!-- ─── 1. OBJETO ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">01</div>
-      <div class="section-title-wrap">
-        <h2>Objeto del acuerdo</h2>
-        <div class="section-subtitle">Alcance y propósito del sistema</div>
+    <div class="problem-grid">
+      <div class="prob-card">
+        <span class="prob-icon">📋</span>
+        <div class="prob-title">Errores en radicación</div>
+        <div class="prob-desc">Las validaciones manuales introducen inconsistencias que la EPS detecta y devuelve, generando ciclos de reproceso.</div>
       </div>
-    </div>
-    <p>Diseñar e implementar un bot automatizado que optimice el proceso de facturación mediante la validación, organización y distribución inteligente de documentos entre las áreas de <strong style="color:var(--text)">Autorizaciones</strong>, <strong style="color:var(--text)">Cuentas Médicas</strong> y <strong style="color:var(--text)">Facturación</strong>. El sistema busca reducir errores humanos, acelerar tiempos de validación y garantizar la integridad documental antes del proceso de facturación.</p>
-  </div>
-</section>
-
-<!-- ─── 2. ARQUITECTURA ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">02</div>
-      <div class="section-title-wrap">
-        <h2>Arquitectura del sistema</h2>
-        <div class="section-subtitle">Tres capas funcionales integradas</div>
+      <div class="prob-card">
+        <span class="prob-icon">💸</span>
+        <div class="prob-title">Glosas evitables</div>
+        <div class="prob-desc">Cada glosa representa dinero retenido. La mayoría se originan en errores de EPS o documentación faltante prevenibles.</div>
+      </div>
+      <div class="prob-card">
+        <span class="prob-icon">🔁</span>
+        <div class="prob-title">Retrabajo constante</div>
+        <div class="prob-desc">El equipo dedica horas a verificar manualmente lo que un sistema puede revisar en minutos y sin error humano.</div>
+      </div>
+      <div class="prob-card">
+        <span class="prob-icon">⏱️</span>
+        <div class="prob-title">Pérdida de tiempo operativo</div>
+        <div class="prob-desc">Tiempo invertido en revisión manual es tiempo que no se dedica a procesos de mayor valor clínico y administrativo.</div>
+      </div>
+      <div class="prob-card">
+        <span class="prob-icon">🔍</span>
+        <div class="prob-title">Falta de trazabilidad</div>
+        <div class="prob-desc">Sin registro sistemático es difícil identificar el origen de los errores y prevenir su repetición en futuros ciclos.</div>
+      </div>
+      <div class="prob-card" style="background:var(--accent-dim);border:1px solid var(--accent-border);">
+        <span class="prob-icon">💡</span>
+        <div class="prob-title" style="color:var(--accent)">La solución existe</div>
+        <div class="prob-desc" style="color:var(--text-muted);">Todos estos problemas son solucionables con un sistema automatizado de validación previo al ciclo de facturación.</div>
       </div>
     </div>
 
-    <div class="arch-grid">
-      <div class="arch-card">
-        <div class="arch-step">Capa 01 · Entrada</div>
-        <div class="arch-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-          </svg>
-        </div>
-        <div class="arch-title">Autorizaciones</div>
-        <ul class="arch-list">
-          <li>Recepción de documentos</li>
-          <li>Envío al bot para validación</li>
-          <li>Punto inicial del flujo</li>
-        </ul>
+    <!-- FLUJO INTERACTIVO: estado actual vs automatizado -->
+    <div style="margin-top:40px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Flujo interactivo · Haz clic para comparar</div>
+      <div class="flow-toggle">
+        <button class="ftog-btn active" onclick="toggleFlow(this,'manual')">⚠ Proceso manual actual</button>
+        <button class="ftog-btn" onclick="toggleFlow(this,'auto')">✓ Con automatización</button>
       </div>
 
-      <div class="arch-card">
-        <div class="arch-step">Capa 02 · Lógica</div>
-        <div class="arch-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="2">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-          </svg>
-        </div>
-        <div class="arch-title">Cuentas Médicas</div>
-        <ul class="arch-list">
-          <li>Verificación de documentos completos</li>
-          <li>Clasificación por tipo de servicio</li>
-          <li>Validación de consistencia</li>
-          <li>Determinación de readiness</li>
-        </ul>
-      </div>
-
-      <div class="arch-card">
-        <div class="arch-step">Capa 03 · Salida</div>
-        <div class="arch-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </div>
-        <div class="arch-title">Facturación</div>
-        <ul class="arch-list">
-          <li>Organización en Google Drive</li>
-          <li>Estructura de carpetas por caso</li>
-          <li>Envío automático de correo</li>
-          <li>Confirmación de validación</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── 3. LÓGICA ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">03</div>
-      <div class="section-title-wrap">
-        <h2>Lógica de funcionamiento</h2>
-        <div class="section-subtitle">Flujo principal y escenarios de respuesta</div>
-      </div>
-    </div>
-
-    <div class="flow-container">
-      <div class="flow-step">
-        <div class="flow-line-wrap">
-          <div class="flow-dot">01</div>
-          <div class="flow-connector"></div>
-        </div>
-        <div class="flow-content">
-          <div class="flow-label">Recepción de documentos</div>
-          <div class="flow-text">El área de Autorizaciones envía los documentos del caso al sistema bot para iniciar el proceso de validación.</div>
+      <div class="flow-panel active" id="panel-manual">
+        <div class="proc-flow">
+          <div class="proc-step">
+            <div class="proc-node manual">1</div>
+            <div class="proc-connector manual-line"></div>
+            <div class="proc-label"><strong>Recepción</strong>Documentos al equipo<span class="proc-badge badge-manual">Manual</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node manual">2</div>
+            <div class="proc-connector manual-line"></div>
+            <div class="proc-label"><strong>Revisión</strong>Doc. a doc. manualmente<span class="proc-badge badge-manual">Lento</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node manual">3</div>
+            <div class="proc-connector manual-line"></div>
+            <div class="proc-label"><strong>Glosa / Error</strong>Falla llega a la EPS<span class="proc-badge badge-manual">Costoso</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node manual">4</div>
+            <div class="proc-connector manual-line"></div>
+            <div class="proc-label"><strong>Reproceso</strong>Corrección y re-radicación<span class="proc-badge badge-manual">Retrabajo</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node manual">5</div>
+            <div class="proc-label"><strong>Pago tardío</strong>Ingresos retenidos<span class="proc-badge badge-manual">Impacto $</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="flow-step">
-        <div class="flow-line-wrap">
-          <div class="flow-dot">02</div>
-          <div class="flow-connector"></div>
+      <div class="flow-panel" id="panel-auto">
+        <div class="proc-flow">
+          <div class="proc-step">
+            <div class="proc-node auto">1</div>
+            <div class="proc-connector auto-line"></div>
+            <div class="proc-label"><strong>Lectura auto</strong>Sistema lee Drive + Excel<span class="proc-badge badge-auto">Automático</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node auto">2</div>
+            <div class="proc-connector auto-line"></div>
+            <div class="proc-label"><strong>4 validaciones</strong>Coherencia en segundos<span class="proc-badge badge-auto">Preciso</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node auto">3</div>
+            <div class="proc-connector auto-line"></div>
+            <div class="proc-label"><strong>Reporte Excel</strong>Errores listados al instante<span class="proc-badge badge-auto">Claro</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node auto">4</div>
+            <div class="proc-connector auto-line"></div>
+            <div class="proc-label"><strong>Corrección</strong>Solo casos con error<span class="proc-badge badge-auto">Eficiente</span></div>
+          </div>
+          <div class="proc-step">
+            <div class="proc-node auto">5</div>
+            <div class="proc-label"><strong>Facturación</strong>Sin glosas prevenibles<span class="proc-badge badge-auto">✓ Listo</span></div>
+          </div>
         </div>
-        <div class="flow-content">
-          <div class="flow-label">Análisis y clasificación</div>
-          <div class="flow-text">El bot analiza el caso, identifica el tipo de servicio y lo valida contra el checklist de documentos requeridos para ese tipo.</div>
-        </div>
-      </div>
-
-      <div class="flow-step">
-        <div class="flow-line-wrap">
-          <div class="flow-dot">03</div>
-        </div>
-        <div class="flow-content">
-          <div class="flow-label">Resolución del caso</div>
-          <div class="flow-text">Según el resultado de la validación, el bot ejecuta uno de los dos escenarios disponibles.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="scenarios-grid" style="margin-top: 32px;">
-      <div class="scenario-card success">
-        <div class="scenario-badge">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Escenario A
-        </div>
-        <div class="scenario-title">Documentación Completa</div>
-        <ul class="scenario-list">
-          <li>Organiza archivos en Google Drive</li>
-          <li>Genera estructura ordenada del caso</li>
-          <li>Envía correo automático a facturación</li>
-          <li>Marca el caso como listo para facturar</li>
-        </ul>
-      </div>
-      <div class="scenario-card warning">
-        <div class="scenario-badge">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Escenario B
-        </div>
-        <div class="scenario-title">Documentación Incompleta</div>
-        <ul class="scenario-list">
-          <li>Detecta documentos faltantes</li>
-          <li>Genera respuesta automática a autorizaciones</li>
-          <li>Especifica exactamente qué falta</li>
-          <li>Devuelve el caso a estado pendiente</li>
-        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── 4. TIPOS DE SERVICIO ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">04</div>
-      <div class="section-title-wrap">
-        <h2>Tipos de servicio y validación</h2>
-        <div class="section-subtitle">Checklists documentales por categoría</div>
-      </div>
+<!-- 02 FUNCIONAMIENTO -->
+<section id="funcionamiento">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <div><h2>Funcionamiento del sistema</h2><div class="sec-sub">Integración con Google Drive · Sin cambios en el flujo actual</div></div>
     </div>
-    <p style="margin-bottom: 24px;">El sistema contempla <strong style="color:var(--accent)">4 tipos de servicio</strong>, cada uno con su propio checklist documental. El bot identifica automáticamente el tipo de servicio, aplica las reglas de validación específicas y verifica el cumplimiento total antes de avanzar en el flujo.</p>
-    <div class="req-item" style="background: rgba(25,184,233,0.04); border-color: var(--accent-border);">
-      <div class="req-num" style="white-space:nowrap">NOTA</div>
-      <div class="req-text">Los checklists documentales deben ser <strong>definidos y proporcionados por VIVIR IPS</strong> previamente para cada tipo de servicio, como insumo para la configuración del bot.</div>
+
+    <p style="margin-bottom:32px;">El sistema se conecta directamente a la estructura de carpetas existente en Google Drive y a la base Excel del mes. <strong style="color:var(--text)">No requiere modificar cómo trabaja el equipo hoy.</strong> Explora el árbol de carpetas para ver exactamente qué analiza el sistema y qué detecta en cada nivel.</p>
+
+    <div class="tree-container">
+      <div class="tree-header">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#19B8E9" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span class="tree-title">GOOGLE DRIVE — Estructura analizada automáticamente</span>
+        <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);">Haz clic en las carpetas para explorar</span>
+      </div>
+      <div class="tree-body">
+
+        <div class="tree-row active" onclick="toggleNode('n-bases')">
+          <span class="tree-icon">📁</span><span class="tree-name folder">Bases de Facturación</span>
+          <span class="tree-tag tag-chk">Raíz del sistema</span>
+        </div>
+        <div class="tree-children expanded" id="n-bases">
+
+          <div class="tree-row" onclick="toggleNode('n-sede')">
+            <span class="tree-icon">🏥</span><span class="tree-name folder">Sede</span>
+            <span class="tree-tag tag-chk">Leída automáticamente</span>
+          </div>
+          <div class="tree-children collapsed" id="n-sede">
+
+            <div class="tree-row" onclick="toggleNode('n-lugar')">
+              <span class="tree-icon">📍</span><span class="tree-name folder">Lugar / Servicio</span>
+            </div>
+            <div class="tree-children collapsed" id="n-lugar">
+
+              <div class="tree-row" onclick="toggleNode('n-mes')">
+                <span class="tree-icon">📅</span><span class="tree-name folder">Mes de facturación</span>
+              </div>
+              <div class="tree-children collapsed" id="n-mes">
+
+                <div class="tree-row" onclick="showDetail('d-excel')">
+                  <span class="tree-icon">📊</span><span class="tree-name">Base general facturación.xlsx</span>
+                  <span class="tree-tag tag-chk">Fuente principal</span>
+                </div>
+                <div class="tree-detail" id="d-excel">
+                  <strong style="color:var(--accent)">📊 Fuente de validación principal</strong><br>
+                  El sistema extrae automáticamente: <strong>Cédula del paciente</strong>, <strong>EPS asignada</strong> y datos básicos de control. Este archivo es el referente de verdad contra el cual se validan todas las carpetas de Drive.
+                </div>
+
+                <div class="tree-row" onclick="toggleNode('n-eps')">
+                  <span class="tree-icon">🏦</span><span class="tree-name folder">EPS (ej: SURA, Nueva EPS, Compensar…)</span>
+                  <span class="tree-tag tag-chk">Cruzada vs base Excel</span>
+                </div>
+                <div class="tree-children collapsed" id="n-eps">
+
+                  <div class="tree-row" onclick="toggleNode('n-soportes')">
+                    <span class="tree-icon">📂</span><span class="tree-name folder">Soportes de facturación</span>
+                  </div>
+                  <div class="tree-children collapsed" id="n-soportes">
+
+                    <div class="tree-row" onclick="showDetail('d-p1')">
+                      <span class="tree-icon">👤</span><span class="tree-name folder">123456789</span>
+                      <span class="tree-tag tag-ok">✓ Sin errores</span>
+                    </div>
+                    <div class="tree-detail" id="d-p1">
+                      <strong style="color:var(--green)">✓ Paciente validado correctamente en las 4 validaciones</strong><br>
+                      Cédula <strong>123456789</strong> · EPS en carpeta: SURA · EPS en Excel: SURA · Documentos: 3 PDFs válidos y no vacíos.<br>
+                      <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:10px;">→ Estado en reporte: CORRECTO · Listo para facturar</span>
+                    </div>
+
+                    <div class="tree-row" onclick="showDetail('d-p2')">
+                      <span class="tree-icon">👤</span><span class="tree-name folder">987654321</span>
+                      <span class="tree-tag tag-err">✗ Error EPS</span>
+                    </div>
+                    <div class="tree-detail" id="d-p2">
+                      <strong style="color:var(--red)">✗ Validación 02 fallida — Inconsistencia de EPS</strong><br>
+                      Cédula <strong>987654321</strong> · EPS en carpeta Drive: SURA · EPS en base Excel: <strong style="color:var(--red)">Nueva EPS</strong><br>
+                      <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:10px;">→ Acción: Verificar asignación de EPS antes de radicar este caso</span>
+                    </div>
+
+                    <div class="tree-row" onclick="showDetail('d-p3')">
+                      <span class="tree-icon">👤</span><span class="tree-name folder">112233445</span>
+                      <span class="tree-tag tag-err">✗ Sin docs</span>
+                    </div>
+                    <div class="tree-detail" id="d-p3">
+                      <strong style="color:var(--red)">✗ Validación 03 fallida — Carpeta sin documentos</strong><br>
+                      Cédula <strong>112233445</strong> · La carpeta existe en Drive pero está completamente vacía. Sin soportes PDF.<br>
+                      <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:10px;">→ Acción: Cargar documentación antes del ciclo de facturación</span>
+                    </div>
+
+                    <div class="tree-row" onclick="showDetail('d-p4')">
+                      <span class="tree-icon">👤</span><span class="tree-name folder">556677889</span>
+                      <span class="tree-tag tag-err">✗ Doc. inválido</span>
+                    </div>
+                    <div class="tree-detail" id="d-p4">
+                      <strong style="color:var(--red)">✗ Validación 04 fallida — Archivo PDF vacío</strong><br>
+                      Cédula <strong>556677889</strong> · Se encontró 1 archivo en la carpeta, pero el PDF pesa 0 KB — archivo corrupto o vacío.<br>
+                      <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:10px;">→ Acción: Reemplazar el archivo por una versión válida</span>
+                    </div>
+
+                  </div><!-- /soportes -->
+                </div><!-- /eps -->
+              </div><!-- /mes -->
+            </div><!-- /lugar -->
+          </div><!-- /sede -->
+        </div><!-- /bases -->
+
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── 5. BENEFICIOS ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">05</div>
-      <div class="section-title-wrap">
-        <h2>Beneficios del sistema</h2>
-        <div class="section-subtitle">Impacto operativo esperado</div>
-      </div>
+<!-- 03 VALIDACIONES -->
+<section id="validaciones">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <div><h2>Las 4 validaciones del sistema</h2><div class="sec-sub">Para cada paciente, en cada ciclo · Haz clic en cada validación</div></div>
     </div>
-    <div class="benefits-grid">
-      <div class="benefit-item">
-        <span class="benefit-icon">⚡</span>
-        <div class="benefit-label">Reducción de errores en facturación</div>
+
+    <div class="val-stepper">
+      <div class="val-tabs">
+        <div class="val-tab active" onclick="setVal(1)" id="vtab-1">
+          <div class="val-tab-num">V · 01</div>
+          <div class="val-tab-title">Existencia en base</div>
+          <div class="val-status-dot"></div>
+        </div>
+        <div class="val-tab" onclick="setVal(2)" id="vtab-2">
+          <div class="val-tab-num">V · 02</div>
+          <div class="val-tab-title">Consistencia de EPS</div>
+          <div class="val-status-dot"></div>
+        </div>
+        <div class="val-tab" onclick="setVal(3)" id="vtab-3">
+          <div class="val-tab-num">V · 03</div>
+          <div class="val-tab-title">Presencia de documentos</div>
+          <div class="val-status-dot"></div>
+        </div>
+        <div class="val-tab" onclick="setVal(4)" id="vtab-4">
+          <div class="val-tab-num">V · 04</div>
+          <div class="val-tab-title">Integridad de archivos</div>
+          <div class="val-status-dot"></div>
+        </div>
       </div>
-      <div class="benefit-item">
-        <span class="benefit-icon">🔄</span>
-        <div class="benefit-label">Disminución de reprocesos operativos</div>
+
+      <div class="val-panel active" id="vpanel-1">
+        <div class="val-ph"><div class="val-ph-icon">🔎</div><div><div class="val-ph-title">Existencia en base</div><div class="val-ph-sub">Validación 01 · Registro obligatorio</div></div></div>
+        <div class="val-desc">Verifica que cada paciente encontrado en las carpetas de Drive esté registrado en la base Excel del mes. Si aparece en Drive pero no en la base, no debe facturarse bajo ningún concepto.</div>
+        <div class="val-impact"><div class="val-impact-label">Impacto operativo</div><div class="val-impact-text">Evita facturar pacientes no incluidos en la base activa del mes, lo que generaría una glosa automática ante la EPS.</div></div>
+        <div class="val-example">
+          <div class="ex-label">Resultado típico en reporte</div>
+          <div class="ex-row"><span class="chk-ok">✓</span><span>123456789</span><span class="spacer"></span><span>Registrado en base</span><span class="chk-ok">OK</span></div>
+          <div class="ex-row"><span class="chk-err">✗</span><span>998877665</span><span class="spacer"></span><span>No encontrado en Excel del mes</span><span class="chk-err">ERROR</span></div>
+        </div>
+        <div class="val-nav"><button class="val-btn primary" onclick="setVal(2)">Siguiente validación →</button></div>
       </div>
-      <div class="benefit-item">
-        <span class="benefit-icon">🚀</span>
-        <div class="benefit-label">Aumento en velocidad operativa</div>
+
+      <div class="val-panel" id="vpanel-2">
+        <div class="val-ph"><div class="val-ph-icon">⚖️</div><div><div class="val-ph-title">Consistencia de EPS</div><div class="val-ph-sub">Validación 02 · Cruce de asignación</div></div></div>
+        <div class="val-desc">Compara la EPS de la carpeta en Drive con la EPS registrada en el Excel. Una discrepancia aquí es la causa más frecuente de glosas: la EPS recibe una factura que no le corresponde según el sistema.</div>
+        <div class="val-impact"><div class="val-impact-label">Impacto operativo</div><div class="val-impact-text">Evita errores de asignación que generan glosas directas — típicamente la fuente de mayor pérdida de ingresos en el ciclo.</div></div>
+        <div class="val-example">
+          <div class="ex-label">Resultado típico en reporte</div>
+          <div class="ex-row"><span class="chk-ok">✓</span><span>123456789</span><span>SURA → SURA</span><span class="spacer"></span><span class="chk-ok">COINCIDE</span></div>
+          <div class="ex-row"><span class="chk-err">✗</span><span>987654321</span><span>SURA → Nueva EPS</span><span class="spacer"></span><span class="chk-err">NO COINCIDE</span></div>
+        </div>
+        <div class="val-nav">
+          <button class="val-btn" onclick="setVal(1)">← Anterior</button>
+          <button class="val-btn primary" onclick="setVal(3)">Siguiente →</button>
+        </div>
       </div>
-      <div class="benefit-item">
-        <span class="benefit-icon">📋</span>
-        <div class="benefit-label">Estandarización del flujo documental</div>
+
+      <div class="val-panel" id="vpanel-3">
+        <div class="val-ph"><div class="val-ph-icon">📄</div><div><div class="val-ph-title">Presencia de documentos</div><div class="val-ph-sub">Validación 03 · Soportes requeridos</div></div></div>
+        <div class="val-desc">Verifica que la carpeta del paciente en Drive contenga al menos un archivo de soporte. Una carpeta vacía impide la radicación y genera devolución automática por parte de la EPS en el proceso de revisión.</div>
+        <div class="val-impact"><div class="val-impact-label">Impacto operativo</div><div class="val-impact-text">Evita radicar sin documentación de respaldo — causa de devolución automática e inmediata por parte de la EPS.</div></div>
+        <div class="val-example">
+          <div class="ex-label">Resultado típico en reporte</div>
+          <div class="ex-row"><span class="chk-ok">✓</span><span>123456789</span><span class="spacer"></span><span>3 documentos encontrados</span><span class="chk-ok">OK</span></div>
+          <div class="ex-row"><span class="chk-err">✗</span><span>112233445</span><span class="spacer"></span><span>Carpeta vacía · 0 archivos</span><span class="chk-err">VACÍO</span></div>
+        </div>
+        <div class="val-nav">
+          <button class="val-btn" onclick="setVal(2)">← Anterior</button>
+          <button class="val-btn primary" onclick="setVal(4)">Siguiente →</button>
+        </div>
       </div>
-      <div class="benefit-item">
-        <span class="benefit-icon">🔍</span>
-        <div class="benefit-label">Mayor control y trazabilidad</div>
-      </div>
-      <div class="benefit-item">
-        <span class="benefit-icon">👥</span>
-        <div class="benefit-label">Optimización del equipo humano</div>
+
+      <div class="val-panel" id="vpanel-4">
+        <div class="val-ph"><div class="val-ph-icon">🛡️</div><div><div class="val-ph-title">Integridad de archivos</div><div class="val-ph-sub">Validación 04 · Calidad documental</div></div></div>
+        <div class="val-desc">Verifica que los archivos sean PDFs válidos y no estén vacíos ni corruptos. Un archivo de 0 KB puede aparecer en la carpeta como si existiera, pero es inutilizable. Esta validación detecta ese caso invisible.</div>
+        <div class="val-impact"><div class="val-impact-label">Impacto operativo</div><div class="val-impact-text">Evita errores por documentos corruptos o truncados que pasan completamente desapercibidos en cualquier revisión manual.</div></div>
+        <div class="val-example">
+          <div class="ex-label">Resultado típico en reporte</div>
+          <div class="ex-row"><span class="chk-ok">✓</span><span>historia_123.pdf</span><span class="spacer"></span><span>PDF válido · 245 KB</span><span class="chk-ok">OK</span></div>
+          <div class="ex-row"><span class="chk-err">✗</span><span>soporte_556.pdf</span><span class="spacer"></span><span>Archivo vacío · 0 KB</span><span class="chk-err">INVÁLIDO</span></div>
+        </div>
+        <div class="val-nav">
+          <button class="val-btn" onclick="setVal(3)">← Anterior</button>
+          <button class="val-btn primary" onclick="setVal(1)">Ver desde inicio</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── 6. PRUEBAS ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">06</div>
-      <div class="section-title-wrap">
-        <h2>Pruebas y control de calidad</h2>
-        <div class="section-subtitle">Proceso de validación previo a entrega</div>
+<!-- 04 RESULTADOS -->
+<section id="resultados">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <div><h2>Resultados del sistema</h2><div class="sec-sub">Reporte automático Excel · Organización en Drive</div></div>
+    </div>
+
+    <p style="margin-bottom:28px;">Al finalizar cada ciclo, el sistema genera un <strong style="color:var(--text)">reporte Excel</strong> con el estado de cada paciente. El equipo sabe exactamente qué corregir antes de radicar — sin análisis manual.</p>
+
+    <div class="report-wrap">
+      <div class="report-bar">
+        <span class="report-bar-title">REPORTE_VALIDACIÓN_VIVIR-IPS_2025-06.xlsx</span>
+        <div class="rchips">
+          <span class="rchip rchip-ok">✓ 47 correctos</span>
+          <span class="rchip rchip-err">✗ 8 con errores</span>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="report-table">
+          <thead>
+            <tr><th>Cédula</th><th>EPS (carpeta)</th><th>EPS (base Excel)</th><th>Documentos</th><th>Estado</th><th>Detalle del error</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>12345678</td><td>SURA</td><td>SURA</td><td>3 PDFs válidos</td><td class="st-ok">✓ Correcto</td><td style="color:var(--text-dim)">—</td></tr>
+            <tr><td>98765432</td><td>SURA</td><td class="st-err">Nueva EPS</td><td>2 PDFs</td><td class="st-err">✗ Error</td><td class="st-err">EPS no coincide</td></tr>
+            <tr><td>11223344</td><td>Compensar</td><td>Compensar</td><td class="st-err">0 archivos</td><td class="st-err">✗ Error</td><td class="st-err">Carpeta vacía</td></tr>
+            <tr><td>55667788</td><td>Coomeva</td><td>Coomeva</td><td class="st-err">1 PDF (0 KB)</td><td class="st-err">✗ Error</td><td class="st-err">Archivo inválido</td></tr>
+            <tr><td>99887766</td><td>Nueva EPS</td><td>Nueva EPS</td><td>4 PDFs válidos</td><td class="st-ok">✓ Correcto</td><td style="color:var(--text-dim)">—</td></tr>
+            <tr><td>33445566</td><td class="st-err">—</td><td class="st-err">No en base</td><td>2 PDFs</td><td class="st-err">✗ Error</td><td class="st-err">Paciente no en Excel</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <p>Antes de la entrega final, se realizarán <strong style="color:var(--text)">pruebas unitarias</strong> sobre cada módulo del sistema con el fin de detectar errores, corregir bugs, garantizar la estabilidad del flujo y validar el correcto funcionamiento en escenarios reales de operación de VIVIR IPS.</p>
+
+    <div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:6px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <span style="font-size:20px;flex-shrink:0;margin-top:2px;">📂</span>
+      <div>
+        <div style="font-weight:500;font-size:13.5px;color:var(--white);margin-bottom:5px;">Organización automática en Drive (opcional)</div>
+        <div style="font-size:13px;color:var(--text-muted);">El sistema puede clasificar automáticamente las carpetas en subcarpetas <strong style="color:var(--green)">Correctos</strong> y <strong style="color:var(--red)">Con errores</strong>, facilitando la gestión del equipo sin pasos manuales adicionales.</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ─── 7. INVERSIÓN ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">07</div>
-      <div class="section-title-wrap">
-        <h2>Inversión del servicio</h2>
-        <div class="section-subtitle">Costo de desarrollo e implementación</div>
+<!-- 05 FASES -->
+<section id="fases">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <div><h2>Escalabilidad · Evolución del sistema</h2><div class="sec-sub">4 fases de madurez · Haz clic en cada fase para ver el detalle</div></div>
+    </div>
+
+    <div class="phases-row">
+      <div class="phase-card active" onclick="setPhase(1)" id="pcard-1">
+        <div class="phase-num">FASE 01 · ACTUAL</div>
+        <div class="phase-name">MVP de validación</div>
+        <span class="phase-pill pill-now">En desarrollo</span>
+      </div>
+      <div class="phase-card" onclick="setPhase(2)" id="pcard-2">
+        <div class="phase-num">FASE 02</div>
+        <div class="phase-name">Validación documental</div>
+        <span class="phase-pill pill-next">Siguiente etapa</span>
+      </div>
+      <div class="phase-card" onclick="setPhase(3)" id="pcard-3">
+        <div class="phase-num">FASE 03</div>
+        <div class="phase-name">Validación clínica</div>
+        <span class="phase-pill pill-future">Futuro</span>
+      </div>
+      <div class="phase-card" onclick="setPhase(4)" id="pcard-4">
+        <div class="phase-num">FASE 04</div>
+        <div class="phase-name">Sistema avanzado</div>
+        <span class="phase-pill pill-future">Futuro</span>
       </div>
     </div>
-    <div class="investment-block">
+
+    <div class="phase-detail active" id="pdetail-1">
+      <div class="pd-grid">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:12px;">Incluido en esta propuesta</div>
+          <ul class="feat-list">
+            <li>Lectura automática de base Excel mensual</li>
+            <li>Recorrido completo de estructura en Drive</li>
+            <li>Validación de existencia por cédula en base</li>
+            <li>Cruce de EPS carpeta vs. EPS Excel</li>
+            <li>Verificación de presencia de documentos</li>
+            <li>Validación de integridad de archivos PDF</li>
+            <li>Reporte automático Excel por ciclo</li>
+            <li>Organización opcional por resultado en Drive</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;">Excluido de Fase 1</div>
+          <ul class="feat-list" style="opacity:.55;">
+            <li>Lectura del contenido de PDFs</li>
+            <li>Validación de diagnósticos clínicos</li>
+            <li>Reglas específicas por EPS</li>
+            <li>Módulos de inteligencia artificial</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-detail" id="pdetail-2">
+      <div class="pd-grid">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Nuevas capacidades en Fase 2</div>
+          <ul class="feat-list">
+            <li>Lectura automática del contenido de PDFs</li>
+            <li>Validación de identidad del pagador dentro del documento</li>
+            <li>Cruce de datos entre soporte y base digital</li>
+            <li>Detección de inconsistencias en datos del paciente</li>
+          </ul>
+        </div>
+        <div style="background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:6px;padding:18px;">
+          <div style="font-size:13px;color:var(--text-muted);">Esta fase extiende la validación hacia el <strong style="color:var(--white)">contenido documental</strong>, no solo la existencia de archivos. Reduce las glosas relacionadas con datos inconsistentes al interior de los soportes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-detail" id="pdetail-3">
+      <div class="pd-grid">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Nuevas capacidades en Fase 3</div>
+          <ul class="feat-list">
+            <li>Validación automática de diagnósticos (CIE-10)</li>
+            <li>Cruce con programas y servicios médicos habilitados</li>
+            <li>Reglas de validación personalizadas por EPS</li>
+            <li>Alertas de inconsistencias clínicas antes de radicar</li>
+          </ul>
+        </div>
+        <div style="background:var(--amber-dim);border:1px solid rgba(255,176,32,.2);border-radius:6px;padding:18px;">
+          <div style="font-size:13px;color:var(--text-muted);">Esta fase incorpora <strong style="color:var(--white)">lógica clínica</strong>: valida la coherencia médica del servicio prestado, no solo la documentación administrativa.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-detail" id="pdetail-4">
+      <div class="pd-grid">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Sistema completamente maduro</div>
+          <ul class="feat-list">
+            <li>Dashboard en tiempo real con métricas operativas</li>
+            <li>Automatización completa del ciclo de validación</li>
+            <li>Alertas predictivas de riesgo de glosa</li>
+            <li>Integración con sistemas ERP hospitalarios</li>
+            <li>Reportes ejecutivos automáticos por ciclo</li>
+          </ul>
+        </div>
+        <div style="background:var(--green-dim);border:1px solid rgba(15,216,138,.2);border-radius:6px;padding:18px;">
+          <div style="font-size:13px;color:var(--text-muted);">En esta etapa, el sistema es el <strong style="color:var(--white)">núcleo operativo del proceso de facturación</strong>, con capacidad predictiva y monitoreo continuo del ciclo de ingresos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div style="margin-top:52px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:24px;">Tiempo de implementación · Fase 1</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">S1</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Semana 1–2 · Desarrollo</div>
+            <div class="tl-desc">Desarrollo del sistema: lectura de Drive y Excel, implementación de las 4 validaciones y generación del reporte automático.</div>
+            <span class="tl-duration">1 – 2 semanas</span>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">S2</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Semana 2–3 · Pruebas y ajustes</div>
+            <div class="tl-desc">Pruebas con datos reales de VIVIR IPS, corrección de errores y ajuste a la estructura específica de carpetas y base Excel.</div>
+            <span class="tl-duration">3 – 5 días</span>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot" style="background:var(--green-dim);border-color:rgba(15,216,138,.4);color:var(--green);">✓</div></div>
+          <div class="tl-body" style="border-color:rgba(15,216,138,.3);background:var(--green-dim);">
+            <div class="tl-title" style="color:var(--green)">Resultados visibles en menos de 3 semanas</div>
+            <div class="tl-desc">Primera validación automatizada completa ejecutada. Reporte generado, errores identificados, equipo listo para corregir y radicar con confianza.</div>
+            <span class="tl-duration" style="background:var(--green-dim);color:var(--green);border-color:rgba(15,216,138,.2);">&lt; 3 semanas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 INVERSIÓN -->
+<section id="inversion">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <div><h2>Inversión y valor real</h2><div class="sec-sub">Precio fijo · Sin sorpresas · ROI inmediato</div></div>
+    </div>
+
+    <div class="inv-grid" style="margin-bottom:32px;">
       <div class="inv-main">
-        <div class="inv-label">Inversión total</div>
+        <div class="inv-label"><div class="live-dot"></div>Implementación Fase 1 · MVP</div>
         <div class="inv-amount">$3.000.000</div>
-        <div class="inv-currency">Pesos Colombianos · COP</div>
+        <div class="inv-currency">Pesos Colombianos · COP · Precio fijo total</div>
       </div>
-      <div class="inv-secondary">
-        <div>
-          <div class="inv-item-label">Mantenimiento incluido</div>
-          <div class="inv-item-value">1 mes gratuito</div>
+      <div class="inv-side">
+        <div class="inv-row">
+          <div class="inv-row-label">Mantenimiento mensual</div>
+          <div class="inv-row-val">$400.000 COP <span class="itag">/mes</span></div>
         </div>
-        <div class="inv-divider"></div>
-        <div>
-          <div class="inv-item-label">Intervenciones posteriores</div>
-          <div class="inv-item-value">$200.000 COP</div>
+        <div class="inv-row">
+          <div class="inv-row-label">Incluye</div>
+          <div class="inv-row-val" style="font-size:13px;font-weight:300;color:var(--text-muted);">Soporte · Ajustes · Monitoreo</div>
         </div>
-        <div class="inv-divider"></div>
-        <div>
-          <div class="inv-item-label">Desarrollos adicionales</div>
-          <div class="inv-item-value" style="font-size: 16px; font-family: 'DM Sans'; color: var(--text-muted); font-weight: 300;">Cotización separada según alcance</div>
+        <div class="inv-row">
+          <div class="inv-row-label">Tiempo de entrega</div>
+          <div class="inv-row-val" style="font-size:15px;">Menos de 3 semanas</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ─── 8. REQUERIMIENTOS ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">08</div>
-      <div class="section-title-wrap">
-        <h2>Requerimientos para implementación</h2>
-        <div class="section-subtitle">Insumos y accesos que debe proveer el cliente</div>
-      </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Por qué es una inversión, no un gasto</div>
+    <div class="value-list" style="margin-bottom:32px;">
+      <div class="val-item-simple"><div class="val-item-text">Reduce errores antes de que generen pérdidas reales en el ciclo de ingresos de la IPS</div></div>
+      <div class="val-item-simple"><div class="val-item-text">Disminuye el tiempo operativo dedicado a revisión manual documento a documento</div></div>
+      <div class="val-item-simple"><div class="val-item-text">Elimina reprocesos y re-radicaciones ante la EPS por errores completamente prevenibles</div></div>
+      <div class="val-item-simple"><div class="val-item-text">Estandariza el proceso de validación con criterios consistentes en cada ciclo de facturación</div></div>
     </div>
-    <div class="req-list">
-      <div class="req-item">
-        <div class="req-num">R-01</div>
-        <div class="req-text"><strong>Definición de documentos requeridos</strong> por cada tipo de servicio contemplado</div>
-      </div>
-      <div class="req-item">
-        <div class="req-num">R-02</div>
-        <div class="req-text"><strong>Acceso a Google Drive</strong> corporativo para organización y almacenamiento documental</div>
-      </div>
-      <div class="req-item">
-        <div class="req-num">R-03</div>
-        <div class="req-text"><strong>Acceso al sistema de correo corporativo</strong> para el envío automatizado de notificaciones</div>
-      </div>
-      <div class="req-item">
-        <div class="req-num">R-04</div>
-        <div class="req-text"><strong>Definición de estructura de carpetas</strong> en Drive para organización de casos</div>
-      </div>
-      <div class="req-item">
-        <div class="req-num">R-05</div>
-        <div class="req-text"><strong>Flujo actual documentado</strong> del proceso de facturación (opcional pero recomendable)</div>
-      </div>
-      <div class="req-item" style="border-color: var(--accent-border); background: rgba(25,184,233,0.04);">
-        <div class="req-num">R-06</div>
-        <div class="req-text"><strong>API con tokens de servicios cloud</strong> para el procesamiento inteligente de documentos mediante inteligencia artificial</div>
-      </div>
-      <div class="req-item" style="border-color: var(--accent-border); background: rgba(25,184,233,0.04);">
-        <div class="req-num">R-07</div>
-        <div class="req-text"><strong>VPS privado</strong> proporcionado por el cliente, donde se desplegará y mantendrá el bot en funcionamiento continuo</div>
-      </div>
+
+    <div style="background:var(--bg-1);border:1px solid var(--accent-border);border-radius:8px;padding:30px 28px;text-align:center;">
+      <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--white);margin-bottom:10px;font-style:italic;">"Cada ciclo de facturación con errores representa dinero retenido y tiempo perdido."</div>
+      <div style="font-size:14px;color:var(--text-muted);">Este sistema elimina ese problema desde la raíz. Entre antes se implemente, antes se empiezan a evitar pérdidas y a mejorar la operación.</div>
     </div>
   </div>
 </section>
 
-<!-- ─── 9. CONSIDERACIONES ─── -->
-<section>
-  <div class="container">
-    <div class="section-header">
-      <div class="section-number">09</div>
-      <div class="section-title-wrap">
-        <h2>Consideraciones adicionales</h2>
-        <div class="section-subtitle">Escalabilidad e integraciones futuras</div>
-      </div>
-    </div>
-    <div class="consider-list">
-      <div class="consider-item">El sistema es completamente escalable para incorporar más tipos de servicio en futuras fases del proyecto.</div>
-      <div class="consider-item">Puede integrarse con otros sistemas de gestión empresarial como ERP o CRM, según las necesidades operativas de VIVIR IPS.</div>
-      <div class="consider-item">Cualquier desarrollo, integración o funcionalidad adicional no contemplada en la presente propuesta deberá ser evaluada y cotizada de forma independiente.</div>
+<!-- FINAL CTA -->
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div class="cta-title">¿Listos para comenzar?</div>
+      <div class="cta-sub">Confirma la propuesta para dar inicio al desarrollo e implementación del sistema y dar el primer paso hacia una facturación libre de errores manuales.</div>
+      <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="cta-btn">Aceptar Propuesta <span style="font-size:16px;">→</span></a>
     </div>
   </div>
 </section>
 
-<!-- ─── CTA ─── -->
-<section style="border-bottom: none; padding-top: 40px; padding-bottom: 80px; text-align: center;">
-  <div class="container">
-    <a href="https://wa.link/x57gdn" target="_blank" class="cta-button">Aceptar propuesta</a>
-  </div>
-</section>
+<div class="hr-accent"></div>
 
-<!-- ─── FOOTER ─── -->
 <footer>
-  <div class="container">
-    <div class="divider-line"></div>
-    <div class="footer-inner" style="margin-top: 40px;">
-      <div class="footer-brand">
-        <div class="footer-logo">VIVIR IPS</div>
-        <div class="footer-tagline">Institución Prestadora de Salud · Colombia</div>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-name">VIVIR IPS</div>
+        <div class="footer-tag">Sistema de automatización · Facturación IPS · 2025</div>
       </div>
       <div class="footer-meta">
-        PROPUESTA <span>CONFIDENCIAL</span><br>
-        REF: <span>BOT-FAC-2025</span><br>
-        DOCUMENTO NO TRANSFERIBLE
+        REF: <b>AUTO-FAC-2025-01</b><br>
+        FASE: <b>1 · MVP</b><br>
+        DOCUMENTO CONFIDENCIAL
       </div>
     </div>
   </div>
 </footer>
 
+<script>
+/* ── FLOW TOGGLE ── */
+function toggleFlow(btn, mode) {
+  document.querySelectorAll('.flow-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ftog-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + mode).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── TREE NODE TOGGLE ── */
+function toggleNode(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isExp = el.classList.contains('expanded');
+  el.classList.toggle('collapsed', isExp);
+  el.classList.toggle('expanded', !isExp);
+}
+
+/* ── TREE DETAIL ── */
+function showDetail(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const wasVis = el.classList.contains('visible');
+  document.querySelectorAll('.tree-detail').forEach(d => d.classList.remove('visible'));
+  if (!wasVis) el.classList.add('visible');
+}
+
+/* ── VALIDATIONS STEPPER ── */
+function setVal(n) {
+  for (let i = 1; i <= 4; i++) {
+    const tab = document.getElementById('vtab-' + i);
+    const panel = document.getElementById('vpanel-' + i);
+    tab.classList.remove('active', 'done');
+    panel.classList.remove('active');
+    if (i < n) tab.classList.add('done');
+  }
+  document.getElementById('vtab-' + n).classList.add('active');
+  document.getElementById('vpanel-' + n).classList.add('active');
+}
+
+/* ── PHASES ── */
+function setPhase(n) {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('pcard-' + i).classList.remove('active');
+    document.getElementById('pdetail-' + i).classList.remove('active');
+  }
+  document.getElementById('pcard-' + n).classList.add('active');
+  document.getElementById('pdetail-' + n).classList.add('active');
+}
+
+/* ── NAV SCROLL SPY ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+  });
+}, { passive: true });
+</script>
 </body>
 </html>
-<!-- Deployment Trigger: 2026-04-16 -->
