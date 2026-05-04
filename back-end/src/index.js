@@ -12,27 +12,7 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 app.use(express.json());
 
-// CORS Configuration
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'https://motoradvertising.co',
-    'https://www.motoradvertising.co',
-    process.env.FRONTEND_ORIGIN
-].filter(Boolean);
-
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl)
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
+app.use(cors());
 
 // Rate Limiting
 const limiter = rateLimit({

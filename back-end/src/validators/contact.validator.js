@@ -14,9 +14,9 @@ const validateUrl = (url) => {
 };
 
 const validateEmpresa = (req, res, next) => {
-    const { name, email, company, budget, message } = req.body;
+    const { name, email, company, message } = req.body;
 
-    if (!name || !email || !company || !budget || !message) {
+    if (!name || !email || !company || !message) {
         return res.status(400).json({ success: false, message: 'Todos los campos son obligatorios.' });
     }
 
