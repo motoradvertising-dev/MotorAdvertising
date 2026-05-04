@@ -274,52 +274,31 @@ window.addEventListener('keydown', (e) => {
 if (btnSuccessBack) btnSuccessBack.addEventListener('click', closeModal);
 
 // Form Submission Handling
-async function handleFormSubmit(e, type) {
+function handleFormSubmit(e, type) {
     e.preventDefault();
     const form = e.target;
-    const submitBtn = form.querySelector('.btn-submit');
-    const originalBtnText = submitBtn.innerText;
-
-    // Loading State
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-
+    
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    // Ocultar errores previos si los hay
     const errorContainer = form.querySelector('.form-error');
     if (errorContainer) errorContainer.classList.add('hidden');
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/contact/${type}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+    // Mostrar pantalla de éxito INMEDIATAMENTE
+    form.closest('.form-step').classList.add('hidden');
+    successStep.classList.remove('hidden');
 
-        const result = await response.json();
-
-        if (result.success) {
-            form.closest('.form-step').classList.add('hidden');
-            successStep.classList.remove('hidden');
-        } else {
-            if (errorContainer) {
-                errorContainer.innerText = result.message || 'Error al enviar el formulario';
-                errorContainer.classList.remove('hidden');
-            }
-        }
-    } catch (error) {
+    // Enviar los datos al backend en segundo plano (fire and forget)
+    fetch(`${API_BASE_URL}/api/contact/${type}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).catch(error => {
         console.error('Submission Error:', error);
-        if (errorContainer) {
-            errorContainer.innerText = 'No se pudo conectar con el servidor. Por favor intenta más tarde.';
-            errorContainer.classList.remove('hidden');
-        }
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = originalBtnText;
-    }
+    });
 }
 
 if (document.getElementById('empresa-contact-form')) {

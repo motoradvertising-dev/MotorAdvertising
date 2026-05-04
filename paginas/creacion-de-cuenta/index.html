@@ -470,11 +470,9 @@
         ? 'http://localhost:3001'
         : 'https://motoradvertising-production.up.railway.app';
 
-    async function submitAll() {
+    function submitAll() {
       if (doneSet.length < TOTAL) { document.getElementById('serr').style.display = 'block'; return; }
       var btn = document.getElementById('sbtn');
-      btn.disabled = true;
-      btn.textContent = 'Enviando...';
       
       const payload = {
         negocio: fd['f7'] || 'No especificado',
@@ -487,32 +485,19 @@
         sitio_web: fd['f8'] || 'No especificado'
       };
       
-      try {
-          const response = await fetch(`${API_BASE_URL}/api/contact/cuenta`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-              document.getElementById('sov').classList.add('show');
-          } else {
-              document.getElementById('serr').innerText = result.message || 'Error al enviar la configuración.';
-              document.getElementById('serr').style.display = 'block';
-              btn.disabled = false;
-              btn.textContent = 'Finalizar y Notificar';
-          }
-      } catch (error) {
+      // Mostrar pantalla de éxito inmediatamente
+      document.getElementById('sov').classList.add('show');
+      
+      // Enviar en background (fire and forget)
+      fetch(`${API_BASE_URL}/api/contact/cuenta`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+      }).catch(error => {
           console.error('Submission Error:', error);
-          document.getElementById('serr').innerText = 'No se pudo conectar con el servidor. Por favor intenta más tarde.';
-          document.getElementById('serr').style.display = 'block';
-          btn.disabled = false;
-          btn.textContent = 'Finalizar y Notificar';
-      }
+      });
     }
 
     document.getElementById('s1').classList.add('open');
