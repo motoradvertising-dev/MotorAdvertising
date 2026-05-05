@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 app.use(express.json());
 
+// Trust the reverse proxy (required for rate limiting on Railway)
+app.set('trust proxy', 1);
+
 app.use(cors());
 
 // Rate Limiting
