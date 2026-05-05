@@ -8,14 +8,25 @@ const contactRoutes = require('./routes/contact.routes');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Basic Security
+// CORS MUST come before Helmet to handle preflight OPTIONS correctly
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
+
+// Basic Security (after CORS)
 app.use(helmet());
 app.use(express.json());
 
 // Trust the reverse proxy (required for rate limiting on Railway)
 app.set('trust proxy', 1);
 
-app.use(cors());
+// Request logging for debugging
+app.use('/api/', (req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} from ${req.ip}`);
+    next();
+});
 
 // Rate Limiting
 const limiter = rateLimit({

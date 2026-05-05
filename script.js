@@ -277,6 +277,7 @@ if (btnSuccessBack) btnSuccessBack.addEventListener('click', closeModal);
 function handleFormSubmit(e, type) {
     e.preventDefault();
     const form = e.target;
+    const formStep = form.closest('.form-step');
     
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -285,19 +286,50 @@ function handleFormSubmit(e, type) {
     const errorContainer = form.querySelector('.form-error');
     if (errorContainer) errorContainer.classList.add('hidden');
 
-    // Mostrar pantalla de éxito INMEDIATAMENTE
-    form.closest('.form-step').classList.add('hidden');
-    successStep.classList.remove('hidden');
+    // Disable the submit button and show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    }
 
-    // Enviar los datos al backend en segundo plano (fire and forget)
+    // Send the data and WAIT for the response
     fetch(`${API_BASE_URL}/api/contact/${type}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).catch(error => {
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success screen only when backend confirms
+            formStep.classList.add('hidden');
+            successStep.classList.remove('hidden');
+        } else {
+            // Show error from backend
+            if (errorContainer) {
+                errorContainer.textContent = result.message || 'Error al enviar. Intenta de nuevo.';
+                errorContainer.classList.remove('hidden');
+            }
+        }
+    })
+    .catch(error => {
         console.error('Submission Error:', error);
+        // Show error to user
+        if (errorContainer) {
+            errorContainer.textContent = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
+            errorContainer.classList.remove('hidden');
+        }
+    })
+    .finally(() => {
+        // Restore button
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
     });
 }
 
