@@ -218,7 +218,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3001'
-    : 'https://motoradvertising-production.up.railway.app';
+    : '';
 
 const modal = document.getElementById('contact-modal');
 const modalClose = document.getElementById('modal-close');
