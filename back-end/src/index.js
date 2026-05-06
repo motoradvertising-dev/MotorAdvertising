@@ -22,6 +22,14 @@ app.use(express.json());
 // Trust the reverse proxy (required for rate limiting on Railway)
 app.set('trust proxy', 1);
 
+// Force HTTPS middleware
+app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
+});
+
 // Request logging for debugging
 app.use('/api/', (req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} from ${req.ip}`);
@@ -38,11 +46,6 @@ app.use('/api/', limiter);
 
 // Routes
 app.use('/api/contact', contactRoutes);
-
-// Root Redirect to main website
-app.get('/', (req, res) => {
-    res.redirect('https://motoradvertising.co');
-});
 
 // Health Check
 app.get('/health', (req, res) => {
