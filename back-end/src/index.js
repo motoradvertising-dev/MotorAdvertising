@@ -39,6 +39,11 @@ app.use('/api/', limiter);
 // Routes
 app.use('/api/contact', contactRoutes);
 
+// Root Redirect to main website
+app.get('/', (req, res) => {
+    res.redirect('https://motoradvertising.co');
+});
+
 // Health Check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
