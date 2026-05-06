@@ -27,21 +27,18 @@ const handleEmpresa = async (req, res) => {
 
     console.log(`[${requestId}] New Empresa contact submission:`, payload);
 
+    // Always respond success to the user — data is already logged
+    res.json({
+        success: true,
+        message: 'Información recibida. Nuestro equipo te contactará pronto.',
+        requestId
+    });
+
+    // Attempt email in background (fire-and-forget)
     try {
         await sendWithRetry('Empresa', payload, requestId);
-
-        res.json({
-            success: true,
-            message: 'Información recibida. Nuestro equipo te contactará pronto.',
-            requestId
-        });
     } catch (error) {
-        console.error(`[${requestId}] Error in handleEmpresa after retries:`, error.message);
-        res.status(500).json({
-            success: false,
-            message: 'Error al procesar la solicitud. Por favor intenta de nuevo.',
-            requestId
-        });
+        console.error(`[${requestId}] Email failed after retries (data already logged above):`, error.message);
     }
 };
 
@@ -51,21 +48,16 @@ const handleProfesional = async (req, res) => {
 
     console.log(`[${requestId}] New Profesional contact submission:`, payload);
 
+    res.json({
+        success: true,
+        message: 'Información recibida. Nuestro equipo te contactará pronto.',
+        requestId
+    });
+
     try {
         await sendWithRetry('Profesional', payload, requestId);
-
-        res.json({
-            success: true,
-            message: 'Información recibida. Nuestro equipo te contactará pronto.',
-            requestId
-        });
     } catch (error) {
-        console.error(`[${requestId}] Error in handleProfesional after retries:`, error.message);
-        res.status(500).json({
-            success: false,
-            message: 'Error al procesar la solicitud. Por favor intenta de nuevo.',
-            requestId
-        });
+        console.error(`[${requestId}] Email failed after retries (data already logged above):`, error.message);
     }
 };
 
@@ -75,21 +67,16 @@ const handleCuentas = async (req, res) => {
 
     console.log(`[${requestId}] New Cuentas contact submission:`, payload);
 
+    res.json({
+        success: true,
+        message: 'Información recibida. Tu asesor ha sido notificado.',
+        requestId
+    });
+
     try {
         await sendWithRetry('Creación de Cuenta', payload, requestId);
-
-        res.json({
-            success: true,
-            message: 'Información recibida. Tu asesor ha sido notificado.',
-            requestId
-        });
     } catch (error) {
-        console.error(`[${requestId}] Error in handleCuentas after retries:`, error.message);
-        res.status(500).json({
-            success: false,
-            message: 'Error al procesar la solicitud. Por favor intenta de nuevo.',
-            requestId
-        });
+        console.error(`[${requestId}] Email failed after retries (data already logged above):`, error.message);
     }
 };
 
