@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -94,6 +94,11 @@ app.use('/api/', limiter);
 // API Routes
 app.use('/api/contact', contactRoutes);
 
+// Quick API test endpoint
+app.get('/api/ping', (req, res) => {
+    res.json({ pong: true, timestamp: new Date().toISOString() });
+});
+
 // Health Check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -115,8 +120,12 @@ app.use(express.static(FRONTEND_ROOT, {
     }
 }));
 
-// Catch-all: serve index.html for any unmatched route (SPA support)
-app.get('*', (req, res) => {
+// Catch-all: serve index.html for any unmatched GET route (excluding /api paths)
+app.get('*', (req, res, next) => {
+    // Never serve index.html for API routes — let them 404 properly
+    if (req.path.startsWith('/api')) {
+        return res.status(404).json({ success: false, message: 'API endpoint not found' });
+    }
     res.sendFile(path.join(FRONTEND_ROOT, 'index.html'));
 });
 
