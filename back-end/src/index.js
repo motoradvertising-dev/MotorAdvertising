@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -50,6 +51,15 @@ app.use('/api/contact', contactRoutes);
 // Health Check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Serve frontend static files
+// As the frontend files are in the root directory (two levels up from src/)
+app.use(express.static(path.join(__dirname, '../../')));
+
+// Catch-all route to serve index.html for unknown routes (useful for SPA)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../index.html'));
 });
 
 // Error Handler
