@@ -122,9 +122,11 @@ h1 {
   paint-order: stroke fill;
 }
 h1 .outline {
-  -webkit-text-stroke: 1.4px var(--white);
+  font-weight: 300;
+  -webkit-text-stroke: 1px var(--white);
   color: transparent;
   paint-order: stroke fill;
+  letter-spacing: 0;
 }
 h1 .orange  { color: var(--orange); }
 
@@ -175,9 +177,11 @@ h1 .orange  { color: var(--orange); }
 }
 .sec-headline em { font-style: normal; color: var(--orange); }
 .sec-headline .outline {
-  -webkit-text-stroke: 1.1px var(--white);
+  font-weight: 300;
+  -webkit-text-stroke: .9px var(--white);
   color: transparent;
   paint-order: stroke fill;
+  letter-spacing: 0;
 }
 
 /* ── INTRO ── */
@@ -314,9 +318,11 @@ h1 .orange  { color: var(--orange); }
   paint-order: stroke fill;
 }
 .closing h2 .outline {
-  -webkit-text-stroke: 1.2px rgba(255,255,255,.4);
+  font-weight: 300;
+  -webkit-text-stroke: 1px rgba(255,255,255,.55);
   color: transparent;
   paint-order: stroke fill;
+  letter-spacing: 0;
 }
 .closing h2 .orange { color: var(--orange); }
 .closing-body { max-width: 520px; font-size: 16px; color: rgba(255,255,255,.5); line-height: 1.75; margin-bottom: 48px; font-weight: 300; position: relative; z-index: 1; }
@@ -409,9 +415,9 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
   nav { padding: 16px 24px; }
   .hero, .section, .closing, .accept-final { padding-left: 24px; padding-right: 24px; }
   h1 { font-size: 44px; letter-spacing: -.01em; }
-  h1 .outline { -webkit-text-stroke: 1px var(--white); }
-  .sec-headline .outline { -webkit-text-stroke: 1px var(--white); }
-  .closing h2 .outline { -webkit-text-stroke: 1px rgba(255,255,255,.4); }
+  h1 .outline { -webkit-text-stroke: .8px var(--white); }
+  .sec-headline .outline { -webkit-text-stroke: .7px var(--white); }
+  .closing h2 .outline { -webkit-text-stroke: .8px rgba(255,255,255,.55); }
   .hero-sub { flex-direction: column; align-items: flex-start; gap: 28px; }
   .hero-stats { gap: 32px; }
   .stat-item { text-align: left; }
@@ -475,8 +481,8 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
 
   <div class="hero-sub">
     <div class="hero-desc">
-      Plataforma de comercialización digital con catálogo vivo, rutas de variantes
-      y cotización automática — construida para que STATE SOLUTIONS crezca sin depender de nadie.
+      Una plataforma viva, con catálogo dinámico y cotización automática.
+      Pensada para que STATE SOLUTIONS crezca a su ritmo — y sin depender de nadie para hacerlo.
     </div>
     <div class="hero-stats">
       <div class="stat-item">
@@ -507,14 +513,12 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
     <div class="sec-headline fade-in">No solo<br>un sitio.<br><em>Un sistema</em><br><span class="outline">que convierte.</span></div>
     <div class="intro-body fade-in">
       <div class="intro-text">
-        El objetivo de STATE SOLUTIONS es claro: <strong>convertir visitantes en clientes</strong>
-        desde el primer scroll. No se trata de publicar un catálogo estático.
-        Se trata de construir una plataforma que guíe al usuario desde la exploración
-        de productos hasta una <strong>cotización lista para cerrar</strong>, de forma
-        automática y sin fricciones.<br><br>
-        Con un dashboard propio, el equipo de STATE SOLUTIONS podrá crear nuevos productos,
-        definir sus variantes y publicarlos al instante — <strong>sin depender de ningún
-        desarrollador</strong>.
+        Lo que queremos lograr juntos es simple: que cada persona que entre al sitio
+        encuentre una razón para quedarse, explorar y <strong>pedir una cotización</strong>.
+        Nada de catálogos planos — una experiencia que acompaña al cliente paso a paso,
+        hasta el botón que cierra la venta.<br><br>
+        Y para que tu equipo no dependa de nadie, vas a tener un <strong>dashboard propio</strong>:
+        creas productos, defines variantes y publicas al instante. Tan fácil como subir una foto.
       </div>
       <div class="intro-pills">
         <div class="pill">
@@ -621,9 +625,9 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
       <div class="cat-item"><div class="cat-icon">🎯</div><div class="cat-name">Recreación</div></div>
     </div>
     <p class="fade-in" style="font-size:14px;color:var(--muted2);line-height:1.75;max-width:680px;">
-      Cada categoría tiene su propia sección de aterrizaje con narrativa especializada, productos destacados
-      y un call-to-action adaptado al perfil del cliente. La arquitectura permite agregar nuevas categorías
-      desde el dashboard sin tocar código.
+      Cada categoría tiene su propia historia: una sección con narrativa hecha a la medida,
+      productos destacados y un llamado a la acción que le habla al cliente correcto.
+      Y si mañana quieres agregar una nueva categoría, lo haces desde el dashboard — sin tocar código.
     </p>
   </div>
 </section>
@@ -637,27 +641,27 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
       <div class="flow-item">
         <div class="fi-num">01</div>
         <div class="fi-title">Llega & Explora Categorías</div>
-        <div class="fi-desc">El cliente aterriza en una página que transmite profesionalismo de inmediato e identifica su segmento.</div>
+        <div class="fi-desc">El cliente entra al sitio y, en segundos, encuentra su mundo. Le transmitimos confianza desde el primer scroll.</div>
       </div>
       <div class="flow-item">
         <div class="fi-num">02</div>
         <div class="fi-title">Selecciona el Producto</div>
-        <div class="fi-desc">Encuentra los ítems con imágenes, descripción persuasiva y un botón de acción claro que invita a continuar.</div>
+        <div class="fi-desc">Ve los productos con imágenes claras, descripciones que conectan y un botón que invita a dar el siguiente paso.</div>
       </div>
       <div class="flow-item">
         <div class="fi-num">03</div>
         <div class="fi-title">Navega las Variantes</div>
-        <div class="fi-desc">Flujo guiado para elegir especificaciones: marca, capacidad, color, cantidad u otras dimensiones configuradas.</div>
+        <div class="fi-desc">Lo guiamos para elegir lo que necesita: marca, capacidad, color, cantidad — lo que tú hayas configurado.</div>
       </div>
       <div class="flow-item">
         <div class="fi-num">04</div>
-        <div class="fi-title">Llena sus Datos</div>
-        <div class="fi-desc">Formulario breve: nombre, empresa, correo y teléfono. Sin fricciones ni pasos innecesarios.</div>
+        <div class="fi-title">Deja sus Datos</div>
+        <div class="fi-desc">Un formulario corto: nombre, empresa, correo y teléfono. Sin pasos de más, sin fricción.</div>
       </div>
       <div class="flow-item">
         <div class="fi-num">05</div>
         <div class="fi-title">Cotización Automática — Email + WhatsApp</div>
-        <div class="fi-desc">El sistema genera la cotización al instante y la dispara al equipo de ventas simultáneamente por WhatsApp y correo — lista para responder y cerrar.</div>
+        <div class="fi-desc">La cotización se arma sola y le llega a tu equipo de ventas por WhatsApp y correo al mismo tiempo. Listos para responder y cerrar.</div>
       </div>
     </div>
   </div>
@@ -688,8 +692,8 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
       contratado y las necesidades técnicas del proyecto; se requerirá un medio de pago adicional para cubrirlos.
     </div>
     <div class="abono-box fade-in">
-      Para iniciar el proyecto se requiere un <strong>abono del 50%</strong> ($600 USD / $2.270.000 COP)
-      o el <strong>pago total</strong> de la tarifa. El saldo restante se cancela al momento de la entrega final.
+      Para arrancar pedimos un <strong>abono del 50%</strong> ($600 USD / $2.270.000 COP) o, si prefieres,
+      el <strong>pago total</strong>. El saldo restante lo cierras el día de la entrega.
     </div>
   </div>
 </section>
@@ -702,18 +706,18 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
     <div class="tl-row fade-in">
       <div class="tl-item">
         <div class="tl-day">D1</div>
-        <div class="tl-label">Inicio del Desarrollo</div>
-        <div class="tl-desc">Confirmación del abono, kick-off del proyecto y recepción de contenidos del cliente.</div>
+        <div class="tl-label">Arrancamos</div>
+        <div class="tl-desc">Confirmas el abono, hacemos el kick-off y nos pasas los contenidos para empezar a construir.</div>
       </div>
       <div class="tl-item">
         <div class="tl-day">D7</div>
-        <div class="tl-label">Entregable Intermedio</div>
-        <div class="tl-desc">Revisión de diseño y detalles. Espacio para correcciones antes de la fase final.</div>
+        <div class="tl-label">Primer Vistazo</div>
+        <div class="tl-desc">Te mostramos el diseño avanzado para que lo revisemos juntos y dejes tus ajustes antes del cierre.</div>
       </div>
       <div class="tl-item">
         <div class="tl-day">D15</div>
-        <div class="tl-label">Entrega Final</div>
-        <div class="tl-desc">Proyecto publicado, funcional y listo para recibir clientes y generar cotizaciones.</div>
+        <div class="tl-label">Listo para Vender</div>
+        <div class="tl-desc">Sitio publicado, funcionando y listo para recibir clientes y generar cotizaciones desde el día uno.</div>
       </div>
     </div>
   </div>
@@ -728,21 +732,21 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
       <div class="wc">
         <div class="wc-icon">🛡️</div>
         <div class="wc-title">1 Mes de Garantía</div>
-        <div class="wc-text">30 días para correcciones, ajustes y mantenimiento general sin costo adicional posterior a la entrega.</div>
+        <div class="wc-text">Tienes 30 días para pedirnos correcciones, ajustes y mantenimiento general — sin costo extra.</div>
       </div>
       <div class="wc">
         <div class="wc-icon">🔁</div>
         <div class="wc-title">Ajustes Prioritarios</div>
-        <div class="wc-text">Cualquier error funcional o visual dentro del período de garantía es atendido con prioridad.</div>
+        <div class="wc-text">Si algo se rompe o no se ve bien durante la garantía, lo atendemos con prioridad. Sin esperar.</div>
       </div>
     </div>
     <div class="mant-card fade-in">
       <div>
         <div class="mant-title">Plan Estándar de Mantenimiento Web</div>
         <div class="mant-desc">
-          Corrección de errores de diseño y fluidez, adición de contenido y productos,
-          ajustes funcionales y soporte general mensual. Nuevas secciones, integraciones
-          o funciones fuera del alcance original se acordarán bajo este plan.
+          Te acompañamos mes a mes: corrección de detalles, contenido nuevo, productos,
+          ajustes funcionales y soporte general. Si quieres agregar una sección, integrar
+          algo nuevo o sumar funciones que no estaban al inicio, lo coordinamos bajo este plan.
         </div>
       </div>
       <div class="mant-price-col">
@@ -774,36 +778,35 @@ footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex;
   <div class="closing-bg"></div>
   <div class="closing-pre">¿Listo para arrancar?</div>
   <h2>
-    SU TIENDA<br>
+    TU TIENDA<br>
     <span class="orange">DIGITAL</span><br>
-    <span class="outline">COMIENZA</span><br>
+    <span class="outline">ARRANCA</span><br>
     HOY.
   </h2>
   <p class="closing-body">
-    Apruebe esta propuesta, realice el abono inicial y en 15 días STATE SOLUTIONS SAS
-    tendrá una plataforma que trabaja para usted las 24 horas,
-    capturando cotizaciones mientras su equipo duerme.
+    Dile que sí a la propuesta, hacemos el abono y en 15 días STATE SOLUTIONS
+    tiene una plataforma trabajando por ustedes 24/7 — capturando cotizaciones
+    mientras el equipo descansa.
   </p>
   <div style="position:relative;z-index:1;">
-    <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="btn-cta">Aprobar por WhatsApp ↗</a>
-    <a href="mailto:contacto@motoradvertising.com?subject=Aprobaci%C3%B3n%20Propuesta%20State%20Solutions" class="btn-sec">Aprobar por Correo</a>
+    <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="btn-cta">Hablemos por WhatsApp ↗</a>
   </div>
 </section>
 
 <!-- ══════════ ACEPTAR PROPUESTA (FINAL CTA) ══════════ -->
 <section class="accept-final">
   <div class="accept-final-inner">
-    <div class="accept-eyebrow fade-in">Decisión final</div>
-    <div class="accept-title fade-in">Acepte la propuesta y <span class="orange">comencemos.</span></div>
+    <div class="accept-eyebrow fade-in">El primer paso</div>
+    <div class="accept-title fade-in">Pongamos esta tienda <span class="orange">en marcha.</span></div>
     <div class="accept-sub fade-in">
-      Un solo clic conecta directamente con nuestro equipo por WhatsApp para confirmar
-      el inicio del proyecto y coordinar el abono.
+      Un mensaje y empezamos. Nos escribes por WhatsApp, coordinamos el abono
+      y arrancamos a construir tu plataforma esta misma semana.
     </div>
     <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="accept-btn fade-in">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.057 22h-.004a9.93 9.93 0 01-5.061-1.385L2 22l1.45-4.847A9.93 9.93 0 012.001 12C2 6.477 6.477 2 12 2c2.726 0 5.275 1.062 7.193 2.988a9.93 9.93 0 012.973 7.018C22.157 17.529 17.582 22 12.057 22z"/></svg>
       Aceptar Propuesta
     </a>
-    <div class="accept-note fade-in">Respuesta inmediata · Equipo Motor Advertising</div>
+    <div class="accept-note fade-in">Te respondemos al instante · Equipo Motor Advertising</div>
   </div>
 </section>
 
