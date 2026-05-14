@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Web · STATE SOLUTIONS SAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000000;
+  --black2: #0A0A0A;
+  --black3: #111111;
+  --orange: #FF5C00;
+  --orange2: #FF7A2B;
+  --orange-dim: rgba(255,92,0,.12);
+  --orange-border: rgba(255,92,0,.3);
+  --white: #FFFFFF;
+  --off-white: #F0EDE8;
+  --muted: #666;
+  --muted2: #888;
+  --border: rgba(255,255,255,0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: rgba(0,0,0,.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.nav-right { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(255,92,0,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 90%, rgba(255,92,0,.04) 0%, transparent 60%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+.valid-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--orange-border); border-radius: 100px;
+  padding: 6px 16px; font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--orange); font-weight: 600;
+  margin-bottom: 32px; position: relative; z-index: 1; width: fit-content;
+}
+.valid-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange); animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-label {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 28px; font-weight: 500;
+  position: relative; z-index: 1;
+}
+
+/* ── HEADLINES (corrección de tipografía) ── */
+h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(48px, 8.4vw, 118px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  paint-order: stroke fill;
+}
+h1 .outline {
+  -webkit-text-stroke: 1.4px var(--white);
+  color: transparent;
+  paint-order: stroke fill;
+}
+h1 .orange  { color: var(--orange); }
+
+.hero-sub {
+  margin-top: 36px; display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 24px;
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border); padding-top: 28px;
+}
+.hero-desc { max-width: 520px; font-size: 16px; color: rgba(255,255,255,.6); font-weight: 300; line-height: 1.75; }
+.hero-stats { display: flex; gap: 48px; flex-shrink: 0; }
+.stat-item { text-align: right; }
+.stat-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: -.015em;
+  line-height: 1;
+}
+.stat-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+.scroll-hint {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted); z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--orange), transparent); animation: sp 1.8s ease-in-out infinite; }
+@keyframes sp { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:.4;transform:scaleY(.5)} }
+
+/* ── SECTION ── */
+.section {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 120px 48px;
+  border-top: 1px solid var(--border); position: relative;
+}
+.max-w { max-width: 1100px; margin: 0 auto; width: 100%; }
+.sec-num { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .2em; color: var(--orange); text-transform: uppercase; margin-bottom: 32px; }
+.sec-headline {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(34px, 4.6vw, 66px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+  margin-bottom: 56px;
+  paint-order: stroke fill;
+}
+.sec-headline em { font-style: normal; color: var(--orange); }
+.sec-headline .outline {
+  -webkit-text-stroke: 1.1px var(--white);
+  color: transparent;
+  paint-order: stroke fill;
+}
+
+/* ── INTRO ── */
+.intro-body { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.intro-text { font-size: 17px; color: rgba(255,255,255,.65); line-height: 1.8; font-weight: 300; }
+.intro-text strong { color: var(--white); font-weight: 500; }
+.intro-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.pill { background: var(--black3); border: 1px solid var(--border); padding: 22px 20px; transition: border-color .2s; }
+.pill:first-child { border-radius: 12px 0 0 0; }
+.pill:nth-child(2){ border-radius: 0 12px 0 0; }
+.pill:nth-child(3){ border-radius: 0 0 0 12px; }
+.pill:last-child  { border-radius: 0 0 12px 0; }
+.pill:hover { border-color: var(--orange-border); }
+.pill-icon { font-size: 22px; margin-bottom: 10px; }
+.pill-title { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--white); margin-bottom: 6px; }
+.pill-text { font-size: 12px; color: var(--muted2); line-height: 1.55; }
+
+/* ── SCOPE ── */
+.scope-items { display: flex; flex-direction: column; gap: 2px; }
+.scope-row {
+  display: grid; grid-template-columns: 56px 1fr 200px; align-items: center;
+  background: var(--black3); border: 1px solid var(--border); padding: 28px 32px;
+  transition: all .2s; position: relative; overflow: hidden;
+}
+.scope-row::before { content:''; position:absolute; left:0;top:0;bottom:0; width:3px; background:var(--orange); opacity:0; transition:opacity .2s; }
+.scope-row:hover { border-color: var(--orange-border); background: rgba(255,92,0,.04); }
+.scope-row:hover::before { opacity: 1; }
+.scope-row:first-child { border-radius: 12px 12px 0 0; }
+.scope-row:last-child  { border-radius: 0 0 12px 12px; }
+.sr-num { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; color: var(--orange); opacity: .6; }
+.sr-title { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 4px; }
+.sr-desc { font-size: 13px; color: var(--muted2); }
+.sr-tag { text-align: right; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); opacity: .7; font-weight: 600; }
+
+/* ── CATS ── */
+.cat-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 2px; margin-bottom: 64px; }
+.cat-item {
+  background: var(--black3); border: 1px solid var(--border); padding: 36px 20px;
+  text-align: center; transition: all .2s; position: relative; overflow: hidden;
+}
+.cat-item::after { content:''; position:absolute; bottom:0;left:0;right:0; height:2px; background:var(--orange); transform:scaleX(0); transition:transform .2s; }
+.cat-item:hover { background: var(--orange-dim); }
+.cat-item:hover::after { transform: scaleX(1); }
+.cat-item:first-child { border-radius: 12px 0 0 12px; }
+.cat-item:last-child  { border-radius: 0 12px 12px 0; }
+.cat-icon { font-size: 32px; margin-bottom: 14px; }
+.cat-name { font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--off-white); }
+
+/* ── FLOW ── */
+.flow { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.flow-item { background: var(--black3); border: 1px solid var(--border); padding: 36px 32px; transition: border-color .2s; }
+.flow-item:hover { border-color: var(--orange-border); }
+.flow-item:nth-child(1){ border-radius: 12px 0 0 0; }
+.flow-item:nth-child(2){ border-radius: 0 12px 0 0; }
+.flow-item:last-child  { border-radius: 0 0 12px 12px; grid-column: 1 / -1; }
+.fi-num { font-family: 'Unbounded', sans-serif; font-size: 48px; font-weight: 800; color: var(--orange); opacity: .18; line-height: 1; margin-bottom: 12px; letter-spacing: -.02em; }
+.fi-title { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+.fi-desc { font-size: 13px; color: var(--muted2); line-height: 1.65; }
+
+/* ── PRICE ── */
+.price-top { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 24px; }
+.price-card { background: var(--black3); border: 1px solid var(--border); padding: 44px 40px; position: relative; overflow: hidden; transition: border-color .2s; }
+.price-card:first-child { border-radius: 12px 0 0 12px; }
+.price-card:last-child  { border-radius: 0 12px 12px 0; }
+.price-card.main { border-color: var(--orange-border); background: linear-gradient(135deg, rgba(255,92,0,.08) 0%, var(--black3) 60%); }
+.price-card.main::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--orange); }
+.pc-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+.pc-amount { font-family: 'Unbounded', sans-serif; font-size: clamp(40px,4.8vw,62px); font-weight: 800; letter-spacing: -.02em; line-height: 1; margin-bottom: 8px; }
+.pc-amount.orange { color: var(--orange); }
+.pc-amount.white  { color: var(--white);  }
+.pc-currency { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.price-excl { background: var(--black3); border: 1px solid var(--border); border-left: 3px solid var(--orange); border-radius: 0 12px 12px 0; padding: 24px 28px; margin-bottom: 20px; font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.7; }
+.price-excl strong { color: var(--orange); font-weight: 600; }
+.abono-box { background: var(--orange-dim); border: 1px dashed var(--orange-border); border-radius: 12px; padding: 22px 28px; font-size: 14px; color: rgba(255,255,255,.65); text-align: center; line-height: 1.7; }
+.abono-box strong { color: var(--orange); font-weight: 700; }
+
+/* ── TIMELINE ── */
+.tl-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+.tl-item { background: var(--black3); border: 1px solid var(--border); padding: 36px 32px; position: relative; overflow: hidden; }
+.tl-item:first-child { border-radius: 12px 0 0 12px; }
+.tl-item:last-child  { border-radius: 0 12px 12px 0; }
+.tl-item::after { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:linear-gradient(90deg, var(--orange), transparent); }
+.tl-day { font-family: 'Unbounded', sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -.02em; line-height: 1; color: var(--orange); opacity: .28; margin-bottom: 16px; }
+.tl-label { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+.tl-desc { font-size: 13px; color: var(--muted2); line-height: 1.6; }
+
+/* ── WARRANTY ── */
+.warranty-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 48px; }
+.wc { background: var(--black3); border: 1px solid var(--border); padding: 36px 32px; transition: border-color .2s; }
+.wc:first-child { border-radius: 12px 0 0 12px; }
+.wc:last-child  { border-radius: 0 12px 12px 0; }
+.wc:hover { border-color: var(--orange-border); }
+.wc-icon { font-size: 28px; margin-bottom: 16px; }
+.wc-title { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+.wc-text { font-size: 13px; color: var(--muted2); line-height: 1.65; }
+
+/* ── MANT ── */
+.mant-card { background: var(--black3); border: 1px solid var(--orange-border); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; position: relative; overflow: hidden; }
+.mant-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--orange); }
+.mant-title { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: -.005em; margin-bottom: 12px; }
+.mant-desc { font-size: 13px; color: var(--muted2); line-height: 1.7; max-width: 480px; }
+.mant-price-col { text-align: right; flex-shrink: 0; }
+.mp-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.mp-val { font-family: 'Unbounded', sans-serif; font-size: 34px; font-weight: 800; color: var(--orange); letter-spacing: -.02em; line-height: 1; white-space: nowrap; }
+.mp-period { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .1em; }
+
+/* ── TERMS ── */
+.terms-list { display: flex; flex-direction: column; gap: 2px; counter-reset: terms; }
+.term-item { counter-increment: terms; background: var(--black3); border: 1px solid var(--border); padding: 22px 28px 22px 72px; font-size: 13px; color: rgba(255,255,255,.6); line-height: 1.7; position: relative; transition: border-color .2s; }
+.term-item:first-child { border-radius: 12px 12px 0 0; }
+.term-item:last-child  { border-radius: 0 0 12px 12px; }
+.term-item:hover { border-color: var(--orange-border); }
+.term-item::before { content: counter(terms, decimal-leading-zero); position: absolute; left: 28px; top: 22px; font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); letter-spacing: .1em; }
+.term-item strong { color: var(--white); font-weight: 500; }
+
+/* ── CLOSING ── */
+.closing {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 120px 48px; border-top: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.closing-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,92,0,.06) 0%, transparent 70%); pointer-events: none; }
+.closing-pre { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 28px; font-weight: 600; }
+.closing h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(38px,6.4vw,92px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  paint-order: stroke fill;
+}
+.closing h2 .outline {
+  -webkit-text-stroke: 1.2px rgba(255,255,255,.4);
+  color: transparent;
+  paint-order: stroke fill;
+}
+.closing h2 .orange { color: var(--orange); }
+.closing-body { max-width: 520px; font-size: 16px; color: rgba(255,255,255,.5); line-height: 1.75; margin-bottom: 48px; font-weight: 300; position: relative; z-index: 1; }
+.btn-cta { display: inline-flex; align-items: center; gap: 12px; background: var(--orange); color: var(--black); font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; padding: 18px 36px; border-radius: 4px; transition: all .2s; position: relative; z-index: 1; }
+.btn-cta:hover { background: var(--orange2); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(255,92,0,.3); }
+.btn-sec { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: rgba(255,255,255,.6); font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; padding: 18px 28px; border: 1px solid var(--border); border-radius: 4px; transition: all .2s; margin-left: 12px; }
+.btn-sec:hover { border-color: var(--orange-border); color: var(--white); }
+
+/* ── ACCEPT FINAL ── */
+.accept-final {
+  padding: 100px 48px 120px;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,92,0,.04) 0%, var(--black) 70%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.accept-final::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(255,92,0,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.accept-final-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.accept-eyebrow {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.accept-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(32px, 4.4vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  paint-order: stroke fill;
+}
+.accept-title .orange { color: var(--orange); }
+.accept-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 540px;
+  margin: 0 auto 44px;
+}
+.accept-btn {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--orange); color: var(--black);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none;
+  padding: 22px 48px;
+  border-radius: 6px;
+  transition: all .25s ease;
+  box-shadow: 0 10px 30px rgba(255,92,0,.2);
+}
+.accept-btn:hover {
+  background: var(--orange2);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px rgba(255,92,0,.4);
+}
+.accept-btn svg { width: 22px; height: 22px; fill: currentColor; }
+.accept-note {
+  margin-top: 24px;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.footer-brand { font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
+.footer-right { font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+
+/* ── FADE IN ── */
+.fade-in { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .hero, .section, .closing, .accept-final { padding-left: 24px; padding-right: 24px; }
+  h1 { font-size: 44px; letter-spacing: -.01em; }
+  h1 .outline { -webkit-text-stroke: 1px var(--white); }
+  .sec-headline .outline { -webkit-text-stroke: 1px var(--white); }
+  .closing h2 .outline { -webkit-text-stroke: 1px rgba(255,255,255,.4); }
+  .hero-sub { flex-direction: column; align-items: flex-start; gap: 28px; }
+  .hero-stats { gap: 32px; }
+  .stat-item { text-align: left; }
+  .intro-body { grid-template-columns: 1fr; gap: 40px; }
+  .intro-pills { grid-template-columns: 1fr; }
+  .pill:first-child { border-radius: 12px 12px 0 0; }
+  .pill:nth-child(2){ border-radius: 0; }
+  .pill:nth-child(3){ border-radius: 0; }
+  .pill:last-child  { border-radius: 0 0 12px 12px; }
+  .scope-row { grid-template-columns: 40px 1fr; }
+  .sr-tag { display: none; }
+  .cat-row { grid-template-columns: repeat(3,1fr); }
+  .cat-item:first-child { border-radius: 12px 0 0 0; }
+  .cat-item:nth-child(2){ border-radius: 0; }
+  .cat-item:nth-child(3){ border-radius: 0 12px 0 0; }
+  .cat-item:nth-child(4){ border-radius: 0 0 0 12px; }
+  .cat-item:last-child  { border-radius: 0 0 12px 0; }
+  .flow { grid-template-columns: 1fr; }
+  .flow-item:nth-child(1){ border-radius: 12px 12px 0 0; }
+  .flow-item:nth-child(2){ border-radius: 0; }
+  .flow-item:last-child  { grid-column: auto; border-radius: 0 0 12px 12px; }
+  .price-top { grid-template-columns: 1fr; }
+  .price-card:first-child { border-radius: 12px 12px 0 0; }
+  .price-card:last-child  { border-radius: 0 0 12px 12px; }
+  .tl-row { grid-template-columns: 1fr; }
+  .tl-item:first-child { border-radius: 12px 12px 0 0; }
+  .tl-item:last-child  { border-radius: 0 0 12px 12px; }
+  .warranty-row { grid-template-columns: 1fr; }
+  .wc:first-child { border-radius: 12px 12px 0 0; }
+  .wc:last-child  { border-radius: 0 0 12px 12px; }
+  .mant-card { grid-template-columns: 1fr; gap: 24px; }
+  .mant-price-col { text-align: left; }
+  .closing h2 { font-size: 40px; }
+  .accept-btn { padding: 18px 32px; font-size: 13px; }
+  .btn-sec { margin-left: 0; margin-top: 12px; }
+  footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">State Solutions SAS</div>
+  <div class="nav-right">Propuesta Comercial · 2025</div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="valid-badge">Válida por 2 semanas</div>
+  <div class="hero-label">Propuesta de Desarrollo Web · STATE SOLUTIONS SAS</div>
+
+  <h1>
+    UN SITIO<br>
+    <span class="outline">QUE</span><br>
+    <span class="orange">VENDE.</span>
+  </h1>
+
+  <div class="hero-sub">
+    <div class="hero-desc">
+      Plataforma de comercialización digital con catálogo vivo, rutas de variantes
+      y cotización automática — construida para que STATE SOLUTIONS crezca sin depender de nadie.
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Productos base</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15</div>
+        <div class="stat-label">Días entrega</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Categorías</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<!-- ══════════ 01 ENFOQUE ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">01 — Enfoque del Proyecto</div>
+    <div class="sec-headline fade-in">No solo<br>un sitio.<br><em>Un sistema</em><br><span class="outline">que convierte.</span></div>
+    <div class="intro-body fade-in">
+      <div class="intro-text">
+        El objetivo de STATE SOLUTIONS es claro: <strong>convertir visitantes en clientes</strong>
+        desde el primer scroll. No se trata de publicar un catálogo estático.
+        Se trata de construir una plataforma que guíe al usuario desde la exploración
+        de productos hasta una <strong>cotización lista para cerrar</strong>, de forma
+        automática y sin fricciones.<br><br>
+        Con un dashboard propio, el equipo de STATE SOLUTIONS podrá crear nuevos productos,
+        definir sus variantes y publicarlos al instante — <strong>sin depender de ningún
+        desarrollador</strong>.
+      </div>
+      <div class="intro-pills">
+        <div class="pill">
+          <div class="pill-icon">🛒</div>
+          <div class="pill-title">Catálogo Dinámico</div>
+          <div class="pill-text">5 categorías, 50+ productos con variantes configurables en tiempo real.</div>
+        </div>
+        <div class="pill">
+          <div class="pill-icon">📋</div>
+          <div class="pill-title">Cotización Auto</div>
+          <div class="pill-text">Flujo que arma y envía la cotización al email y WhatsApp.</div>
+        </div>
+        <div class="pill">
+          <div class="pill-icon">⚙️</div>
+          <div class="pill-title">Dashboard Propio</div>
+          <div class="pill-text">Administración total sin tocar una línea de código.</div>
+        </div>
+        <div class="pill">
+          <div class="pill-icon">📱</div>
+          <div class="pill-title">Responsive Total</div>
+          <div class="pill-text">Perfecto en móvil, tablet y escritorio desde el día uno.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 ALCANCE ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">02 — Alcance del Servicio</div>
+    <div class="sec-headline fade-in">Lo que<br><em>incluye.</em></div>
+    <div class="scope-items fade-in">
+      <div class="scope-row">
+        <div class="sr-num">01</div>
+        <div class="sr-main">
+          <div class="sr-title">Sitio Web Comercial Completo</div>
+          <div class="sr-desc">Diseño profesional con narrativa persuasiva, home, sección de categorías, páginas internas y footer optimizado.</div>
+        </div>
+        <div class="sr-tag">Diseño & UX</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">02</div>
+        <div class="sr-main">
+          <div class="sr-title">5 Categorías de Producto</div>
+          <div class="sr-desc">Tecnología · Oficina · Hogar · Industria · Recreación — cada una con identidad visual y narrativa propia.</div>
+        </div>
+        <div class="sr-tag">Arquitectura</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">03</div>
+        <div class="sr-main">
+          <div class="sr-title">50 Productos / Servicios Base</div>
+          <div class="sr-desc">Catálogo inicial con descripción, imágenes, características y árbol de variantes configurado desde el inicio.</div>
+        </div>
+        <div class="sr-tag">Catálogo</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">04</div>
+        <div class="sr-main">
+          <div class="sr-title">Rutas de Variantes</div>
+          <div class="sr-desc">Flujo inteligente: el cliente navega opciones (marca, capacidad, color, cantidad) construyendo su pedido paso a paso.</div>
+        </div>
+        <div class="sr-tag">Flujo de Venta</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">05</div>
+        <div class="sr-main">
+          <div class="sr-title">Cotización Automática — Email + WhatsApp</div>
+          <div class="sr-desc">Al terminar la ruta de variantes, el sistema arma y dispara la cotización al correo y WhatsApp del equipo al instante.</div>
+        </div>
+        <div class="sr-tag">Automatización</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">06</div>
+        <div class="sr-main">
+          <div class="sr-title">Dashboard de Administración</div>
+          <div class="sr-desc">Panel para crear, editar y gestionar productos, categorías y variantes — sin depender de ningún desarrollador.</div>
+        </div>
+        <div class="sr-tag">Dashboard</div>
+      </div>
+      <div class="scope-row">
+        <div class="sr-num">07</div>
+        <div class="sr-main">
+          <div class="sr-title">Rendimiento, SEO Base & Responsive</div>
+          <div class="sr-desc">Carga rápida, estructura semántica, metadatos y diseño adaptado a todos los dispositivos desde el primer día.</div>
+        </div>
+        <div class="sr-tag">Performance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 CATEGORÍAS ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">03 — Universo de Categorías</div>
+    <div class="sec-headline fade-in">Cinco mundos.<br><em>Una marca.</em></div>
+    <div class="cat-row fade-in">
+      <div class="cat-item"><div class="cat-icon">💻</div><div class="cat-name">Tecnología</div></div>
+      <div class="cat-item"><div class="cat-icon">🖊️</div><div class="cat-name">Oficina</div></div>
+      <div class="cat-item"><div class="cat-icon">🏠</div><div class="cat-name">Hogar</div></div>
+      <div class="cat-item"><div class="cat-icon">🏗️</div><div class="cat-name">Industria</div></div>
+      <div class="cat-item"><div class="cat-icon">🎯</div><div class="cat-name">Recreación</div></div>
+    </div>
+    <p class="fade-in" style="font-size:14px;color:var(--muted2);line-height:1.75;max-width:680px;">
+      Cada categoría tiene su propia sección de aterrizaje con narrativa especializada, productos destacados
+      y un call-to-action adaptado al perfil del cliente. La arquitectura permite agregar nuevas categorías
+      desde el dashboard sin tocar código.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ 04 FLUJO ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">04 — El Viaje del Cliente</div>
+    <div class="sec-headline fade-in">De visitante<br><em>a cotización</em><br><span class="outline">en 3 min.</span></div>
+    <div class="flow fade-in">
+      <div class="flow-item">
+        <div class="fi-num">01</div>
+        <div class="fi-title">Llega & Explora Categorías</div>
+        <div class="fi-desc">El cliente aterriza en una página que transmite profesionalismo de inmediato e identifica su segmento.</div>
+      </div>
+      <div class="flow-item">
+        <div class="fi-num">02</div>
+        <div class="fi-title">Selecciona el Producto</div>
+        <div class="fi-desc">Encuentra los ítems con imágenes, descripción persuasiva y un botón de acción claro que invita a continuar.</div>
+      </div>
+      <div class="flow-item">
+        <div class="fi-num">03</div>
+        <div class="fi-title">Navega las Variantes</div>
+        <div class="fi-desc">Flujo guiado para elegir especificaciones: marca, capacidad, color, cantidad u otras dimensiones configuradas.</div>
+      </div>
+      <div class="flow-item">
+        <div class="fi-num">04</div>
+        <div class="fi-title">Llena sus Datos</div>
+        <div class="fi-desc">Formulario breve: nombre, empresa, correo y teléfono. Sin fricciones ni pasos innecesarios.</div>
+      </div>
+      <div class="flow-item">
+        <div class="fi-num">05</div>
+        <div class="fi-title">Cotización Automática — Email + WhatsApp</div>
+        <div class="fi-desc">El sistema genera la cotización al instante y la dispara al equipo de ventas simultáneamente por WhatsApp y correo — lista para responder y cerrar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 INVERSIÓN ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">05 — Inversión</div>
+    <div class="sec-headline fade-in">Números<br><em>claros.</em></div>
+    <div class="price-top fade-in">
+      <div class="price-card">
+        <div class="pc-label">Valor en Dólares Americanos</div>
+        <div class="pc-amount white">$1,200</div>
+        <div class="pc-currency">USD · Dólares americanos</div>
+        <p style="font-size:13px;color:var(--muted2);margin-top:16px;">TRM referencial aplicada al momento del pago según tasa vigente.</p>
+      </div>
+      <div class="price-card main">
+        <div class="pc-label">Valor en Pesos Colombianos</div>
+        <div class="pc-amount orange">$4.540.000</div>
+        <div class="pc-currency">COP · Pesos colombianos</div>
+        <p style="font-size:13px;color:var(--muted2);margin-top:16px;">Precio fijo en COP. Incluye todo el alcance definido en esta propuesta.</p>
+      </div>
+    </div>
+    <div class="price-excl fade-in">
+      <strong>⚠ No incluido en este precio:</strong> El dominio, alojamiento web (hosting) y certificado SSL
+      <em>no hacen parte</em> de esta cotización. Dichos servicios tienen valores independientes según el tiempo
+      contratado y las necesidades técnicas del proyecto; se requerirá un medio de pago adicional para cubrirlos.
+    </div>
+    <div class="abono-box fade-in">
+      Para iniciar el proyecto se requiere un <strong>abono del 50%</strong> ($600 USD / $2.270.000 COP)
+      o el <strong>pago total</strong> de la tarifa. El saldo restante se cancela al momento de la entrega final.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 06 ENTREGA ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">06 — Tiempo de Entrega</div>
+    <div class="sec-headline fade-in">15 días.<br><em>Resultado.</em></div>
+    <div class="tl-row fade-in">
+      <div class="tl-item">
+        <div class="tl-day">D1</div>
+        <div class="tl-label">Inicio del Desarrollo</div>
+        <div class="tl-desc">Confirmación del abono, kick-off del proyecto y recepción de contenidos del cliente.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">D7</div>
+        <div class="tl-label">Entregable Intermedio</div>
+        <div class="tl-desc">Revisión de diseño y detalles. Espacio para correcciones antes de la fase final.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">D15</div>
+        <div class="tl-label">Entrega Final</div>
+        <div class="tl-desc">Proyecto publicado, funcional y listo para recibir clientes y generar cotizaciones.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 07 GARANTÍA ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">07 — Garantía & Mantenimiento</div>
+    <div class="sec-headline fade-in">Después de<br><em>la entrega,</em><br><span class="outline">seguimos.</span></div>
+    <div class="warranty-row fade-in">
+      <div class="wc">
+        <div class="wc-icon">🛡️</div>
+        <div class="wc-title">1 Mes de Garantía</div>
+        <div class="wc-text">30 días para correcciones, ajustes y mantenimiento general sin costo adicional posterior a la entrega.</div>
+      </div>
+      <div class="wc">
+        <div class="wc-icon">🔁</div>
+        <div class="wc-title">Ajustes Prioritarios</div>
+        <div class="wc-text">Cualquier error funcional o visual dentro del período de garantía es atendido con prioridad.</div>
+      </div>
+    </div>
+    <div class="mant-card fade-in">
+      <div>
+        <div class="mant-title">Plan Estándar de Mantenimiento Web</div>
+        <div class="mant-desc">
+          Corrección de errores de diseño y fluidez, adición de contenido y productos,
+          ajustes funcionales y soporte general mensual. Nuevas secciones, integraciones
+          o funciones fuera del alcance original se acordarán bajo este plan.
+        </div>
+      </div>
+      <div class="mant-price-col">
+        <div class="mp-label">Desde</div>
+        <div class="mp-val">$500.000</div>
+        <div class="mp-period">COP / mes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 08 CONDICIONES ══════════ -->
+<section class="section">
+  <div class="max-w">
+    <div class="sec-num fade-in">08 — Términos & Condiciones</div>
+    <div class="sec-headline fade-in">Reglas del<br><em>juego.</em></div>
+    <div class="terms-list fade-in">
+      <div class="term-item">Cualquier cambio o adición al alcance original será evaluado y acordado de manera conjunta, documentado por escrito antes de ejecutarse, garantizando satisfacción de ambas partes.</div>
+      <div class="term-item">Una vez entregado el sitio, toda adición — nueva sección, integración o funcionalidad — quedará cubierta bajo el <strong>plan de mantenimiento mensual</strong>, acordado previamente.</div>
+      <div class="term-item">El <strong>dominio, hosting y certificado SSL</strong> son contratados y pagados directamente por el cliente. El equipo asesorará en la elección de los proveedores más convenientes.</div>
+      <div class="term-item">Esta propuesta tiene vigencia de <strong>dos (2) semanas</strong> a partir de su fecha de emisión. Vencido ese plazo, los valores y condiciones podrán ser revisados.</div>
+      <div class="term-item">El inicio del desarrollo queda supeditado al <strong>abono del 50%</strong> o pago total, más la entrega de los contenidos necesarios (logotipo, paleta, fotos, textos base, etc.).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CIERRE ══════════ -->
+<section class="closing">
+  <div class="closing-bg"></div>
+  <div class="closing-pre">¿Listo para arrancar?</div>
+  <h2>
+    SU TIENDA<br>
+    <span class="orange">DIGITAL</span><br>
+    <span class="outline">COMIENZA</span><br>
+    HOY.
+  </h2>
+  <p class="closing-body">
+    Apruebe esta propuesta, realice el abono inicial y en 15 días STATE SOLUTIONS SAS
+    tendrá una plataforma que trabaja para usted las 24 horas,
+    capturando cotizaciones mientras su equipo duerme.
+  </p>
+  <div style="position:relative;z-index:1;">
+    <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="btn-cta">Aprobar por WhatsApp ↗</a>
+    <a href="mailto:contacto@motoradvertising.com?subject=Aprobaci%C3%B3n%20Propuesta%20State%20Solutions" class="btn-sec">Aprobar por Correo</a>
+  </div>
+</section>
+
+<!-- ══════════ ACEPTAR PROPUESTA (FINAL CTA) ══════════ -->
+<section class="accept-final">
+  <div class="accept-final-inner">
+    <div class="accept-eyebrow fade-in">Decisión final</div>
+    <div class="accept-title fade-in">Acepte la propuesta y <span class="orange">comencemos.</span></div>
+    <div class="accept-sub fade-in">
+      Un solo clic conecta directamente con nuestro equipo por WhatsApp para confirmar
+      el inicio del proyecto y coordinar el abono.
+    </div>
+    <a href="https://wa.link/x57gdn" target="_blank" rel="noopener" class="accept-btn fade-in">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.057 22h-.004a9.93 9.93 0 01-5.061-1.385L2 22l1.45-4.847A9.93 9.93 0 012.001 12C2 6.477 6.477 2 12 2c2.726 0 5.275 1.062 7.193 2.988a9.93 9.93 0 012.973 7.018C22.157 17.529 17.582 22 12.057 22z"/></svg>
+      Aceptar Propuesta
+    </a>
+    <div class="accept-note fade-in">Respuesta inmediata · Equipo Motor Advertising</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">State Solutions SAS</div>
+  <div class="footer-right" id="footer-dates">—</div>
+</footer>
+
+<script>
+  const now   = new Date();
+  const vence = new Date(now);
+  vence.setDate(vence.getDate() + 14);
+  const fmt = d => d.toLocaleDateString('es-CO', {day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('footer-dates').textContent =
+    `Emitida: ${fmt(now)}  ·  Válida hasta: ${fmt(vence)}  ·  Confidencial`;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

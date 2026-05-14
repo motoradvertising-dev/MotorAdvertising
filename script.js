@@ -39,10 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Sticky Navbar - Throttled
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', throttle(() => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     }
 }, 100));
 
