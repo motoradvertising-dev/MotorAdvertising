@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Pauta — Compañía Soluciones Legales</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CC85;
+    --gold-pale: #F5E9C8;
+    --black: #0D0D0D;
+    --black-soft: #1A1A1A;
+    --gray-dark: #2E2E2E;
+    --gray-mid: #555555;
+    --gray-light: #AEAEAE;
+    --gray-pale: #F0EDE6;
+    --white: #FAFAF8;
+    --white-pure: #FFFFFF;
+    --border: rgba(201,168,76,0.25);
+    --border-strong: rgba(201,168,76,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--black);
+    padding: 60px 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--border-strong);
+  }
+  .header-ornament {
+    position: absolute;
+    right: 64px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 180px;
+    height: 180px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+  .header-ornament::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+  }
+  .header-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--white-pure);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .header-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray-light);
+    margin-top: 16px;
+    max-width: 460px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meta-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .meta-value {
+    font-size: 12px;
+    color: var(--gray-light);
+    font-weight: 300;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 48px;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .section-title-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-title h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--black);
+    white-space: nowrap;
+  }
+  .section-title .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .kpi-card {
+    background: var(--black);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .kpi-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .kpi-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--white-pure);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi-desc {
+    font-size: 11px;
+    color: var(--gray-light);
+    font-weight: 300;
+  }
+  .kpi-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold-light);
+    border: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+
+  /* ── ANALYSIS BOX ── */
+  .analysis-box {
+    border: 1px solid var(--border);
+    padding: 32px 36px;
+    margin-bottom: 48px;
+    position: relative;
+    background: var(--white-pure);
+  }
+  .analysis-box::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 120px;
+    color: var(--gold-pale);
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .analysis-text {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--gray-dark);
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+  }
+  .analysis-text strong {
+    color: var(--black);
+    font-weight: 600;
+  }
+  .gold-accent {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── SEGMENT CARDS ── */
+  .segment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .segment-card {
+    border: 1px solid var(--border);
+    background: var(--white-pure);
+    overflow: hidden;
+  }
+  .segment-header {
+    background: var(--black-soft);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .segment-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-pure);
+  }
+  .segment-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--gold);
+  }
+  .segment-body {
+    padding: 24px;
+  }
+  .seg-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .seg-stat {
+    text-align: center;
+    padding: 14px 8px;
+    background: var(--gray-pale);
+  }
+  .seg-stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--black);
+    display: block;
+  }
+  .seg-stat-lbl {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    font-weight: 600;
+    display: block;
+    margin-top: 4px;
+  }
+  .seg-demo {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .demo-bar-wrapper {
+    flex: 1;
+  }
+  .demo-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--gray-dark);
+  }
+  .demo-bar-track {
+    height: 6px;
+    background: var(--gray-pale);
+    position: relative;
+  }
+  .demo-bar-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+  }
+  .demo-bar-fill.men { background: var(--black); }
+  .demo-bar-fill.women { background: var(--gold); }
+  .seg-insight {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--gray-mid);
+    line-height: 1.7;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── CHART AREA ── */
+  .chart-section {
+    margin-bottom: 48px;
+  }
+  .chart-card {
+    border: 1px solid var(--border);
+    background: var(--white-pure);
+    padding: 32px;
+  }
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .chart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--black);
+  }
+  .chart-subtitle {
+    font-size: 12px;
+    color: var(--gray-mid);
+    font-weight: 300;
+    margin-top: 4px;
+  }
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--gray-mid);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── VIDEO SECTION ── */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .video-metric {
+    padding: 20px 16px;
+    border: 1px solid var(--border);
+    text-align: center;
+    background: var(--black);
+  }
+  .video-metric-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .video-metric-lbl {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    font-weight: 600;
+  }
+
+  /* ── INSIGHTS TABLE ── */
+  .insight-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+  }
+  .insight-table thead tr {
+    background: var(--black);
+  }
+  .insight-table thead th {
+    padding: 14px 18px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    text-align: left;
+  }
+  .insight-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .insight-table tbody tr:hover {
+    background: var(--gold-pale);
+  }
+  .insight-table tbody td {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--gray-dark);
+  }
+  .insight-table tbody td:first-child {
+    font-weight: 500;
+    color: var(--black);
+  }
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    letter-spacing: 0.5px;
+  }
+  .pill-gold { background: rgba(201,168,76,0.15); color: #8C6A10; border: 1px solid rgba(201,168,76,0.4); }
+  .pill-dark { background: var(--gray-pale); color: var(--gray-dark); border: 1px solid rgba(0,0,0,0.1); }
+  .pill-good { background: rgba(50,130,60,0.1); color: #285E30; border: 1px solid rgba(50,130,60,0.25); }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .rec-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--white-pure);
+    position: relative;
+  }
+  .rec-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    line-height: 1;
+  }
+  .rec-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .rec-text {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray-mid);
+    line-height: 1.8;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--black);
+    padding: 36px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-pure);
+  }
+  .footer-brand span { color: var(--gold); }
+  .footer-note {
+    font-size: 11px;
+    color: var(--gray-light);
+    font-weight: 300;
+    text-align: right;
+  }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-ornament"></div>
+  <div class="header-sub">Informe estratégico · Pauta digital</div>
+  <h1>Compañía<br>Soluciones Legales</h1>
+  <p class="header-desc">Análisis de rendimiento — Campaña Consultoría 2026 G&E. Resultados consolidados desde el inicio de la campaña hasta el 28 de mayo de 2026.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Periodo</span>
+      <span class="meta-value">28 abr 2023 — 28 may 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Plataforma</span>
+      <span class="meta-value">Meta Ads (Facebook / Instagram)</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Objetivo</span>
+      <span class="meta-value">Conversaciones con mensajes iniciadas</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- KPIs GLOBALES -->
+  <div class="section-title">
+    <span class="dot"></span>
+    <h2>Resultados Globales de Campaña</h2>
+    <div class="section-title-line"></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Conversaciones iniciadas</div>
+      <div class="kpi-value">1.580</div>
+      <div class="kpi-desc">Total de prospectos contactados</div>
+      <span class="kpi-badge">Resultado clave</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Costo por conversación</div>
+      <div class="kpi-value">$1.495</div>
+      <div class="kpi-desc">Pesos colombianos por prospecto</div>
+      <span class="kpi-badge">Eficiencia alta</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Inversión total</div>
+      <div class="kpi-value">$2,36M</div>
+      <div class="kpi-desc">COP invertidos en el periodo</div>
+      <span class="kpi-badge">Optimizado</span>
+    </div>
+  </div>
+
+  <!-- ANÁLISIS EJECUTIVO -->
+  <div class="analysis-box">
+    <p class="analysis-text">
+      La campaña <strong>Consultoría 2026 G&E</strong> de Compañía Soluciones Legales demuestra un desempeño <span class="gold-accent">sobresaliente</span>: con una inversión de $2.36 millones de pesos, se generaron <strong>1.580 conversaciones directas</strong> con potenciales clientes, a un costo promedio de tan solo <strong>$1.495 por contacto</strong>. Este resultado posiciona a la campaña por encima de la mediana del mercado para anunciantes similares, evidenciando una estrategia publicitaria <span class="gold-accent">eficiente, bien segmentada y con retorno real</span>. La concentración de resultados en los últimos meses del periodo refleja una <strong>optimización progresiva notable</strong>, señal inequívoca de que la gestión de la pauta ha madurado y está impactando al público correcto en el momento adecuado.
+    </p>
+  </div>
+
+  <!-- SEGMENTOS -->
+  <div class="section-title">
+    <span class="dot"></span>
+    <h2>Análisis por Segmento</h2>
+    <div class="section-title-line"></div>
+  </div>
+
+  <div class="segment-grid">
+
+    <!-- EMPRESARIOS -->
+    <div class="segment-card">
+      <div class="segment-header">
+        <span class="segment-name">Empresarios</span>
+        <span class="segment-tag">Segmento A</span>
+      </div>
+      <div class="segment-body">
+        <div class="seg-stats">
+          <div class="seg-stat">
+            <span class="seg-stat-val">318</span>
+            <span class="seg-stat-lbl">Convs.</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1.297</span>
+            <span class="seg-stat-lbl">CPC</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$412K</span>
+            <span class="seg-stat-lbl">Gasto</span>
+          </div>
+        </div>
+        <div class="seg-demo">
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Hombres 52%</span><span style="color:var(--gray-mid)">$1.402</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill men" style="width:52%"></div></div>
+          </div>
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Mujeres 46%</span><span style="color:var(--gold)">$1.176</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill women" style="width:46%"></div></div>
+          </div>
+        </div>
+        <p class="seg-insight">El segmento empresarial alcanza el <strong>menor costo por conversación</strong> de toda la campaña: $1.297. Las mujeres empresarias registran un costo aún más eficiente ($1.176), lo cual sugiere una oportunidad de ampliar el alcance hacia este perfil. Rango de mayor impacto: <strong>35–54 años</strong>.</p>
+      </div>
+    </div>
+
+    <!-- PÚBLICO GENERAL -->
+    <div class="segment-card">
+      <div class="segment-header">
+        <span class="segment-name">Público General</span>
+        <span class="segment-tag">Segmento B</span>
+      </div>
+      <div class="segment-body">
+        <div class="seg-stats">
+          <div class="seg-stat">
+            <span class="seg-stat-val">1.262</span>
+            <span class="seg-stat-lbl">Convs.</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1.545</span>
+            <span class="seg-stat-lbl">CPC</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1,95M</span>
+            <span class="seg-stat-lbl">Gasto</span>
+          </div>
+        </div>
+        <div class="seg-demo">
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Hombres 62%</span><span style="color:var(--gray-mid)">$1.483</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill men" style="width:62%"></div></div>
+          </div>
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Mujeres 37%</span><span style="color:var(--gold)">$1.668</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill women" style="width:37%"></div></div>
+          </div>
+        </div>
+        <p class="seg-insight">El <strong>motor de la campaña</strong>: 80% de todas las conversaciones provienen de este segmento. La distribución etaria se concentra en <strong>25–54 años</strong>, reflejando una audiencia de alto interés en servicios legales laborales. El algoritmo Advantage+ está funcionando con precisión para este público.</p>
+      </div>
+    </div>
+
+    <!-- DERECHOS EMPLEADOS -->
+    <div class="segment-card">
+      <div class="segment-header">
+        <span class="segment-name">Derechos Empleados</span>
+        <span class="segment-tag">Segmento C</span>
+      </div>
+      <div class="segment-body">
+        <div class="seg-stats">
+          <div class="seg-stat">
+            <span class="seg-stat-val">812</span>
+            <span class="seg-stat-lbl">Convs.</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1.543</span>
+            <span class="seg-stat-lbl">CPC</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1,25M</span>
+            <span class="seg-stat-lbl">Gasto</span>
+          </div>
+        </div>
+        <div class="seg-demo">
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Hombres 61%</span><span style="color:var(--gray-mid)">$1.500</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill men" style="width:61%"></div></div>
+          </div>
+          <div class="demo-bar-wrapper">
+            <div class="demo-bar-label"><span>Mujeres 38%</span><span style="color:var(--gold)">$1.631</span></div>
+            <div class="demo-bar-track"><div class="demo-bar-fill women" style="width:38%"></div></div>
+          </div>
+        </div>
+        <p class="seg-insight">El conjunto <em>Derechos Empleados</em> es el <strong>principal generador</strong> dentro del público general, aportando el 64% de las conversaciones de su segmento. El costo por resultado se mantiene muy competitivo y coherente con el promedio de la campaña. Rango etario activo: <strong>25–54 años</strong>.</p>
+      </div>
+    </div>
+
+    <!-- VIDEO EMPRESARIOS -->
+    <div class="segment-card">
+      <div class="segment-header">
+        <span class="segment-name">Video Empresarios</span>
+        <span class="segment-tag">Formato Video</span>
+      </div>
+      <div class="segment-body">
+        <div class="seg-stats">
+          <div class="seg-stat">
+            <span class="seg-stat-val">67</span>
+            <span class="seg-stat-lbl">Convs.</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$1.209</span>
+            <span class="seg-stat-lbl">CPC</span>
+          </div>
+          <div class="seg-stat">
+            <span class="seg-stat-val">$81K</span>
+            <span class="seg-stat-lbl">Gasto</span>
+          </div>
+        </div>
+        <div class="video-grid" style="margin-bottom:16px; margin-top: 4px;">
+          <div class="video-metric">
+            <span class="video-metric-val">9.635</span>
+            <span class="video-metric-lbl">Reproduc.</span>
+          </div>
+          <div class="video-metric">
+            <span class="video-metric-val">40%</span>
+            <span class="video-metric-lbl">Captura</span>
+          </div>
+          <div class="video-metric">
+            <span class="video-metric-val">00:05</span>
+            <span class="video-metric-lbl">T. Prom.</span>
+          </div>
+          <div class="video-metric">
+            <span class="video-metric-val">9,7%</span>
+            <span class="video-metric-lbl">Retención</span>
+          </div>
+        </div>
+        <p class="seg-insight">El video logra el <strong>costo más bajo de toda la campaña</strong> ($1.209 por conversación), con 9.635 reproducciones y una tasa de captura inicial del 40%. Siendo el formato de menor inversión, su eficiencia lo convierte en un <strong>activo estratégico de alto valor</strong>.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GRÁFICO COMPARATIVO -->
+  <div class="chart-section">
+    <div class="section-title">
+      <span class="dot"></span>
+      <h2>Comparativa de Segmentos</h2>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Conversaciones e inversión por segmento</div>
+          <div class="chart-subtitle">Rendimiento consolidado — Campaña Consultoría 2026 G&E</div>
+        </div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-dot" style="background:#0D0D0D;"></span>Conversaciones iniciadas</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#C9A84C; border-radius: 50%;"></span>Costo por conversación (COP)</div>
+      </div>
+      <div style="position:relative; width:100%; height:280px;">
+        <canvas id="chartSegmentos" role="img" aria-label="Gráfico de barras comparando conversaciones e inversión por segmento. Empresarios: 318 conv. Público general: 1262. Derechos empleados: 812. Video empresarios: 67.">Conversaciones: Empresarios 318, Público general 1262, Derechos empleados 812, Video empresarios 67.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICO DEMOGRÁFICO -->
+  <div class="chart-section">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Distribución de resultados por sexo — campaña global</div>
+          <div class="chart-subtitle">1.580 conversaciones totales · Hombres 60% · Mujeres 39%</div>
+        </div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-dot" style="background:#0D0D0D;"></span>Hombres — $1.469 CPC promedio</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#C9A84C;"></span>Mujeres — $1.552 CPC promedio</div>
+      </div>
+      <div style="position:relative; width:100%; height:260px;">
+        <canvas id="chartDemo" role="img" aria-label="Gráfico de barras por rango de edad y sexo. Grupos: 18-24, 25-34, 35-44, 45-54, 55-64, 65+. Mayor concentración en 25 a 54 años.">Distribución demográfica por sexo y edad en los rangos 13-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65+.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA RESUMEN -->
+  <div class="section-title">
+    <span class="dot"></span>
+    <h2>Cuadro Comparativo Detallado</h2>
+    <div class="section-title-line"></div>
+  </div>
+
+  <table class="insight-table" style="margin-bottom:48px;">
+    <thead>
+      <tr>
+        <th>Segmento / Conjunto</th>
+        <th>Conversaciones</th>
+        <th>Costo por conv.</th>
+        <th>Inversión</th>
+        <th>% del total</th>
+        <th>Eficiencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Campaña total</td>
+        <td><strong>1.580</strong></td>
+        <td>$1.495</td>
+        <td>$2.362.416</td>
+        <td>100%</td>
+        <td><span class="pill pill-gold">Excelente</span></td>
+      </tr>
+      <tr>
+        <td>Público general</td>
+        <td>1.262</td>
+        <td>$1.545</td>
+        <td>$1.949.820</td>
+        <td>79,9%</td>
+        <td><span class="pill pill-good">Alto volumen</span></td>
+      </tr>
+      <tr>
+        <td>↳ Derechos empleados</td>
+        <td>812</td>
+        <td>$1.543</td>
+        <td>$1.253.305</td>
+        <td>51,4%</td>
+        <td><span class="pill pill-good">Motor clave</span></td>
+      </tr>
+      <tr>
+        <td>Empresarios</td>
+        <td>318</td>
+        <td>$1.297</td>
+        <td>$412.596</td>
+        <td>20,1%</td>
+        <td><span class="pill pill-gold">Menor CPC</span></td>
+      </tr>
+      <tr>
+        <td>Video empresarios</td>
+        <td>67</td>
+        <td>$1.209</td>
+        <td>$80.971</td>
+        <td>4,2%</td>
+        <td><span class="pill pill-gold">CPC más bajo</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- RECOMENDACIONES -->
+  <div class="section-title">
+    <span class="dot"></span>
+    <h2>Recomendaciones Estratégicas</h2>
+    <div class="section-title-line"></div>
+  </div>
+
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-number">01</div>
+      <div class="rec-title">Escalar el video</div>
+      <p class="rec-text">El formato video registra el menor costo por conversación ($1.209). Aumentar la inversión en este formato puede reducir el CPC global de la campaña de manera significativa.</p>
+    </div>
+    <div class="rec-card">
+      <div class="rec-number">02</div>
+      <div class="rec-title">Potenciar mujeres empresarias</div>
+      <p class="rec-text">Las empresarias convierten a solo $1.176 por resultado, un 16% más eficiente que los hombres en ese segmento. Segmentar creatividades específicas para este perfil generará mayor ROI.</p>
+    </div>
+    <div class="rec-card">
+      <div class="rec-number">03</div>
+      <div class="rec-title">Mantener Derechos Empleados</div>
+      <p class="rec-text">Con 812 conversaciones y un CPC competitivo, este conjunto es el principal pilar de la campaña. Optimizar creatividades y asegurar su continuidad es prioritario.</p>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- CIERRE ANALÍTICO -->
+  <div class="analysis-box" style="border-color: var(--gold); background: #FFFDF5;">
+    <p class="analysis-text">
+      En conclusión, la gestión de pauta de <strong>Compañía Soluciones Legales</strong> refleja una ejecución <span class="gold-accent">técnicamente sólida y estratégicamente alineada</span> con los objetivos de negocio. Alcanzar 1.580 conversaciones directas con clientes potenciales a un costo promedio de $1.495 COP es un resultado que supera los estándares del sector legal digital en Colombia. La <strong>arquitectura de segmentación</strong> entre empresarios y público general muestra una comprensión profunda del embudo comercial, mientras que la eficiencia del formato video abre una palanca de escalabilidad clara. La campaña está en su <span class="gold-accent">mejor momento de rendimiento histórico</span>, con la curva de conversaciones apuntando consistentemente al alza durante los últimos meses del periodo analizado.
+    </p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Compañía <span>Soluciones Legales</span></div>
+  <div class="footer-note">
+    Informe generado el 28 de mayo de 2026<br>
+    Campaña Consultoría 2026 G&E · Meta Ads
+  </div>
+</footer>
+
+<script>
+const GOLD = '#C9A84C';
+const BLACK = '#0D0D0D';
+const GOLD_LIGHT = '#E8CC85';
+const GRAY = '#888';
+
+Chart.defaults.font.family = "'Montserrat', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = GRAY;
+
+new Chart(document.getElementById('chartSegmentos'), {
+  type: 'bar',
+  data: {
+    labels: ['Empresarios', 'Público general', 'Derechos empleados', 'Video empresarios'],
+    datasets: [
+      {
+        label: 'Conversaciones',
+        data: [318, 1262, 812, 67],
+        backgroundColor: BLACK,
+        borderWidth: 0,
+        yAxisID: 'y',
+        borderRadius: 2,
+      },
+      {
+        label: 'Costo por conv. (COP)',
+        data: [1297, 1545, 1543, 1209],
+        type: 'line',
+        borderColor: GOLD,
+        backgroundColor: 'rgba(201,168,76,0.1)',
+        pointBackgroundColor: GOLD,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 2,
+        tension: 0.3,
+        yAxisID: 'y2',
+        fill: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            if (ctx.dataset.label === 'Conversaciones') return ` ${ctx.parsed.y.toLocaleString('es-CO')} conversaciones`;
+            return ` $${ctx.parsed.y.toLocaleString('es-CO')} COP`;
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        position: 'left',
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { callback: v => v.toLocaleString('es-CO') }
+      },
+      y2: {
+        position: 'right',
+        grid: { display: false },
+        ticks: { callback: v => '$' + v.toLocaleString('es-CO') }
+      },
+      x: { grid: { display: false }, ticks: { maxRotation: 0 } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartDemo'), {
+  type: 'bar',
+  data: {
+    labels: ['13–17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
+    datasets: [
+      {
+        label: 'Hombres',
+        data: [4, 14, 222, 268, 202, 138, 96],
+        backgroundColor: BLACK,
+        borderRadius: 2,
+        borderWidth: 0,
+      },
+      {
+        label: 'Mujeres',
+        data: [2, 8, 110, 190, 152, 82, 70],
+        backgroundColor: GOLD,
+        borderRadius: 2,
+        borderWidth: 0,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} conversaciones` } }
+    },
+    scales: {
+      y: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: {} },
+      x: { grid: { display: false }, ticks: { autoSkip: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
