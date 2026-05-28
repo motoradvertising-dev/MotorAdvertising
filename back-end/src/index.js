@@ -105,6 +105,16 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Redirect any request ending in /index.html to the path without it (clean URLs)
+app.use((req, res, next) => {
+    if (req.path.endsWith('/index.html')) {
+        const cleanPath = req.path.slice(0, -10); // strip 'index.html'
+        const query = req.url.substring(req.path.length); // keep query string
+        return res.redirect(301, cleanPath + query);
+    }
+    next();
+});
+
 // Serve frontend static files with caching headers
 const FRONTEND_ROOT = path.join(__dirname, '../../');
 app.use(express.static(FRONTEND_ROOT, {
