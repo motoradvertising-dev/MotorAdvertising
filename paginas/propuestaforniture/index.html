@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta · Motor Advertising × Forniture</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Acento café (mantengo el nombre --green para no tocar cada referencia) */
+    --green: #6F4A2A;
+    --green-dim: rgba(111,74,42,0.10);
+    --green-mid: rgba(111,74,42,0.32);
+    --black: #FBF7EF;        /* base / tarjetas (crema casi blanco) */
+    --off-black: #ECE3D2;    /* bandas de sección (beige) */
+    --dark: #FFFFFF;         /* cajas (blanco) */
+    --mid: #F0E9DA;
+    --border: rgba(111,74,42,0.20);
+    --text: #3A2A1C;         /* texto café oscuro */
+    --muted: #8A7A66;        /* taupe apagado */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: .4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw 8vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    opacity: .4;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(111,74,42,0.16) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: .7; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12.5px, 1.2vw, 15px);
+    font-weight: 300;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp .8s .2s forwards;
+  }
+
+  .hero-x {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(60px, 9vw, 140px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    opacity: 0;
+    animation: fadeUp .8s .5s forwards;
+  }
+
+  .hero-x span { color: var(--green); }
+  .hero-x .stroke {
+    -webkit-text-stroke: 1px rgba(58,42,28,0.30);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 2.5rem;
+    display: flex; gap: 3rem; align-items: center;
+    opacity: 0;
+    animation: fadeUp .8s .9s forwards;
+  }
+
+  .hero-sub p {
+    font-size: clamp(14.5px, 1.4vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 420px;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+
+  .hero-badge {
+    flex-shrink: 0;
+    border: 1px solid var(--green);
+    padding: 1rem 1.8rem;
+    text-align: center;
+  }
+
+  .hero-badge strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .hero-badge small {
+    font-size: 12px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards, bounce 2s 2.4s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .scroll-hint span { font-size: 10.5px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 8vh 6vw; position: relative; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 6vw, 88px);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title .outline {
+    -webkit-text-stroke: 1px var(--green);
+    color: transparent;
+  }
+
+  /* ─── STRATEGY ─── */
+  .strategy {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .strategy-lead {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2E2018;
+  }
+
+  .strategy-lead em { color: var(--green); font-style: normal; }
+
+  .strategy-right p {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.8;
+    color: #6E5E4A;
+    margin-bottom: 2rem;
+  }
+
+  .pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .pillar {
+    background: var(--black);
+    padding: 1.6rem 1.8rem;
+    transition: background .3s;
+  }
+
+  .pillar:hover { background: var(--green-dim); }
+
+  .pillar-icon { font-size: 22px; margin-bottom: .8rem; }
+
+  .pillar h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #2E2018;
+    margin-bottom: .4rem;
+  }
+
+  .pillar p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── SERVICES ─── */
+  .services { background: var(--black); }
+
+  .services-list { margin-top: 4rem; }
+
+  .service-item {
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    transition: border-color .3s;
+    cursor: default;
+  }
+
+  .service-item:last-child { border-bottom: 1px solid var(--border); }
+  .service-item:hover { border-color: var(--green); }
+  .service-item:hover .service-num { color: var(--green); }
+  .service-item:hover .service-expand { opacity: 1; }
+
+  .service-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: #E0D2B8;
+    line-height: 1;
+    transition: color .3s;
+  }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 1rem;
+    color: #2E2018;
+  }
+
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    padding: .3rem .8rem;
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all .2s;
+  }
+
+  .service-item:hover .tag { border-color: var(--green-mid); color: var(--green); }
+
+  .service-details { font-size: 14.5px; color: #8E7E6A; line-height: 1.8; max-width: 560px; }
+  .service-details li { list-style: none; padding: .2rem 0; }
+  .service-details li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+
+  .service-expand {
+    font-size: 28px; color: var(--green);
+    opacity: 0; transition: opacity .3s; line-height: 1;
+  }
+
+  /* ─── REQS ─── */
+  .reqs {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reqs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .req-card {
+    background: var(--black);
+    padding: 2rem;
+    transition: background .3s;
+  }
+
+  .req-card:hover { background: var(--green-dim); }
+
+  .req-card .req-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    opacity: .3;
+    margin-bottom: .5rem;
+  }
+
+  .req-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .6rem;
+    color: #2E2018;
+  }
+
+  .req-card p { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── INVESTMENT ─── */
+  .investment { background: var(--black); }
+
+  .investment-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  /* Fee box */
+  .price-main {
+    border: 1px solid var(--green);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-main::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .price-main::after {
+    content: 'FEE';
+    position: absolute;
+    bottom: -20px; right: -10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 140px;
+    font-weight: 900;
+    color: var(--green);
+    opacity: .04;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .price-label {
+    font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+
+  .price-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(44px, 6vw, 82px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+
+  .price-currency {
+    font-size: 15px; letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .price-note {
+    font-size: 14.5px; color: #8E7E6A; line-height: 1.7;
+    border-top: 1px solid rgba(111,74,42,0.15);
+    padding-top: 1.5rem;
+  }
+
+  /* Pauta box */
+  .pauta-box {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pauta-box::after {
+    content: 'ADS';
+    position: absolute;
+    bottom: -20px; right: -10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 140px;
+    font-weight: 900;
+    color: #2E2018;
+    opacity: .02;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .pauta-box h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: .8rem;
+    color: #2E2018;
+  }
+
+  .pauta-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 5vw, 68px);
+    font-weight: 900;
+    color: #2E2018;
+    line-height: .95;
+    margin-bottom: .3rem;
+    letter-spacing: -.02em;
+  }
+
+  .pauta-badge {
+    display: inline-block;
+    border: 1px solid rgba(111,74,42,0.22);
+    padding: .25rem .7rem;
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .pauta-box p { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+
+  .pauta-clarification {
+    margin-top: 1.2rem;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding-top: 1.2rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+  }
+
+  .pauta-clarification::before {
+    content: '!';
+    width: 18px; height: 18px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pauta-clarification p { font-size: 13.5px !important; color: #8E7E6A !important; }
+  .pauta-clarification strong { color: #5A4A38; }
+
+  /* Payments */
+  .payment-note {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: var(--dark);
+    margin-top: 1rem;
+  }
+
+  .payment-note p {
+    font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .8rem;
+  }
+
+  .payment-note span {
+    font-size: 14.5px; color: #7A6A56; line-height: 1.8; display: block;
+  }
+
+  .payment-note strong { color: #2E2018; }
+
+  /* Total bar */
+  .total-bar {
+    grid-column: 1 / -1;
+    border: 1px solid var(--border);
+    background: var(--green-dim);
+    padding: 1.8rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .total-bar h5 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .total-bar .total-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 900;
+    color: var(--green);
+  }
+
+  /* ─── CONDITIONS ─── */
+  .conditions { background: var(--off-black); border-top: 1px solid var(--border); }
+
+  .cond-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .cond-item {
+    background: var(--black);
+    padding: 2rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+
+  .cond-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .cond-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: #2E2018; margin-bottom: .4rem;
+  }
+
+  .cond-item p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+  }
+
+  .closing-glow {
+    position: absolute;
+    bottom: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(111,74,42,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .closing h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 7vw, 100px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    line-height: .95;
+    max-width: 900px;
+  }
+
+  .closing h2 .green { color: var(--green); }
+  .closing h2 .outline {
+    -webkit-text-stroke: 1.5px rgba(58,42,28,0.28);
+    color: transparent;
+  }
+
+  .closing p {
+    margin-top: 2rem;
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    border: 1px solid var(--green);
+    padding: 1.1rem 3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--green); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: color .3s;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--green);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s ease;
+    z-index: -1;
+  }
+
+  .cta-btn:hover { color: #fff; }
+  .cta-btn:hover::before { transform: scaleX(1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--off-black);
+  }
+
+  footer p { font-size: 12px; color: #A89478; letter-spacing: .05em; }
+  footer .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .15em; color: #A89478; }
+
+  .green-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: .4;
+  }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    .hero-eyebrow, .hero-x, .hero-sub, .scroll-hint { opacity: 1; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .strategy-grid, .investment-layout { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .reqs-grid { grid-template-columns: 1fr; }
+    .cond-grid { grid-template-columns: 1fr; }
+    .service-item { grid-template-columns: 50px 1fr; }
+    .service-expand { display: none; }
+    .total-bar { flex-direction: column; gap: .5rem; text-align: center; }
+    .hero-sub { flex-direction: column; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">Propuesta de Servicios Profesionales · 2026</p>
+
+  <h1 class="hero-x">
+    <span class="stroke">MOTOR</span><br>
+    <span>× FORNITURE</span>
+  </h1>
+
+  <div class="hero-sub">
+    <p>Una estrategia de adquisición digital construida para posicionar a Forniture en B2C y B2B, convirtiendo su ventaja en precio en leads calificados y ventas reales.</p>
+    <div class="hero-badge">
+      <strong>$750</strong>
+      <small>USD / fee mensual</small>
+    </div>
+    <div class="hero-badge">
+      <strong>+$500</strong>
+      <small>USD / pauta mínima</small>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ ENFOQUE ══════════════════════ -->
+<section class="strategy">
+  <div class="section-label">01 — Enfoque Estratégico</div>
+  <h2 class="section-title reveal">No corremos<br><span class="outline">anuncios.</span></h2>
+
+  <div class="strategy-grid">
+    <div class="strategy-lead reveal">
+      Construimos <em>sistemas de captación</em> que convierten la ventaja de precio de Forniture en oportunidades reales de venta.
+    </div>
+    <div class="strategy-right reveal">
+      <p>El objetivo para Forniture es claro: capturar la demanda de personas y empresas que buscan muebles —para el hogar, oficinas, proyectos o desarrollos— y convertir ese interés en contactos que el equipo comercial pueda cerrar.</p>
+      <p>El diferenciador es contundente: Forniture vende por debajo de la competencia. Esa ventaja es la mejor arma de conversión, y toda la estrategia se construye para comunicarla de forma directa y medible, tanto en consumidor final (B2C) como en compradores corporativos y por volumen (B2B).</p>
+    </div>
+  </div>
+
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-icon">⚡</div>
+      <h4>Performance Marketing</h4>
+      <p>Campañas en Meta Ads y/o Google Ads optimizadas para generar leads al menor costo posible.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🎯</div>
+      <h4>Doble Mercado · B2C + B2B</h4>
+      <p>Audiencias separadas y mensajes distintos: hogares y consumidor final por un lado; diseñadores, constructores y empresas por otro.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">💸</div>
+      <h4>Precio como Gancho</h4>
+      <p>El argumento de precio se convierte en ángulo de venta: comparativos, ofertas y propuestas de valor difíciles de ignorar.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📊</div>
+      <h4>Optimización Continua</h4>
+      <p>Decisiones basadas en datos: CPL, CTR, CPA y ajuste constante de creativos y audiencias.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ SERVICIOS ══════════════════════ -->
+<section class="services">
+  <div class="section-label">02 — Alcance del Servicio</div>
+  <h2 class="section-title reveal">Lo que<br><span class="outline">incluye.</span></h2>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Publicidad Digital · Meta & Google Ads</div>
+        <div class="service-tags">
+          <span class="tag">Meta Ads</span>
+          <span class="tag">Google Ads</span>
+          <span class="tag">B2C + B2B</span>
+          <span class="tag">KPI Optimization</span>
+        </div>
+        <ul class="service-details">
+          <li>Configuración, ejecución y optimización de campañas activas</li>
+          <li>Segmentación diferenciada para consumidor final (B2C) y empresas (B2B)</li>
+          <li>Testeo continuo de creativos y copies, con foco en el diferencial de precio</li>
+          <li>Optimización de CPL, CTR y CPA en tiempo real</li>
+          <li>Implementación y gestión de campañas de remarketing</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Creativos Publicitarios</div>
+        <div class="service-tags">
+          <span class="tag">Diseño de Piezas</span>
+          <span class="tag">Copies</span>
+          <span class="tag">A/B Testing</span>
+        </div>
+        <ul class="service-details">
+          <li>Producción de piezas visuales para campañas de pauta</li>
+          <li>Desarrollo de hooks y ángulos de venta centrados en precio y valor</li>
+          <li>Adaptación de creativos según rendimiento y métricas</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">Estrategia de Contenido</div>
+        <div class="service-tags">
+          <span class="tag">Lineamientos</span>
+          <span class="tag">Ángulos de Venta</span>
+          <span class="tag">Formatos</span>
+        </div>
+        <ul class="service-details">
+          <li>Definición de lineamientos estratégicos para contenido orgánico y publicitario</li>
+          <li>Recomendaciones de formatos con mayor potencial de conversión</li>
+          <li>Orientación editorial para comunicar el diferencial de precio de Forniture</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Trazabilidad & Control de Leads</div>
+        <div class="service-tags">
+          <span class="tag">Píxeles</span>
+          <span class="tag">Tracking</span>
+          <span class="tag">Formularios</span>
+          <span class="tag">WhatsApp</span>
+        </div>
+        <ul class="service-details">
+          <li>Implementación de píxeles y eventos de conversión</li>
+          <li>Formularios con identificación de fuente de origen</li>
+          <li>Seguimiento de conversaciones (WhatsApp, llamadas)</li>
+          <li>Identificación clara del origen de cada lead (B2C / B2B)</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">05</div>
+      <div class="service-body">
+        <div class="service-title">Analítica & Reportes</div>
+        <div class="service-tags">
+          <span class="tag">Resultados</span>
+          <span class="tag">Insights</span>
+          <span class="tag">Optimización</span>
+        </div>
+        <ul class="service-details">
+          <li>Reportes periódicos de rendimiento de campañas</li>
+          <li>Insights clave sobre comportamiento de audiencias B2C y B2B</li>
+          <li>Recomendaciones estratégicas de optimización continua</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ REQUERIMIENTOS ══════════════════════ -->
+<section class="reqs">
+  <div class="section-label">03 — Requerimientos Operativos</div>
+  <h2 class="section-title reveal">Para que<br><span class="outline">funcione.</span></h2>
+
+  <div class="reqs-grid reveal">
+    <div class="req-card">
+      <div class="req-num">01</div>
+      <h4>Acceso y catálogo</h4>
+      <p>Acceso a cuentas publicitarias, Business Manager de Meta, activos digitales y catálogo de productos con precios actualizados de Forniture.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">02</div>
+      <h4>Transparencia comercial</h4>
+      <p>Forniture se compromete a registrar y reportar los clientes generados vía digital para evaluar el rendimiento real de las campañas.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">03</div>
+      <h4>Tiempos de respuesta</h4>
+      <p>Respuesta ágil a los leads generados. La velocidad de contacto impacta directamente en la tasa de conversión a ventas.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ INVERSIÓN ══════════════════════ -->
+<section class="investment">
+  <div class="section-label">04 — Inversión</div>
+  <h2 class="section-title reveal">Números<br><span class="outline">claros.</span></h2>
+
+  <div class="investment-layout">
+
+    <!-- FEE -->
+    <div class="price-main reveal">
+      <p class="price-label">Fee mensual · Motor Advertising</p>
+      <div class="price-amount">$750</div>
+      <div class="price-currency">USD / MES</div>
+      <div class="price-note">
+        Cubre la gestión completa del ecosistema digital: estrategia, publicidad, creativos, trazabilidad, analítica y optimización continua de campañas en B2C y B2B.
+      </div>
+    </div>
+
+    <!-- PAUTA + PAGOS -->
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="pauta-box reveal">
+        <h4>Presupuesto de Pauta</h4>
+        <div class="pauta-amount">$500</div>
+        <div class="pauta-badge">USD / mes · mínimo recomendado</div>
+        <p>Inversión publicitaria que va directamente a Meta Ads y/o Google Ads. Motor Advertising gestiona este presupuesto estratégicamente, pero el gasto es asumido directamente por Forniture.</p>
+        <div class="pauta-clarification">
+          <p>Este valor <strong>no hace parte del fee</strong> y no representa un ingreso para Motor Advertising. Son dos cobros completamente independientes: <strong>$750 USD por el servicio</strong> y aparte el presupuesto de pauta.</p>
+        </div>
+      </div>
+
+      <div class="payment-note reveal">
+        <p>Condiciones de pago</p>
+        <span>Pago del fee de forma <strong>anticipada</strong> al inicio de cada periodo mensual. El presupuesto de pauta se carga directamente en la cuenta publicitaria de Forniture.</span>
+      </div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="total-bar reveal">
+      <h5>Inversión total estimada / mes</h5>
+      <div class="total-num">$1.250 USD</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ CONDICIONES ══════════════════════ -->
+<section class="conditions">
+  <div class="section-label">05 — Condiciones</div>
+  <h2 class="section-title reveal">Reglas del<br><span class="outline">juego.</span></h2>
+
+  <div class="cond-grid reveal">
+    <div class="cond-item">
+      <div class="cond-icon">📆</div>
+      <div>
+        <h4>Duración mínima recomendada</h4>
+        <p>Se recomienda un mínimo de 3 meses para obtener resultados consistentes y optimizados. El aprendizaje del algoritmo requiere tiempo.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📋</div>
+      <div>
+        <h4>Alcance del servicio</h4>
+        <p>Incluye gestión de pauta, creativos publicitarios y estrategia de contenido. No incluye community management, parrillas orgánicas ni producción audiovisual en campo.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🎬</div>
+      <div>
+        <h4>Creativos</h4>
+        <p>La cantidad de piezas mensuales se ajusta a las necesidades de las campañas, manteniendo volumen razonable orientado a rendimiento.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📊</div>
+      <div>
+        <h4>Factores externos</h4>
+        <p>Los resultados dependen también del presupuesto de pauta, disponibilidad de inventario, oferta comercial, tiempos de respuesta de Forniture y proceso interno de cierre de ventas.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">➕</div>
+      <div>
+        <h4>Servicios adicionales</h4>
+        <p>Cualquier servicio fuera del alcance definido —gestión orgánica, landing pages, producción de video— podrá ser cotizado por separado.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🤝</div>
+      <div>
+        <h4>Terminación del servicio</h4>
+        <p>Cualquiera de las partes puede dar por terminado con 15 días calendario de preaviso. No se realizan devoluciones sobre periodos ya pagados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ CIERRE ══════════════════════ -->
+<section class="closing">
+  <div class="closing-glow"></div>
+
+  <div class="section-label" style="justify-content:center;">06 — Cierre</div>
+
+  <h2 class="reveal">
+    Convertir el mejor precio<br>
+    <span class="green">en el mayor volumen</span><br>
+    <span class="outline">de ventas.</span>
+  </h2>
+
+  <p class="reveal">
+    Esta propuesta está construida para que cada dólar invertido en pauta genere oportunidades reales de venta, aprovechando la ventaja de precio de Forniture en B2C y B2B. La estrategia, la ejecución y la optimización corren por cuenta de Motor Advertising.
+  </p>
+
+  <a href="https://wa.link/x57gdn" class="cta-btn reveal" target="_blank" rel="noopener">
+    Aceptar propuesta ↗
+  </a>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <p>© 2026 Motor Advertising · Confidencial</p>
+  <p class="footer-logo">// MOTOR ADVERTISING</p>
+  <p>Your brand. Our engine.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
