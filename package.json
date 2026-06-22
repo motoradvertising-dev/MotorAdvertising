@@ -1,16 +1,12 @@
 {
   "name": "motor-advertising",
   "version": "1.0.0",
-  "description": "Motor Advertising Monorepo",
-  "main": "front-end/index.html",
+  "description": "Motor Advertising - sitio estatico (GitHub Pages). Formularios via PHP en Hostinger + Resend.",
+  "main": "index.html",
   "scripts": {
-    "start": "node back-end/src/index.js",
-    "postinstall": "cd back-end && npm install",
-    "dev": "http-server front-end -p 8080",
-    "dev:back": "npm run dev --prefix back-end"
+    "dev": "http-server . -p 8080"
   },
-  "dependencies": {
-    "glob": "^13.0.6",
+  "devDependencies": {
     "http-server": "^14.1.1"
   }
 }

@@ -1,0 +1,8 @@
+# Configuracion del proyecto Supabase (CLI).
+project_id = "seeaexvmdvmlbbezuosm"
+
+# La funcion de formularios es un endpoint PUBLICO llamado desde el sitio
+# estatico, asi que NO debe exigir JWT de Supabase. La protegen el honeypot,
+# la allowlist de CORS, la validacion y el rate-limit.
+[functions.contact-form]
+verify_jwt = false

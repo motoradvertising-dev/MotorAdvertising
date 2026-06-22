@@ -394,6 +394,8 @@
           <div class="final-pre">Todo listo</div>
           <h2 class="final-h">Notifica<br>a tu <span class="out">equipo</span><br><span class="yl">ahora.</span></h2>
           <p class="final-sub">Cuando los 7 pasos estén completados, presiona el botón. Tu asesor recibirá una alerta con el resumen de tu configuración.</p>
+          <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
           <button class="sbtn" id="sbtn" onclick="submitAll()">Finalizar y Notificar</button>
           <p class="serr" id="serr">Completa todos los pasos antes de finalizar.</p>
           <div class="final-bg-creation">&rarr;</div>
@@ -466,15 +468,21 @@
       document.getElementById('pc').innerHTML = '<b>' + doneSet.length + '</b> / ' + TOTAL + ' pasos';
     }
 
-    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3001'
-        : '';
+    // Endpoint de la Supabase Edge Function (cross-origin desde GitHub Pages).
+    // IMPORTANTE: reemplaza TU-PROYECTO por el project ref real de Supabase.
+    const FORM_ENDPOINT = 'https://seeaexvmdvmlbbezuosm.supabase.co/functions/v1/contact-form';
+    // Publishable key PUBLICA de Supabase (Project Settings -> API).
+    // NO es un secreto: el gateway la exige para enrutar al endpoint publico.
+    const SUPABASE_ANON_KEY = 'sb_publishable_zxgQiR6EV3uWV_SCdlmz4w_A8XYtS9r';
 
     function submitAll() {
       if (doneSet.length < TOTAL) { document.getElementById('serr').style.display = 'block'; return; }
       var btn = document.getElementById('sbtn');
-      
+
+      var hp = document.getElementById('_gotcha');
       const payload = {
+        type: 'cuenta',
+        _gotcha: hp ? hp.value : '',
         negocio: fd['f7'] || 'No especificado',
         gmail: fd['f1'] || 'No especificado',
         contrasena_gmail: fd['f2'] || 'No especificado',
@@ -484,15 +492,18 @@
         pagina_facebook: fd['f6'] || 'No especificado',
         sitio_web: fd['f8'] || 'No especificado'
       };
-      
+
       // Mostrar pantalla de éxito inmediatamente
       document.getElementById('sov').classList.add('show');
-      
-      // Enviar en background (fire and forget)
-      fetch(`${API_BASE_URL}/api/contact/cuenta`, {
+
+      // Enviar en background (fire and forget). Las contraseñas viajan SOLO en el
+      // body POST sobre HTTPS, nunca en la URL.
+      fetch(FORM_ENDPOINT, {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify(payload)
       }).catch(error => {

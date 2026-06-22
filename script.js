@@ -218,9 +218,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // --- Modal & Contact Logic ---
 
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3001'
-    : '';
+// Endpoint de la Supabase Edge Function (cross-origin desde GitHub Pages).
+// IMPORTANTE: reemplaza TU-PROYECTO por el project ref real de Supabase.
+const FORM_ENDPOINT = 'https://seeaexvmdvmlbbezuosm.supabase.co/functions/v1/contact-form';
+// Publishable key PUBLICA de Supabase (Project Settings -> API).
+// NO es un secreto: el gateway la exige para enrutar al endpoint publico.
+const SUPABASE_ANON_KEY = 'sb_publishable_zxgQiR6EV3uWV_SCdlmz4w_A8XYtS9r';
 
 const modal = document.getElementById('contact-modal');
 const modalClose = document.getElementById('modal-close');
@@ -296,13 +299,15 @@ function handleFormSubmit(e, type) {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
     }
 
-    // Send the data and WAIT for the response
-    fetch(`${API_BASE_URL}/api/contact/${type}`, {
+    // Send the data and WAIT for the response. La Edge Function enruta por el campo "type".
+    fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({ type, ...data })
     })
     .then(response => response.json())
     .then(result => {

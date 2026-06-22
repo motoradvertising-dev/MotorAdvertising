@@ -7,6 +7,12 @@ motor_ads_deploy_final.pub
 # Dependencies
 node_modules/
 
+# Secrets — la API key de Resend va en SECRETS de Supabase, nunca en el repo.
+.env
+.env.local
+supabase/.env
+supabase/.env.local
+
 # OS files
 .DS_Store
 Thumbs.db
