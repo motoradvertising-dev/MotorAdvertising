@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta de automatización · Motor Advertising → JF Comercio Universal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paleta cálida: beige · blanco · café (coherente con las demás propuestas) */
+    --ink:#2A1D12;
+    --ink-soft:#4A3826;
+    --muted:#8A7A66;
+    --paper:#F2ECE0;
+    --surface:#FFFFFF;
+    --surface-2:#FAF4E9;
+    --line:#E2D7C2;
+    --line-2:#EDE5D4;
+    --brand:#6F4A2A;
+    --brand-deep:#2E1F12;
+    --brand-light:#C9A87E;
+    --ok:#5E7B3A;       --ok-bg:#EAF0DD;
+    --warn:#9A6A18;     --warn-bg:#F3E8D2;
+    --due:#B5402D;      --due-bg:#F5E2DD;
+    --track:#6F4A2A;    --track-bg:#EFE6D6;
+    --font-serif:"IBM Plex Serif", Georgia, serif;
+    --font-sans:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, monospace;
+    --wrap:1120px;
+    --radius:10px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-sans);
+    background:var(--paper);
+    color:var(--ink-soft);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(1.25rem,5vw,2.5rem)}
+
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:3px}
+
+  /* ---------- shared bits ---------- */
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brand);
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--brand);display:inline-block}
+
+  h1,h2,h3{color:var(--ink);font-weight:500;line-height:1.08;letter-spacing:-0.01em}
+  .serif{font-family:var(--font-serif)}
+
+  section{scroll-margin-top:90px}
+  .section{padding-block:clamp(3.5rem,8vw,7rem)}
+  .section + .section{border-top:1px solid var(--line-2)}
+
+  .lead{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--ink-soft);max-width:62ch}
+
+  /* status tag */
+  .tag{
+    font-family:var(--font-mono);
+    font-size:.66rem;
+    font-weight:500;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:.28em .6em;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    gap:.45em;
+    white-space:nowrap;
+    border:1px solid transparent;
+  }
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+  .tag--new{color:var(--ok);background:var(--ok-bg);border-color:rgba(94,123,58,.24)}
+  .tag--track{color:var(--track);background:var(--track-bg);border-color:rgba(111,74,42,.24)}
+  .tag--mod{color:var(--warn);background:var(--warn-bg);border-color:rgba(154,106,24,.26)}
+  .tag--due{color:var(--due);background:var(--due-bg);border-color:rgba(181,64,45,.22)}
+
+  /* ============ HEADER ============ */
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(242,236,224,.82);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .site-header .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;min-height:68px;
+  }
+  .brand-id{display:flex;align-items:center;gap:.7rem}
+  .monogram{
+    width:42px;height:42px;border-radius:8px;flex:none;
+    background:var(--brand);color:#fff;
+    display:grid;place-items:center;
+    font-weight:700;font-size:1.02rem;letter-spacing:.02em;
+  }
+  .brand-id__name{font-weight:600;color:var(--ink);font-size:.95rem;line-height:1.2}
+  .brand-id__nit{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+  .site-nav{display:flex;align-items:center;gap:1.6rem}
+  .site-nav a{
+    font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;
+    padding-bottom:2px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;
+  }
+  .site-nav a:hover{color:var(--ink);border-color:var(--brand)}
+  @media (max-width:760px){.site-nav{display:none}}
+
+  /* ============ HERO ============ */
+  .hero{padding-block:clamp(3rem,7vw,5.5rem) clamp(3.5rem,8vw,6rem)}
+  .hero .wrap{
+    display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(2rem,5vw,4rem);align-items:center;
+  }
+  .hero__title{
+    font-family:var(--font-serif);
+    font-size:clamp(2.5rem,6vw,4.4rem);
+    line-height:1.0;
+    letter-spacing:-0.025em;
+    color:var(--ink);
+    margin:1.1rem 0 0;
+  }
+  .hero__title em{font-style:italic;color:var(--brand);font-weight:400}
+  .hero__lead{margin-top:1.4rem;font-size:clamp(1.05rem,1.5vw,1.2rem);color:var(--ink-soft);max-width:52ch}
+  .hero__meta{
+    margin-top:2rem;display:flex;flex-wrap:wrap;gap:1.4rem 2.2rem;
+    padding-top:1.4rem;border-top:1px solid var(--line);
+  }
+  .hero__meta dt{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .hero__meta dd{font-weight:600;color:var(--ink);font-size:.92rem;margin-top:.2rem}
+  .hero__meta dd.mono{font-family:var(--font-mono);font-weight:500;letter-spacing:.02em}
+
+  /* board */
+  .board{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:0 1px 0 rgba(46,31,18,.03),0 22px 48px -28px rgba(46,31,18,.28);
+    overflow:hidden;
+  }
+  .board__head{
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:.95rem 1.15rem;border-bottom:1px solid var(--line-2);background:var(--surface-2);
+  }
+  .board__title{font-weight:600;color:var(--ink);font-size:.92rem}
+  .board__sync{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.66rem;color:var(--muted)}
+  .live{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(94,123,58,.5);animation:live 2.4s ease-out infinite}
+  .board__cols{
+    display:grid;grid-template-columns:1fr 116px 56px;gap:.75rem;
+    padding:.55rem 1.15rem;
+    font-family:var(--font-mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--line-2);
+  }
+  .board__cols span:last-child{text-align:right}
+  .board__row{
+    display:grid;grid-template-columns:1fr 116px 56px;gap:.75rem;align-items:center;
+    padding:.82rem 1.15rem;border-bottom:1px solid var(--line-2);
+    opacity:0;transform:translateY(8px);animation:rowin .55s ease forwards;
+  }
+  .board__row:nth-child(1){animation-delay:.15s}
+  .board__row:nth-child(2){animation-delay:.27s}
+  .board__row:nth-child(3){animation-delay:.39s}
+  .board__row:nth-child(4){animation-delay:.51s}
+  .board__entity{font-weight:600;color:var(--ink);font-size:.86rem;line-height:1.25}
+  .board__obj{color:var(--muted);font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .board__note{font-family:var(--font-mono);font-size:.6rem;color:var(--warn);margin-top:.25rem;display:block}
+  .board__days{font-family:var(--font-mono);font-size:.82rem;font-weight:600;color:var(--ink);text-align:right}
+  .board__days small{display:block;font-weight:400;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .board__row--due .board__days{color:var(--due)}
+  .board__foot{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.8rem 1.15rem;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;
+    color:var(--muted);background:var(--surface-2);
+  }
+  .board__foot strong{color:var(--due);font-weight:600}
+  .board-caption{font-family:var(--font-mono);font-size:.64rem;color:var(--muted);text-align:right;margin-top:.7rem;letter-spacing:.04em}
+
+  /* ============ RETO ============ */
+  .reto__title{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.5rem);margin:1rem 0 1.2rem;max-width:20ch}
+  .reto p{max-width:60ch}
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.6rem}
+  .pain{border-top:2px solid var(--ink);padding-top:1rem}
+  .pain__k{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+  .pain p{margin-top:.5rem;color:var(--ink-soft);font-size:.96rem}
+
+  /* ============ ROADMAP ============ */
+  .roadmap-head{max-width:60ch;margin-bottom:3rem}
+  .roadmap-head h2{font-family:var(--font-serif);font-size:clamp(1.8rem,3.6vw,2.6rem);margin:1rem 0 1rem}
+  .roadmap{list-style:none;position:relative}
+  .roadmap::before{content:"";position:absolute;top:18px;bottom:18px;left:21px;width:2px;background:var(--line)}
+  .phase{display:grid;grid-template-columns:46px 1fr;gap:clamp(1rem,2.5vw,1.8rem);position:relative}
+  .phase + .phase{margin-top:1.4rem}
+  .phase__marker{position:relative;display:flex;justify-content:center}
+  .phase__code{
+    width:46px;height:46px;border-radius:9px;flex:none;
+    background:var(--brand);color:#fff;font-family:var(--font-mono);font-weight:600;font-size:.92rem;
+    display:grid;place-items:center;position:relative;z-index:2;
+    box-shadow:0 0 0 5px var(--paper);
+  }
+  .phase__body{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:clamp(1.3rem,2.6vw,1.9rem);
+  }
+  .phase__eyebrow{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .phase__title{font-size:clamp(1.2rem,2vw,1.45rem);font-weight:700;color:var(--ink);letter-spacing:-0.01em;margin:.35rem 0 .7rem}
+  .phase__badge{
+    display:inline-flex;align-items:center;gap:.5em;margin-bottom:.85rem;
+    font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;
+    color:var(--warn);background:var(--warn-bg);border:1px solid rgba(154,106,24,.26);
+    padding:.32em .7em;border-radius:999px;
+  }
+  .phase__desc{color:var(--ink-soft);max-width:64ch}
+  .caps{list-style:none;margin-top:1.1rem;display:grid;gap:.55rem}
+  .caps li{position:relative;padding-left:1.6rem;font-size:.95rem;color:var(--ink-soft)}
+  .caps li::before{content:"";position:absolute;left:0;top:.72em;width:13px;height:2px;background:var(--brand)}
+  .aside{
+    margin-top:1.3rem;border-left:3px solid var(--brand);background:var(--surface-2);
+    border-radius:0 8px 8px 0;padding:.85rem 1.05rem;
+  }
+  .aside__k{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+  .aside p{margin-top:.3rem;font-size:.9rem;color:var(--ink-soft)}
+  .phase__result{
+    margin-top:1.3rem;padding-top:1.1rem;border-top:1px solid var(--line-2);
+    font-size:.96rem;color:var(--ink);
+  }
+  .phase__result span{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-right:.6em}
+
+  /* ============ MASTER TABLE ============ */
+  .master-head{max-width:58ch;margin-bottom:2.2rem}
+  .master-head h2{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.4rem);margin:1rem 0 1rem}
+  .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+  table.master{width:100%;min-width:760px;border-collapse:collapse}
+  .master thead th{
+    text-align:left;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;padding:.95rem 1rem;border-bottom:2px solid var(--ink);background:var(--surface-2);
+  }
+  .master thead th:last-child,.master tbody td:last-child{text-align:left}
+  .master tbody td{padding:.95rem 1rem;border-bottom:1px solid var(--line-2);vertical-align:top;font-size:.88rem}
+  .master tbody tr:last-child td{border-bottom:none}
+  .master .c-ent{font-weight:600;color:var(--ink)}
+  .master .c-obj{color:var(--muted)}
+  .master .c-num,.master .c-date,.master .c-resp{font-family:var(--font-mono);font-size:.82rem;color:var(--ink-soft);letter-spacing:.01em}
+  .master .changed{display:block;font-size:.66rem;color:var(--warn);margin-top:.3rem}
+  .legend{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;margin-top:1.3rem}
+  .legend span{display:inline-flex;align-items:center;gap:.5em;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;color:var(--muted)}
+  .legend i{width:8px;height:8px;border-radius:50%}
+
+  /* ============ GAINS ============ */
+  .gains-head h2{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.4rem);margin:1rem 0 2.4rem;max-width:24ch}
+  .gains{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+  .gain{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem 1.3rem}
+  .gain__k{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+  .gain h4{font-size:1.04rem;font-weight:700;color:var(--ink);margin:.55rem 0 .4rem;letter-spacing:-0.01em}
+  .gain p{font-size:.9rem;color:var(--muted)}
+
+  /* ============ NOTES ============ */
+  .notes-head h2{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.4rem);margin:1rem 0 2rem}
+  .notes{border-top:1px solid var(--line)}
+  .note{display:grid;grid-template-columns:200px 1fr;gap:1.4rem;padding:1.3rem 0;border-bottom:1px solid var(--line)}
+  .note__k{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);font-weight:500;padding-top:.1rem}
+  .note p{color:var(--ink-soft);font-size:.96rem;max-width:64ch}
+
+  /* ============ CLOSE / FOOTER ============ */
+  .close{background:var(--brand-deep);color:#E7DECF}
+  .close .wrap{padding-block:clamp(3.5rem,8vw,6rem)}
+  .close .eyebrow{color:var(--brand-light)}
+  .close .eyebrow::before{background:var(--brand-light)}
+  .close h2{font-family:var(--font-serif);color:#FCF7EE;font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.02;letter-spacing:-0.02em;margin:1.1rem 0 1.2rem;max-width:18ch}
+  .close__lead{color:#CDB897;max-width:54ch;font-size:1.08rem}
+  .accept{margin-top:2.4rem}
+  .accept-btn{
+    font-family:var(--font-sans);font-weight:600;font-size:1rem;color:var(--brand-deep);
+    background:#fff;border:none;border-radius:999px;padding:.95rem 2.1rem;cursor:pointer;
+    display:inline-flex;align-items:center;gap:.55rem;
+    box-shadow:0 12px 30px -12px rgba(0,0,0,.55);
+    transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease;
+  }
+  .accept-btn:hover{transform:translateY(-2px);box-shadow:0 18px 38px -14px rgba(0,0,0,.6)}
+  .accept-btn:active{transform:translateY(0)}
+  .accept-btn__check{display:none;align-items:center}
+  .accept-btn__check svg{width:16px;height:16px}
+  .accept-btn.is-accepted{background:var(--brand-light);color:var(--brand-deep);cursor:default;box-shadow:none;transform:none}
+  .accept-btn.is-accepted .accept-btn__check{display:inline-flex}
+  .accept-note{margin-top:1.1rem;color:#CDB897;font-size:.95rem;max-width:46ch}
+  .presented{
+    margin-top:2.6rem;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);
+    padding:1.3rem 1.4rem;max-width:560px;background:rgba(255,255,255,.03);
+  }
+  .presented__k{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-light)}
+  .presented__line{font-family:var(--font-mono);font-size:.92rem;color:#E2D5C0;margin-top:.55rem;letter-spacing:.02em}
+  .site-footer{
+    margin-top:clamp(3rem,7vw,4.5rem);padding-top:1.6rem;
+    border-top:1px solid rgba(255,255,255,.14);
+    display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;align-items:center;justify-content:space-between;
+  }
+  .site-footer .ff-name{font-weight:600;color:#F4EEE2}
+  .site-footer .ff-meta,.site-footer .ff-nit{font-family:var(--font-mono);font-size:.68rem;color:#B59A78;letter-spacing:.04em}
+
+  /* ============ animations ============ */
+  @keyframes rowin{to{opacity:1;transform:none}}
+  @keyframes live{
+    0%{box-shadow:0 0 0 0 rgba(94,123,58,.5)}
+    70%{box-shadow:0 0 0 7px rgba(94,123,58,0)}
+    100%{box-shadow:0 0 0 0 rgba(94,123,58,0)}
+  }
+
+  /* ============ responsive ============ */
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:2.6rem}
+    .board-order{order:2}
+  }
+  @media (max-width:680px){
+    .pains{grid-template-columns:1fr;gap:0}
+    .pain{border-top:1px solid var(--line-2)}
+    .pain:first-child{border-top:2px solid var(--ink)}
+    .pain{padding-block:1.1rem}
+    .gains{grid-template-columns:1fr}
+    .note{grid-template-columns:1fr;gap:.4rem}
+    .board__cols,.board__row{grid-template-columns:1fr 96px 46px;gap:.5rem}
+  }
+
+  /* ============ scroll progress ============ */
+  #progress{
+    position:fixed;top:0;left:0;height:3px;width:100%;
+    background:var(--brand);transform:scaleX(0);transform-origin:0 50%;
+    z-index:60;transition:transform .08s linear;
+  }
+
+  /* ============ scroll reveal (solo con JS activo) ============ */
+  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,.7,.3,1),transform .6s cubic-bezier(.16,.7,.3,1)}
+  .js .reveal.in{opacity:1;transform:none}
+
+  /* ============ nav activo ============ */
+  .site-nav a.active{color:var(--ink);border-color:var(--brand)}
+
+  /* ============ micro-interacciones hover ============ */
+  .gain,.cron-step{transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease}
+  .gain:hover,.cron-step:hover{transform:translateY(-4px);box-shadow:0 16px 34px -22px rgba(46,31,18,.45);border-color:#D8C9AE}
+  .phase__body{transition:border-color .26s ease,box-shadow .26s ease}
+  .phase__body:hover{border-color:#D8C9AE;box-shadow:0 14px 32px -24px rgba(111,74,42,.35)}
+
+  /* ============ CRONOGRAMA ============ */
+  .cron-head{max-width:60ch;margin-bottom:2.8rem}
+  .cron-head h2{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.4rem);margin:1rem 0 1rem}
+  .cron{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+  .cron-step{
+    background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--brand);
+    border-radius:var(--radius);padding:1.5rem 1.4rem 1.4rem;display:flex;flex-direction:column;
+  }
+  .cron-step__month{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:500}
+  .cron-step__etapa{font-size:1.02rem;font-weight:700;color:var(--ink);letter-spacing:-0.01em;margin:.45rem 0 .5rem}
+  .cron-step__desc{font-size:.86rem;color:var(--muted);line-height:1.5;flex:1 0 auto}
+  .cron-step__tag{
+    margin-top:1rem;padding-top:.85rem;border-top:1px solid var(--line-2);
+    font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ok);display:flex;align-items:center;gap:.45em;
+  }
+  .cron-step__tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+  .cron-note{
+    margin-top:1.7rem;display:flex;gap:.7rem;align-items:flex-start;
+    font-size:.95rem;color:var(--ink-soft);max-width:66ch;
+  }
+  .cron-note b{color:var(--ink);font-weight:600}
+  .cron-note::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-top:.55rem}
+
+  /* ============ INVERSIÓN ============ */
+  .invest-head{max-width:58ch;margin-bottom:2.2rem}
+  .invest-head h2{font-family:var(--font-serif);font-size:clamp(1.7rem,3.4vw,2.4rem);margin:1rem 0 1rem}
+  .invest{max-width:760px}
+  .invest-hint{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+  .invest-grid{display:grid;gap:.7rem}
+  .invest-row{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.1rem;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.05rem 1.25rem;cursor:pointer;transition:border-color .2s ease,background .2s ease,opacity .2s ease;
+    user-select:none;
+  }
+  .invest-row:hover{border-color:var(--brand)}
+  .invest-row.is-off{opacity:.45}
+  .invest-check{position:absolute;opacity:0;width:0;height:0}
+  .invest-box{
+    width:24px;height:24px;border-radius:6px;border:2px solid var(--line);flex:none;
+    display:grid;place-items:center;transition:background .18s ease,border-color .18s ease;
+  }
+  .invest-box svg{width:13px;height:13px;opacity:0;transform:scale(.6);transition:opacity .18s ease,transform .18s ease}
+  .invest-check:checked + .invest-box{background:var(--brand);border-color:var(--brand)}
+  .invest-check:checked + .invest-box svg{opacity:1;transform:none}
+  .invest-check:focus-visible + .invest-box{outline:2px solid var(--brand);outline-offset:3px}
+  .invest-row__info{display:flex;flex-direction:column;min-width:0}
+  .invest-row__title{font-weight:600;color:var(--ink);font-size:.96rem}
+  .invest-row__sub{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;color:var(--muted);margin-top:.15rem}
+  .invest-row__price{font-family:var(--font-mono);font-weight:600;font-size:1rem;color:var(--ink);white-space:nowrap}
+  .invest-summary{
+    margin-top:1rem;background:var(--brand-deep);border-radius:var(--radius);color:#EAE0CF;
+    padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  }
+  .invest-summary__k{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-light)}
+  .invest-summary__meta{font-family:var(--font-mono);font-size:.8rem;color:#CDB897;margin-top:.3rem}
+  .invest-summary__total{font-family:var(--font-mono);font-weight:600;font-size:clamp(1.7rem,3.6vw,2.3rem);color:#FCF7EE;letter-spacing:-0.01em;line-height:1}
+  .invest-summary__cur{font-size:.7rem;color:#B59A78;margin-left:.45em;letter-spacing:.12em}
+  .invest-callouts{margin-top:1.4rem;display:grid;gap:.9rem}
+  .invest-callout{
+    border-left:3px solid var(--brand);background:var(--surface-2);
+    border-radius:0 8px 8px 0;padding:.9rem 1.1rem;
+  }
+  .invest-callout__k{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+  .invest-callout p{margin-top:.3rem;font-size:.9rem;color:var(--ink-soft)}
+
+  /* ============ responsive (secciones nuevas) ============ */
+  @media (max-width:760px){
+    .cron{grid-template-columns:1fr 1fr;gap:.8rem}
+  }
+  @media (max-width:480px){
+    .cron{grid-template-columns:1fr}
+    .invest-row{gap:.8rem;padding:.95rem 1rem}
+    .invest-summary{flex-direction:column;align-items:flex-start}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .board__row{opacity:1;transform:none}
+    .js .reveal{opacity:1;transform:none}
+    #progress{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand-id">
+      <div class="monogram" aria-hidden="true">MA</div>
+      <div>
+        <div class="brand-id__name">Motor Advertising</div>
+        <div class="brand-id__nit">Propuesta de automatización</div>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Secciones">
+      <a href="#etapas">Etapas</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#inversion">Inversión</a>
+      <a href="#alcance">Alcance</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Propuesta de automatización</span>
+        <h1 class="hero__title">Cada licitación,<br><em>bajo control.</em></h1>
+        <p class="hero__lead">Un sistema que revisa las licitaciones de interés todos los días, las organiza en un solo lugar, avisa antes de cada vencimiento y —en sus etapas avanzadas— lee los pliegos, extrae los requisitos y verifica si la empresa cumple. Se construye en cuatro etapas, una sobre otra.</p>
+        <dl class="hero__meta">
+          <div>
+            <dt>Preparada para</dt>
+            <dd>JF Comercio Universal S.A.S.</dd>
+          </div>
+          <div>
+            <dt>NIT</dt>
+            <dd class="mono">900.426.428-2</dd>
+          </div>
+          <div>
+            <dt>Fuente base</dt>
+            <dd class="mono">licitaciones.info</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="board-order">
+        <div class="board" role="img" aria-label="Vista de ejemplo del tablero de seguimiento de licitaciones, con procesos clasificados por estado">
+          <div class="board__head">
+            <span class="board__title">Tablero de seguimiento</span>
+            <span class="board__sync"><i class="live" aria-hidden="true"></i> actualizado hace 2 min</span>
+          </div>
+          <div class="board__cols"><span>Entidad / Objeto</span><span>Estado</span><span>Vence</span></div>
+
+          <div class="board__row">
+            <div>
+              <div class="board__entity">Armada Nacional</div>
+              <div class="board__obj">Drones de vigilancia marítima</div>
+            </div>
+            <span class="tag tag--new">Nuevo</span>
+            <div class="board__days">12<small>días</small></div>
+          </div>
+
+          <div class="board__row">
+            <div>
+              <div class="board__entity">Agencia Logística FF.MM.</div>
+              <div class="board__obj">Suministro de munición 5.56 mm</div>
+            </div>
+            <span class="tag tag--track">Seguimiento</span>
+            <div class="board__days">8<small>días</small></div>
+          </div>
+
+          <div class="board__row">
+            <div>
+              <div class="board__entity">COTECMAR</div>
+              <div class="board__obj">Repuestos navales para guardacostas</div>
+              <span class="board__note">△ cambió fecha de cierre</span>
+            </div>
+            <span class="tag tag--mod">Modificado</span>
+            <div class="board__days">5<small>días</small></div>
+          </div>
+
+          <div class="board__row board__row--due">
+            <div>
+              <div class="board__entity">DIMAR</div>
+              <div class="board__obj">Equipos de navegación y radar</div>
+            </div>
+            <span class="tag tag--due">Por vencer</span>
+            <div class="board__days">1<small>día</small></div>
+          </div>
+
+          <div class="board__foot">
+            <span>4 procesos activos</span>
+            <span><strong>1 por vencer</strong></span>
+          </div>
+        </div>
+        <p class="board-caption">Vista de ejemplo · datos ilustrativos</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RETO -->
+  <section id="reto" class="section reto">
+    <div class="wrap">
+      <span class="eyebrow">El reto</span>
+      <h2 class="reto__title serif">Demasiados procesos, demasiados plazos, demasiados documentos.</h2>
+      <p>Seguir las licitaciones a mano significa entrar cada día a varias plataformas, revisar si algo cambió, anotar fechas en hojas sueltas y leer pliegos extensos para saber si vale la pena participar. Un plazo que se pasa o un requisito que se ignora se traduce en oportunidades perdidas.</p>
+      <div class="pains">
+        <div class="pain">
+          <div class="pain__k">Plazos</div>
+          <p>Las fechas de cierre se pierden entre tantos procesos en paralelo.</p>
+        </div>
+        <div class="pain">
+          <div class="pain__k">Cambios</div>
+          <p>Una adenda modifica el proceso y nadie se entera a tiempo.</p>
+        </div>
+        <div class="pain">
+          <div class="pain__k">Documentos</div>
+          <p>Revisar pliegos y verificar requisitos toma horas por cada proceso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="etapas" class="section">
+    <div class="wrap">
+      <div class="roadmap-head">
+        <span class="eyebrow">La solución</span>
+        <h2>Cuatro etapas, una sobre otra.</h2>
+        <p class="lead">Cada etapa entrega valor por sí sola y prepara la siguiente. Empezamos por tener todo bajo control y avanzamos hasta que el sistema lee, resume y verifica por usted.</p>
+      </div>
+
+      <ol class="roadmap">
+        <!-- E1 -->
+        <li class="phase">
+          <div class="phase__marker"><span class="phase__code">E1</span></div>
+          <div class="phase__body">
+            <p class="phase__eyebrow">Etapa 1</p>
+            <h3 class="phase__title">Búsqueda y monitoreo diario</h3>
+            <p class="phase__desc">El bot entra cada día a licitaciones.info, busca las licitaciones de interés y las vuelca a un Excel maestro. Marca cuáles están en seguimiento y vuelve a revisar las mismas todos los días para detectar qué cambió.</p>
+            <ul class="caps">
+              <li>Búsqueda automática diaria de licitaciones de interés.</li>
+              <li>Excel maestro organizado por entidad, objeto, presupuesto, fechas relevantes, estado y responsable.</li>
+              <li>Re-revisión diaria de cada proceso para marcar lo que se modificó.</li>
+              <li>Alertas por correo de procesos nuevos, modificados y próximos a vencer.</li>
+              <li>Cronograma de seguimiento con avisos.</li>
+            </ul>
+            <p class="phase__result"><span>Resultado</span>Control total sobre lo nuevo, lo modificado y lo que está por vencer.</p>
+          </div>
+        </li>
+
+        <!-- E2 -->
+        <li class="phase">
+          <div class="phase__marker"><span class="phase__code">E2</span></div>
+          <div class="phase__body">
+            <p class="phase__eyebrow">Etapa 2</p>
+            <h3 class="phase__title">Seguimiento y agenda en Google Calendar</h3>
+            <p class="phase__desc">A cada proceso de interés se le hace seguimiento completo. El sistema crea alertas y recordatorios en Google Calendar para cada etapa del cronograma.</p>
+            <ul class="caps">
+              <li>Seguimiento de cada proceso de interés de principio a fin.</li>
+              <li>Recordatorios automáticos en Google Calendar por cada etapa del cronograma.</li>
+              <li>Avisos anticipados antes de cada fecha clave.</li>
+            </ul>
+            <p class="phase__result"><span>Resultado</span>Una agenda viva: cada hito del proceso, en su calendario.</p>
+          </div>
+        </li>
+
+        <!-- E3 -->
+        <li class="phase">
+          <div class="phase__marker"><span class="phase__code">E3</span></div>
+          <div class="phase__body">
+            <p class="phase__eyebrow">Etapa 3</p>
+            <h3 class="phase__title">Análisis documental con IA</h3>
+            <span class="phase__badge">● Usa Claude · cuota de tokens a cargo del cliente</span>
+            <p class="phase__desc">El bot va a SECOP II, resuelve el captcha (o deja la opción de hacerlo de forma manual), descarga y organiza pliegos, anexos, estudios previos y adendas, y los analiza con Claude para extraer lo que importa.</p>
+            <ul class="caps">
+              <li>Ingreso a SECOP II y manejo del captcha (automático o manual).</li>
+              <li>Descarga y organización de pliegos, anexos, estudios previos y adendas.</li>
+              <li>Extracción de requisitos: certificaciones, capacitaciones y garantías exigidas.</li>
+              <li>Identificación de personal mínimo, equipos y especificaciones técnicas.</li>
+              <li>Resumen ejecutivo por cada proceso.</li>
+            </ul>
+            <div class="aside">
+              <div class="aside__k">Trazabilidad</div>
+              <p>Todo dato extraído indica documento de origen, página y fragmento utilizado, para verificarlo directamente en la fuente.</p>
+            </div>
+            <p class="phase__result"><span>Resultado</span>Se pasa de leer pliegos enteros a leer un resumen verificable.</p>
+          </div>
+        </li>
+
+        <!-- E4 -->
+        <li class="phase">
+          <div class="phase__marker"><span class="phase__code">E4</span></div>
+          <div class="phase__body">
+            <p class="phase__eyebrow">Etapa 4</p>
+            <h3 class="phase__title">Verificación de cumplimiento</h3>
+            <p class="phase__desc">Con los requisitos ya extraídos, el bot los compara contra las fichas técnicas de la empresa y marca, requisito por requisito, si cumple o no cumple.</p>
+            <ul class="caps">
+              <li>Comparación automática entre los requisitos del proceso y las fichas técnicas.</li>
+              <li>Resultado claro por requisito: cumple / no cumple.</li>
+              <li>Base para decidir rápido si conviene participar.</li>
+            </ul>
+            <p class="phase__result"><span>Resultado</span>Una decisión de participar respaldada en datos, no en corazonadas.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- MASTER TABLE -->
+  <section id="tablero" class="section">
+    <div class="wrap">
+      <div class="master-head">
+        <span class="eyebrow">Cómo se organiza</span>
+        <h2>Toda la información, en columnas claras.</h2>
+        <p class="lead">El Excel maestro reúne cada licitación con sus variantes. Cada día se actualiza y se marca lo que cambió.</p>
+      </div>
+
+      <div class="table-scroll">
+        <table class="master">
+          <thead>
+            <tr>
+              <th>Entidad</th>
+              <th>Objeto</th>
+              <th>Presupuesto</th>
+              <th>Fechas relevantes</th>
+              <th>Estado</th>
+              <th>Responsable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="c-ent">Armada Nacional</td>
+              <td class="c-obj">Drones de vigilancia marítima</td>
+              <td class="c-num">$4.200.000.000</td>
+              <td class="c-date">Cierre · 04 jul</td>
+              <td><span class="tag tag--new">Nuevo</span></td>
+              <td class="c-resp">C. Ramírez</td>
+            </tr>
+            <tr>
+              <td class="c-ent">Agencia Logística FF.MM.</td>
+              <td class="c-obj">Suministro de munición 5.56 mm</td>
+              <td class="c-num">$2.800.000.000</td>
+              <td class="c-date">Cierre · 30 jun</td>
+              <td><span class="tag tag--track">Seguimiento</span></td>
+              <td class="c-resp">L. Torres</td>
+            </tr>
+            <tr>
+              <td class="c-ent">COTECMAR</td>
+              <td class="c-obj">Repuestos navales para guardacostas</td>
+              <td class="c-num">$1.150.000.000</td>
+              <td class="c-date">Cierre · 27 jun<span class="changed">△ antes: 02 jul</span></td>
+              <td><span class="tag tag--mod">Modificado</span></td>
+              <td class="c-resp">C. Ramírez</td>
+            </tr>
+            <tr>
+              <td class="c-ent">DIMAR</td>
+              <td class="c-obj">Equipos de navegación y radar</td>
+              <td class="c-num">$930.000.000</td>
+              <td class="c-date">Cierre · 23 jun</td>
+              <td><span class="tag tag--due">Por vencer</span></td>
+              <td class="c-resp">M. Gómez</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="legend" aria-hidden="false">
+        <span><i style="background:var(--ok)"></i> Nuevo</span>
+        <span><i style="background:var(--track)"></i> En seguimiento</span>
+        <span><i style="background:var(--warn)"></i> Modificado</span>
+        <span><i style="background:var(--due)"></i> Por vencer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAINS -->
+  <section class="section gains-head">
+    <div class="wrap">
+      <span class="eyebrow">Qué obtiene</span>
+      <h2>Menos vigilancia manual, más decisiones a tiempo.</h2>
+      <div class="gains">
+        <div class="gain">
+          <div class="gain__k">Control</div>
+          <h4>Nada se vence sin aviso</h4>
+          <p>Los procesos próximos a vencer están siempre a la vista.</p>
+        </div>
+        <div class="gain">
+          <div class="gain__k">Cambios</div>
+          <h4>Detecta lo que se modificó</h4>
+          <p>La revisión diaria marca cada adenda o ajuste del proceso.</p>
+        </div>
+        <div class="gain">
+          <div class="gain__k">Orden</div>
+          <h4>Una sola fuente de verdad</h4>
+          <p>Todo en un Excel maestro organizado y siempre actualizado.</p>
+        </div>
+        <div class="gain">
+          <div class="gain__k">Agenda · E2</div>
+          <h4>Recordatorios en tu calendario</h4>
+          <p>Cada etapa del cronograma, sincronizada en Google Calendar.</p>
+        </div>
+        <div class="gain">
+          <div class="gain__k">Análisis · E3</div>
+          <h4>Resumen ejecutivo por proceso</h4>
+          <p>Pliegos largos convertidos en lo esencial, con su fuente citada.</p>
+        </div>
+        <div class="gain">
+          <div class="gain__k">Decisión · E4</div>
+          <h4>Cumple o no cumple</h4>
+          <p>Las fichas técnicas comparadas contra los requisitos exigidos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRONOGRAMA -->
+  <section id="cronograma" class="section cron-head">
+    <div class="wrap">
+      <span class="eyebrow">Cronograma</span>
+      <h2>Cuatro meses, una etapa por mes.</h2>
+      <p class="lead">Cada etapa toma un mes que incluye desarrollo, pruebas y estabilización. Así cada entrega queda blindada frente a errores antes de avanzar a la siguiente.</p>
+
+      <div class="cron">
+        <div class="cron-step">
+          <p class="cron-step__month">Mes 01</p>
+          <h4 class="cron-step__etapa">Etapa 1 · Monitoreo</h4>
+          <p class="cron-step__desc">Búsqueda diaria, Excel maestro y alertas.</p>
+          <p class="cron-step__tag">Pruebas + estabilización</p>
+        </div>
+        <div class="cron-step">
+          <p class="cron-step__month">Mes 02</p>
+          <h4 class="cron-step__etapa">Etapa 2 · Agenda</h4>
+          <p class="cron-step__desc">Seguimiento y recordatorios en Google Calendar.</p>
+          <p class="cron-step__tag">Pruebas + estabilización</p>
+        </div>
+        <div class="cron-step">
+          <p class="cron-step__month">Mes 03</p>
+          <h4 class="cron-step__etapa">Etapa 3 · Análisis IA</h4>
+          <p class="cron-step__desc">Análisis documental en SECOP II con Claude.</p>
+          <p class="cron-step__tag">Pruebas + estabilización</p>
+        </div>
+        <div class="cron-step">
+          <p class="cron-step__month">Mes 04</p>
+          <h4 class="cron-step__etapa">Etapa 4 · Verificación</h4>
+          <p class="cron-step__desc">Cumple / no cumple contra fichas técnicas.</p>
+          <p class="cron-step__tag">Pruebas + estabilización</p>
+        </div>
+      </div>
+
+      <p class="cron-note"><span>Cada mes contempla un periodo de <b>pruebas y estabilización</b> para entregar el sistema blindado frente a cualquier bug antes de pasar a la siguiente etapa.</span></p>
+    </div>
+  </section>
+
+  <!-- INVERSIÓN -->
+  <section id="inversion" class="section invest-head">
+    <div class="wrap">
+      <span class="eyebrow">Inversión</span>
+      <h2>Precio por etapa, en pesos.</h2>
+      <p class="lead">Cada etapa se contrata por separado. Marca o desmarca para ver el total del alcance al instante.</p>
+
+      <div class="invest">
+        <p class="invest-hint">Configura el alcance</p>
+        <div class="invest-grid">
+          <label class="invest-row">
+            <input type="checkbox" class="invest-check" data-price="5000000" checked>
+            <span class="invest-box"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="invest-row__info">
+              <span class="invest-row__title">Etapa 1 · Búsqueda y monitoreo diario</span>
+              <span class="invest-row__sub">1 mes · incluye pruebas y estabilización</span>
+            </span>
+            <span class="invest-row__price">$5.000.000</span>
+          </label>
+
+          <label class="invest-row">
+            <input type="checkbox" class="invest-check" data-price="3000000" checked>
+            <span class="invest-box"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="invest-row__info">
+              <span class="invest-row__title">Etapa 2 · Seguimiento y Google Calendar</span>
+              <span class="invest-row__sub">1 mes · incluye pruebas y estabilización</span>
+            </span>
+            <span class="invest-row__price">$3.000.000</span>
+          </label>
+
+          <label class="invest-row">
+            <input type="checkbox" class="invest-check" data-price="6000000" checked>
+            <span class="invest-box"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="invest-row__info">
+              <span class="invest-row__title">Etapa 3 · Análisis documental con IA</span>
+              <span class="invest-row__sub">1 mes · tokens de Claude aparte, por cuenta del cliente</span>
+            </span>
+            <span class="invest-row__price">$6.000.000</span>
+          </label>
+
+          <label class="invest-row">
+            <input type="checkbox" class="invest-check" data-price="4000000" checked>
+            <span class="invest-box"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="invest-row__info">
+              <span class="invest-row__title">Etapa 4 · Verificación de cumplimiento</span>
+              <span class="invest-row__sub">1 mes · incluye pruebas y estabilización</span>
+            </span>
+            <span class="invest-row__price">$4.000.000</span>
+          </label>
+        </div>
+
+        <div class="invest-summary">
+          <div>
+            <div class="invest-summary__k">Total del alcance seleccionado</div>
+            <div class="invest-summary__meta" id="invest-meta">4 etapas · ≈ 4 meses</div>
+          </div>
+          <div class="invest-summary__total"><span id="invest-total">$18.000.000</span><span class="invest-summary__cur">COP</span></div>
+        </div>
+
+        <div class="invest-callouts">
+          <div class="invest-callout">
+            <div class="invest-callout__k">Alcance cerrado</div>
+            <p>El alcance es el descrito en esta propuesta. Toda adición o petición por fuera de ese alcance será revisada y cotizada por separado.</p>
+          </div>
+          <div class="invest-callout">
+            <div class="invest-callout__k">Tokens de Claude</div>
+            <p>Desde la Etapa 3, el análisis de documentos consume tokens de Claude. Ese costo va aparte y lo cubre el cliente según consumo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section id="alcance" class="section notes-head">
+    <div class="wrap">
+      <span class="eyebrow">Notas de alcance</span>
+      <h2>Lo que conviene tener claro.</h2>
+      <div class="notes">
+        <div class="note">
+          <div class="note__k">Costo de IA</div>
+          <p>Desde la Etapa 3, el análisis de documentos funciona con Claude. La cuota de tokens que se consuma corre por cuenta del cliente.</p>
+        </div>
+        <div class="note">
+          <div class="note__k">Captcha · SECOP II</div>
+          <p>El sistema intenta resolver el captcha automáticamente; si no lo logra, queda la opción de resolverlo de forma manual.</p>
+        </div>
+        <div class="note">
+          <div class="note__k">Trazabilidad</div>
+          <p>Cada dato extraído indica documento de origen, página y fragmento, para verificarlo en la fuente con rapidez.</p>
+        </div>
+        <div class="note">
+          <div class="note__k">Entrega por etapas</div>
+          <p>Cada etapa toma un mes con desarrollo, pruebas y estabilización, y se entrega blindada antes de pasar a la siguiente.</p>
+        </div>
+        <div class="note">
+          <div class="note__k">Adiciones</div>
+          <p>Toda adición o petición por fuera del alcance descrito en esta propuesta será revisada y cotizada por separado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CLOSE + FOOTER -->
+<section class="close">
+  <div class="wrap">
+    <span class="eyebrow">Siguiente paso</span>
+    <h2>¿Avanzamos con la Etapa 1?</h2>
+    <p class="close__lead">Cuatro etapas, un mes cada una. Empezamos por dejar todas las licitaciones bajo control y, sobre esa base, sumamos seguimiento, análisis y verificación.</p>
+
+    <div class="accept">
+      <button type="button" class="accept-btn" id="acceptBtn">
+        <span class="accept-btn__label">Aceptar propuesta</span>
+        <span class="accept-btn__check" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <p class="accept-note" id="acceptNote" role="status" aria-live="polite" hidden>¡Gracias! Te estamos redirigiendo a WhatsApp para formalizar e iniciar la Etapa 1.</p>
+    </div>
+
+    <footer class="site-footer">
+      <div class="ff-name">Motor Advertising</div>
+      <div class="ff-nit">Preparada para JF Comercio Universal S.A.S. · NIT 900.426.428-2</div>
+      <div class="ff-meta">Documento confidencial · 2026</div>
+    </footer>
+  </div>
+</section>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  /* ---- barra de progreso ---- */
+  var bar = document.getElementById('progress');
+  if(bar){
+    var onScroll = function(){
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+    };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+
+  /* ---- reveal al hacer scroll ---- */
+  var revealSel = [
+    '.reto__title','.pain',
+    '.roadmap-head','.phase',
+    '.master-head','.table-scroll','.legend',
+    '.gains-head h2','.gain',
+    '.cron-head h2','.cron-step','.cron-note',
+    '.invest-head h2','.invest-grid','.invest-summary','.invest-callouts',
+    '.notes-head h2','.note',
+    '.presented','.accept'
+  ].join(',');
+  var revealEls = [].slice.call(document.querySelectorAll(revealSel));
+  revealEls.forEach(function(el){ el.classList.add('reveal'); });
+  if(reduce || !hasIO){
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.12});
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- navegación activa ---- */
+  var navLinks = [].slice.call(document.querySelectorAll('.site-nav a'));
+  var linkById = {};
+  var sections = [];
+  navLinks.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    linkById[id] = a;
+    var sec = document.getElementById(id);
+    if(sec){ sections.push(sec); }
+  });
+  if(hasIO && sections.length){
+    var navIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          navLinks.forEach(function(l){ l.classList.remove('active'); });
+          var link = linkById[e.target.id];
+          if(link){ link.classList.add('active'); }
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    sections.forEach(function(s){ navIO.observe(s); });
+  }
+
+  /* ---- selector de inversión + total en vivo ---- */
+  var checks = [].slice.call(document.querySelectorAll('.invest-check'));
+  var totalEl = document.getElementById('invest-total');
+  var metaEl = document.getElementById('invest-meta');
+  if(checks.length && totalEl){
+    var fmt = function(n){ return '$' + n.toLocaleString('es-CO'); };
+    var animFrame = null;
+    var shown = 0;
+    var animateTo = function(target){
+      if(reduce){ shown = target; totalEl.textContent = fmt(target); return; }
+      if(animFrame){ cancelAnimationFrame(animFrame); }
+      var start = shown, startT = performance.now(), dur = 450;
+      var step = function(now){
+        var t = Math.min(1, (now - startT)/dur);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var val = Math.round(start + (target - start) * eased);
+        totalEl.textContent = fmt(val);
+        if(t < 1){ animFrame = requestAnimationFrame(step); } else { shown = target; }
+      };
+      animFrame = requestAnimationFrame(step);
+    };
+    var recompute = function(animate){
+      var sum = 0, count = 0;
+      checks.forEach(function(c){
+        var row = c.closest('.invest-row');
+        if(c.checked){ sum += parseInt(c.getAttribute('data-price'),10); count++; if(row){ row.classList.remove('is-off'); } }
+        else { if(row){ row.classList.add('is-off'); } }
+      });
+      if(metaEl){
+        metaEl.textContent = count + (count === 1 ? ' etapa' : ' etapas') + ' · ≈ ' + count + (count === 1 ? ' mes' : ' meses');
+      }
+      if(animate){ animateTo(sum); } else { shown = sum; totalEl.textContent = fmt(sum); }
+    };
+    checks.forEach(function(c){ c.addEventListener('change', function(){ recompute(true); }); });
+    recompute(false);
+  }
+
+  /* ---- aceptar propuesta (redirige a WhatsApp, igual que las demás propuestas) ---- */
+  var acceptBtn = document.getElementById('acceptBtn');
+  var acceptNote = document.getElementById('acceptNote');
+  if(acceptBtn){
+    acceptBtn.addEventListener('click', function(){
+      window.open('https://wa.link/x57gdn', '_blank', 'noopener');
+      acceptBtn.classList.add('is-accepted');
+      var label = acceptBtn.querySelector('.accept-btn__label');
+      if(label){ label.textContent = 'Propuesta aceptada'; }
+      if(acceptNote){ acceptNote.hidden = false; }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
