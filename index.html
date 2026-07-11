@@ -17,7 +17,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.0">
+    <link rel="stylesheet" href="/styles.css?v=4.4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -688,6 +688,12 @@
                                 <textarea name="message" required
                                     placeholder="Cuéntanos un poco sobre tus objetivos..."></textarea>
                             </div>
+                            <div class="form-field full-row">
+                                <label data-i18n="form_agenda">Agenda tu cita</label>
+                                <div class="motor-scheduler" data-scheduler></div>
+                                <input type="hidden" name="fecha_cita">
+                                <input type="hidden" name="hora_cita">
+                            </div>
                         </div>
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
                             style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
@@ -734,6 +740,12 @@
                                 <textarea name="experience" required
                                     placeholder="Describe tus mejores resultados..."></textarea>
                             </div>
+                            <div class="form-field full-row">
+                                <label data-i18n="form_agenda">Agenda tu cita</label>
+                                <div class="motor-scheduler" data-scheduler></div>
+                                <input type="hidden" name="fecha_cita">
+                                <input type="hidden" name="hora_cita">
+                            </div>
                         </div>
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
                             style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
@@ -749,6 +761,11 @@
                         <div class="success-icon"><i class="fas fa-check-circle"></i></div>
                         <h3 data-i18n="success_title">Información recibida.</h3>
                         <p data-i18n="success_desc">Nuestro equipo te contactará pronto.</p>
+                        <p class="success-cita" id="success-cita"></p>
+                        <a class="success-gcal" id="success-gcal" target="_blank" rel="noopener" hidden>
+                            <i class="fab fa-google" aria-hidden="true"></i>
+                            <span>Añadir a mi Google Calendar</span>
+                        </a>
                         <button class="btn btn-secondary" id="success-back" data-i18n="success_back">Volver</button>
                     </div>
                 </div>
@@ -852,7 +869,8 @@
 
     <div class="overlay"></div>
 
-    <script src="/script.js?v=5.0" defer></script>
+    <script src="/script.js?v=5.2" defer></script>
+    <script src="/assets/js/scheduler.js?v=1.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.0" defer></script>
 </body>

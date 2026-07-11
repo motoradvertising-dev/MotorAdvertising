@@ -291,6 +291,17 @@ function handleFormSubmit(e, type) {
     const errorContainer = form.querySelector('.form-error');
     if (errorContainer) errorContainer.classList.add('hidden');
 
+    // Si el formulario tiene agendamiento, la cita es obligatoria
+    if (form.querySelector('[data-scheduler]') && (!data.fecha_cita || !data.hora_cita)) {
+        if (errorContainer) {
+            errorContainer.textContent = (window._currentLang === 'en')
+                ? 'Please pick a day and time for your call.'
+                : 'Selecciona el día y la hora de tu cita en el calendario.';
+            errorContainer.classList.remove('hidden');
+        }
+        return;
+    }
+
     // Disable the submit button and show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
@@ -312,6 +323,49 @@ function handleFormSubmit(e, type) {
     .then(response => response.json())
     .then(result => {
         if (result.success) {
+            // Mostrar la cita agendada en la pantalla de éxito
+            const citaEl = document.getElementById('success-cita');
+            const gcalEl = document.getElementById('success-gcal');
+            if (data.fecha_cita && data.hora_cita) {
+                const locale = (window._currentLang === 'en') ? 'en-US' : 'es-CO';
+                const pretty = new Date(data.fecha_cita + 'T12:00:00')
+                    .toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                if (citaEl) {
+                    const label = (window._currentLang === 'en') ? 'Requested slot: ' : 'Cita solicitada: ';
+                    citaEl.textContent = label + pretty + ' · ' + data.hora_cita;
+                    citaEl.classList.add('show');
+                }
+                // Enlace "Añadir a Google Calendar" (evento de 1 hora, hora Colombia,
+                // con el correo del formulario y el del equipo como invitados)
+                if (gcalEl) {
+                    const ymd = data.fecha_cita.replace(/-/g, '');
+                    const hh = parseInt(data.hora_cita.slice(0, 2), 10);
+                    const mm = data.hora_cita.slice(3, 5);
+                    const start = ymd + 'T' + String(hh).padStart(2, '0') + mm + '00';
+                    const end = ymd + 'T' + String(hh + 1).padStart(2, '0') + mm + '00';
+                    const guests = [data.email, 'motoradvertisingservice@gmail.com']
+                        .filter(Boolean).join(',');
+                    const params = new URLSearchParams({
+                        action: 'TEMPLATE',
+                        text: 'Cita con Motor Advertising',
+                        dates: start + '/' + end,
+                        details: 'Reunión agendada desde motoradvertising.co',
+                        ctz: 'America/Bogota',
+                        add: guests
+                    });
+                    gcalEl.href = 'https://calendar.google.com/calendar/render?' + params.toString();
+                    const gcalLabel = gcalEl.querySelector('span');
+                    if (gcalLabel) {
+                        gcalLabel.textContent = (window._currentLang === 'en')
+                            ? 'Add to my Google Calendar'
+                            : 'Añadir a mi Google Calendar';
+                    }
+                    gcalEl.hidden = false;
+                }
+            } else {
+                if (citaEl) { citaEl.textContent = ''; citaEl.classList.remove('show'); }
+                if (gcalEl) { gcalEl.hidden = true; }
+            }
             // Show success screen only when backend confirms
             formStep.classList.add('hidden');
             successStep.classList.remove('hidden');
@@ -863,6 +917,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_contacto: 'Contact',
             nav_planes: 'Plans',
             nav_casos: 'Cases',
+            form_agenda: 'Schedule your call',
             test_title: 'TESTIMONIALS',
             // Hero
             hero_headline: 'Your brand. <span class="highlight">Our engine.</span>',
@@ -1003,6 +1058,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_contacto: 'Contacto',
             nav_planes: 'Planes',
             nav_casos: 'Casos',
+            form_agenda: 'Agenda tu cita',
             test_title: 'TESTIMONIOS',
             hero_headline: 'Tu marca. <span class="highlight">Nuestro motor.</span>',
             hero_subheadline: 'El marketing no es una serie de acciones aisladas.<br>Es un sistema que debe adaptarse, aprender y evolucionar.',

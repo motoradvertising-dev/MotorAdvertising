@@ -6,7 +6,7 @@
     <title>Motor Advertising | Planes</title>
     <meta name="description" content="Planes de crecimiento digital de Motor Advertising: Inicial, Crecimiento y Elite. Sitios web, automatizaciones, SEO, chatbots con IA y más.">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.0">
+    <link rel="stylesheet" href="/styles.css?v=4.4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -44,6 +44,42 @@
         line-height: 1.7;
         position: relative;
     }
+
+    /* Pestañas Marketing / Webs */
+    .plans-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 auto 46px;
+    }
+    .plans-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 34px;
+        border-radius: 50px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,.04);
+        color: var(--text-secondary);
+        font-family: var(--font-body);
+        font-size: .85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all .3s ease;
+    }
+    .plans-tab:hover:not(.active) {
+        border-color: var(--accent-color);
+        color: var(--text-primary);
+    }
+    .plans-tab.active {
+        background: linear-gradient(135deg, var(--accent-color), #0e7490);
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .plans-group[hidden] { display: none; }
 
     .plans-section {
         padding: 40px 40px 120px;
@@ -292,6 +328,95 @@
 
     <!-- PLANES -->
     <section class="plans-section">
+
+        <!-- Pestañas: Webs / Marketing -->
+        <div class="plans-tabs" role="tablist" aria-label="Tipo de plan">
+            <button type="button" class="plans-tab active" id="tab-webs" role="tab" aria-selected="true" data-target="plans-webs">
+                <i class="fas fa-globe" aria-hidden="true"></i> Webs
+            </button>
+            <button type="button" class="plans-tab" id="tab-marketing" role="tab" aria-selected="false" data-target="plans-marketing">
+                <i class="fas fa-bullhorn" aria-hidden="true"></i> Marketing
+            </button>
+        </div>
+
+        <!-- ══════════ PLANES DE MARKETING ══════════ -->
+        <div class="plans-group" id="plans-marketing" hidden>
+        <div class="plans-grid">
+
+            <!-- MARKETING · INICIAL -->
+            <article class="plan-card anim-in">
+                <h2 class="plan-name">Inicial</h2>
+                <p class="plan-audience">Negocios que arrancan con pauta</p>
+                <div class="plan-price">
+                    <span class="plan-setup">$600</span>
+                    <span class="plan-setup-label">USD / mes</span>
+                </div>
+                <div class="plan-monthly">Presupuesto desde $400/mes</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Campañas en Meta Ads</li>
+                    <li><i class="fas fa-check"></i> Segmentación y remarketing</li>
+                    <li><i class="fas fa-check"></i> Creativos publicitarios</li>
+                    <li><i class="fas fa-check"></i> Optimización de CPL, CTR y CPA</li>
+                    <li><i class="fas fa-check"></i> Reporte mensual de resultados</li>
+                </ul>
+                <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Inicial">
+                    Elegir Inicial <i class="fas fa-arrow-right"></i>
+                </a>
+            </article>
+
+            <!-- MARKETING · CRECIMIENTO (RECOMENDADO) -->
+            <article class="plan-card recommended anim-in">
+                <span class="plan-flag"><i class="fas fa-star"></i> Recomendado</span>
+                <h2 class="plan-name">Crecimiento</h2>
+                <p class="plan-audience">Negocios en expansión</p>
+                <div class="plan-price">
+                    <span class="plan-setup">$900</span>
+                    <span class="plan-setup-label">USD / mes</span>
+                </div>
+                <div class="plan-monthly">Presupuesto desde $500/mes</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Inicial, MÁS:</li>
+                    <li><i class="fas fa-check"></i> Google Ads (búsqueda y display)</li>
+                    <li><i class="fas fa-check"></i> A/B testing de creativos y copies</li>
+                    <li><i class="fas fa-check"></i> Estrategia de contenido</li>
+                    <li><i class="fas fa-check"></i> Trazabilidad de leads (píxeles, WhatsApp)</li>
+                    <li><i class="fas fa-check"></i> Reporte quincenal</li>
+                </ul>
+                <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Crecimiento">
+                    Elegir Crecimiento <i class="fas fa-arrow-right"></i>
+                </a>
+            </article>
+
+            <!-- MARKETING · ELITE -->
+            <article class="plan-card anim-in">
+                <h2 class="plan-name">Elite</h2>
+                <p class="plan-audience">Marcas de alto rendimiento</p>
+                <div class="plan-price">
+                    <span class="plan-setup">$1,500</span>
+                    <span class="plan-setup-label">USD / mes</span>
+                </div>
+                <div class="plan-monthly">Presupuesto desde $800/mes</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Crecimiento, MÁS:</li>
+                    <li><i class="fas fa-check"></i> Embudos y landing pages de conversión</li>
+                    <li><i class="fas fa-check"></i> Automatizaciones de seguimiento (email + WhatsApp)</li>
+                    <li><i class="fas fa-check"></i> Dashboard de resultados en tiempo real</li>
+                    <li><i class="fas fa-check"></i> Reunión estratégica mensual</li>
+                    <li><i class="fas fa-check"></i> Soporte prioritario</li>
+                </ul>
+                <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Elite">
+                    Elegir Elite <i class="fas fa-arrow-right"></i>
+                </a>
+            </article>
+
+        </div>
+        </div>
+
+        <!-- ══════════ PLANES DE WEBS ══════════ -->
+        <div class="plans-group" id="plans-webs">
         <div class="plans-grid">
 
             <!-- INICIAL -->
@@ -310,7 +435,7 @@
                     <li><i class="fas fa-check"></i> SEO on-page</li>
                     <li><i class="fas fa-check"></i> Formulario de contacto</li>
                     <li><i class="fas fa-check"></i> Chat widget</li>
-                    <li><i class="fas fa-check"></i> Automatizaciones SMS y email</li>
+                    <li><i class="fas fa-check"></i> Automatizaciones de email</li>
                     <li><i class="fas fa-check"></i> 1 edición/mes</li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Inicial">
@@ -324,10 +449,10 @@
                 <h2 class="plan-name">Crecimiento</h2>
                 <p class="plan-audience">Negocios en expansión</p>
                 <div class="plan-price">
-                    <span class="plan-setup">$2,000</span>
+                    <span class="plan-setup">$1,800</span>
                     <span class="plan-setup-label">setup</span>
                 </div>
-                <div class="plan-monthly">+ $197/mes</div>
+                <div class="plan-monthly">+ $150/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
                     <li><i class="fas fa-check"></i> Sitio de 5 páginas</li>
@@ -350,30 +475,48 @@
                     <span class="plan-setup">$3,000</span>
                     <span class="plan-setup-label">setup</span>
                 </div>
-                <div class="plan-monthly">+ $697/mes</div>
+                <div class="plan-monthly">+ $555/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
                     <li><i class="fas fa-check"></i> Sitio de 10+ páginas</li>
                     <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Crecimiento, MÁS:</li>
                     <li><i class="fas fa-check"></i> Gestión de SEO continua</li>
                     <li><i class="fas fa-check"></i> Chatbot con IA</li>
-                    <li><i class="fas fa-check"></i> Voicebot con IA</li>
+                    <li><i class="fas fa-check"></i> CRM personalizado</li>
                     <li><i class="fas fa-check"></i> 5 ediciones/mes</li>
                 </ul>
-                <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Elite">
+                <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Webs Elite">
                     Elegir Elite <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
         </div>
+        </div>
 
         <p class="plans-note">
-            El <strong>setup</strong> es un pago único de construcción; la mensualidad cubre hosting, soporte y las funciones del plan.
+            En <strong>Webs</strong>, el setup es un pago único de construcción y la mensualidad cubre hosting, soporte y las funciones del plan.
+            En <strong>Marketing</strong>, el presupuesto de pauta va directo a Meta/Google y es independiente del fee mensual.<br>
             ¿No sabes cuál te conviene? <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" style="color:#59a8c4;">Escríbenos</a> y lo definimos juntos.
         </p>
     </section>
 
     <script>
+    // Pestañas Marketing / Webs
+    (function () {
+        var tabs = document.querySelectorAll('.plans-tab');
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                tabs.forEach(function (t) {
+                    t.classList.toggle('active', t === tab);
+                    t.setAttribute('aria-selected', String(t === tab));
+                });
+                document.querySelectorAll('.plans-group').forEach(function (g) {
+                    g.hidden = (g.id !== tab.getAttribute('data-target'));
+                });
+            });
+        });
+    })();
+
     // Animación de entrada de las tarjetas
     (function () {
         var obs = new IntersectionObserver(function (entries) {
@@ -394,7 +537,7 @@
         });
     })();
     </script>
-    <script src="/script.js?v=5.0" defer></script>
+    <script src="/script.js?v=5.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.0" defer></script>
 </body>

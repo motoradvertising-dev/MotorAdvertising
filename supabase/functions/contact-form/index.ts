@@ -154,6 +154,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
   let typeLabel = "";
   let fields: Record<string, string> = {};
 
+  // Cita agendada (opcional, formularios empresa/profesional).
+  // Solo se acepta con formato estricto para evitar basura en el correo.
+  function citaSolicitada(): string {
+    const f = str(body.fecha_cita).trim();
+    const h = str(body.hora_cita).trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(f) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h)) return "";
+    const d = new Date(f + "T12:00:00");
+    if (isNaN(d.getTime())) return "";
+    // Rechazar rollover del motor de fechas (p.ej. 2026-02-31 -> 3 de marzo).
+    const [yy, mm, dd] = f.split("-").map(Number);
+    if (d.getFullYear() !== yy || d.getMonth() + 1 !== mm || d.getDate() !== dd) return "";
+    const pretty = d.toLocaleDateString("es-CO", {
+      weekday: "long", day: "numeric", month: "long", year: "numeric",
+    });
+    return `${pretty} a las ${h} (hora Colombia)`;
+  }
+
   if (type === "empresa") {
     typeLabel = "Empresa";
     const name = str(body.name).trim();
@@ -167,6 +184,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return json(400, { success: false, message: "Email invalido." });
     }
     fields = { name, email, company, message };
+    const cita = citaSolicitada();
+    if (cita) fields.cita_solicitada = cita;
   } else if (type === "profesional") {
     typeLabel = "Profesional";
     const name = str(body.name).trim();
@@ -184,6 +203,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return json(400, { success: false, message: "URL de portafolio invalida." });
     }
     fields = { name, email, role, portfolio, experience };
+    const cita = citaSolicitada();
+    if (cita) fields.cita_solicitada = cita;
   } else if (type === "cuenta") {
     typeLabel = "Creacion de Cuenta";
     const negocio = str(body.negocio).trim();
@@ -206,7 +227,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   // ── Construccion del correo ───────────────────────────────────────────────
   const requestId = crypto.randomUUID();
-  const subject = `[Motor Contact] Nuevo perfil: ${typeLabel}`;
+  const subject = fields.cita_solicitada
+    ? `[Motor Contact] Nueva CITA · ${typeLabel}`
+    : `[Motor Contact] Nuevo perfil: ${typeLabel}`;
   const fecha = new Date().toISOString();
 
   let rowsHtml = "";
