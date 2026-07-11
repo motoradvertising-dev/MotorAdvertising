@@ -4647,12 +4647,37 @@ footer {
 }
 
 @media (max-width: 768px) {
+
+    /* El navbar de escritorio (padding 40px + logo de ~275px) desborda en
+       pantallas angostas y recorta el icono de perfil contra el borde. */
+    .navbar {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .nav-logo-svg {
+        width: clamp(150px, 45vw, 260px);
+        height: auto;
+    }
+
+    .nav-right-group {
+        gap: 10px;
+    }
+
+    .nav-wa-btn,
+    .nav-profile,
+    .menu-toggle {
+        flex-shrink: 0;
+    }
+
     .nav-profile-btn {
         width: 36px;
         height: 36px;
     }
+
     .nav-profile-menu {
-        right: -60px;
+        right: -50px;
+        max-width: calc(100vw - 24px);
     }
 }
 
