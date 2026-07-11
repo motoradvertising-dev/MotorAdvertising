@@ -153,22 +153,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   let typeLabel = "";
   let fields: Record<string, string> = {};
+  let cita: { pretty: string; fecha: string; hora: string } | null = null;
 
   // Cita agendada (opcional, formularios empresa/profesional).
   // Solo se acepta con formato estricto para evitar basura en el correo.
-  function citaSolicitada(): string {
+  function citaSolicitada(): { pretty: string; fecha: string; hora: string } | null {
     const f = str(body.fecha_cita).trim();
     const h = str(body.hora_cita).trim();
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(f) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h)) return "";
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(f) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h)) return null;
     const d = new Date(f + "T12:00:00");
-    if (isNaN(d.getTime())) return "";
+    if (isNaN(d.getTime())) return null;
     // Rechazar rollover del motor de fechas (p.ej. 2026-02-31 -> 3 de marzo).
     const [yy, mm, dd] = f.split("-").map(Number);
-    if (d.getFullYear() !== yy || d.getMonth() + 1 !== mm || d.getDate() !== dd) return "";
+    if (d.getFullYear() !== yy || d.getMonth() + 1 !== mm || d.getDate() !== dd) return null;
     const pretty = d.toLocaleDateString("es-CO", {
       weekday: "long", day: "numeric", month: "long", year: "numeric",
     });
-    return `${pretty} a las ${h} (hora Colombia)`;
+    return { pretty: `${pretty} a las ${h} (hora Colombia)`, fecha: f, hora: h };
   }
 
   if (type === "empresa") {
@@ -184,8 +185,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return json(400, { success: false, message: "Email invalido." });
     }
     fields = { name, email, company, message };
-    const cita = citaSolicitada();
-    if (cita) fields.cita_solicitada = cita;
+    cita = citaSolicitada();
   } else if (type === "profesional") {
     typeLabel = "Profesional";
     const name = str(body.name).trim();
@@ -203,8 +203,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return json(400, { success: false, message: "URL de portafolio invalida." });
     }
     fields = { name, email, role, portfolio, experience };
-    const cita = citaSolicitada();
-    if (cita) fields.cita_solicitada = cita;
+    cita = citaSolicitada();
   } else if (type === "cuenta") {
     typeLabel = "Creacion de Cuenta";
     const negocio = str(body.negocio).trim();
@@ -227,26 +226,68 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   // ── Construccion del correo ───────────────────────────────────────────────
   const requestId = crypto.randomUUID();
-  const subject = fields.cita_solicitada
-    ? `[Motor Contact] Nueva CITA · ${typeLabel}`
+  const subject = cita
+    ? `[Motor Contact] CITA ${typeLabel} · ${cita.fecha} ${cita.hora} · ${fields.name}`
     : `[Motor Contact] Nuevo perfil: ${typeLabel}`;
-  const fecha = new Date().toISOString();
+  const fecha = new Date().toLocaleString("es-CO", {
+    timeZone: "America/Bogota", dateStyle: "long", timeStyle: "short",
+  }) + " (hora Colombia)";
 
   let rowsHtml = "";
   const textLines: string[] = [
     `Nueva solicitud de contacto: ${typeLabel}`,
     `ID de solicitud: ${requestId}`,
-    `Fecha: ${fecha}`,
+    `Fecha de envio: ${fecha}`,
     "-".repeat(40),
   ];
   for (const [key, value] of Object.entries(fields)) {
     rowsHtml += `<p><strong>${esc(key)}:</strong> ${esc(value)}</p>`;
     textLines.push(`${key}: ${value}`);
   }
+
+  // Bloque destacado de la cita + boton "Crear reunion en Google Calendar"
+  // (enlace precargado con titulo, fecha/hora Colombia e invitados).
+  let citaHtml = "";
+  if (cita) {
+    const c = cita;
+    const [h, m] = c.hora.split(":").map(Number);
+    const stamp = (hh: number, mm2: number) =>
+      c.fecha.replaceAll("-", "") + "T" +
+      String(hh).padStart(2, "0") + String(mm2).padStart(2, "0") + "00";
+    const endH = Math.min(h + 1, 23);          // citas de 1 hora
+    const endM = h + 1 > 23 ? 59 : m;          // sin rollover de dia
+    const gcal = "https://calendar.google.com/calendar/render?" +
+      new URLSearchParams({
+        action: "TEMPLATE",
+        text: `Cita Motor Advertising — ${fields.name} (${typeLabel})`,
+        dates: `${stamp(h, m)}/${stamp(endH, endM)}`,
+        details:
+          `Cita agendada desde motoradvertising.co\n\n` +
+          `Nombre: ${fields.name}\nEmail: ${fields.email}\nTipo: ${typeLabel}\n` +
+          `ID de solicitud: ${requestId}`,
+        ctz: "America/Bogota",
+        add: [fields.email, NOTIFY_TO].join(","),
+      }).toString();
+
+    citaHtml = `
+        <div style="background:#f2f7f5;border:1px solid #cfe3db;border-radius:12px;padding:18px 22px;margin:20px 0;">
+          <p style="margin:0 0 6px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#0F394A;"><strong>&#128197; Cita agendada</strong></p>
+          <p style="margin:0 0 4px;font-size:18px;color:#111111;"><strong>${esc(c.pretty)}</strong></p>
+          <p style="margin:0 0 14px;font-size:13px;color:#555555;">Duraci&oacute;n estimada: 1 hora &middot; Solicitada por ${esc(fields.name)} (${esc(fields.email)})</p>
+          <a href="${esc(gcal)}" style="display:inline-block;background:#0F394A;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:bold;">Crear reuni&oacute;n en Google Calendar</a>
+        </div>`;
+    textLines.push(
+      "",
+      `CITA AGENDADA: ${c.pretty} (duracion estimada: 1 hora)`,
+      `Crear reunion en Google Calendar: ${gcal}`,
+    );
+  }
+
   const html = `
         <h2>Nueva solicitud de contacto: ${esc(typeLabel)}</h2>
+        ${citaHtml}
         <p><strong>ID de solicitud:</strong> ${esc(requestId)}</p>
-        <p><strong>Fecha:</strong> ${esc(fecha)}</p>
+        <p><strong>Fecha de envio:</strong> ${esc(fecha)}</p>
         <hr>
         ${rowsHtml}
     `;
