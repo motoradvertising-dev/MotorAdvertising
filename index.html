@@ -5,15 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motor Advertising | Sistema de Crecimiento</title>
+    <meta name="description" content="Motor Advertising: sistemas de crecimiento digital. Publicidad de performance, sitios web, automatizaciones con IA y estrategia para escalar tu marca.">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://motoradvertising.co/">
+    <meta property="og:title" content="Motor Advertising | Sistema de Crecimiento">
+    <meta property="og:description" content="Publicidad de performance, sitios web, automatizaciones con IA y estrategia para escalar tu marca.">
+    <meta property="og:image" content="https://motoradvertising.co/assets/motor-leadership-characters.png">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
     <link rel="stylesheet" href="/styles.css?v=4.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
     <link
         href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preload" as="video" href="https://raw.githubusercontent.com/Amadeusguitarte/Motoradsvideos77/main/motoraddds_4.mp4" type="video/mp4">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Motor Advertising",
+      "url": "https://motoradvertising.co",
+      "logo": "https://motoradvertising.co/assets/favicon.png",
+      "description": "Agencia de crecimiento digital: performance ads, desarrollo web y automatizaciones con IA.",
+      "address": { "@type": "PostalAddress", "addressCountry": "CO" }
+    }
+    </script>
 </head>
 
 <body>
@@ -68,9 +92,16 @@
             <li><a href="#webs" data-i18n="nav_webs">Proyectos</a></li>
         </ul>
         <div class="nav-right-group">
-            <a href="/paginas/contacto" class="nav-wa-btn" id="nav-btn-agendar">
-                <span>Agendar una cita</span>
+            <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
+                <i class="fas fa-layer-group" aria-hidden="true"></i>
+                <span data-i18n="nav_planes">Planes</span>
             </a>
+            <div class="nav-profile" id="nav-profile">
+                <button type="button" class="nav-profile-btn" id="nav-profile-btn" aria-label="Perfil" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="nav-profile-menu" id="nav-profile-menu" hidden></div>
+            </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
@@ -79,7 +110,7 @@
 
     <!-- ==================== 1. HERO ==================== -->
     <section id="inicio" class="hero-section">
-        <video class="hero-video-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.4; pointer-events: none;" autoplay loop muted playsinline>
+        <video class="hero-video-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.4; pointer-events: none;" autoplay loop muted playsinline preload="metadata">
             <source src="https://raw.githubusercontent.com/Amadeusguitarte/Motoradsvideos77/main/motoraddds_4.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
@@ -791,7 +822,7 @@
                 </div>
                 <button class="wa-popup-close" id="wa-popup-close"><i class="fas fa-times"></i></button>
             </div>
-            <a href="https://wa.link/9k84s7" target="_blank" class="wa-popup-body-link">
+            <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="wa-popup-body-link">
                 <div class="wa-popup-body">
                     <div class="wa-message">
                         ¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?
@@ -806,7 +837,7 @@
         </div>
 
         <!-- The Floating Button -->
-        <a href="https://wa.link/9k84s7" target="_blank" class="wa-sticky-btn" id="wa-sticky-btn">
+        <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="wa-sticky-btn" id="wa-sticky-btn">
             <i class="fab fa-whatsapp"></i>
             <span class="wa-badge" id="wa-badge">1</span>
         </a>
@@ -822,6 +853,8 @@
     <div class="overlay"></div>
 
     <script src="/script.js?v=5.0" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/assets/js/auth.js?v=1.0" defer></script>
 </body>
 
 </html>

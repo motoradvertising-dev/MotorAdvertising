@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /paginas/propuesta
+Disallow: /paginas/reporte
+Disallow: /paginas/creacion-de-cuenta/
+Disallow: /paginas/login/
+
+Sitemap: https://motoradvertising.co/sitemap.xml

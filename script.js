@@ -492,7 +492,7 @@ if (document.getElementById('profesional-contact-form')) {
 
         if (mainCTA) {
             // Set href if it was an <a> tag, or add listener
-            mainCTA.onclick = () => window.open(p.url, '_blank');
+            mainCTA.onclick = () => window.open(p.url, '_blank', 'noopener');
         }
 
         renderSelector(); // Update active state in list
@@ -861,6 +861,8 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_pauta: 'Paid Media',
             nav_servicios: 'Services',
             nav_contacto: 'Contact',
+            nav_planes: 'Plans',
+            nav_casos: 'Cases',
             test_title: 'TESTIMONIALS',
             // Hero
             hero_headline: 'Your brand. <span class="highlight">Our engine.</span>',
@@ -999,6 +1001,8 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_pauta: 'Pauta',
             nav_servicios: 'Servicios',
             nav_contacto: 'Contacto',
+            nav_planes: 'Planes',
+            nav_casos: 'Casos',
             test_title: 'TESTIMONIOS',
             hero_headline: 'Tu marca. <span class="highlight">Nuestro motor.</span>',
             hero_subheadline: 'El marketing no es una serie de acciones aisladas.<br>Es un sistema que debe adaptarse, aprender y evolucionar.',

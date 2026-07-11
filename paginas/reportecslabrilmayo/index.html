@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
 <title>Reporte de Pauta — Compañía Soluciones Legales</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" defer></script>
 <style>
   :root {
     --gold: #C9A84C;
@@ -924,6 +925,8 @@
 </footer>
 
 <script>
+// Chart.js se carga con defer: esperar DOMContentLoaded garantiza que ya está definido.
+document.addEventListener('DOMContentLoaded', function () {
 const GOLD = '#C9A84C';
 const BLACK = '#0D0D0D';
 const GOLD_LIGHT = '#E8CC85';
@@ -1025,6 +1028,7 @@ new Chart(document.getElementById('chartDemo'), {
       x: { grid: { display: false }, ticks: { autoSkip: false } }
     }
   }
+});
 });
 </script>
 </body>
