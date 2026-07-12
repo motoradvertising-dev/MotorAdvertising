@@ -198,6 +198,51 @@
     .auth-msg.error { background: rgba(200,60,50,.12); border: 1px solid rgba(200,60,50,.4); color: #ff9c92; }
     .auth-msg.ok { background: rgba(40,160,90,.12); border: 1px solid rgba(40,160,90,.4); color: #7fd8a4; }
 
+    /* Selector de tipo de cuenta (registro) */
+    .auth-roles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .auth-role {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 14px 10px;
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        background: rgba(255,255,255,.04);
+        color: var(--text-secondary);
+        cursor: pointer;
+        text-align: center;
+        transition: all .2s ease;
+        font-size: .8rem;
+    }
+    .auth-role i { font-size: 1.1rem; color: #59a8c4; }
+    .auth-role strong {
+        color: var(--text-primary);
+        font-size: .82rem;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+    .auth-role input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .auth-role.selected {
+        border-color: var(--accent-color);
+        background: rgba(15,57,74,.25);
+        box-shadow: 0 0 0 2px rgba(15,57,74,.4);
+    }
+    /* Indicador de foco por teclado (el radio real está oculto) */
+    .auth-role:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(89,168,196,.55);
+    }
+
     .auth-foot {
         margin-top: 22px;
         text-align: center;
@@ -246,6 +291,23 @@
             <!-- SIGNUP -->
             <form class="auth-form" id="form-signup" hidden novalidate>
                 <div class="auth-field">
+                    <label id="signup-roles-label" data-i18n="lgn_role_q">¿Qué tipo de cuenta necesitas?</label>
+                    <div class="auth-roles" id="signup-roles" role="radiogroup" aria-labelledby="signup-roles-label">
+                        <label class="auth-role" data-role="empresa">
+                            <input type="radio" name="requested_role" value="empresa">
+                            <i class="fas fa-building" aria-hidden="true"></i>
+                            <strong data-i18n="lgn_role_empresa">Empresa</strong>
+                            <span data-i18n="lgn_role_empresa_d">Quiero contratar servicios</span>
+                        </label>
+                        <label class="auth-role" data-role="empleado">
+                            <input type="radio" name="requested_role" value="empleado">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i>
+                            <strong data-i18n="lgn_role_empleado">Empleado</strong>
+                            <span data-i18n="lgn_role_empleado_d">Hago parte del equipo</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="auth-field">
                     <label for="signup-name" data-i18n="form_nombre">Nombre completo</label>
                     <input type="text" id="signup-name" name="name" autocomplete="name" required>
                 </div>
@@ -269,10 +331,10 @@
     </main>
 
     <script src="/script.js?v=5.5" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/assets/js/auth.js?v=1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/assets/js/auth.js?v=1.1" defer></script>
     <script>
-    (function () {
+    document.addEventListener('DOMContentLoaded', function () {
         'use strict';
 
         var tabLogin = document.getElementById('tab-login');
@@ -320,16 +382,27 @@
             return;
         }
 
-        // Si ya hay sesión, ir directo a planes.
+        // Si ya hay sesión, ir directo al panel.
         window.MotorAuth.getSession().then(function (res) {
             if (res && res.data && res.data.session) {
-                window.location.replace('/paginas/planes/');
+                window.location.replace('/paginas/perfil/');
             }
+        });
+
+        /* Selector de tipo de cuenta (registro) */
+        var selectedRole = '';
+        document.querySelectorAll('#signup-roles .auth-role').forEach(function (card) {
+            card.addEventListener('click', function () {
+                selectedRole = card.getAttribute('data-role');
+                document.querySelectorAll('#signup-roles .auth-role').forEach(function (c) {
+                    c.classList.toggle('selected', c === card);
+                });
+            });
         });
 
         /* Google — signInWithOAuth resuelve con {data,error}, nunca rechaza */
         document.getElementById('btn-google').addEventListener('click', function () {
-            window.MotorAuth.signInWithGoogle('/paginas/planes/').then(function (res) {
+            window.MotorAuth.signInWithGoogle('/paginas/perfil/').then(function (res) {
                 if (res && res.error) {
                     var m = /provider is not enabled/i.test(res.error.message || '')
                         ? 'El acceso con Google aún no está habilitado. Usa tu correo o intenta más tarde.'
@@ -354,7 +427,7 @@
             window.MotorAuth.signInEmail(email, pass).then(function (res) {
                 if (res.error) { setMsg(msg, friendlyError(res.error), 'error'); btn.disabled = false; return; }
                 setMsg(msg, '¡Listo! Entrando…', 'ok');
-                window.location.href = '/paginas/planes/';
+                window.location.href = '/paginas/perfil/';
             }).catch(function (err) {
                 setMsg(msg, friendlyError(err), 'error');
                 btn.disabled = false;
@@ -371,11 +444,12 @@
             var name = document.getElementById('signup-name').value.trim();
             var email = document.getElementById('signup-email').value.trim();
             var pass = document.getElementById('signup-password').value;
+            if (!selectedRole) { setMsg(msg, 'Elige si tu cuenta es de Empresa o de Empleado.', 'error'); return; }
             if (!name || !email || !pass) { setMsg(msg, 'Completa todos los campos.', 'error'); return; }
             if (pass.length < 6) { setMsg(msg, 'La contraseña debe tener mínimo 6 caracteres.', 'error'); return; }
 
             btn.disabled = true;
-            window.MotorAuth.signUpEmail(email, pass, name).then(function (res) {
+            window.MotorAuth.signUpEmail(email, pass, name, selectedRole).then(function (res) {
                 if (res.error) { setMsg(msg, friendlyError(res.error), 'error'); btn.disabled = false; return; }
                 // Con "Confirm email" activo, un correo ya registrado devuelve un
                 // usuario ofuscado con identities: [] en lugar de un error.
@@ -392,14 +466,14 @@
                     btn.disabled = false;
                 } else {
                     setMsg(msg, '¡Cuenta creada! Entrando…', 'ok');
-                    window.location.href = '/paginas/planes/';
+                    window.location.href = '/paginas/perfil/';
                 }
             }).catch(function (err) {
                 setMsg(msg, friendlyError(err), 'error');
                 btn.disabled = false;
             });
         });
-    })();
+    });
     </script>
     <!-- Sticky Language Switcher -->
     <div class="lang-switcher-floating" id="lang-switcher-floating">

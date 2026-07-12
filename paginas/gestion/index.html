@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión | Motor Advertising</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    .adm-wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 140px 24px 90px;
+        min-height: 80vh;
+    }
+    .adm-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #59a8c4; margin-bottom: 10px; }
+    .adm-title { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); margin-bottom: 6px; }
+    .adm-sub { color: var(--text-secondary); font-size: .92rem; margin-bottom: 30px; }
+
+    .adm-loading { text-align: center; color: var(--text-secondary); padding: 80px 0; }
+    .adm-loading i { color: #59a8c4; margin-right: 8px; }
+
+    .adm-toolbar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 20px; }
+    .adm-search {
+        flex: 1; min-width: 220px;
+        padding: 12px 18px;
+        border-radius: 50px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,.04);
+        color: var(--text-primary);
+        font-family: var(--font-body); font-size: .88rem;
+    }
+    .adm-search:focus { outline: none; border-color: var(--accent-color); }
+    .adm-refresh {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 20px; border-radius: 50px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,.05);
+        color: var(--text-primary); cursor: pointer;
+        font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px;
+        transition: all .25s ease;
+    }
+    .adm-refresh:hover { border-color: var(--accent-color); box-shadow: 0 0 14px var(--accent-glow); }
+
+    .adm-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .adm-chip {
+        padding: 7px 16px; border-radius: 50px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,.04);
+        color: var(--text-secondary); font-size: .78rem;
+    }
+    .adm-chip strong { color: var(--text-primary); }
+
+    .adm-tablewrap {
+        border: 1px solid var(--glass-border);
+        border-radius: 14px;
+        background: rgba(255,255,255,.02);
+        overflow-x: auto;
+    }
+    table.adm-table { width: 100%; border-collapse: collapse; min-width: 960px; }
+    .adm-table th {
+        text-align: left;
+        font-size: .68rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: var(--text-secondary);
+        padding: 14px 14px;
+        border-bottom: 1px solid var(--glass-border);
+        white-space: nowrap;
+    }
+    .adm-table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+        font-size: .84rem;
+        color: var(--text-secondary);
+        vertical-align: middle;
+    }
+    .adm-table tr:last-child td { border-bottom: none; }
+    .adm-table tr:hover td { background: rgba(255,255,255,.02); }
+
+    .adm-user .u-name { color: var(--text-primary); font-weight: 600; display: block; }
+    .adm-user .u-email { font-size: .76rem; word-break: break-all; }
+    .adm-user .u-super { color: #ffce7a; font-size: .7rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    .adm-table select, .adm-table input[type="text"] {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--glass-border);
+        background: rgba(10,10,12,.9);
+        color: var(--text-primary);
+        font-family: var(--font-body); font-size: .8rem;
+    }
+    .adm-table select:focus, .adm-table input:focus { outline: none; border-color: var(--accent-color); }
+    .adm-table td.c-rol { min-width: 130px; }
+    .adm-table td.c-plan { min-width: 180px; }
+    .adm-table td.c-estado { min-width: 120px; }
+    .adm-table td.c-notas { min-width: 170px; }
+
+    .adm-save {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 9px 16px; border-radius: 50px; border: none;
+        background: linear-gradient(135deg, var(--accent-color), #0e7490);
+        color: #fff; cursor: pointer;
+        font-family: var(--font-body); font-size: .74rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px;
+        transition: all .2s ease;
+        white-space: nowrap;
+    }
+    .adm-save:hover { box-shadow: 0 4px 14px var(--accent-glow); }
+    .adm-save:disabled { opacity: .5; cursor: wait; }
+    .adm-save.ok { background: linear-gradient(135deg, #1eae54, #25d366); }
+    .adm-save.err { background: linear-gradient(135deg, #a83a32, #d05046); }
+
+    .row-solicito { font-size: .74rem; }
+    .row-solicito.si { color: #7fd8a4; }
+
+    .adm-denied { text-align: center; padding: 80px 20px; }
+    .adm-denied i { font-size: 2rem; color: #ff9c92; margin-bottom: 14px; }
+    .adm-denied h2 { font-family: var(--font-heading); text-transform: uppercase; color: var(--text-primary); margin-bottom: 8px; }
+    .adm-denied p { color: var(--text-secondary); }
+    .adm-denied a { color: #59a8c4; }
+
+    @media (max-width: 640px) {
+        .adm-wrap { padding: 120px 12px 70px; }
+    }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left-group">
+            <a href="/#inicio" class="logo" aria-label="Motor Advertising — Inicio">
+                <svg class="nav-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
+                    <path class="slash-dark" fill="#ffffff" opacity="0.33" d="M37.55,23.21l-11.41,64.36h-9.12L28.43,23.21h9.12Z" />
+                    <path class="slash-light" fill="#ffffff" opacity="0.66" d="M61.08,23.21l-11.41,64.36h-11.34l11.41-64.36h11.34Z" />
+                    <path fill="#ffffff" d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
+                    <path fill="#ffffff" d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM158.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM271.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM342.06,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff" d="M437.52,23.01l26.06,64.56h-15.81l-4.77-12.91h-24.57l-4.77,12.91h-15.81l26.06-64.56h13.62ZM437.99,61.74l-7.2-18.78h-.16l-7.2,18.78h14.55Z" />
+                    <path fill="#ffffff" d="M466.09,23.01h18.7c8.97,0,16.64,3.06,23.01,9.19,6.36,6.13,9.55,13.81,9.55,23.04s-3.17,16.99-9.51,23.12c-6.34,6.13-14.02,9.19-23.04,9.19h-18.7V23.01ZM480.8,74.42h2.27c5.37,0,9.77-1.81,13.19-5.44,3.42-3.63,5.15-8.18,5.2-13.66,0-5.48-1.71-10.04-5.12-13.69-3.42-3.65-7.84-5.48-13.26-5.48h-2.27v38.27Z" />
+                    <path fill="#ffffff" d="M537.37,87.56l-27.08-64.56h16.59l16.28,42.41,16.28-42.41h16.59l-27.08,64.56h-11.58Z" />
+                    <path fill="#ffffff" d="M615.47,23.01v12.91h-22.22v12.83h21.28v12.91h-21.28v12.99h22.22v12.91h-36.93V23.01h36.93Z" />
+                    <path fill="#ffffff" d="M623.92,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM638.63,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff" d="M672.75,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M747.42,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff" d="M777.17,21.83c3.49,0,6.91.51,10.25,1.53,3.34,1.02,5.82,2.02,7.43,3.01l2.35,1.56-5.95,11.74c-.47-.31-1.12-.72-1.96-1.21-.83-.5-2.4-1.16-4.7-2-2.3-.83-4.43-1.25-6.42-1.25-2.45,0-4.34.52-5.67,1.56-1.33,1.04-2,2.45-2,4.23,0,.89.31,1.71.94,2.46.63.76,1.69,1.56,3.21,2.43,1.51.86,2.84,1.55,3.99,2.07,1.15.52,2.92,1.3,5.32,2.35,4.17,1.77,7.73,4.19,10.68,7.24,2.95,3.05,4.42,6.51,4.42,10.37s-.67,6.94-2,9.7c-1.33,2.77-3.16,4.93-5.48,6.5-2.32,1.56-4.89,2.73-7.71,3.48-2.82.76-5.87,1.13-9.16,1.13-2.82,0-5.58-.29-8.29-.86-2.71-.57-4.98-1.29-6.81-2.15-1.83-.86-3.47-1.71-4.93-2.54-1.46-.83-2.53-1.54-3.21-2.11l-1.02-.86,7.36-12.36c.63.52,1.49,1.19,2.58,2,1.1.81,3.04,1.89,5.83,3.25,2.79,1.36,5.25,2.03,7.39,2.03,6.21,0,9.31-2.11,9.31-6.34,0-.89-.22-1.71-.67-2.46-.44-.76-1.23-1.51-2.35-2.27-1.12-.76-2.11-1.36-2.97-1.8-.86-.44-2.27-1.12-4.23-2.03-1.96-.91-3.4-1.6-4.34-2.07-3.91-1.93-6.94-4.34-9.08-7.24-2.14-2.9-3.21-6.01-3.21-9.35,0-5.79,2.14-10.52,6.42-14.2,4.28-3.68,9.16-5.52,14.63-5.52Z" />
+                    <path fill="#ffffff" d="M829.94,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff" d="M853.15,47.5v40.06h-14.71V23.01h14.71l25.67,40.06h.16V23.01h14.71v64.56h-14.71l-25.67-40.06h-.16Z" />
+                    <path fill="#ffffff" d="M961.45,51.41v14.01c-1.67,7.67-5.32,13.47-10.96,17.41-5.63,3.94-11.92,5.91-18.86,5.91-8.71,0-16.13-3.26-22.26-9.78-6.13-6.52-9.19-14.4-9.19-23.63s3-17.32,9-23.79c6-6.47,13.48-9.7,22.46-9.7,10.49,0,18.78,3.68,24.88,11.03l-9.62,10.56c-3.44-5.53-8.24-8.29-14.4-8.29-4.54,0-8.41,1.97-11.62,5.91-3.21,3.94-4.81,8.7-4.81,14.28s1.6,10.16,4.81,14.05c3.21,3.89,7.08,5.83,11.62,5.83,3.76,0,7.03-1.13,9.82-3.4,2.79-2.27,4.19-5.28,4.19-9.04h-14.87v-11.35h29.81Z" />
+                </svg>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/#inicio" data-i18n="nav_inicio">Inicio</a></li>
+            <li><a href="/paginas/services" data-i18n="nav_servicios">Servicios</a></li>
+            <li><a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a></li>
+            <li><a href="/#casos" data-i18n="nav_casos">Casos</a></li>
+            <li><a href="/#webs" data-i18n="nav_webs">Proyectos</a></li>
+            <li><a href="/#contacto" data-i18n="nav_contactanos">Contáctanos</a></li>
+        </ul>
+        <div class="nav-right-group">
+            <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
+                <i class="fas fa-layer-group" aria-hidden="true"></i>
+                <span data-i18n="nav_planes">Planes</span>
+            </a>
+            <div class="nav-profile" id="nav-profile">
+                <button type="button" class="nav-profile-btn" id="nav-profile-btn" aria-label="Perfil" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="nav-profile-menu" id="nav-profile-menu" hidden></div>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="adm-wrap">
+        <div id="adm-loading" class="adm-loading"><i class="fas fa-circle-notch fa-spin"></i> Cargando gestión…</div>
+        <div id="adm-content" hidden>
+            <p class="adm-eyebrow">Superusuario</p>
+            <h1 class="adm-title">Gestión de usuarios</h1>
+            <p class="adm-sub">Todos los que han creado cuenta. Asigna su rol, su plan y el estado de la suscripción.</p>
+
+            <div class="adm-stats" id="adm-stats"></div>
+
+            <div class="adm-toolbar">
+                <input type="search" class="adm-search" id="adm-search" placeholder="Buscar por nombre o correo…">
+                <button type="button" class="adm-refresh" id="adm-refresh"><i class="fas fa-rotate-right"></i> Actualizar</button>
+            </div>
+
+            <div class="adm-tablewrap">
+                <table class="adm-table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Registro</th>
+                            <th>Solicitó</th>
+                            <th>Rol</th>
+                            <th>Plan</th>
+                            <th>Suscripción</th>
+                            <th>Notas</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="adm-rows"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="adm-denied" class="adm-denied" hidden>
+            <i class="fas fa-lock"></i>
+            <h2>Acceso restringido</h2>
+            <p>Esta sección es solo para el equipo de Motor Advertising.<br><a href="/paginas/perfil/">Ir a mi panel</a></p>
+        </div>
+    </main>
+
+    <script src="/script.js?v=5.5" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/assets/js/auth.js?v=1.1" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        'use strict';
+
+        var ROLES = { pendiente: 'Pendiente', empresa: 'Empresa', empleado: 'Empleado', superadmin: 'Superadmin' };
+        var PLANES = {
+            '': '— Sin plan —',
+            webs_inicial: 'Webs Inicial', webs_crecimiento: 'Webs Crecimiento', webs_elite: 'Webs Elite',
+            mkt_inicial: 'Marketing Inicial', mkt_crecimiento: 'Marketing Crecimiento', mkt_elite: 'Marketing Elite'
+        };
+        var ESTADOS = { sin_plan: 'Sin plan', activo: 'Activo', pausado: 'Pausado', cancelado: 'Cancelado' };
+
+        var loading = document.getElementById('adm-loading');
+        var content = document.getElementById('adm-content');
+        var denied = document.getElementById('adm-denied');
+        var tbody = document.getElementById('adm-rows');
+        var allRows = [];
+        var myId = null; // id del superadmin en sesión (no puede cambiar su propio rol)
+
+        function esc(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+        function options(map, selected) {
+            return Object.keys(map).map(function (k) {
+                return '<option value="' + esc(k) + '"' + ((selected || '') === k ? ' selected' : '') + '>' + esc(map[k]) + '</option>';
+            }).join('');
+        }
+        function fecha(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' });
+            } catch (e) { return ''; }
+        }
+
+        function renderStats() {
+            var st = [
+                ['Total', allRows.length],
+                ['Pendientes', allRows.filter(function (r) { return r.role === 'pendiente'; }).length],
+                ['Empresas', allRows.filter(function (r) { return r.role === 'empresa'; }).length],
+                ['Empleados', allRows.filter(function (r) { return r.role === 'empleado'; }).length],
+                ['Planes activos', allRows.filter(function (r) { return r.plan_status === 'activo'; }).length]
+            ];
+            document.getElementById('adm-stats').innerHTML = st.map(function (s) {
+                return '<span class="adm-chip"><strong>' + s[1] + '</strong> ' + s[0] + '</span>';
+            }).join('');
+        }
+
+        // Construye TODAS las filas una vez (en carga/actualizar). El buscador
+        // solo oculta/muestra filas, para no destruir ediciones sin guardar.
+        function buildRows() {
+            if (!allRows.length) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px">Aún no hay cuentas registradas.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = allRows.map(function (r) {
+                var esYo = r.id === myId;
+                var superTag = r.role === 'superadmin' ? '<span class="u-super"><i class="fas fa-crown"></i> Superusuario</span>' : '';
+                var solicito = r.requested_role
+                    ? '<span class="row-solicito si"><i class="fas fa-hand"></i> ' + esc(r.requested_role) + '</span>'
+                    : '<span class="row-solicito">—</span>';
+                // La fila del propio superadmin no puede cambiar su rol (evita auto-degradarse).
+                var rolCell = esYo
+                    ? '<span class="u-super"><i class="fas fa-lock"></i> Tú</span>'
+                    : '<select data-f="role">' + options(ROLES, r.role) + '</select>';
+                return '<tr data-id="' + esc(r.id) + '">' +
+                    '<td class="adm-user"><span class="u-name">' + esc(r.full_name || '(sin nombre)') + '</span>' +
+                        '<span class="u-email">' + esc(r.email) + '</span>' + superTag + '</td>' +
+                    '<td>' + fecha(r.created_at) + '</td>' +
+                    '<td>' + solicito + '</td>' +
+                    '<td class="c-rol">' + rolCell + '</td>' +
+                    '<td class="c-plan"><select data-f="plan">' + options(PLANES, r.plan || '') + '</select></td>' +
+                    '<td class="c-estado"><select data-f="plan_status">' + options(ESTADOS, r.plan_status) + '</select></td>' +
+                    '<td class="c-notas"><input type="text" data-f="notes" value="' + esc(r.notes || '') + '" placeholder="Notas internas…"></td>' +
+                    '<td><button type="button" class="adm-save"><i class="fas fa-floppy-disk"></i> Guardar</button></td>' +
+                '</tr>';
+            }).join('');
+
+            tbody.querySelectorAll('.adm-save').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var tr = btn.closest('tr');
+                    var id = tr.getAttribute('data-id');
+                    var payload = {};
+                    tr.querySelectorAll('[data-f]').forEach(function (el) {
+                        var v = el.value;
+                        payload[el.getAttribute('data-f')] = (el.getAttribute('data-f') === 'plan' && v === '') ? null : v;
+                    });
+                    btn.disabled = true;
+                    btn.classList.remove('ok', 'err');
+                    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+                    window.MotorAuth.client.from('profiles').update(payload).eq('id', id)
+                        .then(function (r) {
+                            btn.disabled = false;
+                            if (r.error) {
+                                btn.classList.add('err');
+                                btn.innerHTML = '<i class="fas fa-xmark"></i> Error';
+                                console.error('[Gestion]', r.error.message);
+                            } else {
+                                btn.classList.add('ok');
+                                btn.innerHTML = '<i class="fas fa-check"></i> Listo';
+                                var row = allRows.find(function (x) { return x.id === id; });
+                                if (row) Object.assign(row, payload);
+                                renderStats();
+                            }
+                            setTimeout(function () {
+                                btn.classList.remove('ok', 'err');
+                                btn.innerHTML = '<i class="fas fa-floppy-disk"></i> Guardar';
+                            }, 2200);
+                        });
+                });
+            });
+            applyFilter(document.getElementById('adm-search').value);
+        }
+
+        // Filtra por visibilidad, sin reconstruir el DOM (conserva ediciones).
+        function applyFilter(filter) {
+            var q = (filter || '').toLowerCase();
+            var visibles = 0;
+            allRows.forEach(function (r) {
+                var tr = tbody.querySelector('tr[data-id="' + (window.CSS && CSS.escape ? CSS.escape(r.id) : r.id) + '"]');
+                if (!tr) return;
+                var match = !q || (r.email || '').toLowerCase().indexOf(q) !== -1 ||
+                            (r.full_name || '').toLowerCase().indexOf(q) !== -1;
+                tr.style.display = match ? '' : 'none';
+                if (match) visibles++;
+            });
+            var empty = document.getElementById('adm-empty');
+            if (empty) empty.remove();
+            if (!visibles && allRows.length) {
+                tbody.insertAdjacentHTML('beforeend',
+                    '<tr id="adm-empty"><td colspan="8" style="text-align:center;padding:30px">Sin resultados.</td></tr>');
+            }
+        }
+
+        function showError(msg) {
+            loading.hidden = false;
+            content.hidden = true;
+            denied.hidden = true;
+            loading.innerHTML = '<i class="fas fa-triangle-exclamation" style="color:#ff9c92"></i> ' + esc(msg) +
+                ' <button type="button" class="adm-refresh" style="margin-left:12px" onclick="location.reload()"><i class="fas fa-rotate-right"></i> Reintentar</button>';
+        }
+
+        function load() {
+            window.MotorAuth.client.from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .then(function (r) {
+                    if (r.error) {
+                        showError('No se pudo cargar la lista: ' + r.error.message);
+                        return;
+                    }
+                    allRows = r.data || [];
+                    loading.hidden = true;
+                    content.hidden = false;
+                    renderStats();
+                    buildRows();
+                });
+        }
+
+        if (!window.MotorAuth) {
+            loading.textContent = 'No se pudo cargar el sistema de acceso. Recarga la página.';
+            return;
+        }
+
+        window.MotorAuth.getSession().then(function (res) {
+            var session = res && res.data ? res.data.session : null;
+            if (!session) { window.location.replace('/paginas/login/'); return; }
+            window.MotorAuth.getProfile().then(function (r) {
+                // Distinguir "error al cargar" de "no es superadmin".
+                if (r && r.error) { showError('No pudimos verificar tu acceso. Revisa tu conexión.'); return; }
+                var p = r && r.data;
+                if (!p || p.role !== 'superadmin') {
+                    loading.hidden = true;
+                    denied.hidden = false;
+                    return;
+                }
+                myId = p.id;
+                document.getElementById('adm-search').addEventListener('input', function (e) {
+                    applyFilter(e.target.value);
+                });
+                document.getElementById('adm-refresh').addEventListener('click', load);
+                load();
+            });
+        });
+    });
+    </script>
+
+    <!-- Sticky Language Switcher -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
+        <button class="lang-btn active" data-lang="es" title="Español">ES</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en" title="English">EN</button>
+    </div>
+
+</body>
+</html>

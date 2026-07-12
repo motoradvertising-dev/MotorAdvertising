@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel | Motor Advertising</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    .panel-wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 140px 24px 90px;
+        min-height: 80vh;
+    }
+    .panel-eyebrow {
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #59a8c4;
+        margin-bottom: 10px;
+    }
+    .panel-title {
+        font-family: var(--font-heading);
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+    }
+    .panel-sub { color: var(--text-secondary); font-size: .95rem; margin-bottom: 36px; }
+
+    .panel-loading {
+        text-align: center;
+        color: var(--text-secondary);
+        padding: 80px 0;
+        font-size: .95rem;
+    }
+    .panel-loading i { color: #59a8c4; margin-right: 8px; }
+
+    .panel-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 34px 30px;
+        margin-bottom: 22px;
+    }
+
+    /* Estado pendiente */
+    .pend-hero { text-align: center; padding: 50px 26px; }
+    .pend-hero .pend-icon {
+        width: 74px; height: 74px;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.8rem; color: #fff;
+        background: linear-gradient(135deg, var(--accent-color), #0e7490);
+        box-shadow: 0 0 30px var(--accent-glow);
+    }
+    .pend-hero h2 {
+        font-family: var(--font-heading);
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+    }
+    .pend-hero p { color: var(--text-secondary); font-size: .95rem; line-height: 1.7; max-width: 520px; margin: 0 auto 24px; }
+    .pend-wa {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: linear-gradient(135deg, #1eae54, #25d366);
+        color: #fff; text-decoration: none;
+        padding: 13px 26px; border-radius: 50px;
+        font-weight: 600; font-size: .88rem;
+        transition: all .25s ease;
+    }
+    .pend-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(37,211,102,.4); }
+
+    .pend-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 480px; margin: 26px auto 0; }
+    .pend-role {
+        border: 1px solid var(--glass-border);
+        border-radius: 14px;
+        background: rgba(255,255,255,.04);
+        color: var(--text-secondary);
+        padding: 20px 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: var(--font-body);
+        font-size: .8rem;
+        transition: all .2s ease;
+    }
+    .pend-role i { display: block; font-size: 1.3rem; color: #59a8c4; margin-bottom: 8px; }
+    .pend-role strong { display: block; color: var(--text-primary); text-transform: uppercase; letter-spacing: .5px; font-size: .85rem; margin-bottom: 4px; }
+    .pend-role:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+    .pend-role.selected { border-color: var(--accent-color); background: rgba(15,57,74,.3); }
+
+    /* Chips */
+    .chip {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 5px 14px; border-radius: 50px;
+        font-size: .72rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1px;
+    }
+    .chip-activo    { background: rgba(40,160,90,.15);  border: 1px solid rgba(40,160,90,.45);  color: #7fd8a4; }
+    .chip-pausado   { background: rgba(230,170,50,.12); border: 1px solid rgba(230,170,50,.4);  color: #ffce7a; }
+    .chip-cancelado { background: rgba(200,60,50,.12);  border: 1px solid rgba(200,60,50,.4);   color: #ff9c92; }
+    .chip-sin_plan  { background: rgba(255,255,255,.06); border: 1px solid var(--glass-border); color: var(--text-secondary); }
+
+    /* Dashboard empresa */
+    .plan-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 20px; }
+    .plan-head h3 {
+        font-family: var(--font-heading);
+        font-size: 1.35rem; text-transform: uppercase; letter-spacing: 1px;
+        color: var(--text-primary);
+    }
+    .plan-head .plan-precio { color: #59a8c4; font-weight: 600; font-size: .92rem; }
+
+    .mods-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 8px; }
+    .mod-card {
+        display: flex; align-items: center; gap: 12px;
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        background: rgba(255,255,255,.03);
+        padding: 15px 16px;
+        color: var(--text-secondary);
+        font-size: .85rem;
+    }
+    .mod-card i { color: #7fd8a4; flex-shrink: 0; }
+
+    .panel-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .panel-btn {
+        display: inline-flex; align-items: center; gap: 9px;
+        padding: 12px 22px; border-radius: 50px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,.05);
+        color: var(--text-primary);
+        font-family: var(--font-body); font-size: .82rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px;
+        text-decoration: none; cursor: pointer;
+        transition: all .25s ease;
+    }
+    .panel-btn:hover { border-color: var(--accent-color); box-shadow: 0 0 16px var(--accent-glow); transform: translateY(-2px); }
+    .panel-btn.primary { background: linear-gradient(135deg, var(--accent-color), #0e7490); border-color: transparent; color: #fff; }
+    .panel-btn.wa { background: linear-gradient(135deg, #1eae54, #25d366); border-color: transparent; color: #fff; }
+
+    .empty-state { text-align: center; padding: 40px 20px; }
+    .empty-state i { font-size: 2rem; color: #59a8c4; margin-bottom: 14px; }
+    .empty-state h3 { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); margin-bottom: 8px; }
+    .empty-state p { color: var(--text-secondary); font-size: .9rem; max-width: 440px; margin: 0 auto; }
+    .empty-state .panel-actions { justify-content: center; }
+
+    /* Superadmin */
+    .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .stat-card {
+        border: 1px solid var(--glass-border); border-radius: 14px;
+        background: rgba(255,255,255,.03); padding: 20px;
+        text-align: center;
+    }
+    .stat-card .num { font-family: var(--font-heading); font-size: 1.9rem; font-weight: 800; color: var(--text-primary); }
+    .stat-card .lbl { color: var(--text-secondary); font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    @media (max-width: 640px) {
+        .panel-wrap { padding: 120px 16px 70px; }
+        .panel-card { padding: 26px 20px; }
+        .pend-roles { grid-template-columns: 1fr; }
+    }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left-group">
+            <a href="/#inicio" class="logo" aria-label="Motor Advertising — Inicio">
+                <svg class="nav-logo-svg" viewBox="0 0 993.45 115.66" xmlns="http://www.w3.org/2000/svg">
+                    <path class="slash-dark" fill="#ffffff" opacity="0.33" d="M37.55,23.21l-11.41,64.36h-9.12L28.43,23.21h9.12Z" />
+                    <path class="slash-light" fill="#ffffff" opacity="0.66" d="M61.08,23.21l-11.41,64.36h-11.34l11.41-64.36h11.34Z" />
+                    <path fill="#ffffff" d="M127.96,87.56h-14.72l6.43-35.98-.97,3.02-18.14,32.96h-10.33l-6.24-32.96-.29-3.02-6.44,35.98h-14.72l11.41-64.35h15.31l9.46,40.85.2,1.76.68-1.76,24.18-40.85h15.6l-11.41,64.35Z" />
+                    <path fill="#ffffff" d="M142.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM158.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff" d="M210.52,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M255.83,55.24c0-9.34,3.18-17.24,9.55-23.71,6.36-6.47,14.03-9.7,23.01-9.7s16.69,3.22,23.01,9.66c6.31,6.44,9.47,14.36,9.47,23.75s-3.1,17.39-9.31,23.83c-6.21,6.44-13.93,9.66-23.16,9.66s-17.23-3.19-23.36-9.59c-6.13-6.39-9.19-14.36-9.19-23.91ZM271.71,55.24c0,3.39.52,6.48,1.57,9.27,1.04,2.79,2.87,5.15,5.48,7.08,2.61,1.93,5.82,2.9,9.62,2.9,5.48,0,9.61-1.88,12.4-5.63,2.79-3.76,4.19-8.29,4.19-13.62s-1.42-9.79-4.26-13.58c-2.84-3.78-6.95-5.67-12.32-5.67s-9.43,1.89-12.33,5.67c-2.89,3.78-4.34,8.31-4.34,13.58Z" />
+                    <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM342.06,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff" d="M437.52,23.01l26.06,64.56h-15.81l-4.77-12.91h-24.57l-4.77,12.91h-15.81l26.06-64.56h13.62ZM437.99,61.74l-7.2-18.78h-.16l-7.2,18.78h14.55Z" />
+                    <path fill="#ffffff" d="M466.09,23.01h18.7c8.97,0,16.64,3.06,23.01,9.19,6.36,6.13,9.55,13.81,9.55,23.04s-3.17,16.99-9.51,23.12c-6.34,6.13-14.02,9.19-23.04,9.19h-18.7V23.01ZM480.8,74.42h2.27c5.37,0,9.77-1.81,13.19-5.44,3.42-3.63,5.15-8.18,5.2-13.66,0-5.48-1.71-10.04-5.12-13.69-3.42-3.65-7.84-5.48-13.26-5.48h-2.27v38.27Z" />
+                    <path fill="#ffffff" d="M537.37,87.56l-27.08-64.56h16.59l16.28,42.41,16.28-42.41h16.59l-27.08,64.56h-11.58Z" />
+                    <path fill="#ffffff" d="M615.47,23.01v12.91h-22.22v12.83h21.28v12.91h-21.28v12.99h22.22v12.91h-36.93V23.01h36.93Z" />
+                    <path fill="#ffffff" d="M623.92,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01ZM638.63,51.64h1.72c1.36,0,2.5-.03,3.44-.08.94-.05,2.01-.23,3.21-.55,1.2-.31,2.16-.76,2.9-1.33.73-.57,1.36-1.41,1.88-2.5.52-1.1.78-2.43.78-3.99s-.26-2.9-.78-3.99c-.52-1.1-1.15-1.93-1.88-2.5-.73-.57-1.7-1.02-2.9-1.33-1.2-.31-2.27-.5-3.21-.55-.94-.05-2.09-.08-3.44-.08h-1.72v16.9Z" />
+                    <path fill="#ffffff" d="M672.75,35.92v-12.91h45.39v12.91h-15.34v51.65h-14.71v-51.65h-15.34Z" />
+                    <path fill="#ffffff" d="M747.42,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff" d="M777.17,21.83c3.49,0,6.91.51,10.25,1.53,3.34,1.02,5.82,2.02,7.43,3.01l2.35,1.56-5.95,11.74c-.47-.31-1.12-.72-1.96-1.21-.83-.5-2.4-1.16-4.7-2-2.3-.83-4.43-1.25-6.42-1.25-2.45,0-4.34.52-5.67,1.56-1.33,1.04-2,2.45-2,4.23,0,.89.31,1.71.94,2.46.63.76,1.69,1.56,3.21,2.43,1.51.86,2.84,1.55,3.99,2.07,1.15.52,2.92,1.3,5.32,2.35,4.17,1.77,7.73,4.19,10.68,7.24,2.95,3.05,4.42,6.51,4.42,10.37s-.67,6.94-2,9.7c-1.33,2.77-3.16,4.93-5.48,6.5-2.32,1.56-4.89,2.73-7.71,3.48-2.82.76-5.87,1.13-9.16,1.13-2.82,0-5.58-.29-8.29-.86-2.71-.57-4.98-1.29-6.81-2.15-1.83-.86-3.47-1.71-4.93-2.54-1.46-.83-2.53-1.54-3.21-2.11l-1.02-.86,7.36-12.36c.63.52,1.49,1.19,2.58,2,1.1.81,3.04,1.89,5.83,3.25,2.79,1.36,5.25,2.03,7.39,2.03,6.21,0,9.31-2.11,9.31-6.34,0-.89-.22-1.71-.67-2.46-.44-.76-1.23-1.51-2.35-2.27-1.12-.76-2.11-1.36-2.97-1.8-.86-.44-2.27-1.12-4.23-2.03-1.96-.91-3.4-1.6-4.34-2.07-3.91-1.93-6.94-4.34-9.08-7.24-2.14-2.9-3.21-6.01-3.21-9.35,0-5.79,2.14-10.52,6.42-14.2,4.28-3.68,9.16-5.52,14.63-5.52Z" />
+                    <path fill="#ffffff" d="M829.94,23.21l-11.41,64.35h-14.72l11.41-64.35h14.72Z" />
+                    <path fill="#ffffff" d="M853.15,47.5v40.06h-14.71V23.01h14.71l25.67,40.06h.16V23.01h14.71v64.56h-14.71l-25.67-40.06h-.16Z" />
+                    <path fill="#ffffff" d="M961.45,51.41v14.01c-1.67,7.67-5.32,13.47-10.96,17.41-5.63,3.94-11.92,5.91-18.86,5.91-8.71,0-16.13-3.26-22.26-9.78-6.13-6.52-9.19-14.4-9.19-23.63s3-17.32,9-23.79c6-6.47,13.48-9.7,22.46-9.7,10.49,0,18.78,3.68,24.88,11.03l-9.62,10.56c-3.44-5.53-8.24-8.29-14.4-8.29-4.54,0-8.41,1.97-11.62,5.91-3.21,3.94-4.81,8.7-4.81,14.28s1.6,10.16,4.81,14.05c3.21,3.89,7.08,5.83,11.62,5.83,3.76,0,7.03-1.13,9.82-3.4,2.79-2.27,4.19-5.28,4.19-9.04h-14.87v-11.35h29.81Z" />
+                </svg>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/#inicio" data-i18n="nav_inicio">Inicio</a></li>
+            <li><a href="/paginas/services" data-i18n="nav_servicios">Servicios</a></li>
+            <li><a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a></li>
+            <li><a href="/#casos" data-i18n="nav_casos">Casos</a></li>
+            <li><a href="/#webs" data-i18n="nav_webs">Proyectos</a></li>
+            <li><a href="/#contacto" data-i18n="nav_contactanos">Contáctanos</a></li>
+        </ul>
+        <div class="nav-right-group">
+            <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
+                <i class="fas fa-layer-group" aria-hidden="true"></i>
+                <span data-i18n="nav_planes">Planes</span>
+            </a>
+            <div class="nav-profile" id="nav-profile">
+                <button type="button" class="nav-profile-btn" id="nav-profile-btn" aria-label="Perfil" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="nav-profile-menu" id="nav-profile-menu" hidden></div>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="panel-wrap">
+        <div id="panel-loading" class="panel-loading"><i class="fas fa-circle-notch fa-spin"></i> Cargando tu panel…</div>
+        <div id="panel-content" hidden></div>
+    </main>
+
+    <script src="/script.js?v=5.5" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/assets/js/auth.js?v=1.1" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        'use strict';
+
+        var WA = 'https://wa.link/9k84s7';
+
+        /* Catálogo de planes (debe coincidir con /paginas/planes/) */
+        var PLANS = {
+            webs_inicial:     { grupo: 'Webs', nombre: 'Webs Inicial', precio: '$1,000 setup + $97/mes',
+                features: ['Sitio de 3 páginas', 'Escritorio y móvil', 'SEO on-page', 'Formulario de contacto', 'Automatizaciones de email', '1 edición/mes'] },
+            webs_crecimiento: { grupo: 'Webs', nombre: 'Webs Crecimiento', precio: '$1,800 setup + $150/mes',
+                features: ['Sitio de 5 páginas', 'Todo lo de Webs Inicial', 'Sistema de agendamiento', 'Procesamiento de pagos', 'Reseñas de Google (automatización)', '3 ediciones/mes'] },
+            webs_elite:       { grupo: 'Webs', nombre: 'Webs Elite', precio: '$3,000 setup + $555/mes',
+                features: ['Sitio de 10+ páginas', 'Todo lo de Webs Crecimiento', 'Gestión de SEO continua', 'Chatbot con IA', 'CRM personalizado', '5 ediciones/mes'] },
+            mkt_inicial:      { grupo: 'Marketing', nombre: 'Marketing Inicial', precio: '$600/mes · Presupuesto desde $400/mes',
+                features: ['Campañas en Meta Ads', 'Segmentación y remarketing', 'Creativos publicitarios', 'Optimización de CPL, CTR y CPA', 'Reporte mensual de resultados'] },
+            mkt_crecimiento:  { grupo: 'Marketing', nombre: 'Marketing Crecimiento', precio: '$900/mes · Presupuesto desde $500/mes',
+                features: ['Todo lo de Marketing Inicial', 'Google Ads (búsqueda y display)', 'A/B testing de creativos y copies', 'Estrategia de contenido', 'Trazabilidad de leads', 'Reporte quincenal'] },
+            mkt_elite:        { grupo: 'Marketing', nombre: 'Marketing Elite', precio: '$1,500/mes · Presupuesto desde $800/mes',
+                features: ['Todo lo de Marketing Crecimiento', 'Embudos y landing pages de conversión', 'Automatizaciones de seguimiento (email + WhatsApp)', 'Dashboard de resultados en tiempo real', 'Reunión estratégica mensual', 'Soporte prioritario'] }
+        };
+        var STATUS_LABEL = { sin_plan: 'Sin plan', activo: 'Activo', pausado: 'Pausado', cancelado: 'Cancelado' };
+
+        var loading = document.getElementById('panel-loading');
+        var content = document.getElementById('panel-content');
+
+        function esc(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+        function show(html) {
+            loading.hidden = true;
+            content.hidden = false;
+            content.innerHTML = html;
+        }
+        function firstName(p) {
+            var n = (p.full_name || p.email || '').split('@')[0];
+            return esc(n.split(' ')[0] || 'Hola');
+        }
+
+        function renderPendiente(p) {
+            var chooser = '';
+            if (!p.requested_role) {
+                chooser =
+                    '<p style="margin-top:30px"><strong style="color:var(--text-primary)">Mientras tanto, cuéntanos qué tipo de cuenta necesitas:</strong></p>' +
+                    '<div class="pend-roles">' +
+                        '<button type="button" class="pend-role" data-role="empresa"><i class="fas fa-building"></i><strong>Empresa</strong>Quiero contratar servicios</button>' +
+                        '<button type="button" class="pend-role" data-role="empleado"><i class="fas fa-user-tie"></i><strong>Empleado</strong>Hago parte del equipo</button>' +
+                    '</div>';
+            } else {
+                chooser = '<p style="margin-top:18px;font-size:.82rem">Tu solicitud quedó registrada como <strong style="color:#59a8c4">' + esc(p.requested_role) + '</strong>.</p>';
+            }
+            show(
+                '<div class="panel-card pend-hero">' +
+                    '<div class="pend-icon"><i class="fas fa-user-clock"></i></div>' +
+                    '<h2>¡Espera! Estamos asignando tu rol</h2>' +
+                    '<p>Tu cuenta fue creada correctamente y nuestro equipo la está revisando para activarte el acceso. ' +
+                    'Escríbenos por WhatsApp para que el proceso sea más rápido.</p>' +
+                    '<a class="pend-wa" href="' + WA + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Escribir a Motor Advertising</a>' +
+                    chooser +
+                '</div>'
+            );
+            content.querySelectorAll('.pend-role').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var role = btn.getAttribute('data-role');
+                    content.querySelectorAll('.pend-role').forEach(function (c) { c.classList.toggle('selected', c === btn); });
+                    var prev = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i><strong>Guardando…</strong>';
+                    window.MotorAuth.client.from('profiles')
+                        .update({ requested_role: role })
+                        .eq('id', p.id)
+                        .then(function (r) {
+                            if (r.error) {
+                                btn.classList.remove('selected');
+                                btn.innerHTML = prev;
+                                alert('No se pudo guardar tu elección. Revisa tu conexión e intenta de nuevo.');
+                                return;
+                            }
+                            p.requested_role = role;
+                            window.MotorAuth.getProfile(true).then(function () { renderPendiente(p); });
+                        });
+                });
+            });
+        }
+
+        function renderEmpresa(p) {
+            var plan = p.plan && PLANS[p.plan];
+            var html = '<p class="panel-eyebrow">Panel de cliente</p>' +
+                '<h1 class="panel-title">Hola, ' + firstName(p) + '</h1>' +
+                '<p class="panel-sub">Este es el estado de tu cuenta con Motor Advertising.</p>';
+
+            if (plan) {
+                var mods = plan.features.map(function (f) {
+                    return '<div class="mod-card"><i class="fas fa-circle-check"></i><span>' + esc(f) + '</span></div>';
+                }).join('');
+                html +=
+                    '<div class="panel-card">' +
+                        '<div class="plan-head">' +
+                            '<div><h3>' + esc(plan.nombre) + '</h3><span class="plan-precio">' + esc(plan.precio) + '</span></div>' +
+                            '<span class="chip chip-' + esc(p.plan_status) + '">' + esc(STATUS_LABEL[p.plan_status] || p.plan_status) + '</span>' +
+                        '</div>' +
+                        '<div class="mods-grid">' + mods + '</div>' +
+                        '<div class="panel-actions">' +
+                            '<a class="panel-btn wa" href="' + WA + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Soporte</a>' +
+                            '<a class="panel-btn" href="/paginas/planes/"><i class="fas fa-layer-group"></i> Cambiar de plan</a>' +
+                            '<a class="panel-btn" href="/paginas/contacto/"><i class="fas fa-calendar-check"></i> Agendar una cita</a>' +
+                        '</div>' +
+                    '</div>';
+            } else {
+                html +=
+                    '<div class="panel-card empty-state">' +
+                        '<i class="fas fa-rocket"></i>' +
+                        '<h3>Aún no tienes un plan activo</h3>' +
+                        '<p>Explora nuestros planes de Webs y Marketing. Cuando actives uno, aquí verás tu dashboard con todo lo incluido.</p>' +
+                        '<div class="panel-actions">' +
+                            '<a class="panel-btn primary" href="/paginas/planes/"><i class="fas fa-layer-group"></i> Ver planes</a>' +
+                            '<a class="panel-btn wa" href="' + WA + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Hablar con Motor</a>' +
+                        '</div>' +
+                    '</div>';
+            }
+            show(html);
+        }
+
+        function renderEmpleado(p) {
+            show(
+                '<p class="panel-eyebrow">Panel de equipo</p>' +
+                '<h1 class="panel-title">Hola, ' + firstName(p) + '</h1>' +
+                '<p class="panel-sub">Bienvenido al equipo de Motor Advertising.</p>' +
+                '<div class="panel-card">' +
+                    '<div class="mods-grid">' +
+                        '<div class="mod-card"><i class="fas fa-circle-check"></i><span>Cuenta de empleado activa</span></div>' +
+                        '<div class="mod-card"><i class="fas fa-circle-check"></i><span>Correo: ' + esc(p.email) + '</span></div>' +
+                    '</div>' +
+                    '<div class="panel-actions">' +
+                        '<a class="panel-btn wa" href="' + WA + '" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Canal del equipo</a>' +
+                        '<a class="panel-btn" href="/paginas/services/"><i class="fas fa-briefcase"></i> Servicios</a>' +
+                    '</div>' +
+                '</div>'
+            );
+        }
+
+        function renderAdmin(p) {
+            show(
+                '<p class="panel-eyebrow">Superusuario</p>' +
+                '<h1 class="panel-title">Hola, ' + firstName(p) + '</h1>' +
+                '<p class="panel-sub">Cuenta maestra de Motor Advertising.</p>' +
+                '<div class="admin-stats" id="admin-stats"></div>' +
+                '<div class="panel-card empty-state">' +
+                    '<i class="fas fa-users-gear"></i>' +
+                    '<h3>Gestión de usuarios</h3>' +
+                    '<p>Revisa quién ha creado cuenta, asigna roles (empresa / empleado) y administra la suscripción de cada cliente.</p>' +
+                    '<div class="panel-actions">' +
+                        '<a class="panel-btn primary" href="/paginas/gestion/"><i class="fas fa-table-list"></i> Abrir Gestión</a>' +
+                    '</div>' +
+                '</div>'
+            );
+            window.MotorAuth.client.from('profiles').select('role, plan_status').then(function (r) {
+                if (r.error || !r.data) return;
+                var rows = r.data;
+                var stats = [
+                    ['Usuarios', rows.length],
+                    ['Pendientes', rows.filter(function (x) { return x.role === 'pendiente'; }).length],
+                    ['Empresas', rows.filter(function (x) { return x.role === 'empresa'; }).length],
+                    ['Planes activos', rows.filter(function (x) { return x.plan_status === 'activo'; }).length]
+                ];
+                document.getElementById('admin-stats').innerHTML = stats.map(function (s) {
+                    return '<div class="stat-card"><div class="num">' + s[1] + '</div><div class="lbl">' + s[0] + '</div></div>';
+                }).join('');
+            });
+        }
+
+        function fail(msg) {
+            show('<div class="panel-card empty-state"><i class="fas fa-triangle-exclamation"></i><h3>Algo salió mal</h3><p>' + esc(msg) + '</p>' +
+                 '<div class="panel-actions"><button class="panel-btn primary" onclick="location.reload()"><i class="fas fa-rotate-right"></i> Reintentar</button></div></div>');
+        }
+
+        if (!window.MotorAuth) { fail('No se pudo cargar el sistema de acceso. Revisa tu conexión.'); return; }
+
+        // Si el callback de Google/confirmación llega con error en el hash
+        // (#error=...), mostrarlo en vez de rebotar en silencio al login.
+        var hash = window.location.hash || '';
+        if (hash.indexOf('error') !== -1) {
+            var hp = new URLSearchParams(hash.replace(/^#/, ''));
+            if (hp.get('error')) {
+                var d = hp.get('error_description') || 'No se pudo completar el acceso.';
+                fail(decodeURIComponent(d.replace(/\+/g, ' ')) + ' Intenta iniciar sesión de nuevo.');
+                history.replaceState(null, '', window.location.pathname);
+                return;
+            }
+        }
+
+        window.MotorAuth.getSession().then(function (res) {
+            var session = res && res.data ? res.data.session : null;
+            if (!session) { window.location.replace('/paginas/login/'); return; }
+            window.MotorAuth.getProfile().then(function (r) {
+                if (r && r.error) { fail('No pudimos cargar tu perfil. Revisa tu conexión e intenta de nuevo.'); return; }
+                var p = r && r.data;
+                if (!p) { fail('No pudimos cargar tu perfil. Intenta de nuevo en unos segundos.'); return; }
+                if (p.role === 'superadmin') renderAdmin(p);
+                else if (p.role === 'empresa') renderEmpresa(p);
+                else if (p.role === 'empleado') renderEmpleado(p);
+                else renderPendiente(p);
+            });
+        });
+    });
+    </script>
+
+    <!-- Sticky Language Switcher -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
+        <button class="lang-btn active" data-lang="es" title="Español">ES</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en" title="English">EN</button>
+    </div>
+
+</body>
+</html>

@@ -948,6 +948,11 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_planes: 'Plans',
             nav_casos: 'Cases',
             nav_contactanos: 'Contact us',
+            lgn_role_q: 'What kind of account do you need?',
+            lgn_role_empresa: 'Company',
+            lgn_role_empresa_d: 'I want to hire services',
+            lgn_role_empleado: 'Employee',
+            lgn_role_empleado_d: 'I\'m part of the team',
             // --- Home + titulos + widget (fase 2) ---
             idx_svc_audiovisual: "Audiovisual Production",
             idx_svc_seo: "SEO & SEM Positioning",
@@ -1301,6 +1306,11 @@ document.addEventListener("DOMContentLoaded", () => {
             nav_planes: 'Planes',
             nav_casos: 'Casos',
             nav_contactanos: 'Contáctanos',
+            lgn_role_q: '¿Qué tipo de cuenta necesitas?',
+            lgn_role_empresa: 'Empresa',
+            lgn_role_empresa_d: 'Quiero contratar servicios',
+            lgn_role_empleado: 'Empleado',
+            lgn_role_empleado_d: 'Hago parte del equipo',
             // --- Home + titulos + widget (fase 2) ---
             idx_svc_audiovisual: "Producción Audiovisual",
             idx_svc_seo: "Posicionamiento SEO & SEM",
