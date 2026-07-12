@@ -4682,6 +4682,116 @@ footer {
 }
 
 /* =========================================
+   CONTÁCTANOS: tarjetas de canales de contacto
+   ========================================= */
+.contact-selection-wide {
+    max-width: 1140px;
+    width: 100%;
+}
+
+.contact-channels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 45px auto 0;
+}
+
+.contact-channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 32px 22px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact-channel:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 22px var(--accent-glow);
+    transform: translateY(-4px);
+}
+
+.contact-channel-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-color), #0e7490);
+    flex-shrink: 0;
+}
+
+.contact-channel-icon-wa {
+    background: linear-gradient(135deg, #1eae54, #25d366);
+}
+
+.contact-channel-name {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 6px 0 0;
+    color: var(--text-primary);
+}
+
+.contact-channel-desc {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.contact-channel-cta {
+    margin-top: auto;
+    padding-top: 12px;
+    color: #59a8c4;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.contact-channel-cta i {
+    transition: transform 0.3s ease;
+}
+
+.contact-channel:hover .contact-channel-cta i {
+    transform: translateX(4px);
+}
+
+@media (max-width: 980px) {
+    .contact-channels {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 640px;
+    }
+}
+
+@media (max-width: 520px) {
+    .contact-channels {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+}
+
+/* =========================================
    ACCESIBILIDAD: foco visible con teclado
    ========================================= */
 :focus-visible {

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motor Advertising | Iniciar sesión</title>
+    <title data-i18n="ttl_login">Motor Advertising | Iniciar sesión</title>
     <meta name="description" content="Accede a tu cuenta de Motor Advertising o crea una nueva con Google o tu correo electrónico.">
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.5">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -214,60 +214,61 @@
     <main class="auth-wrap">
         <div class="auth-card">
             <div class="auth-logo"><a href="/">// Motor Advertising</a></div>
-            <h1 class="auth-title" id="auth-title">Bienvenido</h1>
-            <p class="auth-sub" id="auth-sub">Inicia sesión o crea tu cuenta para continuar.</p>
+            <h1 class="auth-title" id="auth-title" data-i18n="lgn_title">Bienvenido</h1>
+            <p class="auth-sub" id="auth-sub" data-i18n="lgn_sub">Inicia sesión o crea tu cuenta para continuar.</p>
 
             <div class="auth-tabs" role="tablist">
-                <button type="button" class="auth-tab active" id="tab-login" role="tab" aria-selected="true">Iniciar sesión</button>
-                <button type="button" class="auth-tab" id="tab-signup" role="tab" aria-selected="false">Crear cuenta</button>
+                <button type="button" class="auth-tab active" id="tab-login" role="tab" aria-selected="true" data-i18n="lgn_tab_login">Iniciar sesión</button>
+                <button type="button" class="auth-tab" id="tab-signup" role="tab" aria-selected="false" data-i18n="lgn_tab_signup">Crear cuenta</button>
             </div>
 
             <button type="button" class="auth-google" id="btn-google">
                 <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.654 32.657 29.223 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
-                Continuar con Google
+                <span data-i18n="lgn_google">Continuar con Google</span>
             </button>
 
-            <div class="auth-divider">o con tu correo</div>
+            <div class="auth-divider" data-i18n="lgn_divider">o con tu correo</div>
 
             <!-- LOGIN -->
             <form class="auth-form" id="form-login" novalidate>
                 <div class="auth-field">
-                    <label for="login-email">Correo electrónico</label>
+                    <label for="login-email" data-i18n="lgn_email">Correo electrónico</label>
                     <input type="email" id="login-email" name="email" autocomplete="email" required>
                 </div>
                 <div class="auth-field">
-                    <label for="login-password">Contraseña</label>
+                    <label for="login-password" data-i18n="lgn_password">Contraseña</label>
                     <input type="password" id="login-password" name="password" autocomplete="current-password" required minlength="6">
                 </div>
                 <div class="auth-msg" id="login-msg" role="status" aria-live="polite"></div>
-                <button type="submit" class="auth-submit" id="login-submit">Entrar</button>
+                <button type="submit" class="auth-submit" id="login-submit" data-i18n="lgn_login_submit">Entrar</button>
             </form>
 
             <!-- SIGNUP -->
             <form class="auth-form" id="form-signup" hidden novalidate>
                 <div class="auth-field">
-                    <label for="signup-name">Nombre completo</label>
+                    <label for="signup-name" data-i18n="form_nombre">Nombre completo</label>
                     <input type="text" id="signup-name" name="name" autocomplete="name" required>
                 </div>
                 <div class="auth-field">
-                    <label for="signup-email">Correo electrónico</label>
+                    <label for="signup-email" data-i18n="lgn_email">Correo electrónico</label>
                     <input type="email" id="signup-email" name="email" autocomplete="email" required>
                 </div>
                 <div class="auth-field">
-                    <label for="signup-password">Contraseña (mínimo 6 caracteres)</label>
+                    <label for="signup-password" data-i18n="lgn_password_min">Contraseña (mínimo 6 caracteres)</label>
                     <input type="password" id="signup-password" name="password" autocomplete="new-password" required minlength="6">
                 </div>
                 <div class="auth-msg" id="signup-msg" role="status" aria-live="polite"></div>
-                <button type="submit" class="auth-submit" id="signup-submit">Crear cuenta</button>
+                <button type="submit" class="auth-submit" id="signup-submit" data-i18n="lgn_tab_signup">Crear cuenta</button>
             </form>
 
             <p class="auth-foot">
-                Al continuar aceptas ser contactado por Motor Advertising.<br>
-                <a href="/">← Volver al inicio</a> · <a href="/paginas/planes/">Ver planes</a>
+                <span data-i18n="lgn_foot_terms">Al continuar aceptas ser contactado por Motor Advertising.</span><br>
+                <a href="/" data-i18n="lgn_back_home">← Volver al inicio</a> · <a href="/paginas/planes/" data-i18n="lgn_view_plans">Ver planes</a>
             </p>
         </div>
     </main>
 
+    <script src="/script.js?v=5.5" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/auth.js?v=1.0"></script>
     <script>
@@ -400,5 +401,12 @@
         });
     })();
     </script>
+    <!-- Sticky Language Switcher -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
+        <button class="lang-btn active" data-lang="es" title="Español">ES</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en" title="English">EN</button>
+    </div>
+
 </body>
 </html>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motor Advertising | Planes</title>
+    <title data-i18n="ttl_planes">Motor Advertising | Planes</title>
     <meta name="description" content="Planes de crecimiento digital de Motor Advertising: Inicial, Crecimiento y Elite. Sitios web, automatizaciones, SEO, chatbots con IA y más.">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.5">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -218,14 +218,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        padding: 15px 20px;
+        gap: 8px;
+        padding: 15px 12px;
         border-radius: 50px;
         font-family: var(--font-body);
-        font-size: .85rem;
+        font-size: .82rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: .5px;
+        white-space: nowrap;
         text-decoration: none;
         border: 1px solid var(--glass-border);
         color: var(--text-primary);
@@ -266,6 +267,10 @@
         .plans-section { padding: 20px 20px 80px; }
         .plan-card.recommended { order: -1; }
     }
+
+    @media (max-width: 340px) {
+        .plan-cta { font-size: .72rem; letter-spacing: 0; gap: 6px; }
+    }
     </style>
 </head>
 <body>
@@ -302,6 +307,7 @@
             <li><a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a></li>
             <li><a href="/#casos" data-i18n="nav_casos">Casos</a></li>
             <li><a href="/#webs" data-i18n="nav_webs">Proyectos</a></li>
+            <li><a href="/#contacto" data-i18n="nav_contactanos">Contáctanos</a></li>
         </ul>
         <div class="nav-right-group">
             <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
@@ -322,8 +328,8 @@
 
     <!-- HERO -->
     <section class="plans-hero">
-        <h1 class="plans-hero-title">Tus planes</h1>
-        <p class="plans-hero-sub">Elige el plan que se ajusta a la etapa de tu negocio. Todos incluyen diseño profesional, soporte y un sistema pensado para convertir.</p>
+        <h1 class="plans-hero-title" data-i18n="pln_hero_title">Tus planes</h1>
+        <p class="plans-hero-sub" data-i18n="pln_hero_sub">Elige el plan que se ajusta a la etapa de tu negocio. Todos incluyen diseño profesional, soporte y un sistema pensado para convertir.</p>
     </section>
 
     <!-- PLANES -->
@@ -345,70 +351,70 @@
 
             <!-- MARKETING · INICIAL -->
             <article class="plan-card anim-in">
-                <h2 class="plan-name">Inicial</h2>
-                <p class="plan-audience">Negocios que arrancan con pauta</p>
+                <h2 class="plan-name" data-i18n="pln_name_inicial">Inicial</h2>
+                <p class="plan-audience" data-i18n="pln_mkt_aud_inicial">Negocios que arrancan con pauta</p>
                 <div class="plan-price">
                     <span class="plan-setup">$600</span>
-                    <span class="plan-setup-label">USD / mes</span>
+                    <span class="plan-setup-label" data-i18n="pln_usd_mes">USD / mes</span>
                 </div>
-                <div class="plan-monthly">Presupuesto desde $400/mes</div>
+                <div class="plan-monthly" data-i18n="pln_mkt_budget_400">Presupuesto desde $400/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Campañas en Meta Ads</li>
-                    <li><i class="fas fa-check"></i> Segmentación y remarketing</li>
-                    <li><i class="fas fa-check"></i> Creativos publicitarios</li>
-                    <li><i class="fas fa-check"></i> Optimización de CPL, CTR y CPA</li>
-                    <li><i class="fas fa-check"></i> Reporte mensual de resultados</li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_meta">Campañas en Meta Ads</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_segmentacion">Segmentación y remarketing</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_creativos">Creativos publicitarios</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_optimizacion">Optimización de CPL, CTR y CPA</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_reporte_mensual">Reporte mensual de resultados</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Inicial">
-                    Elegir Inicial <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_inicial">Elegir Inicial</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
             <!-- MARKETING · CRECIMIENTO (RECOMENDADO) -->
             <article class="plan-card recommended anim-in">
-                <span class="plan-flag"><i class="fas fa-star"></i> Recomendado</span>
-                <h2 class="plan-name">Crecimiento</h2>
-                <p class="plan-audience">Negocios en expansión</p>
+                <span class="plan-flag"><i class="fas fa-star"></i> <span data-i18n="pln_recomendado">Recomendado</span></span>
+                <h2 class="plan-name" data-i18n="pln_name_crecimiento">Crecimiento</h2>
+                <p class="plan-audience" data-i18n="pln_aud_expansion">Negocios en expansión</p>
                 <div class="plan-price">
                     <span class="plan-setup">$900</span>
-                    <span class="plan-setup-label">USD / mes</span>
+                    <span class="plan-setup-label" data-i18n="pln_usd_mes">USD / mes</span>
                 </div>
-                <div class="plan-monthly">Presupuesto desde $500/mes</div>
+                <div class="plan-monthly" data-i18n="pln_mkt_budget_500">Presupuesto desde $500/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Inicial, MÁS:</li>
-                    <li><i class="fas fa-check"></i> Google Ads (búsqueda y display)</li>
-                    <li><i class="fas fa-check"></i> A/B testing de creativos y copies</li>
-                    <li><i class="fas fa-check"></i> Estrategia de contenido</li>
-                    <li><i class="fas fa-check"></i> Trazabilidad de leads (píxeles, WhatsApp)</li>
-                    <li><i class="fas fa-check"></i> Reporte quincenal</li>
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> <span data-i18n="pln_inherit_inicial">Todo lo de Inicial, MÁS:</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_google">Google Ads (búsqueda y display)</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_abtesting">A/B testing de creativos y copies</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_contenido">Estrategia de contenido</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_leads">Trazabilidad de leads (píxeles, WhatsApp)</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_reporte_quincenal">Reporte quincenal</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Crecimiento">
-                    Elegir Crecimiento <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_crecimiento">Elegir Crecimiento</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
             <!-- MARKETING · ELITE -->
             <article class="plan-card anim-in">
                 <h2 class="plan-name">Elite</h2>
-                <p class="plan-audience">Marcas de alto rendimiento</p>
+                <p class="plan-audience" data-i18n="pln_aud_alto">Marcas de alto rendimiento</p>
                 <div class="plan-price">
                     <span class="plan-setup">$1,500</span>
-                    <span class="plan-setup-label">USD / mes</span>
+                    <span class="plan-setup-label" data-i18n="pln_usd_mes">USD / mes</span>
                 </div>
-                <div class="plan-monthly">Presupuesto desde $800/mes</div>
+                <div class="plan-monthly" data-i18n="pln_mkt_budget_800">Presupuesto desde $800/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Crecimiento, MÁS:</li>
-                    <li><i class="fas fa-check"></i> Embudos y landing pages de conversión</li>
-                    <li><i class="fas fa-check"></i> Automatizaciones de seguimiento (email + WhatsApp)</li>
-                    <li><i class="fas fa-check"></i> Dashboard de resultados en tiempo real</li>
-                    <li><i class="fas fa-check"></i> Reunión estratégica mensual</li>
-                    <li><i class="fas fa-check"></i> Soporte prioritario</li>
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> <span data-i18n="pln_inherit_crecimiento">Todo lo de Crecimiento, MÁS:</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_embudos">Embudos y landing pages de conversión</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_automatizaciones">Automatizaciones de seguimiento (email + WhatsApp)</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_dashboard">Dashboard de resultados en tiempo real</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_reunion">Reunión estratégica mensual</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_mkt_feat_soporte">Soporte prioritario</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Marketing Elite">
-                    Elegir Elite <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_elite">Elegir Elite</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
@@ -421,72 +427,72 @@
 
             <!-- INICIAL -->
             <article class="plan-card anim-in">
-                <h2 class="plan-name">Inicial</h2>
-                <p class="plan-audience">Pequeños negocios y startups</p>
+                <h2 class="plan-name" data-i18n="pln_name_inicial">Inicial</h2>
+                <p class="plan-audience" data-i18n="pln_web_aud_inicial">Pequeños negocios y startups</p>
                 <div class="plan-price">
                     <span class="plan-setup">$1,000</span>
                     <span class="plan-setup-label">setup</span>
                 </div>
-                <div class="plan-monthly">+ $97/mes</div>
+                <div class="plan-monthly" data-i18n="pln_web_monthly_97">+ $97/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Sitio de 3 páginas</li>
-                    <li><i class="fas fa-check"></i> Escritorio y móvil</li>
-                    <li><i class="fas fa-check"></i> SEO on-page</li>
-                    <li><i class="fas fa-check"></i> Formulario de contacto</li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_3pag">Sitio de 3 páginas</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_responsive">Escritorio y móvil</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_seo">SEO on-page</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_form">Formulario de contacto</span></li>
                     <li><i class="fas fa-check"></i> Chat widget</li>
-                    <li><i class="fas fa-check"></i> Automatizaciones de email</li>
-                    <li><i class="fas fa-check"></i> 1 edición/mes</li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_email">Automatizaciones de email</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_1edit">1 edición/mes</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Inicial">
-                    Elegir Inicial <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_inicial">Elegir Inicial</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
             <!-- CRECIMIENTO (RECOMENDADO) -->
             <article class="plan-card recommended anim-in">
-                <span class="plan-flag"><i class="fas fa-star"></i> Recomendado</span>
-                <h2 class="plan-name">Crecimiento</h2>
-                <p class="plan-audience">Negocios en expansión</p>
+                <span class="plan-flag"><i class="fas fa-star"></i> <span data-i18n="pln_recomendado">Recomendado</span></span>
+                <h2 class="plan-name" data-i18n="pln_name_crecimiento">Crecimiento</h2>
+                <p class="plan-audience" data-i18n="pln_aud_expansion">Negocios en expansión</p>
                 <div class="plan-price">
                     <span class="plan-setup">$1,800</span>
                     <span class="plan-setup-label">setup</span>
                 </div>
-                <div class="plan-monthly">+ $150/mes</div>
+                <div class="plan-monthly" data-i18n="pln_web_monthly_150">+ $150/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Sitio de 5 páginas</li>
-                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Inicial, MÁS:</li>
-                    <li><i class="fas fa-check"></i> Sistema de agendamiento</li>
-                    <li><i class="fas fa-check"></i> Procesamiento de pagos</li>
-                    <li><i class="fas fa-check"></i> Reseñas de Google (automatización)</li>
-                    <li><i class="fas fa-check"></i> 3 ediciones/mes</li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_5pag">Sitio de 5 páginas</span></li>
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> <span data-i18n="pln_inherit_inicial">Todo lo de Inicial, MÁS:</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_agenda">Sistema de agendamiento</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_pagos">Procesamiento de pagos</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_resenas">Reseñas de Google (automatización)</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_3edit">3 ediciones/mes</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Crecimiento">
-                    Elegir Crecimiento <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_crecimiento">Elegir Crecimiento</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
             <!-- ELITE -->
             <article class="plan-card anim-in">
                 <h2 class="plan-name">Elite</h2>
-                <p class="plan-audience">Marcas de alto rendimiento</p>
+                <p class="plan-audience" data-i18n="pln_aud_alto">Marcas de alto rendimiento</p>
                 <div class="plan-price">
                     <span class="plan-setup">$3,000</span>
                     <span class="plan-setup-label">setup</span>
                 </div>
-                <div class="plan-monthly">+ $555/mes</div>
+                <div class="plan-monthly" data-i18n="pln_web_monthly_555">+ $555/mes</div>
                 <div class="plan-divider"></div>
                 <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Sitio de 10+ páginas</li>
-                    <li class="plan-inherit"><i class="fas fa-plus"></i> Todo lo de Crecimiento, MÁS:</li>
-                    <li><i class="fas fa-check"></i> Gestión de SEO continua</li>
-                    <li><i class="fas fa-check"></i> Chatbot con IA</li>
-                    <li><i class="fas fa-check"></i> CRM personalizado</li>
-                    <li><i class="fas fa-check"></i> 5 ediciones/mes</li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_10pag">Sitio de 10+ páginas</span></li>
+                    <li class="plan-inherit"><i class="fas fa-plus"></i> <span data-i18n="pln_inherit_crecimiento">Todo lo de Crecimiento, MÁS:</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_seo_gestion">Gestión de SEO continua</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_chatbot">Chatbot con IA</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_crm">CRM personalizado</span></li>
+                    <li><i class="fas fa-check"></i> <span data-i18n="pln_web_feat_5edit">5 ediciones/mes</span></li>
                 </ul>
                 <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" class="plan-cta" data-plan="Webs Elite">
-                    Elegir Elite <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="pln_cta_elite">Elegir Elite</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </article>
 
@@ -494,9 +500,9 @@
         </div>
 
         <p class="plans-note">
-            En <strong>Webs</strong>, el setup es un pago único de construcción y la mensualidad cubre hosting, soporte y las funciones del plan.
-            En <strong>Marketing</strong>, el presupuesto de pauta va directo a Meta/Google y es independiente del fee mensual.<br>
-            ¿No sabes cuál te conviene? <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" style="color:#59a8c4;">Escríbenos</a> y lo definimos juntos.
+            <span data-i18n="pln_note_en">En</span> <strong>Webs</strong><span data-i18n="pln_note_web_rest">, el setup es un pago único de construcción y la mensualidad cubre hosting, soporte y las funciones del plan.</span>
+            <span data-i18n="pln_note_en">En</span> <strong>Marketing</strong><span data-i18n="pln_note_mkt_rest">, el presupuesto de pauta va directo a Meta/Google y es independiente del fee mensual.</span><br>
+            <span data-i18n="pln_note_q">¿No sabes cuál te conviene?</span> <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" style="color:#59a8c4;" data-i18n="pln_note_escribenos">Escríbenos</a> <span data-i18n="pln_note_juntos">y lo definimos juntos.</span>
         </p>
     </section>
 
@@ -537,8 +543,15 @@
         });
     })();
     </script>
-    <script src="/script.js?v=5.2" defer></script>
+    <script src="/script.js?v=5.5" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.0" defer></script>
+    <!-- Sticky Language Switcher -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
+        <button class="lang-btn active" data-lang="es" title="Español">ES</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en" title="English">EN</button>
+    </div>
+
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motor Advertising | Servicios</title>
+    <title data-i18n="ttl_services">Motor Advertising | Servicios</title>
     <meta name="description" content="Servicios de marketing digital e inteligencia artificial: videos IA, estrategia de contenidos, SEO & SEM, chatbots, producción audiovisual y CRM.">
-    <link rel="stylesheet" href="/styles.css?v=4.5">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -228,6 +228,7 @@
             <li><a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a></li>
             <li><a href="/#casos" data-i18n="nav_casos">Casos</a></li>
             <li><a href="/#webs" data-i18n="nav_webs">Proyectos</a></li>
+            <li><a href="/#contacto" data-i18n="nav_contactanos">Contáctanos</a></li>
         </ul>
         <div class="nav-right-group">
             <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
@@ -248,14 +249,14 @@
 
     <!-- HERO -->
     <section class="svc-hero" id="svc-hero">
-        <h1 class="svc-hero-title anim-in">Nuestros Servicios</h1>
-        <p class="svc-hero-sub anim-in">Transformamos negocios con estrategia digital e inteligencia artificial. Cada servicio está diseñado para escalar tu marca con tecnología de vanguardia.</p>
+        <h1 class="svc-hero-title anim-in" data-i18n="svc_hero_title">Nuestros Servicios</h1>
+        <p class="svc-hero-sub anim-in" data-i18n="svc_hero_sub">Transformamos negocios con estrategia digital e inteligencia artificial. Cada servicio está diseñado para escalar tu marca con tecnología de vanguardia.</p>
     </section>
 
     <!-- PILL TABS -->
     <nav class="svc-tabs" id="svc-tabs">
-        <button class="svc-tab active" data-target="videos-ia"><i class="fas fa-brain"></i> Videos IA</button>
-        <button class="svc-tab" data-target="estrategia-contenidos"><i class="fas fa-pen-nib"></i> Contenidos</button>
+        <button class="svc-tab active" data-target="videos-ia"><i class="fas fa-brain"></i> <span data-i18n="svc_tab_videos">Videos IA</span></button>
+        <button class="svc-tab" data-target="estrategia-contenidos"><i class="fas fa-pen-nib"></i> <span data-i18n="svc_tab_contenidos">Contenidos</span></button>
         <button class="svc-tab" data-target="seo-sem"><i class="fas fa-search-dollar"></i> SEO & SEM</button>
         <button class="svc-tab" data-target="chatbots"><i class="fas fa-comments"></i> Chatbots</button>
         <button class="svc-tab" data-target="produccion-audiovisual"><i class="fas fa-video"></i> Audiovisual</button>
@@ -267,10 +268,10 @@
         <div class="svc-inner">
             <div class="anim-in from-left">
                 <span class="svc-num">01</span>
-                <h2 class="svc-title">Videos que generan impacto, producidos con IA</h2>
-                <p class="svc-desc">Combinamos modelos generativos de video, edición automatizada y narrativa estratégica para producir contenido audiovisual escalable sin sacrificar calidad. Desde guiones hasta postproducción, la IA potencia cada etapa del proceso creativo.</p>
+                <h2 class="svc-title" data-i18n="svc_videos_title">Videos que generan impacto, producidos con IA</h2>
+                <p class="svc-desc" data-i18n="svc_videos_desc">Combinamos modelos generativos de video, edición automatizada y narrativa estratégica para producir contenido audiovisual escalable sin sacrificar calidad. Desde guiones hasta postproducción, la IA potencia cada etapa del proceso creativo.</p>
                 <div style="margin-bottom:25px"><span class="ai-badge"><i class="fas fa-microchip"></i> Powered by AI</span></div>
-                <a href="/paginas/contacto" class="svc-cta">Solicitar demo <i class="fas fa-arrow-right"></i></a>
+                <a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_videos_cta">Solicitar demo</span> <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="anim-in from-right">
                 <div class="timeline-mock" id="timeline-mock">
@@ -287,14 +288,14 @@
         <div class="svc-inner reverse">
             <div class="anim-in from-right">
                 <span class="svc-num">02</span>
-                <h2 class="svc-title">Cada día cuenta. Cada publicación tiene un propósito.</h2>
-                <p class="svc-desc">Planificación editorial basada en datos, tendencias y comportamiento de audiencia para maximizar el alcance orgánico en cada plataforma. Cada pieza de contenido responde a un objetivo claro dentro de tu estrategia.</p>
-                <a href="/paginas/contacto" class="svc-cta">Crear mi estrategia <i class="fas fa-arrow-right"></i></a>
+                <h2 class="svc-title" data-i18n="svc_contenidos_title">Cada día cuenta. Cada publicación tiene un propósito.</h2>
+                <p class="svc-desc" data-i18n="svc_contenidos_desc">Planificación editorial basada en datos, tendencias y comportamiento de audiencia para maximizar el alcance orgánico en cada plataforma. Cada pieza de contenido responde a un objetivo claro dentro de tu estrategia.</p>
+                <a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_contenidos_cta">Crear mi estrategia</span> <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="anim-in from-left">
                 <div class="calendar-wrap" id="calendar-wrap">
-                    <div class="calendar-month">Marzo 2026</div>
-                    <div class="calendar-weekdays"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+                    <div class="calendar-month" data-i18n="svc_cal_month">Marzo 2026</div>
+                    <div class="calendar-weekdays"><span data-i18n="svc_cal_lun">Lun</span><span data-i18n="svc_cal_mar">Mar</span><span data-i18n="svc_cal_mie">Mié</span><span data-i18n="svc_cal_jue">Jue</span><span data-i18n="svc_cal_vie">Vie</span><span data-i18n="svc_cal_sab">Sáb</span><span data-i18n="svc_cal_dom">Dom</span></div>
                     <div class="calendar-grid" id="calendar-grid"></div>
                     <div class="cal-legend" id="cal-legend"></div>
                 </div>
@@ -307,9 +308,9 @@
         <div class="svc-inner">
             <div class="anim-in from-left">
                 <span class="svc-num">03</span>
-                <h2 class="svc-title">El algoritmo correcto. En el momento correcto.</h2>
-                <p class="svc-desc">Análisis de datos y comportamiento de plataforma para elegir la estrategia de posicionamiento que mejor se adapta a cada canal digital. No aplicamos la misma fórmula para todos: cada algoritmo tiene sus propias reglas.</p>
-                <a href="/paginas/contacto" class="svc-cta">Posicionar mi marca <i class="fas fa-arrow-right"></i></a>
+                <h2 class="svc-title" data-i18n="svc_seo_title">El algoritmo correcto. En el momento correcto.</h2>
+                <p class="svc-desc" data-i18n="svc_seo_desc">Análisis de datos y comportamiento de plataforma para elegir la estrategia de posicionamiento que mejor se adapta a cada canal digital. No aplicamos la misma fórmula para todos: cada algoritmo tiene sus propias reglas.</p>
+                <a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_seo_cta">Posicionar mi marca</span> <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="anim-in from-right">
                 <div class="algo-panel" id="algo-panel">
@@ -325,11 +326,11 @@
         <div style="max-width:1200px;margin:0 auto;">
             <div class="anim-in" style="text-align:center;margin-bottom:60px;">
                 <span class="svc-num" style="display:block;text-align:center;">04</span>
-                <h2 class="svc-title" style="text-align:center;">Tu equipo de ventas. Disponible 24/7.</h2>
-                <p class="svc-desc" style="max-width:700px;margin:0 auto 30px;">Chatbots entrenados con IA que entienden el contexto de tu negocio y convierten conversaciones en clientes. Automatiza ventas, agendamiento y atención al cliente por WhatsApp.</p>
+                <h2 class="svc-title" style="text-align:center;" data-i18n="svc_chatbots_title">Tu equipo de ventas. Disponible 24/7.</h2>
+                <p class="svc-desc" style="max-width:700px;margin:0 auto 30px;" data-i18n="svc_chatbots_desc">Chatbots entrenados con IA que entienden el contexto de tu negocio y convierten conversaciones en clientes. Automatiza ventas, agendamiento y atención al cliente por WhatsApp.</p>
             </div>
             <div class="chatbot-grid" id="chatbot-grid"></div>
-            <div style="text-align:center;margin-top:40px;"><a href="/paginas/contacto" class="svc-cta">Activar mi chatbot <i class="fas fa-arrow-right"></i></a></div>
+            <div style="text-align:center;margin-top:40px;"><a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_chatbots_cta">Activar mi chatbot</span> <i class="fas fa-arrow-right"></i></a></div>
         </div>
     </section>
 
@@ -338,21 +339,21 @@
         <div class="svc-inner reverse">
             <div class="anim-in from-right">
                 <span class="svc-num">05</span>
-                <h2 class="svc-title">Imágenes que comunican. Historias que conectan.</h2>
-                <p class="svc-desc">Producción audiovisual de alto impacto para marcas que quieren destacar: desde spots publicitarios hasta contenido para redes sociales. Cada marco es una oportunidad para contar tu historia.</p>
-                <a href="/paginas/contacto" class="svc-cta">Ver showreel <i class="fas fa-arrow-right"></i></a>
+                <h2 class="svc-title" data-i18n="svc_audiovisual_title">Imágenes que comunican. Historias que conectan.</h2>
+                <p class="svc-desc" data-i18n="svc_audiovisual_desc">Producción audiovisual de alto impacto para marcas que quieren destacar: desde spots publicitarios hasta contenido para redes sociales. Cada marco es una oportunidad para contar tu historia.</p>
+                <a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_audiovisual_cta">Ver showreel</span> <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="anim-in from-left from-scale">
                 <div class="video-player-wrap">
                     <div class="video-placeholder">
                         <i class="fas fa-camera-retro"></i>
                         <div class="play-btn-wrap"><i class="fas fa-play"></i></div>
-                        <span>[Insertar video de showreel aquí]</span>
+                        <span data-i18n="svc_video_placeholder">[Insertar video de showreel aquí]</span>
                     </div>
                     <div class="video-progress"><div class="video-progress-fill"></div></div>
                 </div>
                 <div class="video-badges">
-                    <span class="video-badge"><i class="fas fa-palette" style="margin-right:6px;color:var(--accent-color)"></i>Dirección de Arte</span>
+                    <span class="video-badge"><i class="fas fa-palette" style="margin-right:6px;color:var(--accent-color)"></i><span data-i18n="svc_badge_arte">Dirección de Arte</span></span>
                     <span class="video-badge"><i class="fas fa-wand-magic-sparkles" style="margin-right:6px;color:var(--accent-color)"></i>Motion Graphics</span>
                     <span class="video-badge"><i class="fas fa-adjust" style="margin-right:6px;color:var(--accent-color)"></i>Color Grading</span>
                     <span class="video-badge"><i class="fas fa-headphones" style="margin-right:6px;color:var(--accent-color)"></i>Sound Design</span>
@@ -366,8 +367,8 @@
         <div style="max-width:1200px;margin:0 auto;">
             <div class="anim-in" style="text-align:center;margin-bottom:40px;">
                 <span class="svc-num" style="display:block;text-align:center;">06</span>
-                <h2 class="svc-title" style="text-align:center;">Automatiza lo repetitivo. Humaniza lo importante.</h2>
-                <p class="svc-desc" style="max-width:750px;margin:0 auto 30px;">Diseñamos flujos de automatización a medida para cualquier tipo de empresa, conectando CRM, canales de comunicación y procesos internos para reducir costos operativos y elevar la experiencia del cliente.</p>
+                <h2 class="svc-title" style="text-align:center;" data-i18n="svc_crm_title">Automatiza lo repetitivo. Humaniza lo importante.</h2>
+                <p class="svc-desc" style="max-width:750px;margin:0 auto 30px;" data-i18n="svc_crm_desc">Diseñamos flujos de automatización a medida para cualquier tipo de empresa, conectando CRM, canales de comunicación y procesos internos para reducir costos operativos y elevar la experiencia del cliente.</p>
             </div>
             <div class="flow-diagram anim-in" id="flow-diagram">
                 <svg class="flow-svg" id="flow-svg"><line id="fl1" x1="0" y1="0" x2="0" y2="0"/><line id="fl2" x1="0" y1="0" x2="0" y2="0"/><line id="fl3" x1="0" y1="0" x2="0" y2="0"/><line id="fl4" x1="0" y1="0" x2="0" y2="0"/><line id="fl5" x1="0" y1="0" x2="0" y2="0"/></svg>
@@ -375,23 +376,23 @@
             </div>
             <div class="benefits-grid anim-in">
                 <div class="benefit-col">
-                    <h4><i class="fas fa-chart-pie" style="color:var(--accent-color);margin-right:8px;"></i>Reducción de costos</h4>
+                    <h4><i class="fas fa-chart-pie" style="color:var(--accent-color);margin-right:8px;"></i><span data-i18n="svc_crm_costos">Reducción de costos</span></h4>
                     <ul>
-                        <li>Elimina tareas manuales repetitivas</li>
-                        <li>Reduce errores humanos en procesos clave</li>
-                        <li>Escala operaciones sin contratar más personal</li>
+                        <li data-i18n="svc_crm_costos_1">Elimina tareas manuales repetitivas</li>
+                        <li data-i18n="svc_crm_costos_2">Reduce errores humanos en procesos clave</li>
+                        <li data-i18n="svc_crm_costos_3">Escala operaciones sin contratar más personal</li>
                     </ul>
                 </div>
                 <div class="benefit-col">
-                    <h4><i class="fas fa-user-check" style="color:var(--accent-color);margin-right:8px;"></i>Mejora del usuario</h4>
+                    <h4><i class="fas fa-user-check" style="color:var(--accent-color);margin-right:8px;"></i><span data-i18n="svc_crm_usuario">Mejora del usuario</span></h4>
                     <ul>
-                        <li>Respuestas inmediatas a consultas frecuentes</li>
-                        <li>Seguimiento personalizado automático</li>
-                        <li>Experiencia consistente en cada punto de contacto</li>
+                        <li data-i18n="svc_crm_usuario_1">Respuestas inmediatas a consultas frecuentes</li>
+                        <li data-i18n="svc_crm_usuario_2">Seguimiento personalizado automático</li>
+                        <li data-i18n="svc_crm_usuario_3">Experiencia consistente en cada punto de contacto</li>
                     </ul>
                 </div>
             </div>
-            <div style="text-align:center;margin-top:40px;"><a href="/paginas/contacto" class="svc-cta">Automatizar mi negocio <i class="fas fa-arrow-right"></i></a></div>
+            <div style="text-align:center;margin-top:40px;"><a href="/paginas/contacto" class="svc-cta"><span data-i18n="svc_crm_cta">Automatizar mi negocio</span> <i class="fas fa-arrow-right"></i></a></div>
         </div>
     </section>
 
@@ -406,31 +407,31 @@
                     <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01Z" />
                 </svg>
                 <p class="footer-brand-text">MOTOR ADVERTISING</p>
-                <p class="footer-brand-desc">Escalamos marcas de manera rentable con anuncios y sistemas de crecimiento altamente optimizados.</p>
+                <p class="footer-brand-desc" data-i18n="svc_footer_desc">Escalamos marcas de manera rentable con anuncios y sistemas de crecimiento altamente optimizados.</p>
             </div>
             
             <div class="footer-col nav-col">
-                <h4 class="footer-heading">Navegación</h4>
+                <h4 class="footer-heading" data-i18n="svc_footer_nav">Navegación</h4>
                 <nav class="footer-nav">
-                    <a href="/#inicio">Inicio</a>
-                    <a href="/paginas/services">Servicios</a>
-                    <a href="/paginas/pauta">Pauta</a>
+                    <a href="/#inicio" data-i18n="nav_inicio">Inicio</a>
+                    <a href="/paginas/services" data-i18n="nav_servicios">Servicios</a>
+                    <a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a>
                 </nav>
             </div>
 
             <div class="footer-col links-col">
-                <h4 class="footer-heading">Proyectos</h4>
+                <h4 class="footer-heading" data-i18n="svc_footer_proyectos">Proyectos</h4>
                 <nav class="footer-nav">
-                    <a href="/#casos">Casos de éxito</a>
-                    <a href="/#webs">Proyectos Web</a>
-                    <a href="/paginas/contacto">Contacto</a>
+                    <a href="/#casos" data-i18n="svc_footer_casos">Casos de éxito</a>
+                    <a href="/#webs" data-i18n="portfolio_title">Proyectos Web</a>
+                    <a href="/paginas/contacto" data-i18n="nav_contacto">Contacto</a>
                 </nav>
             </div>
 
             <div class="footer-col action-col">
-                <h4 class="footer-heading">Hablemos</h4>
+                <h4 class="footer-heading" data-i18n="svc_footer_hablemos">Hablemos</h4>
                 <a href="/paginas/contacto" class="footer-cta-btn">
-                    <i class="fab fa-whatsapp"></i> Agendar llamada
+                    <i class="fab fa-whatsapp"></i> <span data-i18n="svc_footer_cta">Agendar llamada</span>
                 </a>
                 <div class="footer-social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -441,7 +442,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 Motor Advertising. Todos los derechos reservados.</p>
+            <p data-i18n="svc_footer_copyright">&copy; 2025 Motor Advertising. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -456,26 +457,26 @@
                 </div>
                 <div class="wa-popup-info">
                     <strong>MotorAdvertising</strong>
-                    <span>En línea</span>
+                    <span data-i18n="svc_wa_online">En línea</span>
                 </div>
                 <button class="wa-popup-close" id="wa-popup-close"><i class="fas fa-times"></i></button>
             </div>
             <a href="https://wa.link/9k84s7" target="_blank" class="wa-popup-body-link">
                 <div class="wa-popup-body">
                     <div class="wa-message">
-                        ¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?
-                        <span class="wa-message-time" id="wa-time-now">Ahora</span>
+                        <span data-i18n="svc_wa_msg">¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?</span>
+                        <span class="wa-message-time" id="wa-time-now" data-i18n="wa_now">Ahora</span>
                     </div>
                 </div>
                 <div class="wa-popup-footer">
-                    <div class="wa-input-fake">Escribe un mensaje...</div>
+                    <div class="wa-input-fake" data-i18n="svc_wa_input">Escribe un mensaje...</div>
                     <div class="wa-send-btn"><i class="fas fa-paper-plane"></i></div>
                 </div>
             </a>
         </div>
 
 
-    <div class="lang-switcher" id="lang-switcher">
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
         <button class="lang-btn active" data-lang="es" title="Español">ES</button>
         <span class="lang-divider">|</span>
         <button class="lang-btn" data-lang="en" title="English">EN</button>
@@ -490,7 +491,7 @@
     /* ===== MOBILE MENU ===== */
     const toggle=document.querySelector('.menu-toggle');
     const navLinks=document.querySelector('.nav-links');
-    if(toggle)toggle.addEventListener('click',()=>{navLinks.style.display=navLinks.style.display==='flex'?'none':'flex';navLinks.style.flexDirection='column';navLinks.style.position='absolute';navLinks.style.top='100%';navLinks.style.right='0';navLinks.style.background='rgba(0,0,0,.95)';navLinks.style.padding='20px 30px';navLinks.style.borderRadius='0 0 8px 8px';});
+    /* menu movil: lo maneja script.js */
 
     /* ===== READING PROGRESS ===== */
     const prog=document.getElementById('reading-progress');
@@ -663,20 +664,11 @@
     const flowObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){updateFlowLines();flowSvg.classList.add('visible');flowObs.unobserve(e.target);}});},{threshold:.2});
     flowObs.observe(document.getElementById('flow-diagram'));
 
-    /* ===== BACKGROUND CANVAS (from script.js) ===== */
-    const canvas=document.getElementById('data-canvas');
-    if(canvas){const ctx=canvas.getContext('2d');let w,h,particles=[];
-    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
-    resize();window.addEventListener('resize',resize);
-    for(let i=0;i<60;i++)particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
-    function draw(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(15,57,74,.4)';ctx.fill();});
-    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);
-    if(d<150){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle='rgba(15,57,74,'+(1-d/150)*.15+')';ctx.stroke();}}
-    requestAnimationFrame(draw);}draw();}
+    /* background canvas: lo maneja script.js */
 
     });
     </script>
+    <script src="/script.js?v=5.5" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.0" defer></script>
 </body>

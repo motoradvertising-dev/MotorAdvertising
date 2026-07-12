@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | Motor Advertising</title>
+    <title data-i18n="ttl_contacto">Contacto | Motor Advertising</title>
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.5">
+    <link rel="stylesheet" href="/styles.css?v=4.6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -65,6 +65,7 @@
             <li><a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a></li>
             <li><a href="/#casos" data-i18n="nav_casos">Casos</a></li>
             <li><a href="/#webs" data-i18n="nav_webs">Proyectos</a></li>
+            <li><a href="/#contacto" data-i18n="nav_contactanos">Contáctanos</a></li>
         </ul>
         <div class="nav-right-group">
             <a href="/paginas/planes/" class="nav-wa-btn" id="nav-btn-planes">
@@ -86,11 +87,11 @@
     <main class="contact-main-wrapper" style="flex:1;display:flex;align-items:center;justify-content:center;">
         <section class="contact-section" style="padding:40px 20px;min-height:auto;">
             <div class="contact-selection-wrapper">
-                <h2 class="contact-title">INICIA EL CAMBIO</h2>
-                <p class="contact-subtitle">Selecciona tu perfil para iniciar el proceso.</p>
+                <h2 class="contact-title" data-i18n="cnt_inicia_cambio">INICIA EL CAMBIO</h2>
+                <p class="contact-subtitle" data-i18n="cnt_selecciona_perfil">Selecciona tu perfil para iniciar el proceso.</p>
                 <div class="contact-options">
-                    <button class="btn btn-primary" id="btn-soy-empresa">Soy una Empresa</button>
-                    <button class="btn btn-primary" id="btn-soy-profesional">Soy un Profesional</button>
+                    <button class="btn btn-primary" id="btn-soy-empresa" data-i18n="contact_empresa">Soy una Empresa</button>
+                    <button class="btn btn-primary" id="btn-soy-profesional" data-i18n="contact_profesional">Soy un Profesional</button>
                 </div>
             </div>
         </section>
@@ -104,27 +105,27 @@
                 <!-- Empresa Form -->
                 <div id="form-empresa" class="form-step hidden">
                     <div class="form-header">
-                        <h3>Perfil Empresa</h3>
-                        <p>Busco escalar mi marca con un sistema de crecimiento sólido.</p>
+                        <h3 data-i18n="form_empresa_title">Perfil Empresa</h3>
+                        <p data-i18n="form_empresa_desc">Busco escalar mi marca con un sistema de crecimiento sólido.</p>
                     </div>
                     <form class="motor-form" id="empresa-contact-form">
                         <div class="form-grid">
                             <div class="form-field">
-                                <label>Nombre completo</label>
-                                <input type="text" name="name" required placeholder="Ej. Juan Pérez">
+                                <label data-i18n="form_nombre">Nombre completo</label>
+                                <input type="text" name="name" required placeholder="Ej. Juan Pérez" data-i18n-ph="idx_ph_nombre">
                             </div>
                             <div class="form-field">
-                                <label>Email corporativo</label>
+                                <label data-i18n="form_email_corp">Email corporativo</label>
                                 <input type="email" name="email" required placeholder="juan@empresa.com">
                             </div>
                             <div class="form-field">
-                                <label>Nombre de la empresa/marca</label>
+                                <label data-i18n="form_empresa_nombre">Nombre de la empresa/marca</label>
                                 <input type="text" name="company" required placeholder="Motor Ads">
                             </div>
                             <div class="form-field full-row">
-                                <label>Principal desafío actual</label>
+                                <label data-i18n="form_desafio">Principal desafío actual</label>
                                 <textarea name="message" required
-                                    placeholder="Cuéntanos un poco sobre tus objetivos..."></textarea>
+                                    placeholder="Cuéntanos un poco sobre tus objetivos..." data-i18n-ph="idx_ph_desafio"></textarea>
                             </div>
                             <div class="form-field full-row">
                                 <label data-i18n="form_agenda">Agenda tu cita</label>
@@ -136,44 +137,44 @@
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
                             style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
                         <div id="empresa-error" class="form-error hidden"></div>
-                        <button type="submit" class="btn btn-primary btn-submit">Activar Motor</button>
+                        <button type="submit" class="btn btn-primary btn-submit" data-i18n="form_activar">Activar Motor</button>
                     </form>
                 </div>
 
                 <!-- Profesional Form -->
                 <div id="form-profesional" class="form-step hidden">
                     <div class="form-header">
-                        <h3>Perfil Profesional</h3>
-                        <p>Quiero ser parte del motor como Trafficker, CM o Creador.</p>
+                        <h3 data-i18n="form_prof_title">Perfil Profesional</h3>
+                        <p data-i18n="form_prof_desc">Quiero ser parte del motor como Trafficker, CM o Creador.</p>
                     </div>
                     <form class="motor-form" id="profesional-contact-form">
                         <div class="form-grid">
                             <div class="form-field">
-                                <label>Nombre completo</label>
-                                <input type="text" name="name" required placeholder="Ej. Juan Pérez">
+                                <label data-i18n="form_nombre">Nombre completo</label>
+                                <input type="text" name="name" required placeholder="Ej. Juan Pérez" data-i18n-ph="idx_ph_nombre">
                             </div>
                             <div class="form-field">
                                 <label>Email</label>
                                 <input type="email" name="email" required placeholder="juan@email.com">
                             </div>
                             <div class="form-field">
-                                <label>Especialidad</label>
+                                <label data-i18n="form_especialidad">Especialidad</label>
                                 <select name="role" required>
-                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="" disabled selected data-i18n="form_select_opcion">Selecciona una opción</option>
                                     <option value="trafficker">Trafficker</option>
                                     <option value="community-manager">Community Manager</option>
-                                    <option value="productor-audiovisual">Productor Audiovisual</option>
-                                    <option value="analista">Analista de Datos</option>
+                                    <option value="productor-audiovisual" data-i18n="form_productor">Productor Audiovisual</option>
+                                    <option value="analista" data-i18n="form_analista">Analista de Datos</option>
                                 </select>
                             </div>
                             <div class="form-field">
-                                <label>Link a CV/Portafolio</label>
+                                <label data-i18n="form_portfolio">Link a CV/Portafolio</label>
                                 <input type="url" name="portfolio" required placeholder="https://linkedin.com/in/...">
                             </div>
                             <div class="form-field full-row">
-                                <label>Resumen de experiencia</label>
+                                <label data-i18n="form_experiencia">Resumen de experiencia</label>
                                 <textarea name="experience" required
-                                    placeholder="Describe tus mejores resultados..."></textarea>
+                                    placeholder="Describe tus mejores resultados..." data-i18n-ph="idx_ph_experiencia"></textarea>
                             </div>
                             <div class="form-field full-row">
                                 <label data-i18n="form_agenda">Agenda tu cita</label>
@@ -185,7 +186,7 @@
                         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
                             style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
                         <div id="profesional-error" class="form-error hidden"></div>
-                        <button type="submit" class="btn btn-primary btn-submit">Enviar perfil</button>
+                        <button type="submit" class="btn btn-primary btn-submit" data-i18n="form_enviar">Enviar perfil</button>
                     </form>
                 </div>
 
@@ -193,14 +194,14 @@
                 <div id="modal-success" class="form-step success-step hidden">
                     <div class="success-content">
                         <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                        <h3>Información recibida.</h3>
-                        <p>Nuestro equipo te contactará pronto.</p>
+                        <h3 data-i18n="success_title">Información recibida.</h3>
+                        <p data-i18n="success_desc">Nuestro equipo te contactará pronto.</p>
                         <p class="success-cita" id="success-cita"></p>
                         <a class="success-gcal" id="success-gcal" target="_blank" rel="noopener" hidden>
                             <i class="fab fa-google" aria-hidden="true"></i>
-                            <span>Añadir a mi Google Calendar</span>
+                            <span data-i18n="cnt_gcal_add">Añadir a mi Google Calendar</span>
                         </a>
-                        <button class="btn btn-secondary" id="success-back">Volver</button>
+                        <button class="btn btn-secondary" id="success-back" data-i18n="success_back">Volver</button>
                     </div>
                 </div>
             </div>
@@ -218,31 +219,31 @@
                     <path fill="#ffffff" d="M327.35,23.01h23.08c6.21,0,11.27,1.66,15.18,4.97,3.91,3.31,5.87,8.05,5.87,14.2,0,4.75-1.19,8.73-3.56,11.93-2.38,3.21-5.59,5.47-9.66,6.77l22.22,26.68h-18.7l-19.72-25.51v25.51h-14.71V23.01Z" />
                 </svg>
                 <p class="footer-brand-text">MOTOR ADVERTISING</p>
-                <p class="footer-brand-desc">Escalamos marcas de manera rentable con anuncios y sistemas de crecimiento altamente optimizados.</p>
+                <p class="footer-brand-desc" data-i18n="cnt_footer_desc">Escalamos marcas de manera rentable con anuncios y sistemas de crecimiento altamente optimizados.</p>
             </div>
             
             <div class="footer-col nav-col">
-                <h4 class="footer-heading">Navegación</h4>
+                <h4 class="footer-heading" data-i18n="cnt_footer_nav">Navegación</h4>
                 <nav class="footer-nav">
-                    <a href="/#inicio">Inicio</a>
-                    <a href="/paginas/services">Servicios</a>
-                    <a href="/paginas/pauta">Pauta</a>
+                    <a href="/#inicio" data-i18n="nav_inicio">Inicio</a>
+                    <a href="/paginas/services" data-i18n="nav_servicios">Servicios</a>
+                    <a href="/paginas/pauta" data-i18n="nav_pauta">Pauta</a>
                 </nav>
             </div>
 
             <div class="footer-col links-col">
-                <h4 class="footer-heading">Proyectos</h4>
+                <h4 class="footer-heading" data-i18n="cnt_footer_proyectos">Proyectos</h4>
                 <nav class="footer-nav">
-                    <a href="/#casos">Casos de éxito</a>
-                    <a href="/#webs">Proyectos Web</a>
-                    <a href="/paginas/contacto">Contacto</a>
+                    <a href="/#casos" data-i18n="cnt_footer_casos">Casos de éxito</a>
+                    <a href="/#webs" data-i18n="portfolio_title">Proyectos Web</a>
+                    <a href="/paginas/contacto" data-i18n="nav_contacto">Contacto</a>
                 </nav>
             </div>
 
             <div class="footer-col action-col">
-                <h4 class="footer-heading">Hablemos</h4>
+                <h4 class="footer-heading" data-i18n="cnt_footer_hablemos">Hablemos</h4>
                 <a href="/paginas/contacto" class="footer-cta-btn">
-                    <i class="fab fa-whatsapp"></i> Agendar llamada
+                    <i class="fab fa-whatsapp"></i> <span data-i18n="cnt_footer_agendar">Agendar llamada</span>
                 </a>
                 <div class="footer-social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -253,7 +254,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 Motor Advertising. Todos los derechos reservados.</p>
+            <p>&copy; 2025 Motor Advertising. <span data-i18n="cnt_footer_rights">Todos los derechos reservados.</span></p>
         </div>
     </footer>
 
@@ -268,29 +269,36 @@
                 </div>
                 <div class="wa-popup-info">
                     <strong>MotorAdvertising</strong>
-                    <span>En línea</span>
+                    <span data-i18n="cnt_wa_online">En línea</span>
                 </div>
                 <button class="wa-popup-close" id="wa-popup-close"><i class="fas fa-times"></i></button>
             </div>
             <a href="https://wa.link/9k84s7" target="_blank" class="wa-popup-body-link">
                 <div class="wa-popup-body">
                     <div class="wa-message">
-                        ¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?
-                        <span class="wa-message-time" id="wa-time-now">Ahora</span>
+                        <span data-i18n="cnt_wa_msg">¡Hola! 👋 ¿Necesitas ayuda o tienes alguna pregunta sobre nuestros servicios?</span>
+                        <span class="wa-message-time" id="wa-time-now" data-i18n="wa_now">Ahora</span>
                     </div>
                 </div>
                 <div class="wa-popup-footer">
-                    <div class="wa-input-fake">Escribe un mensaje...</div>
+                    <div class="wa-input-fake" data-i18n="cnt_wa_escribe">Escribe un mensaje...</div>
                     <div class="wa-send-btn"><i class="fas fa-paper-plane"></i></div>
                 </div>
             </a>
         </div>
 
 
-    <script src="/script.js?v=5.2" defer></script>
+    <script src="/script.js?v=5.5" defer></script>
     <script src="/assets/js/scheduler.js?v=1.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.0" defer></script>
+    <!-- Sticky Language Switcher -->
+    <div class="lang-switcher-floating" id="lang-switcher-floating">
+        <button class="lang-btn active" data-lang="es" title="Español">ES</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en" title="English">EN</button>
+    </div>
+
 </body>
 
 </html>
