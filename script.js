@@ -36,17 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Sticky Navbar - Throttled
+// Sticky Navbar - Throttled + passive (no bloquea el compositor de scroll en móvil)
 const navbar = document.querySelector('.navbar');
+let _navScrolled = false;
 window.addEventListener('scroll', throttle(() => {
-    if (navbar) {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-}, 100));
+    if (!navbar) return;
+    // Histéresis: evita el parpadeo del navbar al oscilar justo en el umbral.
+    var y = window.scrollY;
+    if (!_navScrolled && y > 60) { _navScrolled = true; navbar.classList.add('scrolled'); }
+    else if (_navScrolled && y < 40) { _navScrolled = false; navbar.classList.remove('scrolled'); }
+}, 100), { passive: true });
 
 
 // Mobile Menu Toggle
@@ -953,6 +952,12 @@ document.addEventListener("DOMContentLoaded", () => {
             lgn_role_empresa_d: 'I want to hire services',
             lgn_role_empleado: 'Employee',
             lgn_role_empleado_d: 'I\'m part of the team',
+            idx_short_audiovisual: 'Audiovisual',
+            idx_short_seo: 'SEO & SEM',
+            idx_short_contenidos: 'Content',
+            idx_short_videoia: 'AI Video',
+            idx_short_crm: 'CRM',
+            idx_short_chatbots: 'Chatbots',
             // --- Home + titulos + widget (fase 2) ---
             idx_svc_audiovisual: "Audiovisual Production",
             idx_svc_seo: "SEO & SEM Positioning",
@@ -1311,6 +1316,12 @@ document.addEventListener("DOMContentLoaded", () => {
             lgn_role_empresa_d: 'Quiero contratar servicios',
             lgn_role_empleado: 'Empleado',
             lgn_role_empleado_d: 'Hago parte del equipo',
+            idx_short_audiovisual: 'Audiovisual',
+            idx_short_seo: 'SEO & SEM',
+            idx_short_contenidos: 'Contenidos',
+            idx_short_videoia: 'Video IA',
+            idx_short_crm: 'CRM',
+            idx_short_chatbots: 'Chatbots',
             // --- Home + titulos + widget (fase 2) ---
             idx_svc_audiovisual: "Producción Audiovisual",
             idx_svc_seo: "Posicionamiento SEO & SEM",
