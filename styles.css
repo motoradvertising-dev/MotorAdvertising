@@ -3320,6 +3320,42 @@ footer {
     opacity: 1;
 }
 
+/* CTA final de la conversación: "Quiero iniciar ahora" */
+.conversation-final {
+    margin-bottom: 18vh; /* acerca el botón al mensaje final (default: 70vh) */
+}
+
+.conv-cta-btn {
+    pointer-events: auto; /* .scroll-content tiene pointer-events:none */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--accent-color), #0e7490);
+    color: #fff;
+    padding: 17px 36px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px var(--accent-glow);
+    opacity: 0;
+    transform: translateY(60px) scale(0.85);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.conversation-msg.visible .conv-cta-btn {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.conversation-msg.visible .conv-cta-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 12px 40px var(--accent-glow);
+}
+
 .msg-bubble {
     position: relative;
     background: rgba(10, 10, 10, 0.85);

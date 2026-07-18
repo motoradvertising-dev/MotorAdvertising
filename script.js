@@ -1185,6 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
             conv_2: 'You don\'t need more followers.',
             conv_3: 'You need a system that converts attention into money.',
             conv_4: 'That\'s exactly what we build.',
+            conv_cta: 'I want to start now',
             // Screens
             screen_analitica: 'Analytics',
             screen_estrategia: 'Strategy',
@@ -1547,6 +1548,7 @@ document.addEventListener("DOMContentLoaded", () => {
             conv_2: 'No necesitas más seguidores.',
             conv_3: 'Necesitas un sistema que convierta atención en dinero.',
             conv_4: 'Eso es exactamente lo que construimos.',
+            conv_cta: 'Quiero iniciar ahora',
             screen_analitica: 'Analítica',
             screen_estrategia: 'Estrategia',
             screen_flujo: 'Flujo',
