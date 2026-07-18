@@ -3225,6 +3225,11 @@ footer {
     position: relative;
     background: var(--bg-color);
     padding-bottom: 30vh;
+    /* El anclaje de scroll del navegador usa el .sticky-bg pegado como
+       referencia y aplica "correcciones" gigantes al subir en móvil
+       (salta a otra sección). Aquí todo anima solo transform/opacity,
+       así que desactivarlo no tiene costo. */
+    overflow-anchor: none;
 }
 
 .scroll-wrapper {
@@ -4560,6 +4565,13 @@ footer {
     /* 8. Prevent overscroll bounce from triggering layout shifts */
     html, body {
         overscroll-behavior-y: none;
+    }
+
+    /* 8b. Kill scroll anchoring on mobile: with the pinned sticky character
+       as anchor, any mid-scroll layout invalidation makes the browser apply
+       a giant scrollTop "correction" upward (jumps to another section). */
+    html {
+        overflow-anchor: none;
     }
 
     /* 9. Prevent modal open from causing the ~15px scrollbar jump */

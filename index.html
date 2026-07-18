@@ -17,7 +17,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.7">
+    <link rel="stylesheet" href="/styles.css?v=4.8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -199,7 +199,9 @@
         <div class="scroll-wrapper">
             <div class="sticky-bg">
                 <div class="sticky-character">
-                    <img src="/assets/motor-leadership-characters.png" alt="Motor Advertising Leadership Characters" loading="lazy">
+                    <!-- width/height reservan el espacio: sin ellos, la carga lazy
+                         dentro del subtree sticky producía un layout shift. -->
+                    <img src="/assets/motor-leadership-characters.png" alt="Motor Advertising Leadership Characters" width="1080" height="1068" loading="lazy">
                 </div>
             </div>
 
@@ -896,7 +898,7 @@
 
     <div class="overlay"></div>
 
-    <script src="/script.js?v=5.6" defer></script>
+    <script src="/script.js?v=5.7" defer></script>
     <script src="/assets/js/scheduler.js?v=1.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.1" defer></script>

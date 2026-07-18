@@ -810,7 +810,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    window.addEventListener('resize', drawLines);
+    // Redibujar el grafo SOLO si sus dimensiones reales cambian. En móvil, la
+    // barra de direcciones dispara 'resize' justo al scrollear hacia ARRIBA sin
+    // que el contenedor (medido en svh) cambie de tamaño; reconstruir el SVG en
+    // ese momento congelaba el hilo principal y causaba el salto de scroll.
+    let _graphW = container ? container.clientWidth : 0;
+    let _graphH = container ? container.clientHeight : 0;
+    window.addEventListener('resize', () => {
+        if (!container) return;
+        const w = container.clientWidth, h = container.clientHeight;
+        if (w === _graphW && h === _graphH) return;
+        _graphW = w; _graphH = h;
+        requestAnimationFrame(drawLines);
+    });
 
     // --- Three.js Dynamic Hub Integration ---
     // Disabled on mobile: WebGL rAF loop blocks scroll compositor
