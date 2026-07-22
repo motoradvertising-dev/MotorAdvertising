@@ -6,3 +6,8 @@ project_id = "seeaexvmdvmlbbezuosm"
 # la allowlist de CORS, la validacion y el rate-limit.
 [functions.contact-form]
 verify_jwt = false
+
+# El generador de reportes de pauta SI exige sesion valida (JWT): el gateway
+# rechaza peticiones anonimas y la funcion re-verifica el rol superadmin.
+[functions.generate-report]
+verify_jwt = true
