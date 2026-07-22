@@ -6,7 +6,7 @@
     <title>Perfil de usuario | Motor Advertising</title>
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=4.9">
+    <link rel="stylesheet" href="/styles.css?v=5.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -85,60 +85,52 @@
     .hist-item .h-del:hover { color: #ff9c92; }
     .hist-empty { color: var(--text-secondary); font-size: .84rem; }
 
+    .h-status { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 50px; white-space: nowrap; }
+    .h-status.borrador { background: rgba(230,170,50,.12); border: 1px solid rgba(230,170,50,.4); color: #ffce7a; }
+    .h-status.publicado { background: rgba(40,160,90,.15); border: 1px solid rgba(40,160,90,.45); color: #7fd8a4; }
+    .h-pub {
+        background: none; border: 1px solid var(--glass-border); border-radius: 50px;
+        color: var(--text-secondary); cursor: pointer; padding: 6px 14px;
+        font-family: var(--font-body); font-size: .7rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px; transition: all .2s ease; white-space: nowrap;
+    }
+    .h-pub:hover { border-color: #25d366; color: #7fd8a4; }
+    .h-pub.des:hover { border-color: #ffce7a; color: #ffce7a; }
+    .h-pub:disabled { opacity: .5; cursor: wait; }
+
+    /* Zona de capturas de pantalla */
+    .shots-zone {
+        border: 2px dashed var(--glass-border);
+        border-radius: 12px;
+        padding: 22px 16px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: .82rem;
+        cursor: pointer;
+        transition: all .2s ease;
+        margin-bottom: 12px;
+    }
+    .shots-zone:hover, .shots-zone.drag { border-color: var(--accent-color); background: rgba(15,57,74,.15); }
+    .shots-zone i { display: block; font-size: 1.4rem; color: #59a8c4; margin-bottom: 8px; }
+    .shots-zone strong { color: var(--text-primary); }
+    .shots-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .shot { position: relative; width: 110px; height: 74px; border-radius: 8px; overflow: hidden; border: 1px solid var(--glass-border); }
+    .shot img { width: 100%; height: 100%; object-fit: cover; }
+    .shot button {
+        position: absolute; top: 4px; right: 4px;
+        width: 20px; height: 20px; border-radius: 50%;
+        border: none; background: rgba(0,0,0,.75); color: #ff9c92;
+        cursor: pointer; font-size: .7rem; line-height: 1;
+        display: flex; align-items: center; justify-content: center;
+    }
+
     /* ===== Reporte ===== */
     #report-area { display: none; }
     #report-area.show { display: block; }
-    .rep-shell {
-        background: #0b0d10;
-        border: 1px solid var(--glass-border);
-        border-radius: 18px;
-        padding: 42px 40px;
-        margin-bottom: 22px;
-    }
-    .rep-brand { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 26px; }
-    .rep-brand .rb-logo { font-family: var(--font-heading); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-primary); }
-    .rep-brand .rb-logo span { color: #59a8c4; }
-    .rep-brand .rb-meta { color: var(--text-secondary); font-size: .78rem; text-align: right; }
-    .rep-title { font-family: var(--font-heading); font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); }
-    .rep-period { color: #59a8c4; font-weight: 600; font-size: .9rem; margin: 4px 0 22px; text-transform: uppercase; letter-spacing: 1.5px; }
-    .rep-summary { color: #c7ced4; font-size: .95rem; line-height: 1.85; border-left: 3px solid var(--accent-color); padding: 4px 0 4px 18px; margin-bottom: 30px; }
-
-    .rep-h { font-family: var(--font-heading); font-size: .85rem; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: #59a8c4; margin: 30px 0 16px; }
-
-    .rep-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-    .rep-kpi { border: 1px solid var(--glass-border); border-radius: 14px; background: rgba(255,255,255,.025); padding: 16px 16px 14px; }
-    .rep-kpi .k-label { color: var(--text-secondary); font-size: .68rem; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; }
-    .rep-kpi .k-value { font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; color: var(--text-primary); line-height: 1.1; }
-    .rep-kpi .k-delta { font-size: .74rem; font-weight: 600; margin-top: 6px; display: inline-flex; align-items: center; gap: 5px; }
-    .k-delta.up { color: #7fd8a4; } .k-delta.down { color: #ff9c92; } .k-delta.flat { color: var(--text-secondary); }
-
-    .rep-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
-    .rep-chart { border: 1px solid var(--glass-border); border-radius: 14px; background: rgba(255,255,255,.02); padding: 18px; }
-    .rep-chart h4 { color: var(--text-primary); font-size: .82rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-    .rep-chart .c-box { position: relative; height: 260px; }
-
-    .rep-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .rep-list li { display: flex; gap: 12px; color: #c7ced4; font-size: .9rem; line-height: 1.7; }
-    .rep-list li i { color: #59a8c4; margin-top: 5px; flex-shrink: 0; }
-    .rep-list.reco li i { color: #7fd8a4; }
-
-    .rep-conclusion { margin-top: 28px; border-top: 1px solid var(--glass-border); padding-top: 20px; color: #c7ced4; font-size: .92rem; line-height: 1.8; font-style: italic; }
-    .rep-footer { margin-top: 24px; color: #4b5563; font-size: .68rem; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
-
-    .rep-toolbar { display: flex; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
-    .rep-tool {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 11px 20px; border-radius: 50px; cursor: pointer;
-        border: 1px solid var(--glass-border); background: rgba(255,255,255,.05);
-        color: var(--text-primary); font-family: var(--font-body); font-size: .78rem;
-        font-weight: 600; text-transform: uppercase; letter-spacing: .5px; transition: all .2s ease;
-    }
-    .rep-tool:hover { border-color: var(--accent-color); box-shadow: 0 0 14px var(--accent-glow); }
 
     @media (max-width: 720px) {
         .usr-wrap { padding: 120px 14px 70px; }
         .gen-grid { grid-template-columns: 1fr; }
-        .rep-shell { padding: 26px 18px; }
     }
 
     /* Impresión: solo el reporte, con colores exactos */
@@ -226,8 +218,16 @@
                         <p class="gen-hint">El reporte se genera con la API de OpenAI, se guarda en el historial y puedes imprimirlo o guardarlo como PDF.</p>
                     </div>
                     <div>
-                        <label for="gen-metricas">Métricas del mes (pega aquí los datos tal como los tengas)</label>
-                        <textarea id="gen-metricas" placeholder="Ej.&#10;Inversión total: $2.450.000 COP&#10;Impresiones: 480.000 (+18% vs marzo)&#10;Clics: 12.300 · CTR 2.56%&#10;Leads: 214 · CPL $11.450&#10;Campaña A (ventas): $1.500.000 — 150 leads&#10;Campaña B (remarketing): $950.000 — 64 leads&#10;..."></textarea>
+                        <label>Capturas de pantalla de las métricas</label>
+                        <div class="shots-grid" id="shots-grid"></div>
+                        <div class="shots-zone" id="shots-zone" role="button" tabindex="0">
+                            <i class="fas fa-images"></i>
+                            <strong>Pega tus capturas aquí (Ctrl + V)</strong><br>
+                            o haz clic para subirlas · máx. 6 imágenes (Meta Ads, Google Ads, etc.)
+                        </div>
+                        <input type="file" id="shots-input" accept="image/png,image/jpeg,image/webp" multiple hidden>
+                        <label for="gen-metricas">Notas o métricas en texto (opcional si subes capturas)</label>
+                        <textarea id="gen-metricas" style="min-height:90px" placeholder="Ej. contexto del mes, objetivos, comparación vs mes anterior…"></textarea>
                     </div>
                 </div>
                 <div class="gen-actions">
@@ -259,6 +259,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.1" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/report-render.js?v=1.0" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -272,7 +273,6 @@
         var ROLES = { pendiente: 'Pendiente', superadmin: 'Superadmin', empresa: 'Empresa', empleado: 'Empleado' };
         var PLANES = { webs_inicial: 'Webs Inicial', webs_crecimiento: 'Webs Crecimiento', webs_elite: 'Webs Elite', mkt_inicial: 'Marketing Inicial', mkt_crecimiento: 'Marketing Crecimiento', mkt_elite: 'Marketing Elite' };
         var ESTADOS = { sin_plan: 'Sin plan', activo: 'Activo', pausado: 'Pausado', cancelado: 'Cancelado' };
-        var PALETTE = ['#59a8c4', '#0e7490', '#25d366', '#ffce7a', '#ff9c92', '#a78bfa', '#f472b6', '#94a3b8'];
 
         function esc(s) {
             return String(s == null ? '' : s)
@@ -292,103 +292,88 @@
         function showDenied() { loading.hidden = true; denied.hidden = false; }
         function fail(msg) { loading.hidden = false; content.hidden = true; loading.innerHTML = '<i class="fas fa-triangle-exclamation" style="color:#ff9c92"></i> ' + esc(msg); }
 
-        /* ===== Render del reporte ===== */
+        /* ===== Render del reporte (renderer compartido) ===== */
         function renderReport(rep, meta) {
-            charts.forEach(function (c) { try { c.destroy(); } catch (e) {} });
-            charts = [];
-
-            var kpis = (rep.kpis || []).map(function (k) {
-                var t = (k.tendencia === 'up' || k.tendencia === 'down') ? k.tendencia : 'flat';
-                var icon = t === 'up' ? 'fa-arrow-trend-up' : (t === 'down' ? 'fa-arrow-trend-down' : 'fa-minus');
-                var delta = k.delta ? '<span class="k-delta ' + t + '"><i class="fas ' + icon + '"></i> ' + esc(k.delta) + '</span>' : '';
-                return '<div class="rep-kpi"><div class="k-label">' + esc(k.label) + '</div><div class="k-value">' + esc(k.valor) + '</div>' + delta + '</div>';
-            }).join('');
-
-            var chartBoxes = (rep.graficas || []).map(function (g, i) {
-                return '<div class="rep-chart"><h4>' + esc(g.titulo) + '</h4><div class="c-box"><canvas id="rep-c' + i + '"></canvas></div></div>';
-            }).join('');
-
-            var hallazgos = (rep.hallazgos || []).map(function (h) {
-                return '<li><i class="fas fa-magnifying-glass-chart"></i><span>' + esc(h) + '</span></li>';
-            }).join('');
-            var recos = (rep.recomendaciones || []).map(function (r) {
-                return '<li><i class="fas fa-circle-check"></i><span>' + esc(r) + '</span></li>';
-            }).join('');
-
-            document.getElementById('rep-shell').innerHTML =
-                '<div class="rep-brand">' +
-                    '<div class="rb-logo">// Motor <span>Advertising</span></div>' +
-                    '<div class="rb-meta">' + esc(meta.cliente) + '<br>Generado el ' + esc(meta.fecha) + '</div>' +
-                '</div>' +
-                '<h2 class="rep-title">' + esc(rep.titulo || 'Reporte de pauta') + '</h2>' +
-                '<p class="rep-period">' + esc(rep.periodo || meta.periodo || '') + '</p>' +
-                (rep.resumen_ejecutivo ? '<p class="rep-summary">' + esc(rep.resumen_ejecutivo) + '</p>' : '') +
-                (kpis ? '<h3 class="rep-h">Indicadores clave</h3><div class="rep-kpis">' + kpis + '</div>' : '') +
-                (chartBoxes ? '<h3 class="rep-h">Rendimiento</h3><div class="rep-charts">' + chartBoxes + '</div>' : '') +
-                (hallazgos ? '<h3 class="rep-h">Hallazgos</h3><ul class="rep-list">' + hallazgos + '</ul>' : '') +
-                (recos ? '<h3 class="rep-h">Recomendaciones</h3><ul class="rep-list reco">' + recos + '</ul>' : '') +
-                (rep.conclusion ? '<p class="rep-conclusion">' + esc(rep.conclusion) + '</p>' : '') +
-                '<p class="rep-footer">Motor Advertising · Agencia de alto rendimiento · motoradvertising.co</p>';
-
-            (rep.graficas || []).forEach(function (g, i) {
-                var ctx = document.getElementById('rep-c' + i);
-                if (!ctx || !window.Chart) return;
-                var tipo = (g.tipo === 'line' || g.tipo === 'doughnut') ? g.tipo : 'bar';
-                var labels = (g.etiquetas || []).map(String);
-                var series = Array.isArray(g.series) ? g.series : [];
-                var datasets;
-                if (tipo === 'doughnut') {
-                    datasets = [{
-                        data: (series[0] && series[0].datos) || [],
-                        backgroundColor: PALETTE.slice(0, Math.max(labels.length, 1)),
-                        borderColor: '#0b0d10', borderWidth: 3
-                    }];
-                } else {
-                    datasets = series.map(function (s, j) {
-                        var col = PALETTE[j % PALETTE.length];
-                        return {
-                            label: String(s.nombre || ''),
-                            data: s.datos || [],
-                            backgroundColor: tipo === 'bar' ? col + 'cc' : col + '33',
-                            borderColor: col,
-                            borderWidth: 2,
-                            borderRadius: tipo === 'bar' ? 6 : 0,
-                            tension: 0.35,
-                            fill: tipo === 'line',
-                            pointBackgroundColor: col
-                        };
-                    });
-                }
-                charts.push(new Chart(ctx, {
-                    type: tipo,
-                    data: { labels: labels, datasets: datasets },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: tipo === 'doughnut' || series.length > 1,
-                                position: 'bottom',
-                                labels: { color: '#9ca3af', boxWidth: 12, font: { size: 11 } }
-                            }
-                        },
-                        scales: tipo === 'doughnut' ? {} : {
-                            x: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
-                            y: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.07)' } }
-                        }
-                    }
-                }));
-            });
-
+            var shell = document.getElementById('rep-shell');
+            if (window.MotorReport) MotorReport.render(shell, rep, meta);
             var area = document.getElementById('report-area');
             area.classList.add('show');
             area.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        /* ===== Capturas de pantalla ===== */
+        var shots = []; // dataURLs ya redimensionadas
+        var MAX_SHOTS = 6;
+
+        function renderShots() {
+            var grid = document.getElementById('shots-grid');
+            grid.innerHTML = shots.map(function (src, i) {
+                return '<div class="shot"><img src="' + src + '" alt="captura ' + (i + 1) + '">' +
+                       '<button type="button" data-i="' + i + '" title="Quitar"><i class="fas fa-xmark"></i></button></div>';
+            }).join('');
+            grid.querySelectorAll('button').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    shots.splice(parseInt(btn.getAttribute('data-i'), 10), 1);
+                    renderShots();
+                });
+            });
+        }
+
+        // Redimensiona a max 2000px y convierte a JPEG (payload liviano, texto legible)
+        function addShotFile(file) {
+            if (!file || !/^image\/(png|jpe?g|webp)$/.test(file.type)) return;
+            if (shots.length >= MAX_SHOTS) { setMsg('Máximo ' + MAX_SHOTS + ' capturas por reporte.', 'err'); return; }
+            var img = new Image();
+            var url = URL.createObjectURL(file);
+            img.onload = function () {
+                var MAX = 2000;
+                var scale = Math.min(1, MAX / Math.max(img.width, img.height));
+                var c = document.createElement('canvas');
+                c.width = Math.round(img.width * scale);
+                c.height = Math.round(img.height * scale);
+                c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                URL.revokeObjectURL(url);
+                shots.push(c.toDataURL('image/jpeg', 0.9));
+                renderShots();
+                setMsg('', '');
+            };
+            img.onerror = function () { URL.revokeObjectURL(url); };
+            img.src = url;
+        }
+
+        function bindShots() {
+            var zone = document.getElementById('shots-zone');
+            var input = document.getElementById('shots-input');
+            zone.addEventListener('click', function () { input.click(); });
+            zone.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+            input.addEventListener('change', function () {
+                Array.prototype.forEach.call(input.files, addShotFile);
+                input.value = '';
+            });
+            // Pegar con Ctrl+V en cualquier parte de la página
+            document.addEventListener('paste', function (e) {
+                var items = (e.clipboardData && e.clipboardData.items) || [];
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].kind === 'file' && items[i].type.indexOf('image/') === 0) {
+                        addShotFile(items[i].getAsFile());
+                        e.preventDefault();
+                    }
+                }
+            });
+            // Arrastrar y soltar
+            ['dragover', 'dragleave', 'drop'].forEach(function (ev) {
+                zone.addEventListener(ev, function (e) {
+                    e.preventDefault();
+                    zone.classList.toggle('drag', ev === 'dragover');
+                    if (ev === 'drop') Array.prototype.forEach.call(e.dataTransfer.files, addShotFile);
+                });
+            });
+        }
+
         /* ===== Historial ===== */
         function loadHistory() {
             window.MotorAuth.client.from('pauta_reports')
-                .select('id, periodo, created_at')
+                .select('id, periodo, created_at, status')
                 .eq('profile_id', profileId)
                 .order('created_at', { ascending: false })
                 .then(function (r) {
@@ -396,9 +381,12 @@
                     if (r.error) { list.innerHTML = '<span class="hist-empty">No se pudo cargar el historial: ' + esc(r.error.message) + '</span>'; return; }
                     if (!r.data || !r.data.length) { list.innerHTML = '<span class="hist-empty">Aún no hay reportes para este cliente.</span>'; return; }
                     list.innerHTML = r.data.map(function (rep) {
-                        return '<div class="hist-item" data-id="' + esc(rep.id) + '">' +
+                        var pub = rep.status === 'publicado';
+                        return '<div class="hist-item" data-id="' + esc(rep.id) + '" data-status="' + esc(rep.status || 'borrador') + '">' +
                             '<button type="button" class="h-open"><i class="fas fa-file-lines"></i> ' + esc(rep.periodo || 'Reporte') + '</button>' +
+                            '<span class="h-status ' + (pub ? 'publicado' : 'borrador') + '">' + (pub ? 'Publicado' : 'Borrador') + '</span>' +
                             '<span>' + esc(fecha(rep.created_at)) + '</span>' +
+                            '<button type="button" class="h-pub' + (pub ? ' des' : '') + '">' + (pub ? '<i class="fas fa-eye-slash"></i> Despublicar' : '<i class="fas fa-paper-plane"></i> Publicar') + '</button>' +
                             '<button type="button" class="h-del" title="Eliminar"><i class="fas fa-trash-can"></i></button>' +
                         '</div>';
                     }).join('');
@@ -406,15 +394,31 @@
                         btn.addEventListener('click', function () {
                             var id = btn.closest('.hist-item').getAttribute('data-id');
                             window.MotorAuth.client.from('pauta_reports')
-                                .select('report, periodo, created_at')
+                                .select('report, periodo, created_at, status')
                                 .eq('id', id).single()
                                 .then(function (rr) {
                                     if (rr.error || !rr.data) return;
                                     renderReport(rr.data.report, {
                                         cliente: document.getElementById('usr-name').textContent,
                                         periodo: rr.data.periodo,
-                                        fecha: fecha(rr.data.created_at)
+                                        fecha: fecha(rr.data.created_at),
+                                        estado: rr.data.status
                                     });
+                                });
+                        });
+                    });
+                    list.querySelectorAll('.h-pub').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            var item = btn.closest('.hist-item');
+                            var id = item.getAttribute('data-id');
+                            var nuevo = item.getAttribute('data-status') === 'publicado' ? 'borrador' : 'publicado';
+                            if (nuevo === 'publicado' && !confirm('¿Publicar este reporte? El cliente podrá verlo en su panel.')) return;
+                            btn.disabled = true;
+                            window.MotorAuth.client.from('pauta_reports').update({ status: nuevo }).eq('id', id)
+                                .then(function (ur) {
+                                    btn.disabled = false;
+                                    if (ur.error) { setMsg('No se pudo cambiar el estado: ' + ur.error.message, 'err'); return; }
+                                    loadHistory();
                                 });
                         });
                     });
@@ -436,14 +440,14 @@
                 var periodo = document.getElementById('gen-periodo').value.trim();
                 var metricas = document.getElementById('gen-metricas').value.trim();
                 if (!periodo) { setMsg('Indica el período (ej. Abril 2026).', 'err'); return; }
-                if (metricas.length < 30) { setMsg('Pega las métricas del mes primero.', 'err'); return; }
+                if (!shots.length && metricas.length < 30) { setMsg('Pega al menos una captura de las métricas o escríbelas en texto.', 'err'); return; }
 
                 btn.disabled = true;
                 btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Generando… (20–60 seg)';
                 setMsg('La IA está analizando las métricas…', 'ok');
 
                 window.MotorAuth.client.functions.invoke('generate-report', {
-                    body: { profile_id: profileId, periodo: periodo, metricas: metricas }
+                    body: { profile_id: profileId, periodo: periodo, metricas: metricas, imagenes: shots }
                 }).then(function (res) {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-bolt"></i> Generar reporte';
@@ -461,11 +465,12 @@
                     }
                     var data = res.data || {};
                     if (!data.report) { setMsg('La función no devolvió un reporte. Revisa la configuración.', 'err'); return; }
-                    setMsg(data.saved ? 'Reporte generado y guardado en el historial.' : 'Reporte generado (no se pudo guardar en historial).', 'ok');
+                    setMsg(data.saved ? 'Reporte generado. Quedó como BORRADOR: revísalo y publícalo desde el historial.' : 'Reporte generado (no se pudo guardar en historial).', 'ok');
                     renderReport(data.report, {
                         cliente: profile.full_name || profile.email,
                         periodo: periodo,
-                        fecha: fecha(new Date().toISOString())
+                        fecha: fecha(new Date().toISOString()),
+                        estado: 'borrador'
                     });
                     loadHistory();
                 });
@@ -505,6 +510,7 @@
                             (p.requested_role ? '<span class="usr-chip">Solicitó: <strong>' + esc(p.requested_role) + '</strong></span>' : '') +
                             (p.notes ? '<span class="usr-chip">Notas: <strong>' + esc(p.notes) + '</strong></span>' : '');
                         bindGenerator(p);
+                        bindShots();
                         loadHistory();
                     });
             });

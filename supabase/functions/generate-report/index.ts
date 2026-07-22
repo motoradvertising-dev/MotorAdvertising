@@ -42,7 +42,7 @@ function corsHeaders(origin: string | null): Record<string, string> {
   return h;
 }
 
-const SYSTEM_PROMPT = `Eres un analista senior de paid media de Motor Advertising, una agencia de marketing digital. Recibirás las métricas de pauta de un cliente correspondientes a un período, en texto libre (pueden venir de Meta Ads, Google Ads, TikTok, etc., con cualquier formato).
+const SYSTEM_PROMPT = `Eres un analista senior de paid media de Motor Advertising, una agencia de marketing digital. Recibirás las métricas de pauta de un cliente correspondientes a un período: pueden venir como CAPTURAS DE PANTALLA de los administradores de anuncios (Meta Ads, Google Ads, TikTok, etc.) y/o como texto libre. Lee y extrae con precisión TODOS los datos visibles en las imágenes (tablas, cifras, gráficos, nombres de campañas, fechas).
 
 Tu tarea: producir un reporte ejecutivo profesional en ESPAÑOL, y responder EXCLUSIVAMENTE con un objeto JSON válido (sin markdown, sin texto extra) con EXACTAMENTE esta estructura:
 
@@ -117,7 +117,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   let body: Record<string, unknown>;
   try {
     const raw = await req.text();
-    if (raw.length > 40_000) return json(413, { error: "Métricas demasiado largas (máx ~40KB)." });
+    // Las capturas viajan como data-URLs base64: cuerpo grande permitido.
+    if (raw.length > 18_000_000) return json(413, { error: "Las capturas pesan demasiado. Sube máximo 6 imágenes." });
     body = JSON.parse(raw);
   } catch {
     return json(400, { error: "Cuerpo inválido." });
@@ -125,10 +126,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const profileId = String(body.profile_id ?? "").trim();
   const periodo = String(body.periodo ?? "").trim();
-  const metricas = String(body.metricas ?? "").trim();
+  const metricas = String(body.metricas ?? "").trim().slice(0, 20_000);
+  const imagenes = Array.isArray(body.imagenes) ? body.imagenes : [];
   if (!/^[0-9a-f-]{36}$/i.test(profileId)) return json(400, { error: "profile_id inválido." });
   if (!periodo) return json(400, { error: "Indica el período del reporte." });
-  if (metricas.length < 30) return json(400, { error: "Pega las métricas del mes (muy pocas para analizar)." });
+  if (imagenes.length === 0 && metricas.length < 30) {
+    return json(400, { error: "Pega al menos una captura de las métricas o escribe los datos del mes." });
+  }
+  if (imagenes.length > 6) return json(400, { error: "Máximo 6 capturas por reporte." });
+  for (const img of imagenes) {
+    if (typeof img !== "string" || !/^data:image\/(png|jpe?g|webp);base64,/.test(img)) {
+      return json(400, { error: "Formato de imagen no válido (usa PNG, JPG o WebP)." });
+    }
+    if (img.length > 6_000_000) return json(413, { error: "Una de las capturas pesa demasiado (máx ~4MB cada una)." });
+  }
 
   // Nombre del cliente para el título del reporte.
   const { data: target } = await supa
@@ -142,6 +153,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(500, { error: "Falta configurar OPENAI_API_KEY en los Secrets de Supabase." });
   }
   const model = Deno.env.get("OPENAI_MODEL") || "gpt-4o-mini";
+
+  // Contenido multimodal: texto + capturas de pantalla (si las hay).
+  const userContent: Array<Record<string, unknown>> = [{
+    type: "text",
+    text: `Cliente: ${clientName}\nPeríodo: ${periodo}\n\n` +
+      (imagenes.length
+        ? `Adjunto ${imagenes.length} captura(s) de pantalla con las métricas del período. Extrae los datos de las imágenes.` +
+          (metricas ? `\n\nDatos/notas adicionales en texto:\n${metricas}` : "")
+        : `Métricas del período:\n${metricas}`),
+  }];
+  for (const img of imagenes) {
+    userContent.push({ type: "image_url", image_url: { url: img, detail: "high" } });
+  }
 
   let report: Record<string, unknown>;
   try {
@@ -158,10 +182,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: `Cliente: ${clientName}\nPeríodo: ${periodo}\n\nMétricas del período:\n${metricas}`,
-          },
+          { role: "user", content: userContent },
         ],
       }),
     });
@@ -195,7 +216,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     .insert({
       profile_id: profileId,
       periodo,
-      metricas_raw: metricas,
+      // Las imágenes no se almacenan (pesan mucho); queda constancia de cuántas fueron.
+      metricas_raw: (imagenes.length ? `[${imagenes.length} captura(s) de pantalla adjunta(s)]\n` : "") + metricas,
       report,
       created_by: userData.user.id,
     })
