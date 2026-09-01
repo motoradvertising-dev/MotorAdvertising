@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Propuesta · Motor Advertising × Flaminio Angulo</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Acento café (mantengo el nombre --green para no tocar cada referencia) */
+    --green: #6F4A2A;
+    --green-dim: rgba(111,74,42,0.10);
+    --green-mid: rgba(111,74,42,0.32);
+    --black: #FBF7EF;        /* base / tarjetas (crema casi blanco) */
+    --off-black: #ECE3D2;    /* bandas de sección (beige) */
+    --dark: #FFFFFF;         /* cajas (blanco) */
+    --mid: #F0E9DA;
+    --border: rgba(111,74,42,0.20);
+    --text: #3A2A1C;         /* texto café oscuro */
+    --muted: #8A7A66;        /* taupe apagado */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: .4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw 8vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    opacity: .4;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(111,74,42,0.16) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: .7; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12.5px, 1.2vw, 15px);
+    font-weight: 300;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp .8s .2s forwards;
+  }
+
+  .hero-x {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(48px, 8vw, 124px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    opacity: 0;
+    animation: fadeUp .8s .5s forwards;
+  }
+
+  .hero-x span { color: var(--green); }
+  .hero-x .stroke {
+    -webkit-text-stroke: 1px rgba(58,42,28,0.30);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 2.5rem;
+    display: flex; gap: 3rem; align-items: center;
+    opacity: 0;
+    animation: fadeUp .8s .9s forwards;
+  }
+
+  .hero-sub p {
+    font-size: clamp(14.5px, 1.4vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+
+  .hero-badge {
+    flex-shrink: 0;
+    border: 1px solid var(--green);
+    padding: 1rem 1.8rem;
+    text-align: center;
+  }
+
+  .hero-badge strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .hero-badge small {
+    font-size: 12px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    opacity: 0;
+    animation: fadeUpCentered 1s 1.4s forwards, bounce 2s 2.4s ease-in-out infinite;
+  }
+
+  @keyframes fadeUpCentered {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .scroll-hint span { font-size: 10.5px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 8vh 6vw; position: relative; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 6vw, 88px);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title .outline {
+    -webkit-text-stroke: 1px var(--green);
+    color: transparent;
+  }
+
+  /* ─── PUNTO DE PARTIDA ─── */
+  .strategy {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .strategy-lead {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2E2018;
+  }
+
+  .strategy-lead em { color: var(--green); font-style: normal; }
+
+  .strategy-right p {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.8;
+    color: #6E5E4A;
+    margin-bottom: 2rem;
+  }
+
+  .strategy-right strong { color: #2E2018; font-weight: 500; }
+
+  .pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .pillar {
+    background: var(--black);
+    padding: 1.6rem 1.8rem;
+    transition: background .3s;
+  }
+
+  .pillar:hover { background: var(--green-dim); }
+
+  .pillar-icon { font-size: 22px; margin-bottom: .8rem; }
+
+  .pillar h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #2E2018;
+    margin-bottom: .4rem;
+  }
+
+  .pillar p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PARTES ─── */
+  .part { background: var(--black); }
+
+  .part-alt {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .part-intro {
+    font-size: clamp(14.5px, 1.4vw, 16.5px);
+    color: #6E5E4A;
+    line-height: 1.8;
+    max-width: 680px;
+    margin-top: .5rem;
+  }
+
+  .part-intro strong { color: #2E2018; font-weight: 500; }
+
+  /* ─── SERVICES LIST ─── */
+  .services-list { margin-top: 4rem; }
+
+  .service-item {
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    transition: border-color .3s;
+    cursor: default;
+  }
+
+  .service-item:last-child { border-bottom: 1px solid var(--border); }
+  .service-item:hover { border-color: var(--green); }
+  .service-item:hover .service-num { color: var(--green); }
+  .service-item:hover .service-expand { opacity: 1; }
+
+  .service-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: #E0D2B8;
+    line-height: 1;
+    transition: color .3s;
+  }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 1rem;
+    color: #2E2018;
+  }
+
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    padding: .3rem .8rem;
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all .2s;
+  }
+
+  .service-item:hover .tag { border-color: var(--green-mid); color: var(--green); }
+
+  .service-details { font-size: 14.5px; color: #8E7E6A; line-height: 1.8; max-width: 560px; }
+  .service-details li { list-style: none; padding: .2rem 0; }
+  .service-details li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+  .service-details li strong { color: #5A4A38; font-weight: 500; }
+
+  .service-expand {
+    font-size: 28px; color: var(--green);
+    opacity: 0; transition: opacity .3s; line-height: 1;
+  }
+
+  /* ─── CAJAS DE PRECIO ─── */
+  .part-price {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 3.5rem;
+    align-items: stretch;
+  }
+
+  .part-price.single { grid-template-columns: 1fr; max-width: 780px; }
+
+  .price-box {
+    border: 1px solid var(--green);
+    background: var(--dark);
+    padding: 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .price-box.soft { border-color: var(--border); }
+  .price-box.soft::before { background: linear-gradient(90deg, var(--green-mid), transparent); }
+
+  .pb-label {
+    font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+
+  .pb-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+
+  .pb-currency {
+    font-size: 14px; letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 1.8rem;
+    text-transform: uppercase;
+  }
+
+  .pb-note {
+    font-size: 14.5px; color: #8E7E6A; line-height: 1.7;
+    border-top: 1px solid rgba(111,74,42,0.15);
+    padding-top: 1.4rem;
+  }
+
+  .pb-note strong { color: #5A4A38; font-weight: 500; }
+
+  .total-bar {
+    margin-top: 1.2rem;
+    border: 1px solid var(--green);
+    background: var(--green-dim);
+    padding: 1.5rem 2.2rem;
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: .8rem;
+  }
+
+  .total-bar span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: #5A4A38;
+  }
+
+  .total-bar strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 900;
+    color: var(--green);
+    letter-spacing: -.01em;
+  }
+
+  /* ─── GOOGLE / INCLUIDO ─── */
+  .addon { background: var(--black); }
+
+  .addon-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .addon-main {
+    border: 1px solid var(--green);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .addon-main::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .addon-main::after {
+    content: '★';
+    position: absolute;
+    bottom: -40px; right: -10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 180px;
+    font-weight: 900;
+    color: var(--green);
+    opacity: .05;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .addon-label {
+    font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+
+  .addon-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(44px, 6vw, 82px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+
+  .addon-currency {
+    font-size: 15px; letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+
+  .addon-note {
+    font-size: 14.5px; color: #8E7E6A; line-height: 1.7;
+    border-top: 1px solid rgba(111,74,42,0.15);
+    padding-top: 1.5rem;
+  }
+
+  .addon-scale {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+  }
+
+  .addon-scale h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 1.4rem;
+    color: #2E2018;
+  }
+
+  .addon-scale ul { list-style: none; }
+
+  .addon-scale ul li {
+    font-size: 14.5px;
+    color: #6E5E4A;
+    line-height: 1.7;
+    padding: .55rem 0;
+    border-top: 1px solid rgba(111,74,42,0.12);
+  }
+
+  .addon-scale ul li:first-child { border-top: none; padding-top: 0; }
+  .addon-scale ul li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+  .addon-scale ul li strong { color: #2E2018; font-weight: 500; }
+
+  /* ─── RESUMEN DE INVERSIÓN ─── */
+  .resumen { background: var(--black); border-top: 1px solid var(--border); }
+
+  .resumen-box {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    margin-top: 3.5rem;
+    max-width: 880px;
+  }
+
+  .resumen-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding: 1.1rem 0;
+    gap: 1.5rem;
+  }
+
+  .resumen-row:first-child { border-top: none; padding-top: 0; }
+
+  .resumen-row .rr-item {
+    font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .resumen-row .rr-detalle { font-size: 13.5px; color: #8E7E6A; margin-top: .2rem; }
+
+  .resumen-row .rr-precio {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px; font-weight: 800; color: var(--green); white-space: nowrap;
+    text-align: right;
+  }
+
+  .resumen-row .rr-precio small { display: block; font-size: 12px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .05em; }
+
+  .resumen-clarification {
+    margin-top: 1.4rem;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding-top: 1.2rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+  }
+
+  .resumen-clarification::before {
+    content: '!';
+    width: 18px; height: 18px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .resumen-clarification p { font-size: 13.5px; color: #8E7E6A; line-height: 1.7; }
+  .resumen-clarification strong { color: #5A4A38; }
+
+  /* ─── REQS ─── */
+  .reqs {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reqs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .req-card {
+    background: var(--black);
+    padding: 2rem;
+    transition: background .3s;
+  }
+
+  .req-card:hover { background: var(--green-dim); }
+
+  .req-card .req-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    opacity: .3;
+    margin-bottom: .5rem;
+  }
+
+  .req-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .6rem;
+    color: #2E2018;
+  }
+
+  .req-card p { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── CONDICIONES ─── */
+  .conditions { background: var(--black); border-top: 1px solid var(--border); }
+
+  .cond-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .cond-item {
+    background: var(--off-black);
+    padding: 2rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+
+  .cond-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .cond-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: #2E2018; margin-bottom: .4rem;
+  }
+
+  .cond-item p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+  }
+
+  .closing-glow {
+    position: absolute;
+    bottom: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(111,74,42,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .closing h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 7vw, 100px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    line-height: .95;
+    max-width: 900px;
+  }
+
+  .closing h2 .green { color: var(--green); }
+  .closing h2 .outline {
+    -webkit-text-stroke: 1.5px rgba(58,42,28,0.28);
+    color: transparent;
+  }
+
+  .closing p {
+    margin-top: 2rem;
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    border: 1px solid var(--green);
+    padding: 1.1rem 3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--green); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: color .3s;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--green);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s ease;
+    z-index: -1;
+  }
+
+  .cta-btn:hover { color: #fff; }
+  .cta-btn:hover::before { transform: scaleX(1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--off-black);
+  }
+
+  footer p { font-size: 12px; color: #A89478; letter-spacing: .05em; }
+  footer .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .15em; color: #A89478; }
+
+  .green-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: .4;
+  }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .strategy-grid, .addon-layout, .part-price { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .reqs-grid { grid-template-columns: 1fr; }
+    .cond-grid { grid-template-columns: 1fr; }
+    .service-item { grid-template-columns: 50px 1fr; }
+    .service-expand { display: none; }
+    .hero-sub { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+    .resumen-row { flex-direction: column; gap: .3rem; }
+    .resumen-row .rr-precio { text-align: left; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">Propuesta Comercial · Rediseño Web + Marketing Digital · Septiembre 2026</p>
+
+  <h1 class="hero-x">
+    <span class="stroke">MOTOR</span><br>
+    <span>× FLAMINIO</span> <span>ANGULO</span>
+  </h1>
+
+  <div class="hero-sub">
+    <p>Dos partes, un mismo objetivo: una web corporativa a la altura de más de 40 años de trayectoria, y un sistema de marketing que la ponga frente a las empresas y hogares que hoy están buscando muebles en Bogotá. Diseño, pauta, contenido y presencia en Google — un solo equipo.</p>
+    <div class="hero-badge">
+      <strong>$2.500.000</strong>
+      <small>COP · Parte 1 · Rediseño web</small>
+    </div>
+    <div class="hero-badge">
+      <strong>$2.500.000</strong>
+      <small>COP / mes · Parte 2 · Marketing</small>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 01 · PUNTO DE PARTIDA ══════════════════════ -->
+<section class="strategy">
+  <div class="section-label">01 — Punto de Partida</div>
+  <h2 class="section-title reveal">Una gran empresa.<br><span class="outline">Una web que no la cuenta.</span></h2>
+
+  <div class="strategy-grid">
+    <div class="strategy-lead reveal">
+      Han amoblado al Banco de Bogotá, Compensar y Cine Colombia. <em>Su presencia digital todavía no lo cuenta</em> como merece.
+    </div>
+    <div class="strategy-right reveal">
+      <p>Flaminio Angulo &amp; Cía. lleva más de 40 años fabricando muebles, cuenta con certificación <strong>ISO 9001</strong> y tiene una lista de clientes que cualquier competidor envidiaría. Pero el sitio actual ya cumplió su ciclo: fotografías de hace varios años, un catálogo sin opción de cotizar, ninguna forma de agendar una cita y una trayectoria enorme que aparece apenas como un párrafo. Quien lo visita hoy no ve la empresa que realmente es.</p>
+      <p>Y hay un segundo frente: quien busca en Google <strong>"muebles de oficina en Bogotá"</strong> no los encuentra. Esta propuesta ataca ambos frentes a la vez — primero una web corporativa que esté a la altura, y luego un sistema de marketing que la ponga a trabajar todos los días.</p>
+    </div>
+  </div>
+
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-icon">🏛️</div>
+      <h4>Imagen corporativa</h4>
+      <p>Un diseño premium que refleje la calidad ISO 9001, la trayectoria y los clientes de primer nivel que ya confían en la marca.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🧲</div>
+      <h4>Conversión</h4>
+      <p>Llamados a la acción, cotización y agendamiento de citas en cada página: convertir visitas en clientes, no solo en vistas.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📍</div>
+      <h4>SEO local</h4>
+      <p>Aparecer en Google y Google Maps cuando alguien cerca busca muebles de oficina o de hogar. Ahí es donde está la venta.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">⭐</div>
+      <h4>Reputación visible</h4>
+      <p>Perfil de Empresa en Google con reseñas y calificaciones: la prueba social que hoy queda escondida, puesta donde todos la ven.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 02 · PARTE 1 — REDISEÑO WEB ══════════════════════ -->
+<section class="part">
+  <div class="section-label">02 — Parte 1 · Rediseño Web</div>
+  <h2 class="section-title reveal">Una web<br><span class="outline">a la altura.</span></h2>
+  <p class="part-intro reveal">Rediseño completo de <strong>flaminioangulo.com.co</strong>: una plataforma corporativa, profesional y con un nivel de diseño superior, construida para proyectar la solidez de la empresa y convertir cada visita en una cotización o una cita agendada.</p>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Diseño Corporativo Premium</div>
+        <div class="service-tags">
+          <span class="tag">UI / UX</span>
+          <span class="tag">Corporativo</span>
+          <span class="tag">Responsive</span>
+        </div>
+        <ul class="service-details">
+          <li>Rediseño total del sitio con una estética <strong>profesional y corporativa</strong>, coherente con sus clientes de primer nivel</li>
+          <li>Arquitectura nueva orientada a la venta: productos y servicios al frente, con jerarquía clara</li>
+          <li>Trayectoria, certificación ISO 9001 y clientes destacados como prueba social visible desde la portada</li>
+          <li>Textos revisados y redacción profesional, 100% en español</li>
+          <li>Diseño adaptado a celular, tablet y escritorio</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Catálogo &amp; Servicios que Venden</div>
+        <div class="service-tags">
+          <span class="tag">Catálogo</span>
+          <span class="tag">Cotización</span>
+          <span class="tag">CTA</span>
+        </div>
+        <ul class="service-details">
+          <li>Líneas de producto (oficina, hogar, línea clásica, tándem) presentadas para vender, no solo para mostrar</li>
+          <li><strong>Botón de cotización en cada bloque</strong>: del producto al contacto en un clic</li>
+          <li>Los servicios de mantenimiento, renovación y adecuación de espacios con su propia página y su propio llamado a cotizar</li>
+          <li>Integración con WhatsApp y formulario de contacto directo al correo de la empresa</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">Agendamiento de Citas</div>
+        <div class="service-tags">
+          <span class="tag">Citas</span>
+          <span class="tag">Correo</span>
+          <span class="tag">Alertas</span>
+        </div>
+        <ul class="service-details">
+          <li>El cliente elige fecha y hora, y <strong>agenda su cita directamente desde la web</strong> — asesorías, visitas al taller o servicios de mantenimiento</li>
+          <li>Confirmación automática por correo para el cliente que agenda</li>
+          <li><strong>Alerta inmediata al correo de la empresa</strong> con cada agendamiento: nombre, fecha, hora y motivo de la cita</li>
+          <li>Cero citas perdidas: todo queda registrado y notificado</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Rendimiento &amp; SEO Base</div>
+        <div class="service-tags">
+          <span class="tag">SEO</span>
+          <span class="tag">Velocidad</span>
+          <span class="tag">Metadatos</span>
+        </div>
+        <ul class="service-details">
+          <li>Estructura semántica, títulos y metadatos optimizados en todas las páginas — hoy inexistentes</li>
+          <li>Carga rápida y optimización de imágenes</li>
+          <li>Base técnica lista para posicionar en búsquedas locales, conectada con el Perfil de Empresa en Google</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+
+  <div class="part-price single reveal">
+    <div class="price-box">
+      <p class="pb-label">Parte 1 · Rediseño web — pago único</p>
+      <div class="pb-amount">$2.500.000</div>
+      <p class="pb-currency">COP · Pesos colombianos</p>
+      <p class="pb-note">Incluye todo el alcance de la Parte 1: diseño, desarrollo, catálogo, sistema de agendamiento con alertas al correo y SEO base. Para iniciar: <strong>abono del 50% ($1.250.000)</strong>; el saldo se cancela contra entrega. Entrega estimada de 15 días hábiles desde el abono y la recepción de contenidos, con una revisión intermedia para ajustes.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 03 · PARTE 2 — MARKETING MENSUAL ══════════════════════ -->
+<section class="part-alt">
+  <div class="section-label">03 — Parte 2 · Marketing Mensual</div>
+  <h2 class="section-title reveal">Marketing que<br><span class="outline">no descansa.</span></h2>
+  <p class="part-intro reveal">Con la casa digital lista, la ponemos a trabajar: <strong>pauta digital + contenido constante</strong> para que Flaminio Angulo aparezca todos los días frente a las personas y empresas correctas.</p>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Pauta Digital · Meta &amp; Google</div>
+        <div class="service-tags">
+          <span class="tag">Meta Ads</span>
+          <span class="tag">Google Ads</span>
+          <span class="tag">Segmentación</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>2 campañas activas</strong>, cada una con 3 anuncios: <strong>2 estáticos + 1 video</strong></li>
+          <li>Segmentación por zona, intereses e intención de compra: empresas que dotan oficinas y hogares que renuevan muebles</li>
+          <li>Optimización continua de CPL, CTR y CPA</li>
+          <li>Remarketing sobre quienes visitaron la nueva web y no cotizaron</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Producción de Piezas</div>
+        <div class="service-tags">
+          <span class="tag">Diseño</span>
+          <span class="tag">Video</span>
+          <span class="tag">Estáticos</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>6 piezas publicitarias al mes</strong> (4 estáticos + 2 videos) producidas por Motor Advertising, listas para pautar</li>
+          <li>Diseño orientado a conversión, coherente con la nueva imagen de la web</li>
+          <li>Ajuste de creativos según el rendimiento de cada campaña</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">Contenido Orgánico</div>
+        <div class="service-tags">
+          <span class="tag">Publicaciones</span>
+          <span class="tag">Parrilla</span>
+          <span class="tag">Redes</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>3 publicaciones semanales</strong> — 12 piezas al mes con diseño, copy y programación incluidos</li>
+          <li>Parrilla mensual de contenido presentada y aprobada con el cliente antes de publicar</li>
+          <li>Marca activa y constante: productos, procesos de fábrica, clientes y trayectoria</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Trazabilidad &amp; Reportes</div>
+        <div class="service-tags">
+          <span class="tag">Píxeles</span>
+          <span class="tag">Leads</span>
+          <span class="tag">Reportes</span>
+        </div>
+        <ul class="service-details">
+          <li>Píxeles y eventos de conversión conectados a la nueva web</li>
+          <li>Identificación del origen de cada cotización y cada cita agendada</li>
+          <li>Reporte mensual de resultados con insights y recomendaciones</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+
+  <div class="part-price reveal">
+    <div class="price-box">
+      <p class="pb-label">Fee mensual de gestión</p>
+      <div class="pb-amount">$2.000.000</div>
+      <p class="pb-currency">COP / mes</p>
+      <p class="pb-note">Cubre la gestión completa del ecosistema digital: estrategia, campañas, producción de las 6 piezas publicitarias, las 12 publicaciones orgánicas, trazabilidad, analítica y optimización continua. Se paga de forma anticipada al inicio de cada periodo mensual.</p>
+    </div>
+    <div class="price-box soft">
+      <p class="pb-label">Presupuesto de publicidad</p>
+      <div class="pb-amount">$500.000</div>
+      <p class="pb-currency">COP / mes · pauta</p>
+      <p class="pb-note">Inversión publicitaria que va <strong>directamente a Meta Ads y/o Google Ads</strong>. Motor Advertising la administra estratégicamente, pero este valor no hace parte del fee ni representa un ingreso para Motor: se carga en la cuenta publicitaria del cliente.</p>
+    </div>
+  </div>
+
+  <div class="total-bar reveal">
+    <span>Inversión total mensual · Parte 2</span>
+    <strong>$2.500.000 COP</strong>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 04 · INCLUIDO — GOOGLE BUSINESS ══════════════════════ -->
+<section class="addon">
+  <div class="section-label">04 — Incluido en la Propuesta · Google</div>
+  <h2 class="section-title reveal">Que lo encuentren<br><span class="outline">en Google.</span></h2>
+
+  <div class="addon-layout">
+
+    <div class="addon-main reveal">
+      <p class="addon-label">Perfil de Empresa en Google · incluido</p>
+      <div class="addon-amount">$0</div>
+      <div class="addon-currency">Costo adicional — incluido al contratar la propuesta completa (Partes 1 y 2)</div>
+      <div class="addon-note">
+        Creamos y optimizamos el <strong>Perfil de Empresa en Google</strong> (Google Business Profile) de Flaminio Angulo: la ficha que aparece en Google y en Google Maps cuando alguien busca muebles de oficina o de hogar en Bogotá. Es la puerta de entrada a las calificaciones de negocios y la base de todo el SEO local.
+      </div>
+    </div>
+
+    <div class="addon-scale reveal">
+      <h4>Qué incluye</h4>
+      <ul>
+        <li><strong>Creación y verificación de la ficha</strong>: nombre, sede, horarios, fotos, servicios y líneas de producto</li>
+        <li><strong>Calificaciones visibles</strong>: habilitamos las reseñas para que la reputación de 40 años aparezca en cada búsqueda</li>
+        <li><strong>SEO local</strong>: optimización para búsquedas cercanas y Google Maps — donde deciden los clientes</li>
+        <li><strong>Conexión con la nueva web</strong>: la ficha enlaza al sitio, al agendamiento de citas y al WhatsApp</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 05 · RESUMEN DE INVERSIÓN ══════════════════════ -->
+<section class="resumen">
+  <div class="section-label">05 — Resumen de Inversión</div>
+  <h2 class="section-title reveal">Números<br><span class="outline">claros.</span></h2>
+
+  <div class="resumen-box reveal">
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Parte 1 · Rediseño web</div>
+        <div class="rr-detalle">Diseño corporativo + catálogo + agendamiento de citas + SEO base</div>
+      </div>
+      <div class="rr-precio">$2.500.000 <small>COP · pago único</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Parte 2 · Fee de marketing</div>
+        <div class="rr-detalle">2 campañas · 6 piezas de pauta · 12 publicaciones al mes · reportes</div>
+      </div>
+      <div class="rr-precio">$2.000.000 <small>COP / mes</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Parte 2 · Presupuesto de pauta</div>
+        <div class="rr-detalle">Va directo a Meta Ads y/o Google Ads — no es ingreso de Motor</div>
+      </div>
+      <div class="rr-precio">$500.000 <small>COP / mes</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Perfil de Empresa en Google</div>
+        <div class="rr-detalle">Creación, verificación, calificaciones y SEO local — al contratar ambas partes</div>
+      </div>
+      <div class="rr-precio">Incluido <small>sin costo adicional</small></div>
+    </div>
+    <div class="resumen-clarification">
+      <p>Las dos partes son <strong>complementarias pero independientes</strong>: la Parte 1 es un pago único por el rediseño; la Parte 2 es un servicio mensual. Lo ideal es arrancar con la web y activar el marketing sobre la plataforma nueva — así cada peso de pauta cae en una página que sí convierte.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 06 · REQUERIMIENTOS ══════════════════════ -->
+<section class="reqs">
+  <div class="section-label">06 — Requerimientos Operativos</div>
+  <h2 class="section-title reveal">Para que<br><span class="outline">funcione.</span></h2>
+
+  <div class="reqs-grid reveal">
+    <div class="req-card">
+      <div class="req-num">01</div>
+      <h4>Contenidos &amp; accesos</h4>
+      <p>Logotipo, fotografías actualizadas de productos y taller, textos base y accesos al dominio y hosting actuales para la correcta migración del sitio.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">02</div>
+      <h4>Cuentas &amp; correo</h4>
+      <p>Business Manager de Meta y/o cuenta de Google Ads con medio de pago propio para la pauta, y el correo corporativo que recibirá las cotizaciones y las alertas de citas.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">03</div>
+      <h4>Respuesta ágil</h4>
+      <p>Atención rápida a las citas agendadas y a los leads generados, y aprobación oportuna de la parrilla y las piezas. La velocidad de respuesta define la conversión.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 07 · CONDICIONES ══════════════════════ -->
+<section class="conditions">
+  <div class="section-label">07 — Condiciones</div>
+  <h2 class="section-title reveal">Reglas del<br><span class="outline">juego.</span></h2>
+
+  <div class="cond-grid reveal">
+    <div class="cond-item">
+      <div class="cond-icon">💵</div>
+      <div>
+        <h4>Inicio &amp; forma de pago</h4>
+        <p>Parte 1: abono del 50% ($1.250.000) para dar inicio; el saldo se cancela contra entrega. Parte 2: fee mensual pagado de forma anticipada al inicio de cada periodo.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📢</div>
+      <div>
+        <h4>Fee y pauta son independientes</h4>
+        <p>El fee es el pago a Motor Advertising. El presupuesto de pauta ($500.000/mes) va directo a Meta y/o Google y se carga en la cuenta publicitaria del cliente.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🌐</div>
+      <div>
+        <h4>Dominio, hosting &amp; SSL</h4>
+        <p>No hacen parte del precio: son contratados y pagados directamente por el cliente. El equipo asesora en la elección de los proveedores más convenientes.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🛠️</div>
+      <div>
+        <h4>Revisión &amp; garantía</h4>
+        <p>Entregable intermedio para revisión y ajustes antes del cierre, y 1 mes de garantía posterior a la entrega para correcciones sin costo adicional.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">✍️</div>
+      <div>
+        <h4>Cambios de alcance</h4>
+        <p>Cualquier cambio o adición al alcance descrito será evaluado, acordado y documentado por escrito antes de ejecutarse. Adiciones posteriores a la entrega se cotizan por separado.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📆</div>
+      <div>
+        <h4>Vigencia &amp; terminación</h4>
+        <p>Propuesta emitida el 1 de septiembre de 2026, válida por dos (2) semanas desde su emisión. El servicio mensual puede terminarse por cualquiera de las partes con 15 días de preaviso; sin devoluciones sobre periodos ya pagados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 08 · CIERRE ══════════════════════ -->
+<section class="closing">
+  <div class="closing-glow"></div>
+
+  <div class="section-label" style="justify-content:center;">08 — Cierre</div>
+
+  <h2 class="reveal">
+    Más de 40 años de garantía.<br>
+    <span class="green">Una presencia digital</span><br>
+    <span class="outline">a su altura.</span>
+  </h2>
+
+  <p class="reveal">
+    Apruebe esta propuesta, realice el abono inicial y en pocas semanas Flaminio Angulo tendrá una web corporativa que agenda citas sola, campañas trabajando todos los días y una ficha en Google recogiendo reseñas. La estrategia, el diseño y la ejecución corren por cuenta de Motor Advertising.
+  </p>
+
+  <a href="https://wa.link/x57gdn" class="cta-btn reveal" target="_blank" rel="noopener">
+    Aceptar propuesta ↗
+  </a>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <p>© 2026 Motor Advertising · Confidencial</p>
+  <p class="footer-logo">// MOTOR ADVERTISING</p>
+  <p>Your brand. Our engine.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
