@@ -556,6 +556,62 @@
 
   .pb-note strong { color: #5A4A38; font-weight: 500; }
 
+  /* ─── MIGRACIÓN (detalle) ─── */
+  .detail-box {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+  }
+
+  .detail-box h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 1.4rem;
+    color: #2E2018;
+  }
+
+  .detail-box ul { list-style: none; }
+
+  .detail-box ul li {
+    font-size: 14.5px;
+    color: #6E5E4A;
+    line-height: 1.7;
+    padding: .55rem 0;
+    border-top: 1px solid rgba(111,74,42,0.12);
+  }
+
+  .detail-box ul li:first-child { border-top: none; padding-top: 0; }
+  .detail-box ul li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+  .detail-box ul li strong { color: #2E2018; font-weight: 500; }
+
+  .db-clar {
+    margin-top: 1.2rem;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding-top: 1.2rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+  }
+
+  .db-clar::before {
+    content: '!';
+    width: 18px; height: 18px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .db-clar p { font-size: 13.5px; color: #8E7E6A; line-height: 1.7; }
+  .db-clar strong { color: #5A4A38; }
+
   /* ─── REQS ─── */
   .reqs {
     background: var(--black);
@@ -843,7 +899,7 @@
 <section class="part">
   <div class="section-label">02 — Módulos del Sistema</div>
   <h2 class="section-title reveal">Lo que<br><span class="outline">construimos.</span></h2>
-  <p class="part-intro reveal">Cinco módulos sobre una misma base de datos. Cada uno reemplaza una herramienta o un proceso manual de hoy.</p>
+  <p class="part-intro reveal">Seis módulos sobre una misma base de datos. Cada uno reemplaza una herramienta o un proceso manual de hoy.</p>
 
   <div class="services-list">
 
@@ -937,6 +993,24 @@
       <div class="service-expand">↗</div>
     </div>
 
+    <div class="service-item reveal">
+      <div class="service-num">06</div>
+      <div class="service-body">
+        <div class="service-title">Portal de Clientes</div>
+        <div class="service-tags">
+          <span class="tag">Usuarios</span>
+          <span class="tag">Google Login</span>
+          <span class="tag">Solo Consulta</span>
+        </div>
+        <ul class="service-details">
+          <li>Cada cliente crea su propio usuario con <strong>credenciales o con su cuenta de Google</strong></li>
+          <li>En su perfil ve <strong>su progreso y su información</strong>: la etapa en la que va su caso y los datos registrados</li>
+          <li><strong>Solo consulta:</strong> los perfiles no editan ni operan nada — muestran el avance y ya. Tu equipo conserva el control total del sistema</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
   </div>
 </section>
 
@@ -991,13 +1065,18 @@
     </div>
     <div class="step">
       <div class="step-num">07</div>
+      <h4>Portal de clientes</h4>
+      <p>Registro con credenciales o Google y perfil de solo consulta donde cada cliente ve su progreso y su información.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">08</div>
       <h4>Pruebas + producción</h4>
       <p>Pruebas de errores, duplicados, permisos y casos excepcionales; documentación del sistema.</p>
     </div>
     <div class="step milestone">
       <div class="step-num">🏁</div>
       <h4>Día 30 · En producción</h4>
-      <p><strong>Software funcionando:</strong> los cinco módulos operando sobre la misma base, probados y documentados.</p>
+      <p><strong>Software funcionando:</strong> los seis módulos operando sobre la misma base, probados y documentados.</p>
     </div>
   </div>
 </section>
@@ -1018,7 +1097,7 @@
     <div class="time-card reveal">
       <strong>30</strong>
       <h4>Días · software funcionando</h4>
-      <p>El sistema completo en producción: los cinco módulos conectados, probados con casos reales y documentados.</p>
+      <p>El sistema completo en producción: los seis módulos conectados, probados con casos reales y documentados.</p>
     </div>
     <div class="time-card reveal">
       <strong>1</strong>
@@ -1042,7 +1121,7 @@
       <div class="pb-discount">Descuento aplicado · −30%</div>
       <div class="pb-amount">$1.400</div>
       <p class="pb-currency">USD · Dólares americanos</p>
-      <p class="pb-note">Cubre el desarrollo completo de la plataforma: los cinco módulos, la migración de tus fórmulas, las automatizaciones por etapa, pruebas y documentación. Para iniciar: <strong>abono del 50% ($700 USD)</strong>; el saldo se cancela contra la entrega del software funcionando.</p>
+      <p class="pb-note">Cubre el desarrollo completo de la plataforma: los seis módulos (portal de clientes incluido), la migración de tus fórmulas, las automatizaciones por etapa, pruebas y documentación. Para iniciar: <strong>abono del 50% ($700 USD)</strong>; el saldo se cancela contra la entrega del software funcionando.</p>
     </div>
     <div class="price-box soft">
       <p class="pb-label">Mantenimiento mensual</p>
@@ -1055,9 +1134,38 @@
 
 <div class="green-line"></div>
 
-<!-- ══════════════════════ 06 · REQUERIMIENTOS ══════════════════════ -->
+<!-- ══════════════════════ 06 · OPCIONAL · MIGRACIÓN DE DATOS ══════════════════════ -->
+<section class="part">
+  <div class="section-label">06 — Opcional · Migración de Datos</div>
+  <h2 class="section-title reveal">¿Ya tienes<br><span class="outline">clientes?</span></h2>
+
+  <div class="part-price reveal">
+    <div class="price-box">
+      <p class="pb-label">Migración de datos · pago único opcional</p>
+      <div class="pb-amount">+$300</div>
+      <p class="pb-currency">USD · Dólares americanos</p>
+      <p class="pb-note">Si ya tienes clientes con información y quieres que nosotros hagamos el proceso, migramos sus datos al nuevo sistema para que arranques con <strong>toda tu historia adentro</strong> — sin digitar nada dos veces y sin perder ningún caso en el camino.</p>
+    </div>
+    <div class="detail-box">
+      <h4>Qué incluye</h4>
+      <ul>
+        <li><strong>Exportación</strong> desde Kommo, Excel y Sheets de todos los clientes actuales</li>
+        <li><strong>Limpieza y deduplicación</strong> de registros antes de la carga</li>
+        <li><strong>Carga a la ficha única</strong>: cliente, caso, acreedores y observaciones</li>
+        <li><strong>Validación conjunta</strong> de que todo quedó donde debe</li>
+      </ul>
+      <div class="db-clar">
+        <p>Es <strong>opcional</strong>. Si prefieres, tu equipo puede registrar los clientes directamente en el sistema y el proyecto funciona igual, sin costo adicional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 07 · REQUERIMIENTOS ══════════════════════ -->
 <section class="reqs">
-  <div class="section-label">06 — Requerimientos Operativos</div>
+  <div class="section-label">07 — Requerimientos Operativos</div>
   <h2 class="section-title reveal">Para<br><span class="outline">arrancar.</span></h2>
 
   <div class="reqs-grid reveal">
@@ -1074,16 +1182,16 @@
     <div class="req-card">
       <div class="req-num">03</div>
       <h4>Revisión ágil</h4>
-      <p>Respuesta oportuna en el entregable del día 15 y en las validaciones de cada fase. Exportación de Kommo solo si se migran los clientes actuales.</p>
+      <p>Respuesta oportuna en el entregable del día 15 y en las validaciones de cada fase. Acceso de exportación a Kommo si se contrata la migración de datos.</p>
     </div>
   </div>
 </section>
 
 <div class="green-line"></div>
 
-<!-- ══════════════════════ 07 · CONDICIONES ══════════════════════ -->
+<!-- ══════════════════════ 08 · CONDICIONES ══════════════════════ -->
 <section class="conditions">
-  <div class="section-label">07 — Condiciones</div>
+  <div class="section-label">08 — Condiciones</div>
   <h2 class="section-title reveal">Reglas del<br><span class="outline">juego.</span></h2>
 
   <div class="cond-grid reveal">
@@ -1098,7 +1206,7 @@
       <div class="cond-icon">🧭</div>
       <div>
         <h4>Alcance cerrado</h4>
-        <p>El alcance es el descrito en esta propuesta: los cinco módulos y la ruta de desarrollo. Toda adición por fuera será revisada y cotizada por separado o cubierta por el plan de mantenimiento.</p>
+        <p>El alcance es el descrito en esta propuesta: los seis módulos y la ruta de desarrollo. La migración de datos es un servicio opcional aparte (+$300 USD). Toda otra adición será revisada y cotizada por separado o cubierta por el plan de mantenimiento.</p>
       </div>
     </div>
     <div class="cond-item">
@@ -1134,11 +1242,11 @@
 
 <div class="green-line"></div>
 
-<!-- ══════════════════════ 08 · CIERRE ══════════════════════ -->
+<!-- ══════════════════════ 09 · CIERRE ══════════════════════ -->
 <section class="closing">
   <div class="closing-glow"></div>
 
-  <div class="section-label" style="justify-content:center;">08 — Cierre</div>
+  <div class="section-label" style="justify-content:center;">09 — Cierre</div>
 
   <h2 class="reveal">
     Un solo sistema.<br>
