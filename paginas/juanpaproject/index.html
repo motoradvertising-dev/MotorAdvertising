@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Propuesta · Motor Advertising × Juanpa Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Acento café (mantengo el nombre --green para no tocar cada referencia) */
+    --green: #6F4A2A;
+    --green-dim: rgba(111,74,42,0.10);
+    --green-mid: rgba(111,74,42,0.32);
+    --black: #FBF7EF;        /* base / tarjetas (crema casi blanco) */
+    --off-black: #ECE3D2;    /* bandas de sección (beige) */
+    --dark: #FFFFFF;         /* cajas (blanco) */
+    --mid: #F0E9DA;
+    --border: rgba(111,74,42,0.20);
+    --text: #3A2A1C;         /* texto café oscuro */
+    --muted: #8A7A66;        /* taupe apagado */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: .4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw 8vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    opacity: .4;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(111,74,42,0.16) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: .7; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12.5px, 1.2vw, 15px);
+    font-weight: 300;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp .8s .2s forwards;
+  }
+
+  .hero-x {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(52px, 8.5vw, 132px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    opacity: 0;
+    animation: fadeUp .8s .5s forwards;
+  }
+
+  .hero-x span { color: var(--green); }
+  .hero-x .stroke {
+    -webkit-text-stroke: 1px rgba(58,42,28,0.30);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 2.5rem;
+    display: flex; gap: 2.2rem; align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp .8s .9s forwards;
+  }
+
+  .hero-sub p {
+    font-size: clamp(14.5px, 1.4vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+
+  .hero-badge {
+    flex-shrink: 0;
+    border: 1px solid var(--green);
+    padding: 1rem 1.6rem;
+    text-align: center;
+  }
+
+  .hero-badge strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 3vw, 42px);
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .hero-badge small {
+    font-size: 11.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    opacity: 0;
+    animation: fadeUpCentered 1s 1.4s forwards, bounce 2s 2.4s ease-in-out infinite;
+  }
+
+  @keyframes fadeUpCentered {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .scroll-hint span { font-size: 10.5px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 8vh 6vw; position: relative; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 6vw, 88px);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title .outline {
+    -webkit-text-stroke: 1px var(--green);
+    color: transparent;
+  }
+
+  /* ─── ENFOQUE ─── */
+  .strategy {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .strategy-lead {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2E2018;
+  }
+
+  .strategy-lead em { color: var(--green); font-style: normal; }
+
+  .strategy-right p {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.8;
+    color: #6E5E4A;
+    margin-bottom: 2rem;
+  }
+
+  .strategy-right strong { color: #2E2018; font-weight: 500; }
+
+  /* Flujo del sistema */
+  .flow {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: .5rem;
+    margin-top: 3rem;
+  }
+
+  .flow-chip {
+    border: 1px solid var(--border);
+    background: var(--dark);
+    padding: .7rem 1.1rem;
+    display: flex; align-items: baseline; gap: .55rem;
+    transition: border-color .3s, background .3s;
+  }
+
+  .flow-chip:hover { border-color: var(--green); background: var(--green-dim); }
+
+  .flow-chip b {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 900;
+    color: var(--green);
+  }
+
+  .flow-chip span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: #2E2018;
+  }
+
+  .flow-sep {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 900;
+    color: var(--green);
+  }
+
+  .pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .pillar {
+    background: var(--black);
+    padding: 1.6rem 1.8rem;
+    transition: background .3s;
+  }
+
+  .pillar:hover { background: var(--green-dim); }
+
+  .pillar-icon { font-size: 22px; margin-bottom: .8rem; }
+
+  .pillar h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #2E2018;
+    margin-bottom: .4rem;
+  }
+
+  .pillar p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── BANDAS ─── */
+  .part { background: var(--black); }
+
+  .part-alt {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .part-intro {
+    font-size: clamp(14.5px, 1.4vw, 16.5px);
+    color: #6E5E4A;
+    line-height: 1.8;
+    max-width: 680px;
+    margin-top: .5rem;
+  }
+
+  .part-intro strong { color: #2E2018; font-weight: 500; }
+
+  /* ─── SERVICES LIST (módulos) ─── */
+  .services-list { margin-top: 4rem; }
+
+  .service-item {
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    transition: border-color .3s;
+    cursor: default;
+  }
+
+  .service-item:last-child { border-bottom: 1px solid var(--border); }
+  .service-item:hover { border-color: var(--green); }
+  .service-item:hover .service-num { color: var(--green); }
+  .service-item:hover .service-expand { opacity: 1; }
+
+  .service-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: #E0D2B8;
+    line-height: 1;
+    transition: color .3s;
+  }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 1rem;
+    color: #2E2018;
+  }
+
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    padding: .3rem .8rem;
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all .2s;
+  }
+
+  .service-item:hover .tag { border-color: var(--green-mid); color: var(--green); }
+
+  .service-details { font-size: 14.5px; color: #8E7E6A; line-height: 1.8; max-width: 560px; }
+  .service-details li { list-style: none; padding: .2rem 0; }
+  .service-details li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+  .service-details li strong { color: #5A4A38; font-weight: 500; }
+
+  .service-expand {
+    font-size: 28px; color: var(--green);
+    opacity: 0; transition: opacity .3s; line-height: 1;
+  }
+
+  /* ─── RUTA DE DESARROLLO ─── */
+  .steps {
+    border: 1px solid var(--border);
+    background: var(--dark);
+    margin-top: 3.5rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 70px 250px 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.2rem 1.8rem;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    transition: background .3s;
+  }
+
+  .step:first-child { border-top: none; }
+  .step:hover { background: var(--green-dim); }
+
+  .step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--green);
+    opacity: .35;
+    line-height: 1;
+  }
+
+  .step h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #2E2018;
+  }
+
+  .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  .step.milestone { background: var(--green-dim); border-left: 3px solid var(--green); }
+  .step.milestone .step-num { opacity: 1; }
+  .step.milestone p strong { color: var(--green); font-weight: 500; }
+
+  /* ─── TIEMPOS ─── */
+  .times { background: var(--black); }
+
+  .times-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-top: 3.5rem;
+  }
+
+  .time-card {
+    border: 1px solid var(--border);
+    background: var(--dark);
+    padding: 2.4rem 2.2rem;
+    transition: border-color .3s, transform .3s;
+  }
+
+  .time-card:hover { border-color: var(--green); transform: translateY(-4px); }
+
+  .time-card strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    margin-bottom: .6rem;
+  }
+
+  .time-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #2E2018;
+    margin-bottom: .5rem;
+  }
+
+  .time-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  /* ─── INVERSIÓN ─── */
+  .inv {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .part-price {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.2rem;
+    margin-top: 3.5rem;
+    align-items: stretch;
+  }
+
+  .price-box {
+    border: 1px solid var(--green);
+    background: var(--dark);
+    padding: 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .price-box.soft { border-color: var(--border); }
+  .price-box.soft::before { background: linear-gradient(90deg, var(--green-mid), transparent); }
+
+  .pb-label {
+    font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+
+  .pb-old {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 2.5vw, 30px);
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-bottom: .3rem;
+  }
+
+  .pb-discount {
+    display: inline-block;
+    border: 1px solid var(--green);
+    background: var(--green-dim);
+    color: var(--green);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    padding: .35rem .9rem;
+    margin-bottom: 1rem;
+  }
+
+  .pb-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(44px, 5.5vw, 76px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+
+  .pb-currency {
+    font-size: 14px; letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 1.8rem;
+    text-transform: uppercase;
+  }
+
+  .pb-note {
+    font-size: 14.5px; color: #8E7E6A; line-height: 1.7;
+    border-top: 1px solid rgba(111,74,42,0.15);
+    padding-top: 1.4rem;
+  }
+
+  .pb-note strong { color: #5A4A38; font-weight: 500; }
+
+  /* ─── REQS ─── */
+  .reqs {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+  }
+
+  .reqs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .req-card {
+    background: var(--dark);
+    padding: 2rem;
+    transition: background .3s;
+  }
+
+  .req-card:hover { background: var(--green-dim); }
+
+  .req-card .req-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    opacity: .3;
+    margin-bottom: .5rem;
+  }
+
+  .req-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .6rem;
+    color: #2E2018;
+  }
+
+  .req-card p { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── CONDICIONES ─── */
+  .conditions { background: var(--black); border-top: 1px solid var(--border); }
+
+  .cond-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .cond-item {
+    background: var(--off-black);
+    padding: 2rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+
+  .cond-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .cond-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: #2E2018; margin-bottom: .4rem;
+  }
+
+  .cond-item p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+  }
+
+  .closing-glow {
+    position: absolute;
+    bottom: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(111,74,42,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .closing h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 7vw, 100px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    line-height: .95;
+    max-width: 900px;
+  }
+
+  .closing h2 .green { color: var(--green); }
+  .closing h2 .outline {
+    -webkit-text-stroke: 1.5px rgba(58,42,28,0.28);
+    color: transparent;
+  }
+
+  .closing p {
+    margin-top: 2rem;
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    border: 1px solid var(--green);
+    padding: 1.1rem 3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--green); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: color .3s;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--green);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s ease;
+    z-index: -1;
+  }
+
+  .cta-btn:hover { color: #fff; }
+  .cta-btn:hover::before { transform: scaleX(1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--off-black);
+  }
+
+  footer p { font-size: 12px; color: #A89478; letter-spacing: .05em; }
+  footer .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .15em; color: #A89478; }
+
+  .green-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: .4;
+  }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .times-grid { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 50px 1fr; }
+    .step p { grid-column: 2; }
+  }
+
+  @media (max-width: 768px) {
+    .strategy-grid, .part-price { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .reqs-grid { grid-template-columns: 1fr; }
+    .cond-grid { grid-template-columns: 1fr; }
+    .service-item { grid-template-columns: 50px 1fr; }
+    .service-expand { display: none; }
+    .hero-sub { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">Propuesta de Desarrollo de Software · Septiembre 2026</p>
+
+  <h1 class="hero-x">
+    <span class="stroke">MOTOR</span><br>
+    <span>× JUANPA</span> <span>PROJECT</span>
+  </h1>
+
+  <div class="hero-sub">
+    <p>Hoy la operación vive repartida entre Excel, plantillas, Kommo, Drive y WhatsApp. Esta propuesta la convierte en <em style="color:var(--green); font-style:normal;">un solo sistema conectado</em>: los datos del cliente se registran una vez y alimentan el diagnóstico, la propuesta, los documentos, el CRM, los pagos y la caja.</p>
+    <div class="hero-badge">
+      <strong>$1.400</strong>
+      <small>USD · pago único (antes $2.000)</small>
+    </div>
+    <div class="hero-badge">
+      <strong>15</strong>
+      <small>Días · primer entregable</small>
+    </div>
+    <div class="hero-badge">
+      <strong>30</strong>
+      <small>Días · software funcionando</small>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 01 · ENFOQUE ══════════════════════ -->
+<section class="strategy">
+  <div class="section-label">01 — Enfoque del Sistema</div>
+  <h2 class="section-title reveal">Un solo sistema.<br><span class="outline">No mil automatizaciones.</span></h2>
+
+  <div class="strategy-grid">
+    <div class="strategy-lead reveal">
+      Todo parte de una <em>ficha única del cliente</em>: se registra una vez y el sistema hace el resto.
+    </div>
+    <div class="strategy-right reveal">
+      <p>La trampa habitual es crear automatizaciones separadas: una para el diagnóstico, otra para los documentos, otra para los pagos — cada una con sus propios datos, sus propios errores y su propio mantenimiento. Aquí hacemos lo contrario: <strong>una sola plataforma propia</strong> donde todos los módulos comparten los mismos datos.</p>
+      <p>El dato entra una sola vez y fluye por todo el proceso: del registro del cliente al diagnóstico, del diagnóstico a la propuesta, de la propuesta a los documentos y el expediente, y de ahí al seguimiento, los pagos y la caja. <strong>Sin depender de Kommo</strong> ni de herramientas de terceros para operar.</p>
+    </div>
+  </div>
+
+  <div class="flow reveal">
+    <div class="flow-chip"><b>1</b><span>Cliente</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>2</b><span>Diagnóstico</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>3</b><span>Propuesta</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>4</b><span>Expediente</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>5</b><span>CRM interno</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>6</b><span>Pagos</span></div>
+    <div class="flow-sep">→</div>
+    <div class="flow-chip"><b>7</b><span>Caja</span></div>
+  </div>
+
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-icon">🗂️</div>
+      <h4>Dato único</h4>
+      <p>La información se ingresa una sola vez y alimenta todos los módulos. Se acabó copiar lo mismo en tres herramientas.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🔗</div>
+      <h4>Todo conectado</h4>
+      <p>Diagnóstico, propuesta, documentos, seguimiento, pagos y caja comparten la misma base — nada queda suelto.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🔓</div>
+      <h4>Plataforma propia</h4>
+      <p>El sistema es tuyo. Kommo deja de ser necesario y queda, si acaso, como fuente para importar los clientes actuales.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🧮</div>
+      <h4>Tus reglas, exactas</h4>
+      <p>Replicamos las fórmulas de tu Excel actual — elegibilidad, tipo de servicio, honorarios y cuotas — para que los cálculos coincidan al peso.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 02 · MÓDULOS ══════════════════════ -->
+<section class="part">
+  <div class="section-label">02 — Módulos del Sistema</div>
+  <h2 class="section-title reveal">Lo que<br><span class="outline">construimos.</span></h2>
+  <p class="part-intro reveal">Cinco módulos sobre una misma base de datos. Cada uno reemplaza una herramienta o un proceso manual de hoy.</p>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Ficha Única + Diagnóstico</div>
+        <div class="service-tags">
+          <span class="tag">Base Central</span>
+          <span class="tag">Fórmulas</span>
+          <span class="tag">Elegibilidad</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>Ficha central</strong> con cliente, caso, acreedores y observaciones</li>
+          <li>Réplica exacta de las fórmulas del Excel actual: <strong>elegibilidad, tipo de servicio, honorarios y cuotas</strong></li>
+          <li>La información se ingresa <strong>una sola vez</strong> y queda disponible para todo el sistema</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Propuesta + Documentos + Drive</div>
+        <div class="service-tags">
+          <span class="tag">PDF</span>
+          <span class="tag">Contratos</span>
+          <span class="tag">Expediente</span>
+        </div>
+        <ul class="service-details">
+          <li>La <strong>propuesta se genera sola</strong> desde los datos del diagnóstico, con revisión humana antes de enviar</li>
+          <li>Contrato, poder, solicitud y checklist <strong>rellenados automáticamente</strong> según el servicio</li>
+          <li>Carpeta del cliente creada en Drive y <strong>expediente guardado automáticamente</strong></li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">CRM Interno + Email + WhatsApp</div>
+        <div class="service-tags">
+          <span class="tag">Pipeline</span>
+          <span class="tag">Tareas</span>
+          <span class="tag">Automatización</span>
+        </div>
+        <ul class="service-details">
+          <li>Pipeline propio con <strong>etapas, responsables, próxima acción e historial</strong> de cada caso</li>
+          <li>Cada etapa puede disparar <strong>tareas, emails y mensajes de WhatsApp</strong>: documentos solicitados, recontacto, seguimiento futuro</li>
+          <li>Kommo deja de ser necesario — queda solo como fuente opcional para importar los clientes actuales</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Motor de Pagos</div>
+        <div class="service-tags">
+          <span class="tag">Cuotas</span>
+          <span class="tag">Mora</span>
+          <span class="tag">Recordatorios</span>
+        </div>
+        <ul class="service-details">
+          <li>Plan de cuotas por caso: <strong>total pagado, saldo y próximo vencimiento</strong> siempre al día</li>
+          <li>Soporta pago parcial, varias cuotas juntas, <strong>adelantos y mora</strong></li>
+          <li>Estado de cuenta por cliente y <strong>recordatorios automáticos</strong> de vencimiento</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">05</div>
+      <div class="service-body">
+        <div class="service-title">Flujo de Caja</div>
+        <div class="service-tags">
+          <span class="tag">Ingresos</span>
+          <span class="tag">Gastos</span>
+          <span class="tag">Saldo</span>
+        </div>
+        <ul class="service-details">
+          <li>Cada pago confirmado <strong>entra automáticamente como ingreso</strong> en caja</li>
+          <li>Registro de gastos, comprobantes y <strong>saldo acumulado</strong></li>
+          <li>Controles para <strong>no registrar dos veces el mismo dinero</strong></li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 03 · RUTA DE DESARROLLO ══════════════════════ -->
+<section class="part-alt">
+  <div class="section-label">03 — Ruta de Desarrollo</div>
+  <h2 class="section-title reveal">Construimos<br><span class="outline">en orden.</span></h2>
+  <p class="part-intro reveal">Cada fase aprovecha los datos y automatizaciones de la anterior — así el sistema crece sólido y sin retrabajos.</p>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">00</div>
+      <h4>Reglas &amp; accesos</h4>
+      <p>Definimos reglas del negocio y recibimos Excel, plantillas, Sheets, WhatsApp y Drive. Exportación de Kommo solo si se migran clientes actuales.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Ficha única + diagnóstico</h4>
+      <p>Creamos la base central y validamos que los cálculos coincidan exactamente con el Excel actual.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Propuesta automática</h4>
+      <p>Mapeamos los datos a la plantilla y generamos la propuesta en PDF con revisión humana.</p>
+    </div>
+    <div class="step milestone">
+      <div class="step-num">📍</div>
+      <h4>Día 15 · Primer entregable</h4>
+      <p><strong>Revisión conjunta:</strong> la base del sistema operando — ficha única, diagnóstico con tus fórmulas y propuesta automática — para ajustar antes de seguir.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Documentos + expediente</h4>
+      <p>Generación de contrato, poder y solicitud, y organización automática del caso en Drive.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>CRM interno</h4>
+      <p>Pipeline, tareas, historial y automatizaciones por etapa; conexión de email y WhatsApp.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <h4>Pagos + mora</h4>
+      <p>Registro de cuotas y pagos; recálculo de saldos, vencimientos y recordatorios.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">06</div>
+      <h4>Flujo de caja</h4>
+      <p>Los pagos confirmados alimentan la caja; gestión de gastos y comprobantes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">07</div>
+      <h4>Pruebas + producción</h4>
+      <p>Pruebas de errores, duplicados, permisos y casos excepcionales; documentación del sistema.</p>
+    </div>
+    <div class="step milestone">
+      <div class="step-num">🏁</div>
+      <h4>Día 30 · En producción</h4>
+      <p><strong>Software funcionando:</strong> los cinco módulos operando sobre la misma base, probados y documentados.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 04 · TIEMPOS ══════════════════════ -->
+<section class="times">
+  <div class="section-label">04 — Tiempos de Entrega</div>
+  <h2 class="section-title reveal">15 días. 30 días.<br><span class="outline">Resultado.</span></h2>
+
+  <div class="times-grid">
+    <div class="time-card reveal">
+      <strong>15</strong>
+      <h4>Días · primer entregable</h4>
+      <p>La base del sistema operando: ficha única, diagnóstico con tus fórmulas y propuesta automática, listos para revisión conjunta y ajustes.</p>
+    </div>
+    <div class="time-card reveal">
+      <strong>30</strong>
+      <h4>Días · software funcionando</h4>
+      <p>El sistema completo en producción: los cinco módulos conectados, probados con casos reales y documentados.</p>
+    </div>
+    <div class="time-card reveal">
+      <strong>1</strong>
+      <h4>Mes de garantía</h4>
+      <p>Tras la entrega, 30 días para correcciones y ajustes sin costo adicional, con atención prioritaria si algo falla.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 05 · INVERSIÓN ══════════════════════ -->
+<section class="inv">
+  <div class="section-label">05 — Inversión</div>
+  <h2 class="section-title reveal">Números<br><span class="outline">claros.</span></h2>
+
+  <div class="part-price reveal">
+    <div class="price-box">
+      <p class="pb-label">Desarrollo completo · pago único</p>
+      <div class="pb-old">$2.000 USD</div>
+      <div class="pb-discount">Descuento aplicado · −30%</div>
+      <div class="pb-amount">$1.400</div>
+      <p class="pb-currency">USD · Dólares americanos</p>
+      <p class="pb-note">Cubre el desarrollo completo de la plataforma: los cinco módulos, la migración de tus fórmulas, las automatizaciones por etapa, pruebas y documentación. Para iniciar: <strong>abono del 50% ($700 USD)</strong>; el saldo se cancela contra la entrega del software funcionando.</p>
+    </div>
+    <div class="price-box soft">
+      <p class="pb-label">Mantenimiento mensual</p>
+      <div class="pb-amount">$200</div>
+      <p class="pb-currency">USD / mes</p>
+      <p class="pb-note">Cambios, ajustes y mantenimiento general del software: nuevas reglas, campos o pequeñas funciones, monitoreo y soporte. Se activa al terminar el mes de garantía y puede cancelarse con 15 días de preaviso.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 06 · REQUERIMIENTOS ══════════════════════ -->
+<section class="reqs">
+  <div class="section-label">06 — Requerimientos Operativos</div>
+  <h2 class="section-title reveal">Para<br><span class="outline">arrancar.</span></h2>
+
+  <div class="reqs-grid reveal">
+    <div class="req-card">
+      <div class="req-num">01</div>
+      <h4>Reglas del negocio</h4>
+      <p>Antes de programar confirmamos juntos: reglas exactas de elegibilidad y honorarios, origen real de los pagos, documentos por cada servicio y el detalle del "portal".</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">02</div>
+      <h4>Accesos &amp; activos</h4>
+      <p>Excel de diagnóstico, plantillas de contrato/poder/solicitud, Sheets, Drive y las cuentas de WhatsApp y email que usará el sistema.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">03</div>
+      <h4>Revisión ágil</h4>
+      <p>Respuesta oportuna en el entregable del día 15 y en las validaciones de cada fase. Exportación de Kommo solo si se migran los clientes actuales.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 07 · CONDICIONES ══════════════════════ -->
+<section class="conditions">
+  <div class="section-label">07 — Condiciones</div>
+  <h2 class="section-title reveal">Reglas del<br><span class="outline">juego.</span></h2>
+
+  <div class="cond-grid reveal">
+    <div class="cond-item">
+      <div class="cond-icon">💵</div>
+      <div>
+        <h4>Forma de pago</h4>
+        <p>Abono del 50% ($700 USD) para dar inicio al desarrollo; el saldo se cancela contra la entrega del software funcionando (día 30).</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🧭</div>
+      <div>
+        <h4>Alcance cerrado</h4>
+        <p>El alcance es el descrito en esta propuesta: los cinco módulos y la ruta de desarrollo. Toda adición por fuera será revisada y cotizada por separado o cubierta por el plan de mantenimiento.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🛠️</div>
+      <div>
+        <h4>Garantía</h4>
+        <p>1 mes posterior a la entrega para correcciones y ajustes sin costo adicional, con atención prioritaria si algo falla.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🔁</div>
+      <div>
+        <h4>Mantenimiento</h4>
+        <p>$200 USD/mes para cambios y mantenimiento general del software. Opcional después de la garantía; cancelable con 15 días de preaviso.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🔐</div>
+      <div>
+        <h4>Cuentas &amp; servicios de terceros</h4>
+        <p>Drive, WhatsApp, email y el hosting del sistema se contratan a nombre del cliente. Los costos de estos servicios de terceros no hacen parte del precio; asesoramos en su elección.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📆</div>
+      <div>
+        <h4>Vigencia</h4>
+        <p>Propuesta emitida el 7 de septiembre de 2026, válida por dos (2) semanas. El precio con descuento ($1.400 USD) aplica dentro de esa vigencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 08 · CIERRE ══════════════════════ -->
+<section class="closing">
+  <div class="closing-glow"></div>
+
+  <div class="section-label" style="justify-content:center;">08 — Cierre</div>
+
+  <h2 class="reveal">
+    Un solo sistema.<br>
+    <span class="green">Todo conectado.</span><br>
+    <span class="outline">Cero fricción.</span>
+  </h2>
+
+  <p class="reveal">
+    Apruebas la propuesta, hacemos el abono y en 15 días ves el primer entregable funcionando. En 30, todo tu proceso — del primer dato del cliente hasta la caja — corre en una sola plataforma propia. El desarrollo, las pruebas y la documentación corren por cuenta de Motor Advertising.
+  </p>
+
+  <a href="https://wa.link/x57gdn" class="cta-btn reveal" target="_blank" rel="noopener">
+    Aceptar propuesta ↗
+  </a>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <p>© 2026 Motor Advertising · Confidencial</p>
+  <p class="footer-logo">// MOTOR ADVERTISING</p>
+  <p>Your brand. Our engine.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
