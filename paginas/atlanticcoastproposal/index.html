@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Proposal · Motor Advertising × Atlantic Coast</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Café accent (name --green kept to avoid touching every reference) */
+    --green: #6F4A2A;
+    --green-dim: rgba(111,74,42,0.10);
+    --green-mid: rgba(111,74,42,0.32);
+    --black: #FBF7EF;        /* base / cards (near-white cream) */
+    --off-black: #ECE3D2;    /* section bands (beige) */
+    --dark: #FFFFFF;         /* boxes (white) */
+    --mid: #F0E9DA;
+    --border: rgba(111,74,42,0.20);
+    --text: #3A2A1C;         /* dark brown text */
+    --muted: #8A7A66;        /* muted taupe */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: .4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw 8vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    opacity: .4;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(111,74,42,0.16) 0%, transparent 70%);
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: .7; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(12.5px, 1.2vw, 15px);
+    font-weight: 300;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp .8s .2s forwards;
+  }
+
+  .hero-x {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(48px, 8vw, 124px);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    opacity: 0;
+    animation: fadeUp .8s .5s forwards;
+  }
+
+  .hero-x span { color: var(--green); }
+  .hero-x .stroke {
+    -webkit-text-stroke: 1px rgba(58,42,28,0.30);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 2.5rem;
+    display: flex; gap: 2.2rem; align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp .8s .9s forwards;
+  }
+
+  .hero-sub p {
+    font-size: clamp(14.5px, 1.4vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+
+  .hero-badge {
+    flex-shrink: 0;
+    border: 1px solid var(--green);
+    padding: 1rem 1.6rem;
+    text-align: center;
+  }
+
+  .hero-badge strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 3vw, 42px);
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .hero-badge small {
+    font-size: 11.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    opacity: 0;
+    animation: fadeUpCentered 1s 1.4s forwards, bounce 2s 2.4s ease-in-out infinite;
+  }
+
+  @keyframes fadeUpCentered {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .scroll-hint span { font-size: 10.5px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 8vh 6vw; position: relative; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--green);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 6vw, 88px);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title .outline {
+    -webkit-text-stroke: 1px var(--green);
+    color: transparent;
+  }
+
+  /* ─── STARTING POINT ─── */
+  .strategy {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .strategy-lead {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #2E2018;
+  }
+
+  .strategy-lead em { color: var(--green); font-style: normal; }
+
+  .strategy-right p {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.8;
+    color: #6E5E4A;
+    margin-bottom: 2rem;
+  }
+
+  .strategy-right strong { color: #2E2018; font-weight: 500; }
+
+  .pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .pillar {
+    background: var(--black);
+    padding: 1.6rem 1.8rem;
+    transition: background .3s;
+  }
+
+  .pillar:hover { background: var(--green-dim); }
+
+  .pillar-icon { font-size: 22px; margin-bottom: .8rem; }
+
+  .pillar h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #2E2018;
+    margin-bottom: .4rem;
+  }
+
+  .pillar p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PART BANDS ─── */
+  .part { background: var(--black); }
+
+  .part-alt {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .part-intro {
+    font-size: clamp(14.5px, 1.4vw, 16.5px);
+    color: #6E5E4A;
+    line-height: 1.8;
+    max-width: 680px;
+    margin-top: .5rem;
+  }
+
+  .part-intro strong { color: #2E2018; font-weight: 500; }
+
+  /* ─── SERVICES LIST ─── */
+  .services-list { margin-top: 4rem; }
+
+  .service-item {
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    transition: border-color .3s;
+    cursor: default;
+  }
+
+  .service-item:last-child { border-bottom: 1px solid var(--border); }
+  .service-item:hover { border-color: var(--green); }
+  .service-item:hover .service-num { color: var(--green); }
+  .service-item:hover .service-expand { opacity: 1; }
+
+  .service-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: #E0D2B8;
+    line-height: 1;
+    transition: color .3s;
+  }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 1rem;
+    color: #2E2018;
+  }
+
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    padding: .3rem .8rem;
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all .2s;
+  }
+
+  .service-item:hover .tag { border-color: var(--green-mid); color: var(--green); }
+
+  .service-details { font-size: 14.5px; color: #8E7E6A; line-height: 1.8; max-width: 560px; }
+  .service-details li { list-style: none; padding: .2rem 0; }
+  .service-details li::before { content: '→ '; color: var(--green); font-size: 12.5px; }
+  .service-details li strong { color: #5A4A38; font-weight: 500; }
+
+  .service-expand {
+    font-size: 28px; color: var(--green);
+    opacity: 0; transition: opacity .3s; line-height: 1;
+  }
+
+  /* ─── PRICE BOXES ─── */
+  .part-price {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 3.5rem;
+    align-items: stretch;
+  }
+
+  .part-price.single { grid-template-columns: 1fr; max-width: 780px; }
+
+  .price-box {
+    border: 1px solid var(--green);
+    background: var(--dark);
+    padding: 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+
+  .price-box.soft { border-color: var(--border); }
+  .price-box.soft::before { background: linear-gradient(90deg, var(--green-mid), transparent); }
+
+  .pb-label {
+    font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+
+  .pb-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 900;
+    color: var(--green);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+
+  .pb-currency {
+    font-size: 14px; letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 1.8rem;
+    text-transform: uppercase;
+  }
+
+  .pb-note {
+    font-size: 14.5px; color: #8E7E6A; line-height: 1.7;
+    border-top: 1px solid rgba(111,74,42,0.15);
+    padding-top: 1.4rem;
+  }
+
+  .pb-note strong { color: #5A4A38; font-weight: 500; }
+
+  .total-bar {
+    margin-top: 1.2rem;
+    border: 1px solid var(--green);
+    background: var(--green-dim);
+    padding: 1.5rem 2.2rem;
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: .8rem;
+  }
+
+  .total-bar span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: #5A4A38;
+  }
+
+  .total-bar strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 900;
+    color: var(--green);
+    letter-spacing: -.01em;
+  }
+
+  /* ─── INVESTMENT SUMMARY ─── */
+  .resumen { background: var(--black); border-top: 1px solid var(--border); }
+
+  .resumen-box {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    margin-top: 3.5rem;
+    max-width: 880px;
+  }
+
+  .resumen-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding: 1.1rem 0;
+    gap: 1.5rem;
+  }
+
+  .resumen-row:first-child { border-top: none; padding-top: 0; }
+
+  .resumen-row .rr-item {
+    font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  }
+
+  .resumen-row .rr-detalle { font-size: 13.5px; color: #8E7E6A; margin-top: .2rem; }
+
+  .resumen-row .rr-precio {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px; font-weight: 800; color: var(--green); white-space: nowrap;
+    text-align: right;
+  }
+
+  .resumen-row .rr-precio small { display: block; font-size: 12px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: .05em; }
+
+  .resumen-clarification {
+    margin-top: 1.4rem;
+    border-top: 1px solid rgba(111,74,42,0.12);
+    padding-top: 1.2rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+  }
+
+  .resumen-clarification::before {
+    content: '!';
+    width: 18px; height: 18px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .resumen-clarification p { font-size: 13.5px; color: #8E7E6A; line-height: 1.7; }
+  .resumen-clarification strong { color: #5A4A38; }
+
+  /* ─── REQS ─── */
+  .reqs {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reqs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .req-card {
+    background: var(--black);
+    padding: 2rem;
+    transition: background .3s;
+  }
+
+  .req-card:hover { background: var(--green-dim); }
+
+  .req-card .req-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    opacity: .3;
+    margin-bottom: .5rem;
+  }
+
+  .req-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .6rem;
+    color: #2E2018;
+  }
+
+  .req-card p { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── TERMS ─── */
+  .conditions { background: var(--black); border-top: 1px solid var(--border); }
+
+  .cond-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .cond-item {
+    background: var(--off-black);
+    padding: 2rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+
+  .cond-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .cond-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: #2E2018; margin-bottom: .4rem;
+  }
+
+  .cond-item p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    min-height: 60vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10vh 6vw;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+  }
+
+  .closing-glow {
+    position: absolute;
+    bottom: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(111,74,42,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .closing h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(38px, 7vw, 100px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    line-height: .95;
+    max-width: 900px;
+  }
+
+  .closing h2 .green { color: var(--green); }
+  .closing h2 .outline {
+    -webkit-text-stroke: 1.5px rgba(58,42,28,0.28);
+    color: transparent;
+  }
+
+  .closing p {
+    margin-top: 2rem;
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    border: 1px solid var(--green);
+    padding: 1.1rem 3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--green); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: color .3s;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--green);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s ease;
+    z-index: -1;
+  }
+
+  .cta-btn:hover { color: #fff; }
+  .cta-btn:hover::before { transform: scaleX(1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--off-black);
+  }
+
+  footer p { font-size: 12px; color: #A89478; letter-spacing: .05em; }
+  footer .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .15em; color: #A89478; }
+
+  .green-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: .4;
+  }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .strategy-grid, .part-price { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .reqs-grid { grid-template-columns: 1fr; }
+    .cond-grid { grid-template-columns: 1fr; }
+    .service-item { grid-template-columns: 50px 1fr; }
+    .service-expand { display: none; }
+    .hero-sub { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+    .resumen-row { flex-direction: column; gap: .3rem; }
+    .resumen-row .rr-precio { text-align: left; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">Business Proposal · Website Rebuild + Growth Marketing · September 2026</p>
+
+  <h1 class="hero-x">
+    <span class="stroke">MOTOR</span><br>
+    <span>× ATLANTIC</span> <span>COAST</span>
+  </h1>
+
+  <div class="hero-sub">
+    <p>Two parts, one goal: a faster, safer website built on modern technology — with every visit tracked and multiple ways for policyholders to reach you — and a Growth marketing plan that keeps Atlantic Coast in front of the right people, every single day.</p>
+    <div class="hero-badge">
+      <strong>$1,800</strong>
+      <small>USD · Part 1 · Website rebuild</small>
+    </div>
+    <div class="hero-badge">
+      <strong>$900</strong>
+      <small>USD / mo · Part 2 · Growth Plan</small>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 01 · STARTING POINT ══════════════════════ -->
+<section class="strategy">
+  <div class="section-label">01 — Starting Point</div>
+  <h2 class="section-title reveal">Great at claims.<br><span class="outline">Held back online.</span></h2>
+
+  <div class="strategy-grid">
+    <div class="strategy-lead reveal">
+      When a policyholder needs help, <em>speed and trust</em> decide who they call. Your website should win both.
+    </div>
+    <div class="strategy-right reveal">
+      <p>Atlantic Coast fights for policyholders — not insurance companies — on residential, water damage, storm and marine claims across South Florida. But the current site runs on <strong>WordPress</strong>: a stack of plugins that means slower load times, constant security patching and limited control over the experience. For someone dealing with a damaged home, every second of friction is a reason to call someone else.</p>
+      <p>And there is a second blind spot: today you can't see what happens on the site. <strong>No tracking means no answers</strong> — where visitors come from, what they read, where they drop off, which channel actually produces claims. This proposal fixes both fronts: a modern rebuild that loads fast and converts, and full measurement so every decision is backed by real numbers.</p>
+    </div>
+  </div>
+
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-icon">⚡</div>
+      <h4>Performance &amp; Security</h4>
+      <p>Modern technology instead of WordPress and plugins: instant loads, hardened security and full control of every detail.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📞</div>
+      <h4>Multi-Channel Contact</h4>
+      <p>Call, text, WhatsApp or form — every page gives the visitor a fast way to reach you, in the channel they prefer.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📊</div>
+      <h4>Full Tracking</h4>
+      <p>Every visit, click and conversion measured. Accurate statistics that show exactly what is happening — and what is working.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🚀</div>
+      <h4>Built to Grow</h4>
+      <p>The Growth plan puts campaigns and constant content on top of the new site, so paid traffic lands on pages that convert.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 02 · PART 1 — WEBSITE REBUILD ══════════════════════ -->
+<section class="part">
+  <div class="section-label">02 — Part 1 · Website Restructure &amp; Redesign</div>
+  <h2 class="section-title reveal">A faster, safer<br><span class="outline">website.</span></h2>
+  <p class="part-intro reveal">Complete restructure and redesign of <strong>accadjusters.net</strong>, rebuilt from the ground up on modern technology — engineered for speed, security and conversion.</p>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Modern Rebuild</div>
+        <div class="service-tags">
+          <span class="tag">Latest Tech</span>
+          <span class="tag">No WordPress</span>
+          <span class="tag">Responsive</span>
+        </div>
+        <ul class="service-details">
+          <li>Migration off WordPress to a <strong>modern, lightweight stack</strong> — no plugins to patch, nothing to break</li>
+          <li><strong>Near-instant load times</strong> and hardened security by design</li>
+          <li>Restructured architecture: services, claim types and trust signals organized to guide the visitor to contact</li>
+          <li>Professional redesign, fully responsive on desktop, tablet and mobile</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Multi-Channel Contact</div>
+        <div class="service-tags">
+          <span class="tag">Click-to-Call</span>
+          <span class="tag">WhatsApp</span>
+          <span class="tag">Forms</span>
+        </div>
+        <ul class="service-details">
+          <li>Multiple contact channels on every page: <strong>click-to-call, text/WhatsApp and smart forms</strong></li>
+          <li>Clear calls to action throughout — built around a <strong>free claim review</strong> as the entry point</li>
+          <li>Instant email alerts to your team for every inquiry, with the channel and page it came from</li>
+          <li>Contact friction reduced to seconds — critical for policyholders in an emergency</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">Full Tracking &amp; Analytics</div>
+        <div class="service-tags">
+          <span class="tag">Events</span>
+          <span class="tag">Attribution</span>
+          <span class="tag">Statistics</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>Every page tracked</strong>: visits, sources, behavior, scroll and click events</li>
+          <li>Conversion tracking on every channel — calls, forms and chats, each attributed to its source</li>
+          <li><strong>Accurate statistics</strong> on what is happening on the site, ready to guide business decisions</li>
+          <li>The measurement layer the Growth plan runs on: pixels and events in place from day one</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Performance, SEO &amp; Foundations</div>
+        <div class="service-tags">
+          <span class="tag">SEO</span>
+          <span class="tag">Speed</span>
+          <span class="tag">Metadata</span>
+        </div>
+        <ul class="service-details">
+          <li>Semantic structure, titles and metadata optimized on every page</li>
+          <li>Image optimization and best-practice performance scores</li>
+          <li>On-page SEO foundations ready to rank for local claim-related searches</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+
+  <div class="part-price single reveal">
+    <div class="price-box">
+      <p class="pb-label">Part 1 · Website rebuild — one-time payment</p>
+      <div class="pb-amount">$1,800</div>
+      <p class="pb-currency">USD · United States Dollars</p>
+      <p class="pb-note">Covers the full Part 1 scope: restructure, redesign, development, multi-channel contact and the complete tracking setup. To begin: <strong>50% deposit ($900 USD)</strong>; the balance is due on final delivery. Estimated delivery of 15 business days from deposit and content handoff, with a midpoint review for adjustments.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 03 · PART 2 — GROWTH MARKETING ══════════════════════ -->
+<section class="part-alt">
+  <div class="section-label">03 — Part 2 · Growth Marketing Plan</div>
+  <h2 class="section-title reveal">Marketing that<br><span class="outline">never sleeps.</span></h2>
+  <p class="part-intro reveal">With the new site live, we put it to work: the <strong>Growth Plan</strong> — paid campaigns plus constant content, so Atlantic Coast shows up every day in front of the people who need it most.</p>
+
+  <div class="services-list">
+
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-body">
+        <div class="service-title">Paid Media · Meta &amp; Google Ads</div>
+        <div class="service-tags">
+          <span class="tag">Meta Ads</span>
+          <span class="tag">Google Ads</span>
+          <span class="tag">Remarketing</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>4 active campaigns</strong>, each running <strong>1 video + 1 static ad</strong></li>
+          <li>Google Ads on search and display — capturing people actively looking for claim help</li>
+          <li>Precise targeting: homeowners and property owners in your service area, by claim intent</li>
+          <li>Remarketing to visitors who didn't convert, and continuous CPL, CTR and CPA optimization</li>
+          <li><strong>A/B testing</strong> of creatives and copy to scale what performs</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-body">
+        <div class="service-title">Creative Production</div>
+        <div class="service-tags">
+          <span class="tag">Video</span>
+          <span class="tag">Static</span>
+          <span class="tag">Conversion-Driven</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>8 ad pieces</strong> produced by Motor Advertising (4 videos + 4 statics), ready to run</li>
+          <li>Conversion-driven design, consistent with the new website's look and message</li>
+          <li>Creatives refreshed and adapted based on each campaign's performance</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-body">
+        <div class="service-title">Organic Content</div>
+        <div class="service-tags">
+          <span class="tag">4 Posts / Week</span>
+          <span class="tag">Calendar</span>
+          <span class="tag">Social</span>
+        </div>
+        <ul class="service-details">
+          <li><strong>4 posts per week</strong> — a mix of statics and videos, 16 pieces per month with design, copy and scheduling included</li>
+          <li>Monthly content calendar presented and approved with your team before publishing</li>
+          <li>An active, trustworthy brand: claim results, process education and client stories</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-body">
+        <div class="service-title">Lead Tracking &amp; Reporting</div>
+        <div class="service-tags">
+          <span class="tag">Pixels</span>
+          <span class="tag">Attribution</span>
+          <span class="tag">Reports</span>
+        </div>
+        <ul class="service-details">
+          <li>Pixels and conversion events connected to the new website</li>
+          <li>Every lead attributed to its source — campaign, channel and page</li>
+          <li><strong>Bi-weekly reports</strong> with results, insights and next moves</li>
+        </ul>
+      </div>
+      <div class="service-expand">↗</div>
+    </div>
+
+  </div>
+
+  <div class="part-price reveal">
+    <div class="price-box">
+      <p class="pb-label">Growth Plan · monthly management fee</p>
+      <div class="pb-amount">$900</div>
+      <p class="pb-currency">USD / month</p>
+      <p class="pb-note">Covers full management of the digital ecosystem: strategy, the 4 campaigns, production of the 8 ad pieces, the 16 monthly posts, tracking, analytics and continuous optimization. Paid in advance at the start of each monthly period.</p>
+    </div>
+    <div class="price-box soft">
+      <p class="pb-label">Advertising budget</p>
+      <div class="pb-amount">$500+</div>
+      <p class="pb-currency">USD / month · ad spend</p>
+      <p class="pb-note">Recommended minimum ad investment, paid <strong>directly to Meta Ads and/or Google Ads</strong>. Motor Advertising manages this budget strategically, but it is not part of the fee and is never income for Motor: it is charged to the client's own ad accounts.</p>
+    </div>
+  </div>
+
+  <div class="total-bar reveal">
+    <span>Estimated monthly investment · Part 2</span>
+    <strong>From $1,400 USD</strong>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 04 · INVESTMENT SUMMARY ══════════════════════ -->
+<section class="resumen">
+  <div class="section-label">04 — Investment Summary</div>
+  <h2 class="section-title reveal">Clear<br><span class="outline">numbers.</span></h2>
+
+  <div class="resumen-box reveal">
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Part 1 · Website rebuild</div>
+        <div class="rr-detalle">Modern stack + multi-channel contact + full tracking + on-page SEO</div>
+      </div>
+      <div class="rr-precio">$1,800 <small>USD · one-time</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Part 2 · Growth Plan fee</div>
+        <div class="rr-detalle">4 campaigns · 8 ad pieces · 16 posts per month · bi-weekly reports</div>
+      </div>
+      <div class="rr-precio">$900 <small>USD / month</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Part 2 · Advertising budget</div>
+        <div class="rr-detalle">Goes directly to Meta Ads and/or Google Ads — not income for Motor</div>
+      </div>
+      <div class="rr-precio">$500+ <small>USD / month</small></div>
+    </div>
+    <div class="resumen-row">
+      <div>
+        <div class="rr-item">Website care plan · optional</div>
+        <div class="rr-detalle">Hosting, support and up to 3 content edits per month, after the warranty period</div>
+      </div>
+      <div class="rr-precio">$150 <small>USD / month</small></div>
+    </div>
+    <div class="resumen-clarification">
+      <p>The two parts are <strong>complementary but independent</strong>: Part 1 is a one-time build; Part 2 is a monthly service. The ideal path is to launch the new website first and turn on the Growth Plan on top of it — so every advertising dollar lands on a page that converts and gets measured.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 05 · REQUIREMENTS ══════════════════════ -->
+<section class="reqs">
+  <div class="section-label">05 — Operating Requirements</div>
+  <h2 class="section-title reveal">What we need<br><span class="outline">from you.</span></h2>
+
+  <div class="reqs-grid reveal">
+    <div class="req-card">
+      <div class="req-num">01</div>
+      <h4>Content &amp; access</h4>
+      <p>Logo and brand assets, photos, case results or testimonials, base copy, and access to the current domain and hosting for a clean migration.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">02</div>
+      <h4>Accounts &amp; channels</h4>
+      <p>Meta Business Manager and/or Google Ads account with the client's own payment method for ad spend, plus the phone lines and email inbox that will receive leads and alerts.</p>
+    </div>
+    <div class="req-card">
+      <div class="req-num">03</div>
+      <h4>Fast response</h4>
+      <p>Quick follow-up on the leads generated and timely approval of the content calendar and creatives. Speed to contact directly drives conversion to signed claims.</p>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 06 · TERMS ══════════════════════ -->
+<section class="conditions">
+  <div class="section-label">06 — Terms &amp; Conditions</div>
+  <h2 class="section-title reveal">Rules of<br><span class="outline">the game.</span></h2>
+
+  <div class="cond-grid reveal">
+    <div class="cond-item">
+      <div class="cond-icon">💵</div>
+      <div>
+        <h4>Payment structure</h4>
+        <p>Part 1: 50% deposit ($900 USD) to begin; balance due on final delivery. Part 2: monthly fee paid in advance at the start of each period.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📢</div>
+      <div>
+        <h4>Fee and ad budget are independent</h4>
+        <p>The fee is the payment to Motor Advertising. The advertising budget (from $500/month) goes directly to Meta and/or Google and is charged to the client's own ad accounts.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🌐</div>
+      <div>
+        <h4>Domain, hosting &amp; SSL</h4>
+        <p>Not included in the price: these services are contracted and paid directly by the client. We advise on the most convenient providers, and the optional care plan can cover hosting going forward.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">🛠️</div>
+      <div>
+        <h4>Review &amp; warranty</h4>
+        <p>A midpoint deliverable for joint review and adjustments before launch, plus a 1-month post-delivery warranty for fixes and corrections at no extra cost.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">✍️</div>
+      <div>
+        <h4>Scope changes</h4>
+        <p>Any change or addition to the described scope will be evaluated, agreed and documented in writing before execution. Post-delivery additions are quoted separately or covered under the care plan.</p>
+      </div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-icon">📆</div>
+      <div>
+        <h4>Validity &amp; termination</h4>
+        <p>Proposal issued on September 7, 2026, valid for two (2) weeks. The monthly service may be terminated by either party with 15 days' notice; no refunds on periods already paid.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="green-line"></div>
+
+<!-- ══════════════════════ 07 · CLOSING ══════════════════════ -->
+<section class="closing">
+  <div class="closing-glow"></div>
+
+  <div class="section-label" style="justify-content:center;">07 — Closing</div>
+
+  <h2 class="reveal">
+    Built to perform.<br>
+    <span class="green">Tracked to the last click.</span><br>
+    <span class="outline">Ready to grow.</span>
+  </h2>
+
+  <p class="reveal">
+    Approve this proposal, make the deposit, and in 15 business days Atlantic Coast has a fast, secure website that turns visitors into claims — with the Growth Plan driving campaigns and content on top of it every single day. Strategy, design, execution and measurement all run on Motor Advertising.
+  </p>
+
+  <a href="https://wa.link/x57gdn" class="cta-btn reveal" target="_blank" rel="noopener">
+    Accept proposal ↗
+  </a>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <p>© 2026 Motor Advertising · Confidential</p>
+  <p class="footer-logo">// MOTOR ADVERTISING</p>
+  <p>Your brand. Our engine.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
