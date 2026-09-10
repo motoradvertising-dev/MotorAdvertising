@@ -28,3 +28,6 @@ head_*.css
 remote_*.*
 temp_*.*
 styles_diff*.*
+
+# Supabase CLI (temporales del deploy)
+supabase/.temp/
