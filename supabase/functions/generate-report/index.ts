@@ -311,6 +311,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const model = imagenes.length
     ? (Deno.env.get("OPENAI_VISION_MODEL") || "gpt-4.1-mini")
     : (Deno.env.get("OPENAI_MODEL") || "gpt-4o-mini");
+  const isReasoning = /^(o\d|gpt-5)/i.test(model);
 
   // Contenido multimodal: texto + capturas de pantalla (si las hay).
   const userContent: Array<Record<string, unknown>> = [{
@@ -335,8 +336,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         model,
-        temperature: 0.3,
-        max_tokens: 8000,
+        // Los modelos de razonamiento (o3, o4-mini, gpt-5…) rechazan temperature y
+        // consumen parte del límite en razonar; los demás usan temperatura baja.
+        ...(isReasoning ? {} : { temperature: 0.3 }),
+        max_completion_tokens: isReasoning ? 16000 : 8000,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
@@ -356,7 +359,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
       if (/context_length|maximum context|too many tokens/i.test(detail)) {
         return json(502, { error: "Las capturas son demasiado grandes para el modelo. Intenta con menos capturas o recórtalas a la tabla de métricas." });
       }
-      return json(502, { error: `OpenAI respondió con error ${aiRes.status}.` });
+      // Cualquier otro error de configuración se muestra con el mensaje de OpenAI
+      // (solo lo ve el superadmin; el frontend lo pinta como texto plano).
+      let why = "";
+      try { why = String(JSON.parse(detail)?.error?.message ?? "").slice(0, 200); } catch { /* sin detalle */ }
+      return json(502, { error: `OpenAI respondió con error ${aiRes.status}${why ? `: ${why}` : "."}` });
     }
 
     const ai = await aiRes.json();

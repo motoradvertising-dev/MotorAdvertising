@@ -45,11 +45,12 @@
     // los textos ($1.250.000 / 3,2 % o $1,250.50). Se detecta para que los
     // números que formatea el renderer (proyección, ejes) usen la misma convención.
     function detectLocale(rep) {
+        // Solo strings: un número JSON siempre lleva punto y no dice nada del formato del input.
         var samples = [];
-        (Array.isArray(rep.kpis) ? rep.kpis : []).forEach(function (k) { if (isObj(k) && k.valor != null) samples.push(String(k.valor)); });
+        (Array.isArray(rep.kpis) ? rep.kpis : []).forEach(function (k) { if (isObj(k) && typeof k.valor === 'string') samples.push(k.valor); });
         var t = rep.tabla_rendimiento;
         if (isObj(t) && Array.isArray(t.filas)) {
-            t.filas.forEach(function (r) { (Array.isArray(r) ? r : []).forEach(function (c) { samples.push(String(c == null ? '' : c)); }); });
+            t.filas.forEach(function (r) { (Array.isArray(r) ? r : []).forEach(function (c) { if (typeof c === 'string') samples.push(c); }); });
         }
         var s = samples.join(' ');
         var esMarks = /\d\.\d{3}(?!\d)/.test(s) || /\d,\d{1,2}(?!\d)/.test(s);
@@ -57,10 +58,17 @@
         return (!esMarks && enMarks) ? 'en-US' : 'es-CO';
     }
 
+    // Decimales significativos de un número (máximo 2): 12 → 0, 2.1 → 1, 104.02 → 2.
+    function decimalsOf(n) {
+        if (Math.abs(n - Math.round(n)) < 1e-9) return 0;
+        if (Math.abs(n * 10 - Math.round(n * 10)) < 1e-9) return 1;
+        return 2;
+    }
+
     function fmtNum(v, dec, loc) {
         var n = num(v);
         if (n === null) return '—';
-        var d = (dec == null) ? ((Math.abs(n) < 100 && n % 1 !== 0) ? 2 : 0) : dec;
+        var d = (dec == null) ? decimalsOf(n) : dec;
         try {
             return n.toLocaleString(loc || 'es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
         } catch (e) {
@@ -68,25 +76,28 @@
         }
     }
 
-    // Código de moneda con lista blanca (COP, USD, MXN, €…); cualquier otra cosa se omite.
-    function currencyCode(moneda) {
+    // Moneda con lista blanca: un código ISO (COP, USD, MXN) va como sufijo tras "$";
+    // un símbolo (US$, R$, €, £) reemplaza al "$" como prefijo. Otra cosa se omite.
+    function moneyParts(moneda) {
         var code = String(moneda || '').trim();
-        return (/^[A-Za-z$€£¥]{1,5}$/.test(code) && code !== '$') ? code : '';
+        if (!/^[A-Za-z$€£¥]{1,5}$/.test(code) || code === '$') return { pre: '$', suf: '' };
+        if (/[$€£¥]/.test(code)) return { pre: code, suf: '' };
+        return { pre: '$', suf: ' ' + code };
     }
 
     function fmtMoney(v, moneda, dec, loc) {
-        var code = currencyCode(moneda);
-        return '$' + fmtNum(v, dec, loc) + (code ? ' ' + code : '');
+        var p = moneyParts(moneda);
+        return p.pre + fmtNum(v, dec, loc) + p.suf;
     }
 
-    function fmtVal(v, formato, moneda, loc) {
+    function fmtVal(v, formato, moneda, loc, dec) {
         if (v === null || v === undefined) return '—';
-        if (formato === 'moneda') return fmtMoney(v, moneda, null, loc);
+        if (formato === 'moneda') return fmtMoney(v, moneda, dec, loc);
         if (formato === 'porcentaje') {
             var n = num(v);
-            return n === null ? '—' : fmtNum(n, (n % 1 !== 0) ? 1 : 0, loc) + ' %';
+            return n === null ? '—' : fmtNum(n, dec, loc) + ' %';
         }
-        return fmtNum(v, null, loc);
+        return fmtNum(v, dec, loc);
     }
 
     function fmtPct(v, dec, signed, loc) {
@@ -160,14 +171,24 @@
         min = Math.max(min, -100);
         if (max === null || max <= min) max = 100;
         if (step === null || step <= 0) step = 5;
-        // La recomendación se alinea a la rejilla del slider: así el valor inicial
+        // El máximo se ajusta a la rejilla (min + n·paso): si no, el navegador
+        // sanea el value y la fila "Recomendado" queda inalcanzable con el control.
+        max = min + Math.floor((max - min) / step + 1e-9) * step;
+        max = Math.round(max * 100) / 100;
+        if (max <= min) max = min + step;
+        // La recomendación se alinea a la misma rejilla: así el valor inicial
         // del control, la fila "Recomendado" y data-pct coinciden con lo que el
         // navegador realmente selecciona.
         var reco = num(p.variacion_recomendada_pct);
         if (reco === null) reco = 0;
+        reco = Math.max(min, Math.min(max, reco));
         reco = min + Math.round((reco - min) / step) * step;
         reco = Math.round(reco * 100) / 100;
         reco = Math.max(min, Math.min(max, reco));
+        // Decimales con que se muestran las variaciones (según paso y mínimo).
+        var decs = function (x) { var s = String(x); var i = s.indexOf('.'); return i < 0 ? 0 : Math.min(2, s.length - i - 1); };
+        var pctDec = Math.max(decs(min), decs(step));
+        var pctOf = function (pc) { return fmtPct(pc, (Math.abs(pc % 1) > 1e-9) ? pctDec : 0, true, loc); };
 
         var moneda = p.moneda || monedaRep || '';
         var metrica = p.metrica || 'Resultados';
@@ -179,7 +200,7 @@
             var s = scenario(base, rb, el, pc);
             var isReco = pc === reco;
             return '<tr class="' + (isReco ? 'is-reco' : '') + '" data-pct="' + pc + '">' +
-                '<td>' + fmtPct(pc, 0, true, loc) + (isReco ? '<span class="pj-badge">Recomendado</span>' : '') + '</td>' +
+                '<td>' + pctOf(pc) + (isReco ? '<span class="pj-badge">Recomendado</span>' : '') + '</td>' +
                 '<td class="num">' + fmtMoney(s.presupuesto, moneda, 0, loc) + '</td>' +
                 '<td class="num">' + fmtNum(s.resultado, 0, loc) + '</td>' +
                 '<td class="num">' + fmtPct(s.varRes, 1, true, loc) + '</td>' +
@@ -205,7 +226,7 @@
                 '<div class="pj-slider">' +
                     '<label for="' + uid + '-pjr"><span>Variación del presupuesto</span><output id="' + uid + '-pjv"></output></label>' +
                     '<input type="range" id="' + uid + '-pjr" min="' + min + '" max="' + max + '" step="' + step + '" value="' + reco + '" aria-label="Variación del presupuesto">' +
-                    '<div class="pj-ticks"><span>' + fmtPct(min, 0, true, loc) + '</span>' + zeroTick + '<span>' + fmtPct(max, 0, true, loc) + '</span></div>' +
+                    '<div class="pj-ticks"><span>' + pctOf(min) + '</span>' + zeroTick + '<span>' + pctOf(max) + '</span></div>' +
                 '</div>' +
                 '<div class="pj-out">' +
                     '<div class="pj-stat"><span>Presupuesto</span><strong id="' + uid + '-pjb"></strong></div>' +
@@ -220,7 +241,7 @@
                 (supuestos ? '<ul class="pj-supuestos">' + supuestos + '</ul>' : '') +
             '</div>';
 
-        return { html: html, state: { base: base, rb: rb, el: el, moneda: moneda, loc: loc } };
+        return { html: html, state: { base: base, rb: rb, el: el, moneda: moneda, loc: loc, pctDec: pctDec } };
     }
 
     function bindProjection(state, uid) {
@@ -236,7 +257,7 @@
         function update() {
             var pc = num(range.value) || 0;
             var s = scenario(state.base, state.rb, state.el, pc);
-            if (out) out.textContent = fmtPct(pc, 0, true, state.loc);
+            if (out) out.textContent = fmtPct(pc, (Math.abs(pc % 1) > 1e-9) ? state.pctDec : 0, true, state.loc);
             if (b) b.textContent = fmtMoney(s.presupuesto, state.moneda, 0, state.loc);
             if (n) n.textContent = fmtNum(s.resultado, 0, state.loc);
             if (d) d.textContent = fmtPct(s.varRes, 1, true, state.loc);
@@ -387,7 +408,20 @@
                 scales: tipo === 'doughnut' ? {} : {
                     x: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,.05)' } },
                     y: {
-                        ticks: { color: '#9ca3af', font: { size: 10 }, callback: function (v) { return fmt(v); } },
+                        ticks: {
+                            color: '#9ca3af', font: { size: 10 },
+                            // Decimales según el paso entre ticks: en rangos estrechos
+                            // (2,1 → 2,4 %) el redondeo fijo repetía etiquetas.
+                            callback: function (v, idx, ticks) {
+                                var dec = null;
+                                if (Array.isArray(ticks) && ticks.length > 1) {
+                                    var a = ticks.length > 3 ? 2 : 1;
+                                    var st = Math.abs(num(ticks[a].value) - num(ticks[a - 1].value));
+                                    if (st > 0) dec = Math.min(3, Math.max(0, Math.ceil(-Math.log10(st) - 1e-9)));
+                                }
+                                return fmtVal(v, formato, monedaRep, loc, dec);
+                            }
+                        },
                         grid: { color: 'rgba(255,255,255,.07)' },
                         title: yTitle
                     }
