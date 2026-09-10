@@ -6,7 +6,7 @@
     <title>Mi Panel | Motor Advertising</title>
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
-    <link rel="stylesheet" href="/styles.css?v=5.0">
+    <link rel="stylesheet" href="/styles.css?v=5.1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -264,7 +264,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.1" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
-    <script src="/assets/js/report-render.js?v=1.0" defer></script>
+    <script src="/assets/js/report-render.js?v=1.1" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -429,11 +429,15 @@
                                     if (rr.error || !rr.data || !window.MotorReport) return;
                                     var view = document.getElementById('rep-view');
                                     view.hidden = false;
-                                    MotorReport.render(document.getElementById('crep-shell'), rr.data.report, {
-                                        cliente: p.full_name || p.email,
-                                        periodo: rr.data.periodo,
-                                        fecha: fechaLarga(rr.data.created_at)
-                                    });
+                                    try {
+                                        MotorReport.render(document.getElementById('crep-shell'), rr.data.report, {
+                                            cliente: p.full_name || p.email,
+                                            periodo: rr.data.periodo,
+                                            fecha: fechaLarga(rr.data.created_at)
+                                        });
+                                    } catch (e) {
+                                        if (window.console) console.error('[reporte] no se pudo pintar:', e);
+                                    }
                                     view.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                 });
                         });
