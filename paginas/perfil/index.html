@@ -34,6 +34,7 @@
         letter-spacing: 1px;
         color: var(--text-primary);
         margin-bottom: 6px;
+        overflow-wrap: anywhere;
     }
     .panel-sub { color: var(--text-secondary); font-size: .95rem; margin-bottom: 36px; }
 
@@ -133,6 +134,7 @@
         font-size: .85rem;
     }
     .mod-card i { color: #7fd8a4; flex-shrink: 0; }
+    .mod-card span { min-width: 0; overflow-wrap: anywhere; }
 
     .panel-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
     .panel-btn {
@@ -187,13 +189,59 @@
     .crep-item .c-open:hover { text-decoration: underline; }
     #rep-view { margin-top: 16px; }
 
+    /* Vista previa "Ver como" — solo la ve el superadmin, nunca el usuario */
+    .viewas-bar {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px;
+        border: 1px solid rgba(255,206,122,.45);
+        background: rgba(255,206,122,.07);
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin-bottom: 28px;
+    }
+    .viewas-bar .va-text { flex: 1 1 320px; min-width: 0; color: var(--text-secondary); font-size: .84rem; line-height: 1.6; }
+    .viewas-bar .va-tag {
+        display: inline-flex; align-items: center; gap: 7px;
+        color: #ffce7a; font-size: .68rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px;
+    }
+    .viewas-bar .va-who { display: block; overflow-wrap: anywhere; }
+    .viewas-bar .va-who strong { color: var(--text-primary); }
+    .viewas-bar .va-hint { display: block; margin-top: 6px; color: #ffce7a; font-size: .78rem; }
+    .viewas-bar .va-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .va-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 9px 16px; border-radius: 50px;
+        border: 1px solid rgba(255,206,122,.45); background: rgba(255,255,255,.04);
+        color: var(--text-primary); text-decoration: none;
+        font-family: var(--font-body); font-size: .74rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+        transition: all .2s ease;
+    }
+    .va-btn:hover { border-color: #ffce7a; box-shadow: 0 0 14px rgba(255,206,122,.25); }
+    /* z-index por debajo del navbar (1000): sus menús deben quedar encima de la pastilla. */
+    .viewas-pill {
+        position: fixed; right: 25px; bottom: 25px; z-index: 999;
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 16px; border-radius: 50px;
+        border: 1px solid rgba(255,206,122,.55); background: rgba(20,16,6,.94);
+        color: #ffce7a; text-decoration: none;
+        font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.4);
+    }
+    .viewas-pill:hover { border-color: #ffce7a; }
+    /* Alineada con el conmutador de idioma y, en pantallas estrechas, compacta para no pisarlo. */
+    @media (max-width: 768px) { .viewas-pill { right: 20px; bottom: 20px; } }
+    @media (max-width: 480px) { .viewas-pill .vp-long { display: none; } }
+    /* Va dentro de .pend-hero: necesita más peso que la regla ".pend-hero p". */
+    .pend-hero p.viewas-note { margin: 16px auto 0; color: #ffce7a; font-size: .8rem; line-height: 1.5; }
+
     @media print {
         body * { visibility: hidden; }
         #rep-view, #rep-view * { visibility: visible; }
         #rep-view { position: absolute; left: 0; top: 0; width: 100%; }
         #rep-view .rep-toolbar { display: none !important; }
         .rep-shell { border: none; border-radius: 0; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .navbar, .lang-switcher-floating { display: none !important; }
+        .navbar, .lang-switcher-floating, .viewas-bar, .viewas-pill { display: none !important; }
     }
 
     @media (max-width: 640px) {
@@ -256,6 +304,7 @@
     </nav>
 
     <main class="panel-wrap">
+        <div id="viewas-slot" aria-live="polite"></div>
         <div id="panel-loading" class="panel-loading"><i class="fas fa-circle-notch fa-spin"></i> Cargando tu panel…</div>
         <div id="panel-content" hidden></div>
     </main>
@@ -287,9 +336,25 @@
                 features: ['Todo lo de Marketing Crecimiento', 'Embudos y landing pages de conversión', 'Automatizaciones de seguimiento (email + WhatsApp)', 'Dashboard de resultados en tiempo real', 'Reunión estratégica mensual', 'Soporte prioritario'] }
         };
         var STATUS_LABEL = { sin_plan: 'Sin plan', activo: 'Activo', pausado: 'Pausado', cancelado: 'Cancelado' };
+        var ROLE_LABEL = { pendiente: 'Pendiente', empresa: 'Empresa', empleado: 'Empleado', superadmin: 'Superadmin' };
 
         var loading = document.getElementById('panel-loading');
         var content = document.getElementById('panel-content');
+
+        /* "Ver como" (?ver=<id>): el superadmin abre el panel de otro usuario tal
+           como ese usuario lo ve. Es una VISTA, no una suplantación: la sesión
+           sigue siendo la del superadmin y la base de datos (RLS) decide qué se
+           puede leer — a cualquier otra cuenta el parámetro no le sirve de nada.
+           En este modo la página no escribe nada. */
+        var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+        var verParam = '';
+        var hadVer = false;
+        try {
+            var _sp = new URLSearchParams(window.location.search);
+            hadVer = _sp.has('ver');
+            verParam = (_sp.get('ver') || '').trim().toLowerCase();
+        } catch (e) { /* navegador sin URLSearchParams: sin vista previa */ }
+        var PREVIEW = false;
 
         function esc(s) {
             return String(s == null ? '' : s)
@@ -334,6 +399,8 @@
             );
             content.querySelectorAll('.pend-role').forEach(function (btn) {
                 btn.addEventListener('click', function () {
+                    // Vista previa: el botón se ve igual que para el usuario, pero no guarda.
+                    if (PREVIEW) { previewBlocked(btn.parentNode); return; }
                     var role = btn.getAttribute('data-role');
                     content.querySelectorAll('.pend-role').forEach(function (c) { c.classList.toggle('selected', c === btn); });
                     var prev = btn.innerHTML;
@@ -394,10 +461,15 @@
             loadClientReports(p);
         }
 
-        /* Reportes de pauta PUBLICADOS del cliente (RLS solo devuelve los suyos) */
+        /* Reportes de pauta PUBLICADOS de este perfil. Para el cliente, RLS ya solo
+           devuelve los suyos publicados; los filtros explícitos hacen que la vista
+           previa del superadmin (que por RLS puede leer todo) muestre exactamente
+           lo mismo que ve el cliente: una sola consulta para los dos casos. */
         function loadClientReports(p) {
             window.MotorAuth.client.from('pauta_reports')
                 .select('id, periodo, created_at')
+                .eq('profile_id', p.id)
+                .eq('status', 'publicado')
                 .order('created_at', { ascending: false })
                 .then(function (r) {
                     if (r.error || !r.data || !r.data.length) return;
@@ -424,7 +496,10 @@
                             var id = btn.closest('.crep-item').getAttribute('data-id');
                             window.MotorAuth.client.from('pauta_reports')
                                 .select('report, periodo, created_at')
-                                .eq('id', id).single()
+                                .eq('id', id)
+                                .eq('profile_id', p.id)
+                                .eq('status', 'publicado')
+                                .single()
                                 .then(function (rr) {
                                     if (rr.error || !rr.data || !window.MotorReport) return;
                                     var view = document.getElementById('rep-view');
@@ -502,6 +577,146 @@
                  '<div class="panel-actions"><button class="panel-btn primary" onclick="location.reload()"><i class="fas fa-rotate-right"></i> Reintentar</button></div></div>');
         }
 
+        function renderByRole(p) {
+            if (p.role === 'superadmin') renderAdmin(p);
+            else if (p.role === 'empresa') renderEmpresa(p);
+            else if (p.role === 'empleado') renderEmpleado(p);
+            else renderPendiente(p);
+        }
+
+        /* ===== Vista previa "Ver como" (solo superadmin) ===== */
+
+        // Quita ?ver= (y su acompañante ?singuardar=) de la barra de direcciones
+        // cuando no aplican, sin tocar el resto de la URL.
+        function dropVerParam() {
+            try {
+                var u = new URL(window.location.href);
+                u.searchParams.delete('ver');
+                u.searchParams.delete('singuardar');
+                history.replaceState(null, '', u.pathname + u.search + u.hash);
+            } catch (e) { /* no crítico */ }
+        }
+
+        // Aviso al intentar una acción que en el panel real sí guardaría algo.
+        function previewBlocked(anchor) {
+            var note = document.getElementById('viewas-note');
+            if (!note) {
+                note = document.createElement('p');
+                note.id = 'viewas-note';
+                note.className = 'viewas-note';
+                note.setAttribute('role', 'alert');
+                note.textContent = 'Vista previa: aquí el usuario elige su tipo de cuenta. En este modo no se guarda ningún cambio.';
+                anchor.parentNode.insertBefore(note, anchor.nextSibling);
+            }
+            // Que no quede fuera de pantalla ni bajo los botones flotantes.
+            if (note.scrollIntoView) note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Avisos para el superadmin sobre lo que esta vista no muestra y por qué.
+        // r = resultado de la consulta de estados de sus reportes (null si falló).
+        function previewHints(p, r, sinGuardar) {
+            var hints = [];
+            if (sinGuardar) {
+                hints.push({ icon: 'fa-triangle-exclamation', text: 'En Gestión dejaste cambios sin guardar en este usuario. Aquí ves lo que ya está guardado, no esos cambios.' });
+            }
+            var rows = (r && !r.error && r.data) ? r.data : [];
+            if (rows.length) {
+                var total = rows.length;
+                var bor = rows.filter(function (x) { return x.status !== 'publicado'; }).length;
+                var pub = total - bor;
+                var msg = '';
+                if (p.role === 'empresa') {
+                    if (bor === 1) msg = 'Hay 1 reporte en borrador que este cliente todavía no ve. Publícalo desde «Gestionar usuario» para que aparezca aquí.';
+                    else if (bor > 1) msg = 'Hay ' + bor + ' reportes en borrador que este cliente todavía no ve. Publícalos desde «Gestionar usuario» para que aparezcan aquí.';
+                } else {
+                    var partes = [];
+                    if (pub) partes.push(pub + (pub === 1 ? ' publicado' : ' publicados'));
+                    if (bor) partes.push(bor + ' en borrador');
+                    msg = 'Este usuario tiene ' + total + (total === 1 ? ' reporte' : ' reportes') + ' (' + partes.join(' y ') + '). ' +
+                          'Su panel no muestra reportes porque su rol no es Empresa' +
+                          (bor ? '; con rol Empresa vería solo los publicados.' : '.');
+                }
+                if (msg) hints.push({ icon: 'fa-circle-info', text: msg });
+            }
+            return hints;
+        }
+
+        function renderPreviewBar(p, hints) {
+            var nombre = p.full_name || p.email || 'este usuario';
+            document.title = 'Vista previa: ' + nombre + ' | Motor Advertising';
+            document.getElementById('viewas-slot').innerHTML =
+                '<div class="viewas-bar" role="group" aria-label="Vista previa">' +
+                    '<div class="va-text">' +
+                        '<span class="va-tag"><i class="fas fa-eye" aria-hidden="true"></i> Vista previa · solo lectura</span>' +
+                        '<span class="va-who">Estás viendo el panel tal como lo ve <strong>' + esc(nombre) + '</strong>' +
+                            (p.full_name && p.email ? ' (' + esc(p.email) + ')' : '') +
+                            ' · Rol: <strong>' + esc(ROLE_LABEL[p.role] || p.role) + '</strong>. Aquí no se guarda ningún cambio.</span>' +
+                        (hints || []).map(function (h) {
+                            return '<span class="va-hint"><i class="fas ' + h.icon + '" aria-hidden="true"></i> ' + esc(h.text) + '</span>';
+                        }).join('') +
+                    '</div>' +
+                    '<div class="va-actions">' +
+                        '<a class="va-btn" href="/paginas/gestion/usuario/?id=' + encodeURIComponent(p.id) + '"><i class="fas fa-user-gear" aria-hidden="true"></i> Gestionar usuario</a>' +
+                        '<a class="va-btn" id="viewas-exit" href="/paginas/gestion/"><i class="fas fa-xmark" aria-hidden="true"></i> Cerrar vista previa</a>' +
+                    '</div>' +
+                '</div>';
+            var pill = document.createElement('a');
+            pill.className = 'viewas-pill';
+            pill.href = '/paginas/gestion/';
+            pill.title = 'Cerrar la vista previa';
+            pill.innerHTML = '<i class="fas fa-eye" aria-hidden="true"></i><span><span class="vp-long">Vista previa · </span>Cerrar</span>';
+            document.body.appendChild(pill);
+
+            // La vista previa vive en su propia pestaña: salir es cerrarla, para volver
+            // a la pestaña de Gestión tal como quedó (su filtro y sus ediciones). Si el
+            // navegador no deja cerrarla, el enlace lleva a Gestión.
+            function cerrarVistaPrevia(e) {
+                if (e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;   // clic modificado: enlace normal
+                e.preventDefault();
+                window.close();
+                setTimeout(function () { window.location.href = '/paginas/gestion/'; }, 250);
+            }
+            pill.addEventListener('click', cerrarVistaPrevia);
+            document.getElementById('viewas-exit').addEventListener('click', cerrarVistaPrevia);
+        }
+
+        function startPreview(id) {
+            loading.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Cargando vista previa…';
+            var db = window.MotorAuth.client;
+            Promise.all([
+                db.from('profiles').select('*').eq('id', id).maybeSingle(),
+                // Estados de sus reportes, para los avisos de la barra. Va en paralelo
+                // para que la barra nazca con su alto final; si falla, no hay avisos.
+                db.from('pauta_reports').select('status').eq('profile_id', id)
+                    .then(function (r) { return r; }, function () { return null; })
+            ]).then(function (res) {
+                var pr = res[0];
+                if (!pr || pr.error) { fail('No pudimos cargar ese perfil para la vista previa. Revisa tu conexión e intenta de nuevo.'); return; }
+                if (!pr.data) {
+                    show('<div class="panel-card empty-state"><i class="fas fa-user-slash"></i><h3>No se encontró ese usuario</h3>' +
+                         '<p>Puede que la cuenta ya no exista. Vuelve a Gestión y abre la vista previa desde la tabla.</p>' +
+                         '<div class="panel-actions"><a class="panel-btn primary" href="/paginas/gestion/"><i class="fas fa-table-list"></i> Volver a Gestión</a></div></div>');
+                    return;
+                }
+                // ¿Se abrió desde una fila de Gestión con cambios sin guardar? Se lee una
+                // vez y se quita de la URL: al recargar ya no tendría por qué ser cierto.
+                var sinGuardar = false;
+                try {
+                    var u = new URL(window.location.href);
+                    sinGuardar = u.searchParams.get('singuardar') === '1';
+                    if (u.searchParams.has('singuardar')) {
+                        u.searchParams.delete('singuardar');
+                        history.replaceState(null, '', u.pathname + u.search + u.hash);
+                    }
+                } catch (e) { /* no crítico */ }
+                PREVIEW = true;
+                renderPreviewBar(pr.data, previewHints(pr.data, res[1], sinGuardar));
+                renderByRole(pr.data);
+            }, function () {
+                fail('No pudimos cargar ese perfil para la vista previa. Revisa tu conexión e intenta de nuevo.');
+            });
+        }
+
         if (!window.MotorAuth) { fail('No se pudo cargar el sistema de acceso. Revisa tu conexión.'); return; }
 
         // Si el callback de Google/confirmación llega con error en el hash
@@ -524,10 +739,13 @@
                 if (r && r.error) { fail('No pudimos cargar tu perfil. Revisa tu conexión e intenta de nuevo.'); return; }
                 var p = r && r.data;
                 if (!p) { fail('No pudimos cargar tu perfil. Intenta de nuevo en unos segundos.'); return; }
-                if (p.role === 'superadmin') renderAdmin(p);
-                else if (p.role === 'empresa') renderEmpresa(p);
-                else if (p.role === 'empleado') renderEmpleado(p);
-                else renderPendiente(p);
+                // "Ver como": solo el superadmin, con un id válido y que no sea el suyo.
+                if (p.role === 'superadmin' && UUID_RE.test(verParam) && verParam !== String(p.id).toLowerCase()) {
+                    startPreview(verParam);
+                    return;
+                }
+                if (hadVer) dropVerParam();
+                renderByRole(p);
             });
         });
     });

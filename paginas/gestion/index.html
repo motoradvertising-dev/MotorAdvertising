@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
     .adm-wrap {
-        max-width: 1240px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 140px 24px 90px;
         min-height: 80vh;
@@ -100,7 +100,7 @@
     .adm-table td.c-rol { min-width: 130px; }
     .adm-table td.c-plan { min-width: 180px; }
     .adm-table td.c-estado { min-width: 120px; }
-    .adm-table td.c-notas { min-width: 170px; }
+    .adm-table td.c-notas { min-width: 150px; }
 
     .adm-save {
         display: inline-flex; align-items: center; gap: 7px;
@@ -128,6 +128,16 @@
         transition: all .2s ease; white-space: nowrap;
     }
     .adm-view:hover { border-color: var(--accent-color); box-shadow: 0 0 12px var(--accent-glow); }
+    /* "Ver como": abre el panel del usuario tal como él lo ve (vista previa). */
+    .adm-view.adm-eye { color: #ffce7a; }
+    .adm-view.adm-eye:hover { border-color: #ffce7a; box-shadow: 0 0 12px rgba(255,206,122,.25); }
+    /* La etiqueta solo aparece cuando la tabla tiene sitio; en pantallas menores queda el icono. */
+    .adm-view.adm-eye .eye-label { display: none; }
+    @media (min-width: 1400px) {
+        .adm-view.adm-eye .eye-label { display: inline; }
+        /* Con sitio de sobra, el selector de rol deja de recortar "Pendiente" / "Superadmin". */
+        .adm-table td.c-rol { min-width: 150px; }
+    }
     .adm-user a.u-name { text-decoration: none; }
     .adm-user a.u-name:hover { color: #59a8c4; }
 
@@ -305,6 +315,12 @@
                     ? '<span class="u-super"><i class="fas fa-lock"></i> Tú</span>'
                     : '<select data-f="role">' + options(ROLES, r.role) + '</select>';
                 var perfilUrl = '/paginas/gestion/usuario/?id=' + encodeURIComponent(r.id);
+                // Vista previa del panel tal como lo ve ese usuario (en otra pestaña,
+                // para no perder ediciones sin guardar de esta tabla).
+                var verUrl = esYo ? '/paginas/perfil/' : '/paginas/perfil/?ver=' + encodeURIComponent(r.id);
+                // El nombre accesible empieza por el texto visible del botón.
+                var verTitle = esYo ? 'Ver mi panel' : 'Ver como ' + (r.full_name || r.email || 'este usuario') + ': su panel, solo lectura';
+                var verLabel = esYo ? ' Mi panel' : ' Ver como';
                 return '<tr data-id="' + esc(r.id) + '">' +
                     '<td class="adm-user"><a class="u-name" href="' + esc(perfilUrl) + '">' + esc(r.full_name || '(sin nombre)') + '</a>' +
                         '<span class="u-email">' + esc(r.email) + '</span>' + superTag + '</td>' +
@@ -314,7 +330,10 @@
                     '<td class="c-plan"><select data-f="plan">' + options(PLANES, r.plan || '') + '</select></td>' +
                     '<td class="c-estado"><select data-f="plan_status">' + options(ESTADOS, r.plan_status) + '</select></td>' +
                     '<td class="c-notas"><input type="text" data-f="notes" value="' + esc(r.notes || '') + '" placeholder="Notas internas…"></td>' +
-                    '<td style="white-space:nowrap"><a class="adm-view" href="' + esc(perfilUrl) + '"><i class="fas fa-user"></i> Perfil</a>' +
+                    '<td style="white-space:nowrap">' +
+                        '<a class="adm-view adm-eye" href="' + esc(verUrl) + '" data-base="' + esc(verUrl) + '" target="_blank" rel="noopener" title="' + esc(verTitle) + '" aria-label="' + esc(verTitle) + '">' +
+                            '<i class="fas fa-eye" aria-hidden="true"></i><span class="eye-label">' + verLabel + '</span></a>' +
+                        '<a class="adm-view" href="' + esc(perfilUrl) + '"><i class="fas fa-user"></i> Perfil</a>' +
                         '<button type="button" class="adm-save"><i class="fas fa-floppy-disk"></i> Guardar</button></td>' +
                 '</tr>';
             }).join('');
@@ -344,6 +363,7 @@
                                 var row = allRows.find(function (x) { return x.id === id; });
                                 if (row) Object.assign(row, payload);
                                 renderStats();
+                                syncEye(tr);
                             }
                             setTimeout(function () {
                                 btn.classList.remove('ok', 'err');
@@ -352,7 +372,45 @@
                         });
                 });
             });
+            // Por si el enlace se activa sin que haya saltado antes un evento de edición.
+            tbody.querySelectorAll('.adm-eye').forEach(function (a) {
+                ['click', 'auxclick', 'contextmenu'].forEach(function (ev) {
+                    a.addEventListener(ev, function () { syncEye(a.closest('tr')); });
+                });
+            });
             applyFilter(document.getElementById('adm-search').value);
+        }
+
+        // La vista previa lee lo GUARDADO. Si la fila tiene cambios sin guardar, su
+        // enlace "Ver como" lo indica con &singuardar=1 y la propia vista previa lo
+        // explica en su barra (si no, parecería que el cambio "no funcionó").
+        // Sin diálogos: un confirm() delante de un enlace que abre pestaña hace que
+        // el navegador la bloquee cuando se tarda unos segundos en responder.
+        function syncEye(tr) {
+            var a = tr && tr.querySelector('.adm-eye');
+            var base = a && a.getAttribute('data-base');
+            if (!base || base.indexOf('?ver=') === -1) return;   // fila propia: su panel normal
+            a.setAttribute('href', rowIsDirty(tr) ? base + '&singuardar=1' : base);
+        }
+        ['input', 'change'].forEach(function (ev) {
+            tbody.addEventListener(ev, function (e) {
+                var tr = e.target && e.target.closest ? e.target.closest('tr[data-id]') : null;
+                if (tr) syncEye(tr);
+            });
+        });
+
+        // ¿Los campos de la fila difieren de lo guardado?
+        function rowIsDirty(tr) {
+            if (!tr) return false;
+            var id = tr.getAttribute('data-id');
+            var row = allRows.find(function (x) { return x.id === id; });
+            if (!row) return false;
+            var dirty = false;
+            tr.querySelectorAll('[data-f]').forEach(function (el) {
+                var saved = row[el.getAttribute('data-f')];
+                if (el.value !== (saved == null ? '' : String(saved))) dirty = true;
+            });
+            return dirty;
         }
 
         // Filtra por visibilidad, sin reconstruir el DOM (conserva ediciones).

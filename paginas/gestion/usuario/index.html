@@ -19,6 +19,19 @@
     .usr-title { font-family: var(--font-heading); font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); margin-bottom: 6px; }
     .usr-sub { color: var(--text-secondary); font-size: .9rem; margin-bottom: 26px; word-break: break-all; }
 
+    /* "Ver como": abre el panel de este usuario tal como él lo ve (vista previa). */
+    .usr-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: -10px 0 26px; }
+    .usr-viewas {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 18px; border-radius: 50px;
+        border: 1px solid rgba(255,206,122,.45); background: rgba(255,206,122,.07);
+        color: #ffce7a; text-decoration: none;
+        font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+        white-space: nowrap; transition: all .2s ease;
+    }
+    .usr-viewas:hover { border-color: #ffce7a; box-shadow: 0 0 14px rgba(255,206,122,.25); }
+    .usr-viewas-hint { color: var(--text-secondary); font-size: .78rem; }
+
     .usr-loading { text-align: center; color: var(--text-secondary); padding: 80px 0; }
     .usr-loading i { color: #59a8c4; margin-right: 8px; }
 
@@ -203,6 +216,10 @@
             <p class="usr-eyebrow"><a href="/paginas/gestion/"><i class="fas fa-arrow-left"></i> Volver a Gestión</a></p>
             <h1 class="usr-title" id="usr-name">—</h1>
             <p class="usr-sub" id="usr-email">—</p>
+            <div class="usr-actions">
+                <a class="usr-viewas" id="usr-viewas" href="/paginas/perfil/" target="_blank" rel="noopener"><i class="fas fa-eye" aria-hidden="true"></i> <span id="usr-viewas-label">Ver como este usuario</span></a>
+                <span class="usr-viewas-hint" id="usr-viewas-hint">Abre su panel en otra pestaña, tal como lo ve este usuario. Solo lectura.</span>
+            </div>
 
             <div class="usr-card">
                 <h2><i class="fas fa-id-card"></i> Cuenta</h2>
@@ -507,6 +524,13 @@
                         content.hidden = false;
                         document.getElementById('usr-name').textContent = p.full_name || '(sin nombre)';
                         document.getElementById('usr-email').textContent = p.email;
+                        // Vista previa del panel de este usuario (el propio superadmin va a su panel normal).
+                        if (p.id === me.id) {
+                            document.getElementById('usr-viewas-label').textContent = 'Ver mi panel';
+                            document.getElementById('usr-viewas-hint').textContent = 'Esta es tu propia cuenta: abre tu panel en otra pestaña.';
+                        } else {
+                            document.getElementById('usr-viewas').href = '/paginas/perfil/?ver=' + encodeURIComponent(p.id);
+                        }
                         document.getElementById('usr-meta').innerHTML =
                             '<span class="usr-chip">Rol: <strong>' + esc(ROLES[p.role] || p.role) + '</strong></span>' +
                             '<span class="usr-chip">Plan: <strong>' + esc(p.plan ? (PLANES[p.plan] || p.plan) : '— sin plan —') + '</strong></span>' +
