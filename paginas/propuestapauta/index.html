@@ -769,6 +769,96 @@
 
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* ─── CONTENIDO ORGÁNICO ─── */
+  .addon-main.organico::after { content: 'FEED'; }
+
+  /* ─── RESUMEN DE INVERSIÓN ─── */
+  .resumen { background: var(--off-black); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .ptable-wrap {
+    margin-top: 2.5rem;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    background: var(--dark);
+  }
+
+  .ptable { width: 100%; border-collapse: collapse; min-width: 640px; }
+
+  .ptable th, .ptable td {
+    padding: 1.1rem 1.4rem;
+    text-align: right;
+    border-bottom: 1px solid rgba(111,74,42,0.12);
+    vertical-align: top;
+  }
+
+  .ptable th:first-child, .ptable td:first-child { text-align: left; }
+
+  .ptable th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted);
+    background: var(--mid);
+  }
+
+  .ptable td {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  .ptable td:first-child {
+    font-size: 18px; font-weight: 700;
+    color: #2E2018; white-space: normal;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+
+  .ptable td small, .ptable td:first-child span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px; font-weight: 300;
+    color: var(--muted);
+    letter-spacing: .02em; text-transform: none;
+    margin-top: .2rem;
+  }
+
+  .ptable tr.is-total td { background: var(--green-dim); border-bottom: none; }
+  .ptable tr.is-total td:first-child { color: var(--green); }
+
+  .total-bar {
+    margin-top: 1.2rem;
+    border: 1px solid var(--green);
+    background: var(--dark);
+    padding: 1.5rem 2.2rem;
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: .8rem;
+  }
+
+  .total-bar span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase;
+    color: #5A4A38;
+  }
+
+  .total-bar strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 900;
+    color: var(--green);
+  }
+
+  .total-bar strong small { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: var(--muted); }
+
+  .resumen-note {
+    margin-top: 1.4rem;
+    font-size: 14px; color: #6E5E4A; line-height: 1.75;
+    max-width: 880px;
+  }
+
+  .resumen-note strong { color: #2E2018; font-weight: 500; }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
     .levels { grid-template-columns: 1fr; }
@@ -783,6 +873,9 @@
     .service-expand { display: none; }
     .hero-sub { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
     .escala-bar { flex-direction: column; }
+    .addon-main, .addon-scale { padding: 2rem 1.5rem; }
+    .addon-row { flex-wrap: wrap; }
+    .total-bar { padding: 1.3rem 1.4rem; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
   }
 </style>
@@ -804,7 +897,7 @@
   <div class="hero-sub">
     <p>Un modelo de pauta que crece contigo: empiezas con una inversión pequeña y el plan solo escala cuando la publicidad ya te devolvió el 100% de lo invertido. Tú creces, nosotros crecemos.</p>
     <div class="hero-badge">
-      <strong>$150</strong>
+      <strong>$189,40</strong>
       <small>USD · fee inicial ($600.000)</small>
     </div>
     <div class="hero-badge">
@@ -865,7 +958,7 @@
 <section class="levels-section">
   <div class="section-label">02 — Plan de Escalamiento</div>
   <h2 class="section-title reveal">Tres niveles.<br><span class="outline">Un solo camino.</span></h2>
-  <p class="trm-note reveal">Valores en USD · equivalente en pesos colombianos entre paréntesis (TRM de referencia $4.000)</p>
+  <p class="trm-note reveal">Valores en USD · equivalente en pesos colombianos entre paréntesis (TRM de referencia $3.167,98 · 14 de octubre de 2026)</p>
 
   <div class="levels">
 
@@ -874,10 +967,10 @@
       <div class="level-num">01</div>
       <p class="level-name">Nivel 1</p>
       <h3 class="level-title">Arranque</h3>
-      <div class="level-fee">$150 <small style="font-size:18px;">USD</small></div>
+      <div class="level-fee">$189,40 <small style="font-size:18px;">USD</small></div>
       <p class="level-fee-cop">($600.000 COP) · fee mensual de gestión</p>
       <ul class="level-list">
-        <li>Inversión mínima de pauta: <strong>$125 USD ($500.000 COP)</strong></li>
+        <li>Inversión mínima de pauta: <strong>$157,83 USD ($500.000 COP)</strong></li>
         <li>Máximo <strong>2 campañas</strong> activas</li>
         <li><strong>4 anuncios</strong> por campaña: 2 videos + 2 estáticos</li>
         <li>Hasta <strong>8 anuncios</strong> trabajando en simultáneo</li>
@@ -892,10 +985,10 @@
       <div class="level-num">02</div>
       <p class="level-name">Nivel 2</p>
       <h3 class="level-title">Crecimiento</h3>
-      <div class="level-fee">$250 <small style="font-size:18px;">USD</small></div>
+      <div class="level-fee">$315,66 <small style="font-size:18px;">USD</small></div>
       <p class="level-fee-cop">($1.000.000 COP) · fee mensual de gestión</p>
       <ul class="level-list">
-        <li>Inversión de pauta: <strong>$500 USD ($2.000.000 COP)</strong></li>
+        <li>Inversión de pauta: <strong>$631,32 USD ($2.000.000 COP)</strong></li>
         <li><strong>6 campañas</strong> activas</li>
         <li><strong>4 anuncios</strong> por campaña: 2 videos + 2 estáticos</li>
         <li>Hasta <strong>24 anuncios</strong> trabajando en simultáneo</li>
@@ -910,7 +1003,7 @@
       <div class="level-num">03</div>
       <p class="level-name">Nivel 3 · Tope del plan</p>
       <h3 class="level-title">Escala</h3>
-      <div class="level-fee">$500 <small style="font-size:18px;">USD</small></div>
+      <div class="level-fee">$631,32 <small style="font-size:18px;">USD</small></div>
       <p class="level-fee-cop">($2.000.000 COP) · fee mensual de gestión</p>
       <ul class="level-list">
         <li>Inversión de pauta: <strong>sin límite</strong></li>
@@ -1032,7 +1125,7 @@
 
     <div class="addon-main reveal">
       <p class="addon-label">Add-on de artes · desde</p>
-      <div class="addon-amount">+$200</div>
+      <div class="addon-amount">+$252,53</div>
       <div class="addon-currency">USD / MES ($800.000 COP)</div>
       <div class="addon-note">
         Nosotros producimos las piezas de tus campañas: videos y estáticos listos para pautar, con diseño orientado a conversión. El add-on escala igual que el plan, porque la cantidad de creativos crece en paralelo con tus campañas.
@@ -1046,21 +1139,21 @@
           <div class="ar-nivel">Nivel 1</div>
           <div class="ar-detalle">Hasta 8 piezas (2 campañas)</div>
         </div>
-        <div class="ar-precio">+$200 <small>USD ($800.000)</small></div>
+        <div class="ar-precio">+$252,53 <small>USD ($800.000)</small></div>
       </div>
       <div class="addon-row">
         <div>
           <div class="ar-nivel">Nivel 2</div>
           <div class="ar-detalle">Hasta 24 piezas (6 campañas)</div>
         </div>
-        <div class="ar-precio">+$335 <small>USD (≈$1.340.000)</small></div>
+        <div class="ar-precio">+$422,98 <small>USD ($1.340.000)</small></div>
       </div>
       <div class="addon-row">
         <div>
           <div class="ar-nivel">Nivel 3</div>
           <div class="ar-detalle">Hasta 40 piezas (10 campañas)</div>
         </div>
-        <div class="ar-precio">+$665 <small>USD (≈$2.660.000)</small></div>
+        <div class="ar-precio">+$839,65 <small>USD ($2.660.000)</small></div>
       </div>
       <div class="addon-clarification">
         <p>Este add-on es <strong>opcional</strong>. Si tu marca ya produce sus piezas, solo debes entregarlas según nuestras especificaciones (2 videos + 2 estáticos por campaña) y el plan funciona igual, sin costo adicional.</p>
@@ -1072,9 +1165,58 @@
 
 <div class="green-line"></div>
 
+<!-- ══════════════════════ CONTENIDO ORGÁNICO ══════════════════════ -->
+<section class="addon">
+  <div class="section-label">05 — Opcional · Contenido Orgánico</div>
+  <h2 class="section-title reveal">Su marca,<br><span class="outline">activa cada semana.</span></h2>
+
+  <div class="addon-layout">
+
+    <div class="addon-main organico reveal">
+      <p class="addon-label">Contenido orgánico · mensual</p>
+      <div class="addon-amount">+$189,40</div>
+      <div class="addon-currency">USD / MES ($600.000 COP)</div>
+      <div class="addon-note">
+        Publicaciones para el feed de sus redes, para que la marca se vea activa y confiable cuando alguien llega desde un anuncio. El contenido orgánico acompaña a la pauta: la pauta atrae y el feed convence.
+      </div>
+    </div>
+
+    <div class="addon-scale reveal">
+      <h4>Qué incluye</h4>
+      <div class="addon-row">
+        <div>
+          <div class="ar-nivel">Cada semana</div>
+          <div class="ar-detalle">2 piezas estáticas + 1 video para el feed</div>
+        </div>
+        <div class="ar-precio">3 <small>piezas</small></div>
+      </div>
+      <div class="addon-row">
+        <div>
+          <div class="ar-nivel">Cada mes</div>
+          <div class="ar-detalle">Diseño, copy y programación incluidos</div>
+        </div>
+        <div class="ar-precio">12 <small>piezas</small></div>
+      </div>
+      <div class="addon-row">
+        <div>
+          <div class="ar-nivel">Parrilla mensual</div>
+          <div class="ar-detalle">Se presenta y aprueba con el cliente antes de publicar</div>
+        </div>
+        <div class="ar-precio">✓</div>
+      </div>
+      <div class="addon-clarification">
+        <p>Es <strong>opcional</strong> y tiene <strong>tarifa fija</strong>: no cambia al subir de nivel. Se puede contratar en cualquier momento del plan.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="green-line"></div>
+
 <!-- ══════════════════════ REQUERIMIENTOS ══════════════════════ -->
 <section class="reqs">
-  <div class="section-label">05 — Requerimientos Operativos</div>
+  <div class="section-label">06 — Requerimientos Operativos</div>
   <h2 class="section-title reveal">Para que<br><span class="outline">funcione.</span></h2>
 
   <div class="reqs-grid reveal">
@@ -1100,7 +1242,7 @@
 
 <!-- ══════════════════════ CONDICIONES ══════════════════════ -->
 <section class="conditions">
-  <div class="section-label">06 — Condiciones</div>
+  <div class="section-label">07 — Condiciones</div>
   <h2 class="section-title reveal">Reglas del<br><span class="outline">juego.</span></h2>
 
   <div class="cond-grid reveal">
@@ -1129,7 +1271,7 @@
       <div class="cond-icon">🎬</div>
       <div>
         <h4>Creativos</h4>
-        <p>Cada campaña opera con 4 anuncios: 2 videos y 2 estáticos. Si no se contrata el add-on de artes, el cliente entrega las piezas listas según especificaciones.</p>
+        <p>Cada campaña opera con 4 anuncios: 2 videos y 2 estáticos. Si no se contrata el add-on de artes, el cliente entrega las piezas listas según especificaciones. El contenido orgánico, si se contrata, sigue una parrilla mensual que el cliente aprueba antes de publicar.</p>
       </div>
     </div>
     <div class="cond-item">
@@ -1151,11 +1293,42 @@
 
 <div class="green-line"></div>
 
+<!-- ══════════════════════ RESUMEN DE INVERSIÓN ══════════════════════ -->
+<section class="resumen">
+  <div class="section-label">08 — Resumen de Inversión</div>
+  <h2 class="section-title reveal">Todos los precios,<br><span class="outline">en una tabla.</span></h2>
+  <p class="trm-note reveal">Valores mensuales en pesos colombianos · equivalente en USD con TRM de referencia $3.167,98</p>
+
+  <div class="ptable-wrap reveal">
+    <table class="ptable">
+      <thead>
+        <tr><th>Concepto</th><th>Nivel 1 · Arranque</th><th>Nivel 2 · Crecimiento</th><th>Nivel 3 · Escala</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Fee de gestión<span>Pago mensual a Motor Advertising</span></td><td>$600.000<small>USD 189,40</small></td><td>$1.000.000<small>USD 315,66</small></td><td>$2.000.000<small>USD 631,32</small></td></tr>
+        <tr><td>Inversión en pauta<span>Va directo a Meta y/o Google</span></td><td>$500.000<small>mínimo · USD 157,83</small></td><td>$2.000.000<small>USD 631,32</small></td><td>Sin límite<small>la define el cliente</small></td></tr>
+        <tr><td>Creación de artes<span>Opcional · escala con el nivel</span></td><td>$800.000<small>USD 252,53</small></td><td>$1.340.000<small>USD 422,98</small></td><td>$2.660.000<small>USD 839,65</small></td></tr>
+        <tr><td>Contenido orgánico<span>Opcional · 3 piezas semanales</span></td><td>$600.000<small>USD 189,40</small></td><td>$600.000<small>USD 189,40</small></td><td>$600.000<small>USD 189,40</small></td></tr>
+        <tr class="is-total"><td>Total mensual<span>Con artes y contenido orgánico</span></td><td>$2.500.000<small>USD 789,15</small></td><td>$4.940.000<small>USD 1.559,35</small></td><td>$5.260.000 + pauta<small>USD 1.660,36 + pauta</small></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="total-bar reveal">
+    <span>Inversión total inicial · Nivel 1</span>
+    <strong>$2.500.000 COP <small>/ mes · USD 789,15</small></strong>
+  </div>
+
+  <p class="resumen-note reveal">La inversión inicial suma el <strong>fee de gestión ($600.000)</strong>, la <strong>pauta mínima ($500.000)</strong>, la <strong>creación de artes ($800.000)</strong> y el <strong>contenido orgánico ($600.000)</strong>. La pauta se paga directamente a Meta y/o Google desde la cuenta del cliente; las artes y el contenido orgánico son opcionales y se descuentan si la marca ya produce sus piezas. Los valores de los niveles 2 y 3 solo aplican cuando la pauta retribuye el 100% de la inversión.</p>
+</section>
+
+<div class="green-line"></div>
+
 <!-- ══════════════════════ CIERRE ══════════════════════ -->
 <section class="closing">
   <div class="closing-glow"></div>
 
-  <div class="section-label" style="justify-content:center;">07 — Cierre</div>
+  <div class="section-label" style="justify-content:center;">09 — Cierre</div>
 
   <h2 class="reveal">
     Empieza pequeño.<br>
