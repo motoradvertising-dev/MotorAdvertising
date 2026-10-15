@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/recs.css?v=1.0">
     <style>
     .usr-wrap { max-width: 1100px; margin: 0 auto; padding: 140px 24px 90px; min-height: 80vh; }
     .usr-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #59a8c4; margin-bottom: 10px; }
@@ -137,6 +138,57 @@
         display: flex; align-items: center; justify-content: center;
     }
 
+    /* Recomendaciones (editor) */
+    .rx-item { flex-wrap: wrap; justify-content: flex-start; }
+    .rx-item .rx-ord { font-family: var(--font-heading); font-weight: 800; color: var(--text-secondary); min-width: 2ch; }
+    .rx-item .rx-cat {
+        width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        color: var(--c); border: 1px solid var(--c); font-size: .72rem;
+    }
+    .rx-item .rx-edit { flex: 1 1 220px; min-width: 0; text-align: left; overflow-wrap: anywhere; }
+    .rx-item .rx-when { font-size: .74rem; white-space: nowrap; }
+    .rx-btn2 {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 22px; border-radius: 50px; cursor: pointer;
+        border: 1px solid var(--glass-border); background: rgba(255,255,255,.04);
+        color: var(--text-primary); font-family: var(--font-body); font-size: .78rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: .5px; transition: all .2s ease;
+    }
+    .rx-btn2:hover { border-color: #25d366; color: #7fd8a4; }
+    #rx-cancel:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+    .rx-btn2:disabled { opacity: .5; cursor: wait; }
+    .rx-form {
+        margin-top: 20px; padding: 22px 20px; border-radius: 14px;
+        border: 1px solid rgba(89,168,196,.35); background: rgba(15,57,74,.12);
+    }
+    .rx-form h3 {
+        font-family: var(--font-heading); font-size: .95rem; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 1.5px; color: var(--text-primary); margin-bottom: 14px;
+    }
+    .rx-grid { display: grid; grid-template-columns: minmax(0, 1fr) 190px 110px; gap: 14px; }
+    .rx-f { min-width: 0; }
+    .rx-wide { grid-column: 1 / -1; }
+    .rx-two { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .rx-f label { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 6px; }
+    .rx-f input, .rx-f select, .rx-f textarea {
+        width: 100%; padding: 11px 13px; border-radius: 10px;
+        border: 1px solid var(--glass-border); background: rgba(255,255,255,.04);
+        color: var(--text-primary); font-family: var(--font-body); font-size: .86rem;
+        color-scheme: dark;
+    }
+    .rx-f select option { background: #111; }
+    .rx-f textarea { min-height: 200px; resize: vertical; font-family: 'Consolas', 'Menlo', monospace; font-size: .8rem; line-height: 1.6; }
+    .rx-f input:focus, .rx-f select:focus, .rx-f textarea:focus { outline: none; border-color: #59a8c4; box-shadow: 0 0 0 2px rgba(89,168,196,.25); }
+    .rx-f code { color: #59a8c4; font-size: .76rem; }
+    .rx-pair { display: flex; align-items: center; gap: 8px; }
+    .rx-pair input { min-width: 0; }
+    .rx-pair span { color: var(--text-secondary); font-size: .78rem; }
+    .rx-prev { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--glass-border); }
+    .rx-prev-t { color: var(--text-secondary); font-size: .76rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .rx-prev-t i { color: #ffce7a; margin-right: 6px; }
+    .rx-prev-t span { text-transform: none; letter-spacing: 0; }
+
     /* ===== Reporte ===== */
     #report-area { display: none; }
     #report-area.show { display: block; }
@@ -144,6 +196,7 @@
     @media (max-width: 720px) {
         .usr-wrap { padding: 120px 14px 70px; }
         .gen-grid { grid-template-columns: 1fr; }
+        .rx-grid, .rx-two { grid-template-columns: minmax(0, 1fr); }
     }
 
     /* Impresión: solo el reporte, con colores exactos */
@@ -226,6 +279,68 @@
                 <div class="usr-meta" id="usr-meta"></div>
             </div>
 
+            <div class="usr-card" id="rx-card">
+                <h2><i class="fas fa-lightbulb"></i> Recomendaciones para el cliente</h2>
+                <p class="gen-hint" style="margin:-6px 0 16px">Aparecen en su panel como una sección desplegable. El cliente solo ve las <strong>publicadas</strong>; las nuevas se guardan como borrador.</p>
+                <div class="hist-list" id="rx-list"><span class="hist-empty">Cargando recomendaciones…</span></div>
+                <div class="gen-actions">
+                    <button type="button" class="gen-btn" id="rx-new"><i class="fas fa-plus"></i> Nueva recomendación</button>
+                    <button type="button" class="rx-btn2" id="rx-pub-all" hidden><i class="fas fa-paper-plane"></i> <span>Publicar borradores</span></button>
+                    <span class="gen-msg" id="rx-msg" role="status" aria-live="polite"></span>
+                </div>
+
+                <form class="rx-form" id="rx-form" hidden novalidate>
+                    <h3 id="rx-form-t">Nueva recomendación</h3>
+                    <div class="rx-grid">
+                        <div class="rx-f">
+                            <label for="rx-titulo">Título</label>
+                            <input type="text" id="rx-titulo" maxlength="140" required>
+                        </div>
+                        <div class="rx-f">
+                            <label for="rx-categoria">Categoría</label>
+                            <select id="rx-categoria"></select>
+                        </div>
+                        <div class="rx-f">
+                            <label for="rx-orden">Orden</label>
+                            <input type="number" id="rx-orden" min="0" max="999" step="1">
+                        </div>
+                        <div class="rx-f rx-wide">
+                            <label for="rx-resumen">Resumen · se lee sin desplegar</label>
+                            <input type="text" id="rx-resumen" maxlength="280">
+                        </div>
+                        <div class="rx-f rx-wide">
+                            <label for="rx-cuerpo">Contenido</label>
+                            <textarea id="rx-cuerpo" maxlength="4000"></textarea>
+                            <p class="gen-hint">Formato: línea en blanco = párrafo nuevo · <code>- texto</code> viñeta · <code>1. Título: texto</code> paso de un proceso (WhatsApp, correo y videollamada llevan su ícono) · <code>&gt; texto</code> frase destacada · <code>? texto</code> pregunta para el cliente · <code>**texto**</code> negrita.</p>
+                        </div>
+                        <div class="rx-two">
+                            <div class="rx-f">
+                                <label for="rx-hdesde">Franja horaria · opcional</label>
+                                <div class="rx-pair"><input type="time" id="rx-hdesde" aria-label="Franja desde"><span>a</span><input type="time" id="rx-hhasta" aria-label="Franja hasta"></div>
+                            </div>
+                            <div class="rx-f">
+                                <label for="rx-fdesde">Fecha o semana · opcional</label>
+                                <div class="rx-pair"><input type="date" id="rx-fdesde" aria-label="Fecha desde"><span>a</span><input type="date" id="rx-fhasta" aria-label="Fecha hasta"></div>
+                            </div>
+                        </div>
+                        <div class="rx-f rx-wide">
+                            <label for="rx-boton">Botón de WhatsApp · opcional</label>
+                            <input type="text" id="rx-boton" maxlength="60" placeholder="Ej. Agendar la grabación">
+                        </div>
+                    </div>
+                    <div class="gen-actions">
+                        <button type="submit" class="gen-btn" id="rx-save"><i class="fas fa-floppy-disk"></i> Guardar</button>
+                        <button type="button" class="rx-btn2" id="rx-cancel">Cancelar</button>
+                        <span class="gen-msg" id="rx-form-msg" role="status" aria-live="polite"></span>
+                    </div>
+                </form>
+
+                <div class="rx-prev" id="rx-prev-wrap" hidden>
+                    <p class="rx-prev-t"><i class="fas fa-eye"></i> Así lo verá el cliente <span>(los borradores salen marcados y él no los ve)</span></p>
+                    <div id="rx-prev"></div>
+                </div>
+            </div>
+
             <div class="usr-card">
                 <h2><i class="fas fa-wand-magic-sparkles"></i> Generar reporte de pauta con IA</h2>
                 <div class="gen-grid">
@@ -277,6 +392,7 @@
     <script src="/assets/js/auth.js?v=1.1" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/report-render.js?v=1.2" defer></script>
+    <script src="/assets/js/recs-render.js?v=1.0" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -504,6 +620,228 @@
             });
         }
 
+        /* ===== Recomendaciones ===== */
+        var REC_COLS = 'id, orden, categoria, titulo, resumen, cuerpo, hora_desde, hora_hasta, fecha_desde, fecha_hasta, boton, status, created_at, updated_at';
+        var recRows = [];
+        var recEditing = null;   // id en edición, 'nuevo' o null (formulario cerrado)
+
+        function rxMsg(id, text, type) {
+            var el = document.getElementById(id);
+            el.textContent = text || '';
+            el.className = 'gen-msg' + (text ? ' show ' + (type || '') : '');
+        }
+        function rxCats() { return (window.MotorRecs && MotorRecs.CATS) || { general: { label: 'General', icon: 'fa-lightbulb', color: '#c7ccd6' } }; }
+        function rxVal(id) { return document.getElementById(id).value.trim(); }
+
+        // Lo que hay en el formulario, como fila (para guardar y para la vista previa).
+        function rxDraft() {
+            var orden = parseInt(rxVal('rx-orden'), 10);
+            return {
+                titulo: rxVal('rx-titulo'),
+                categoria: document.getElementById('rx-categoria').value,
+                orden: isNaN(orden) ? 0 : Math.max(0, Math.min(999, orden)),
+                resumen: rxVal('rx-resumen'),
+                cuerpo: document.getElementById('rx-cuerpo').value.replace(/\s+$/, ''),
+                hora_desde: rxVal('rx-hdesde') || null,
+                hora_hasta: rxVal('rx-hhasta') || null,
+                fecha_desde: rxVal('rx-fdesde') || null,
+                fecha_hasta: rxVal('rx-fhasta') || null,
+                boton: rxVal('rx-boton')
+            };
+        }
+
+        // Vista previa con el renderer del panel; si hay formulario abierto, con lo
+        // que se está escribiendo en él (sin guardar).
+        function rxPreview() {
+            var wrap = document.getElementById('rx-prev-wrap');
+            var rows = recRows.slice();
+            var abrir = -1;
+            if (recEditing) {
+                var d = rxDraft();
+                if (!d.titulo) d.titulo = '(sin título)';
+                if (recEditing === 'nuevo') {
+                    rows.push(Object.assign({ id: 'nuevo', status: 'borrador', created_at: new Date().toISOString() }, d));
+                } else {
+                    rows = rows.map(function (r) { return r.id === recEditing ? Object.assign({}, r, d) : r; });
+                }
+                rows.sort(function (a, b) { return (a.orden - b.orden) || String(a.created_at).localeCompare(String(b.created_at)); });
+                rows.forEach(function (r, i) { if (r.id === recEditing) abrir = i; });
+            }
+            wrap.hidden = !rows.length || !window.MotorRecs;
+            if (wrap.hidden) return;
+            MotorRecs.render(document.getElementById('rx-prev'), rows, { estado: true, abierta: true });
+            // La que se está editando queda abierta para ver el resultado mientras se escribe.
+            if (abrir >= 0) {
+                var li = document.querySelectorAll('#rx-prev .rc')[abrir];
+                if (li) li.querySelector('.rc-btn').click();
+            }
+        }
+        var rxTimer = null;
+        function rxPreviewSoon() { clearTimeout(rxTimer); rxTimer = setTimeout(rxPreview, 180); }
+
+        function rxRenderList() {
+            var list = document.getElementById('rx-list');
+            var cats = rxCats();
+            var bor = recRows.filter(function (r) { return r.status !== 'publicado'; }).length;
+            var pubAll = document.getElementById('rx-pub-all');
+            pubAll.hidden = !bor;
+            pubAll.querySelector('span').textContent = bor === 1 ? 'Publicar el borrador' : 'Publicar los ' + bor + ' borradores';
+            if (!recRows.length) {
+                list.innerHTML = '<span class="hist-empty">Este cliente aún no tiene recomendaciones.</span>';
+                return;
+            }
+            list.innerHTML = recRows.map(function (r, i) {
+                var c = cats[r.categoria] || cats.general;
+                var pub = r.status === 'publicado';
+                return '<div class="hist-item rx-item" data-id="' + esc(r.id) + '">' +
+                    '<span class="rx-ord">' + (i < 9 ? '0' : '') + (i + 1) + '</span>' +
+                    '<span class="rx-cat" style="--c:' + c.color + '" title="' + esc(c.label) + '"><i class="fas ' + c.icon + '"></i></span>' +
+                    '<button type="button" class="h-open rx-edit" title="Editar"><i class="fas fa-pen"></i> ' + esc(r.titulo) + '</button>' +
+                    '<span class="h-status ' + (pub ? 'publicado' : 'borrador') + '">' + (pub ? 'Publicada' : 'Borrador') + '</span>' +
+                    '<span class="rx-when">' + esc(fecha(r.updated_at || r.created_at)) + '</span>' +
+                    '<button type="button" class="h-pub' + (pub ? ' des' : '') + '">' + (pub ? '<i class="fas fa-eye-slash"></i> Despublicar' : '<i class="fas fa-paper-plane"></i> Publicar') + '</button>' +
+                    '<button type="button" class="h-del" title="Eliminar" aria-label="Eliminar «' + esc(r.titulo) + '»"><i class="fas fa-trash-can"></i></button>' +
+                '</div>';
+            }).join('');
+        }
+
+        function loadRecs() {
+            return window.MotorAuth.client.from('recomendaciones')
+                .select(REC_COLS)
+                .eq('profile_id', profileId)
+                .order('orden', { ascending: true })
+                .order('created_at', { ascending: true })
+                .then(function (r) {
+                    var list = document.getElementById('rx-list');
+                    if (r.error) {
+                        var falta = r.error.code === 'PGRST205' || r.error.code === '42P01';
+                        list.innerHTML = '<span class="hist-empty">' + (falta
+                            ? 'Falta crear la tabla de recomendaciones: ejecuta supabase/setup-recommendations.sql en el SQL Editor de Supabase.'
+                            : 'No se pudieron cargar las recomendaciones: ' + esc(r.error.message)) + '</span>';
+                        document.getElementById('rx-new').disabled = falta;
+                        return;
+                    }
+                    recRows = r.data || [];
+                    rxRenderList();
+                    rxPreview();
+                });
+        }
+
+        function rxOpenForm(row) {
+            var form = document.getElementById('rx-form');
+            recEditing = row ? row.id : 'nuevo';
+            document.getElementById('rx-form-t').textContent = row ? 'Editar recomendación' : 'Nueva recomendación';
+            var maxOrden = recRows.reduce(function (m, r) { return Math.max(m, r.orden || 0); }, 0);
+            document.getElementById('rx-titulo').value = row ? row.titulo : '';
+            document.getElementById('rx-categoria').value = row ? (row.categoria || 'general') : 'general';
+            document.getElementById('rx-orden').value = row ? (row.orden || 0) : maxOrden + 1;
+            document.getElementById('rx-resumen').value = row ? (row.resumen || '') : '';
+            document.getElementById('rx-cuerpo').value = row ? (row.cuerpo || '') : '';
+            document.getElementById('rx-hdesde').value = row && row.hora_desde ? String(row.hora_desde).slice(0, 5) : '';
+            document.getElementById('rx-hhasta').value = row && row.hora_hasta ? String(row.hora_hasta).slice(0, 5) : '';
+            document.getElementById('rx-fdesde').value = row && row.fecha_desde ? row.fecha_desde : '';
+            document.getElementById('rx-fhasta').value = row && row.fecha_hasta ? row.fecha_hasta : '';
+            document.getElementById('rx-boton').value = row ? (row.boton || '') : '';
+            rxMsg('rx-form-msg', '');
+            form.hidden = false;
+            rxPreview();
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('rx-titulo').focus({ preventScroll: true });
+        }
+        function rxCloseForm() {
+            recEditing = null;
+            document.getElementById('rx-form').hidden = true;
+            rxPreview();
+        }
+
+        function bindRecs(me) {
+            var sel = document.getElementById('rx-categoria');
+            var cats = rxCats();
+            sel.innerHTML = Object.keys(cats).map(function (k) {
+                return '<option value="' + k + '">' + esc(cats[k].label) + '</option>';
+            }).join('');
+
+            document.getElementById('rx-new').addEventListener('click', function () { rxOpenForm(null); });
+            document.getElementById('rx-cancel').addEventListener('click', rxCloseForm);
+            document.getElementById('rx-form').addEventListener('input', rxPreviewSoon);
+            document.getElementById('rx-form').addEventListener('change', rxPreviewSoon);
+
+            document.getElementById('rx-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var d = rxDraft();
+                if (!d.titulo) { rxMsg('rx-form-msg', 'Escribe un título.', 'err'); document.getElementById('rx-titulo').focus(); return; }
+                if (!d.hora_desde !== !d.hora_hasta) { rxMsg('rx-form-msg', 'La franja horaria necesita las dos horas (desde y hasta), o ninguna.', 'err'); return; }
+                if (d.hora_desde && d.hora_desde === d.hora_hasta) { rxMsg('rx-form-msg', 'La franja horaria no puede empezar y terminar a la misma hora.', 'err'); return; }
+                if (d.fecha_hasta && !d.fecha_desde) { rxMsg('rx-form-msg', 'Indica también la fecha de inicio.', 'err'); return; }
+                if (d.fecha_hasta && d.fecha_hasta < d.fecha_desde) { rxMsg('rx-form-msg', 'La fecha final no puede ser anterior a la inicial.', 'err'); return; }
+
+                var btn = document.getElementById('rx-save');
+                var nueva = recEditing === 'nuevo';
+                var db = window.MotorAuth.client.from('recomendaciones');
+                var q = nueva
+                    ? db.insert(Object.assign({ profile_id: profileId, created_by: me.id, status: 'borrador' }, d))
+                    : db.update(d).eq('id', recEditing);
+                btn.disabled = true;
+                q.then(function (r) {
+                    btn.disabled = false;
+                    if (r.error) { rxMsg('rx-form-msg', 'No se pudo guardar: ' + r.error.message, 'err'); return; }
+                    rxCloseForm();
+                    rxMsg('rx-msg', nueva ? 'Guardada como borrador. Publícala cuando quieras que el cliente la vea.' : 'Cambios guardados.', 'ok');
+                    loadRecs();
+                });
+            });
+
+            document.getElementById('rx-pub-all').addEventListener('click', function () {
+                var btn = this;
+                var n = recRows.filter(function (r) { return r.status !== 'publicado'; }).length;
+                if (!n || !confirm(n === 1 ? '¿Publicar el borrador? El cliente lo verá en su panel.' : '¿Publicar los ' + n + ' borradores? El cliente los verá en su panel.')) return;
+                btn.disabled = true;
+                window.MotorAuth.client.from('recomendaciones').update({ status: 'publicado' })
+                    .eq('profile_id', profileId).eq('status', 'borrador')
+                    .then(function (r) {
+                        btn.disabled = false;
+                        if (r.error) { rxMsg('rx-msg', 'No se pudieron publicar: ' + r.error.message, 'err'); return; }
+                        rxMsg('rx-msg', 'Publicadas. El cliente ya las ve en su panel.', 'ok');
+                        loadRecs();
+                    });
+            });
+
+            // Acciones de cada fila (delegadas: la lista se repinta en cada carga).
+            document.getElementById('rx-list').addEventListener('click', function (e) {
+                var item = e.target.closest('.rx-item');
+                if (!item) return;
+                var id = item.getAttribute('data-id');
+                var row = recRows.filter(function (r) { return r.id === id; })[0];
+                if (!row) return;
+                if (e.target.closest('.rx-edit')) { rxOpenForm(row); return; }
+                var pubBtn = e.target.closest('.h-pub');
+                if (pubBtn) {
+                    var nuevo = row.status === 'publicado' ? 'borrador' : 'publicado';
+                    if (nuevo === 'publicado' && !confirm('¿Publicar «' + row.titulo + '»? El cliente la verá en su panel.')) return;
+                    pubBtn.disabled = true;
+                    window.MotorAuth.client.from('recomendaciones').update({ status: nuevo }).eq('id', id)
+                        .then(function (r) {
+                            pubBtn.disabled = false;
+                            if (r.error) { rxMsg('rx-msg', 'No se pudo cambiar el estado: ' + r.error.message, 'err'); return; }
+                            rxMsg('rx-msg', '', '');
+                            loadRecs();
+                        });
+                    return;
+                }
+                if (e.target.closest('.h-del')) {
+                    if (!confirm('¿Eliminar «' + row.titulo + '»? No se puede deshacer.')) return;
+                    window.MotorAuth.client.from('recomendaciones').delete().eq('id', id)
+                        .then(function (r) {
+                            if (r.error) { rxMsg('rx-msg', 'No se pudo eliminar: ' + r.error.message, 'err'); return; }
+                            if (recEditing === id) rxCloseForm();
+                            loadRecs();
+                        });
+                }
+            });
+
+            loadRecs();
+        }
+
         /* ===== Init ===== */
         if (!window.MotorAuth) { fail('No se pudo cargar el sistema de acceso. Recarga la página.'); return; }
         if (!/^[0-9a-f-]{36}$/i.test(profileId)) { fail('Falta el usuario. Vuelve a Gestión y abre un perfil desde la tabla.'); return; }
@@ -541,6 +879,7 @@
                         bindGenerator(p);
                         bindShots();
                         loadHistory();
+                        bindRecs(me);
                     });
             });
         });

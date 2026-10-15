@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/recs.css?v=1.0">
     <style>
     .panel-wrap {
         max-width: 1080px;
@@ -314,6 +315,7 @@
     <script src="/assets/js/auth.js?v=1.1" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/report-render.js?v=1.2" defer></script>
+    <script src="/assets/js/recs-render.js?v=1.0" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -457,8 +459,33 @@
                         '</div>' +
                     '</div>';
             }
+            // Las recomendaciones van justo debajo del plan, antes de los reportes,
+            // sin importar cuál de las dos consultas responda primero.
+            html += '<div id="recs-slot"></div>';
             show(html);
+            loadRecs(p);
             loadClientReports(p);
+        }
+
+        /* Recomendaciones PUBLICADAS de este perfil (mismo criterio que los
+           reportes: los filtros explícitos hacen que la vista previa del
+           superadmin muestre exactamente lo que ve el cliente). */
+        var REC_COLS = 'id, orden, categoria, titulo, resumen, cuerpo, hora_desde, hora_hasta, fecha_desde, fecha_hasta, boton, status, created_at, updated_at';
+        function loadRecs(p) {
+            window.MotorAuth.client.from('recomendaciones')
+                .select(REC_COLS)
+                .eq('profile_id', p.id)
+                .eq('status', 'publicado')
+                .order('orden', { ascending: true })
+                .order('created_at', { ascending: true })
+                .then(function (r) {
+                    if (r.error || !r.data || !r.data.length || !window.MotorRecs) return;
+                    try {
+                        MotorRecs.render(document.getElementById('recs-slot'), r.data, { wa: WA });
+                    } catch (e) {
+                        if (window.console) console.error('[recomendaciones] no se pudieron pintar:', e);
+                    }
+                });
         }
 
         /* Reportes de pauta PUBLICADOS de este perfil. Para el cliente, RLS ya solo
@@ -613,8 +640,8 @@
         }
 
         // Avisos para el superadmin sobre lo que esta vista no muestra y por qué.
-        // r = resultado de la consulta de estados de sus reportes (null si falló).
-        function previewHints(p, r, sinGuardar) {
+        // r / rr = estados de sus reportes / recomendaciones (null si falló).
+        function previewHints(p, r, sinGuardar, rr) {
             var hints = [];
             if (sinGuardar) {
                 hints.push({ icon: 'fa-triangle-exclamation', text: 'En Gestión dejaste cambios sin guardar en este usuario. Aquí ves lo que ya está guardado, no esos cambios.' });
@@ -637,6 +664,19 @@
                           (bor ? '; con rol Empresa vería solo los publicados.' : '.');
                 }
                 if (msg) hints.push({ icon: 'fa-circle-info', text: msg });
+            }
+            var recs = (rr && !rr.error && rr.data) ? rr.data : [];
+            if (recs.length) {
+                var rb = recs.filter(function (x) { return x.status !== 'publicado'; }).length;
+                var rmsg = '';
+                if (p.role === 'empresa') {
+                    if (rb === 1) rmsg = 'Hay 1 recomendación en borrador que este cliente todavía no ve. Publícala desde «Gestionar usuario» para que aparezca aquí.';
+                    else if (rb > 1) rmsg = 'Hay ' + rb + ' recomendaciones en borrador que este cliente todavía no ve. Publícalas desde «Gestionar usuario» para que aparezcan aquí.';
+                } else {
+                    rmsg = 'Este usuario tiene ' + recs.length + (recs.length === 1 ? ' recomendación' : ' recomendaciones') +
+                           '. Su panel no las muestra porque su rol no es Empresa.';
+                }
+                if (rmsg) hints.push({ icon: 'fa-lightbulb', text: rmsg });
             }
             return hints;
         }
@@ -688,6 +728,8 @@
                 // Estados de sus reportes, para los avisos de la barra. Va en paralelo
                 // para que la barra nazca con su alto final; si falla, no hay avisos.
                 db.from('pauta_reports').select('status').eq('profile_id', id)
+                    .then(function (r) { return r; }, function () { return null; }),
+                db.from('recomendaciones').select('status').eq('profile_id', id)
                     .then(function (r) { return r; }, function () { return null; })
             ]).then(function (res) {
                 var pr = res[0];
@@ -710,7 +752,7 @@
                     }
                 } catch (e) { /* no crítico */ }
                 PREVIEW = true;
-                renderPreviewBar(pr.data, previewHints(pr.data, res[1], sinGuardar));
+                renderPreviewBar(pr.data, previewHints(pr.data, res[1], sinGuardar, res[2]));
                 renderByRole(pr.data);
             }, function () {
                 fail('No pudimos cargar ese perfil para la vista previa. Revisa tu conexión e intenta de nuevo.');
