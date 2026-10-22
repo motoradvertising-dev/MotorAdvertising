@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión | Motor Advertising</title>
+    <title>Mi panel · Gestión | Motor Advertising</title>
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
     <link rel="stylesheet" href="/styles.css?v=5.2">
@@ -48,14 +48,16 @@
     }
     .adm-refresh:hover { border-color: var(--accent-color); box-shadow: 0 0 14px var(--accent-glow); }
 
-    .adm-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-    .adm-chip {
-        padding: 7px 16px; border-radius: 50px;
-        border: 1px solid var(--glass-border);
-        background: rgba(255,255,255,.04);
-        color: var(--text-secondary); font-size: .78rem;
+    /* Resumen (lo que antes mostraba el panel del superadmin) */
+    .adm-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 26px; }
+    .adm-stat {
+        border: 1px solid var(--glass-border); border-radius: 14px;
+        background: rgba(255,255,255,.03); padding: 18px 20px;
     }
-    .adm-chip strong { color: var(--text-primary); }
+    .adm-stat .num { font-family: var(--font-heading); font-size: 1.9rem; font-weight: 800; line-height: 1.1; color: var(--text-primary); }
+    .adm-stat .lbl { color: var(--text-secondary); font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    .adm-stat.warn .num { color: #ffce7a; }
+    .adm-stat.ok .num { color: #7fd8a4; }
 
     .adm-tablewrap {
         border: 1px solid var(--glass-border);
@@ -210,9 +212,9 @@
     <main class="adm-wrap">
         <div id="adm-loading" class="adm-loading"><i class="fas fa-circle-notch fa-spin"></i> Cargando gestión…</div>
         <div id="adm-content" hidden>
-            <p class="adm-eyebrow">Superusuario</p>
+            <p class="adm-eyebrow">Mi panel · Superusuario</p>
             <h1 class="adm-title">Gestión de usuarios</h1>
-            <p class="adm-sub">Todos los que han creado cuenta. Asigna su rol, su plan y el estado de la suscripción.</p>
+            <p class="adm-sub"><span id="adm-hola"></span>Todos los que han creado cuenta. Asigna su rol, su plan y el estado de la suscripción.</p>
 
             <div class="adm-stats" id="adm-stats"></div>
 
@@ -248,7 +250,7 @@
 
     <script src="/script.js?v=5.8" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="/assets/js/auth.js?v=1.1" defer></script>
+    <script src="/assets/js/auth.js?v=1.2" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -285,15 +287,16 @@
         }
 
         function renderStats() {
+            var pend = allRows.filter(function (r) { return r.role === 'pendiente'; }).length;
             var st = [
-                ['Total', allRows.length],
-                ['Pendientes', allRows.filter(function (r) { return r.role === 'pendiente'; }).length],
-                ['Empresas', allRows.filter(function (r) { return r.role === 'empresa'; }).length],
-                ['Empleados', allRows.filter(function (r) { return r.role === 'empleado'; }).length],
-                ['Planes activos', allRows.filter(function (r) { return r.plan_status === 'activo'; }).length]
+                ['Usuarios', allRows.length, ''],
+                ['Pendientes', pend, pend ? 'warn' : ''],
+                ['Empresas', allRows.filter(function (r) { return r.role === 'empresa'; }).length, ''],
+                ['Empleados', allRows.filter(function (r) { return r.role === 'empleado'; }).length, ''],
+                ['Planes activos', allRows.filter(function (r) { return r.plan_status === 'activo'; }).length, 'ok']
             ];
             document.getElementById('adm-stats').innerHTML = st.map(function (s) {
-                return '<span class="adm-chip"><strong>' + s[1] + '</strong> ' + s[0] + '</span>';
+                return '<div class="adm-stat' + (s[2] ? ' ' + s[2] : '') + '"><div class="num">' + s[1] + '</div><div class="lbl">' + s[0] + '</div></div>';
             }).join('');
         }
 
@@ -316,11 +319,14 @@
                     : '<select data-f="role">' + options(ROLES, r.role) + '</select>';
                 var perfilUrl = '/paginas/gestion/usuario/?id=' + encodeURIComponent(r.id);
                 // Vista previa del panel tal como lo ve ese usuario (en otra pestaña,
-                // para no perder ediciones sin guardar de esta tabla).
-                var verUrl = esYo ? '/paginas/perfil/' : '/paginas/perfil/?ver=' + encodeURIComponent(r.id);
+                // para no perder ediciones sin guardar de esta tabla). La fila propia
+                // no la lleva: el panel del superadmin es esta misma página.
+                var verUrl = '/paginas/perfil/?ver=' + encodeURIComponent(r.id);
                 // El nombre accesible empieza por el texto visible del botón.
-                var verTitle = esYo ? 'Ver mi panel' : 'Ver como ' + (r.full_name || r.email || 'este usuario') + ': su panel, solo lectura';
-                var verLabel = esYo ? ' Mi panel' : ' Ver como';
+                var verTitle = 'Ver como ' + (r.full_name || r.email || 'este usuario') + ': su panel, solo lectura';
+                var eye = esYo ? '' :
+                    '<a class="adm-view adm-eye" href="' + esc(verUrl) + '" data-base="' + esc(verUrl) + '" target="_blank" rel="noopener" title="' + esc(verTitle) + '" aria-label="' + esc(verTitle) + '">' +
+                        '<i class="fas fa-eye" aria-hidden="true"></i><span class="eye-label"> Ver como</span></a>';
                 return '<tr data-id="' + esc(r.id) + '">' +
                     '<td class="adm-user"><a class="u-name" href="' + esc(perfilUrl) + '">' + esc(r.full_name || '(sin nombre)') + '</a>' +
                         '<span class="u-email">' + esc(r.email) + '</span>' + superTag + '</td>' +
@@ -330,9 +336,7 @@
                     '<td class="c-plan"><select data-f="plan">' + options(PLANES, r.plan || '') + '</select></td>' +
                     '<td class="c-estado"><select data-f="plan_status">' + options(ESTADOS, r.plan_status) + '</select></td>' +
                     '<td class="c-notas"><input type="text" data-f="notes" value="' + esc(r.notes || '') + '" placeholder="Notas internas…"></td>' +
-                    '<td style="white-space:nowrap">' +
-                        '<a class="adm-view adm-eye" href="' + esc(verUrl) + '" data-base="' + esc(verUrl) + '" target="_blank" rel="noopener" title="' + esc(verTitle) + '" aria-label="' + esc(verTitle) + '">' +
-                            '<i class="fas fa-eye" aria-hidden="true"></i><span class="eye-label">' + verLabel + '</span></a>' +
+                    '<td style="white-space:nowrap">' + eye +
                         '<a class="adm-view" href="' + esc(perfilUrl) + '"><i class="fas fa-user"></i> Perfil</a>' +
                         '<button type="button" class="adm-save"><i class="fas fa-floppy-disk"></i> Guardar</button></td>' +
                 '</tr>';
@@ -476,6 +480,8 @@
                     return;
                 }
                 myId = p.id;
+                var nombre = (p.full_name || p.email || '').split('@')[0].split(' ')[0];
+                if (nombre) document.getElementById('adm-hola').textContent = 'Hola, ' + nombre + '. ';
                 document.getElementById('adm-search').addEventListener('input', function (e) {
                     applyFilter(e.target.value);
                 });

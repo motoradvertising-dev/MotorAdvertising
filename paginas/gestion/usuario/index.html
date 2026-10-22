@@ -389,7 +389,7 @@
 
     <script src="/script.js?v=5.8" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="/assets/js/auth.js?v=1.1" defer></script>
+    <script src="/assets/js/auth.js?v=1.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/report-render.js?v=1.2" defer></script>
     <script src="/assets/js/recs-render.js?v=1.0" defer></script>
@@ -864,8 +864,9 @@
                         document.getElementById('usr-email').textContent = p.email;
                         // Vista previa del panel de este usuario (el propio superadmin va a su panel normal).
                         if (p.id === me.id) {
-                            document.getElementById('usr-viewas-label').textContent = 'Ver mi panel';
-                            document.getElementById('usr-viewas-hint').textContent = 'Esta es tu propia cuenta: abre tu panel en otra pestaña.';
+                            // Tu panel es la Gestión de usuarios: no hay vista previa que abrir.
+                            var acts = document.querySelector('.usr-actions');
+                            if (acts) acts.parentNode.removeChild(acts);
                         } else {
                             document.getElementById('usr-viewas').href = '/paginas/perfil/?ver=' + encodeURIComponent(p.id);
                         }

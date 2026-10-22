@@ -168,20 +168,17 @@
                     '<span class="nav-profile-name">' + esc(displayName(user)) + '</span>' +
                     '<span class="nav-profile-email">' + esc(user.email || '') + '</span>' +
                 '</div>' +
-                '<a href="/paginas/perfil/" class="nav-profile-item"><i class="fas fa-gauge-high"></i> Mi panel</a>' +
+                '<a href="/paginas/perfil/" class="nav-profile-item" id="nav-profile-panel"><i class="fas fa-gauge-high"></i> Mi panel</a>' +
                 '<a href="/paginas/planes/" class="nav-profile-item"><i class="fas fa-layer-group"></i> Ver planes</a>' +
                 '<button type="button" class="nav-profile-item nav-profile-logout" id="nav-profile-logout"><i class="fas fa-arrow-right-from-bracket"></i> Cerrar sesión</button>';
 
-            // El enlace de Gestión solo aparece para el superadmin.
+            // Para el superadmin, su panel ES la Gestión de usuarios (una sola
+            // página): "Mi panel" lo lleva allí. Si hace clic antes de que llegue
+            // el perfil, /paginas/perfil/ también lo redirige a Gestión.
             MotorAuth.getProfile().then(function (r) {
                 var p = r && r.data;
-                if (p && p.role === 'superadmin' && !document.getElementById('nav-profile-gestion')) {
-                    var info = menu.querySelector('.nav-profile-info');
-                    if (info) {
-                        info.insertAdjacentHTML('afterend',
-                            '<a href="/paginas/gestion/" class="nav-profile-item" id="nav-profile-gestion"><i class="fas fa-users-gear"></i> Gestión</a>');
-                    }
-                }
+                var panel = document.getElementById('nav-profile-panel');
+                if (p && p.role === 'superadmin' && panel) panel.setAttribute('href', '/paginas/gestion/');
             });
 
             var logoutBtn = document.getElementById('nav-profile-logout');

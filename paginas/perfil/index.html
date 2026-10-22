@@ -312,7 +312,7 @@
 
     <script src="/script.js?v=5.8" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="/assets/js/auth.js?v=1.1" defer></script>
+    <script src="/assets/js/auth.js?v=1.2" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/report-render.js?v=1.2" defer></script>
     <script src="/assets/js/recs-render.js?v=1.0" defer></script>
@@ -787,6 +787,8 @@
                     return;
                 }
                 if (hadVer) dropVerParam();
+                // El panel del superadmin es la Gestión de usuarios: una sola página.
+                if (p.role === 'superadmin') { window.location.replace('/paginas/gestion/'); return; }
                 renderByRole(p);
             });
         });
