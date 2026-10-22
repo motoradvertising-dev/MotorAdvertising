@@ -1182,6 +1182,11 @@ footer {
 .portfolio-section {
     padding: 80px 0;
     background-color: transparent;
+    /* Red de seguridad: nada de esta sección puede ensanchar la página en
+       móvil (si lo hace, el navegador agranda el viewport y los botones fijos,
+       como el de WhatsApp, se desplazan al hacer scroll). "clip" no crea
+       contenedor de scroll, así que la barra de filtros sticky sigue funcionando. */
+    overflow-x: clip;
 }
 
 .portfolio-header-compact {
@@ -1283,12 +1288,14 @@ footer {
 
 @media (max-width: 1024px) {
     .portfolio-main-grid {
-        grid-template-columns: 1fr;
+        /* minmax(0, 1fr): la columna no crece con el contenido más ancho que la pantalla */
+        grid-template-columns: minmax(0, 1fr);
         gap: 24px;
         padding: 0 16px;
     }
     .showcase-left {
         grid-column: span 1;
+        min-width: 0;
     }
 }
 
@@ -1359,6 +1366,21 @@ footer {
     max-width: 500px;
 }
 
+/* Las etiquetas llegan pegadas (join('')): en flex con wrap bajan de línea
+   en vez de ensanchar la tarjeta en móvil. */
+.showcase-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+@media (max-width: 768px) {
+    .showcase-info-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
 .tag-badge {
     background: rgba(15, 57, 74, 0.1);
     border: 1px solid rgba(15, 57, 74, 0.2);
@@ -1371,7 +1393,7 @@ footer {
 
 .showcase-specs {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 15px;
     padding: 20px;
     background: rgba(255, 255, 255, 0.03);
@@ -1400,6 +1422,18 @@ footer {
 .spec-value i {
     color: #0F394A;
     font-size: 12px;
+}
+
+.spec-item { min-width: 0; }
+.spec-value span { min-width: 0; overflow-wrap: anywhere; }
+
+/* Teléfonos: las tres especificaciones en lista, no en tres columnas apretadas. */
+@media (max-width: 520px) {
+    .showcase-specs {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        padding: 16px 18px;
+    }
 }
 
 .showcase-cta {
@@ -1433,6 +1467,7 @@ footer {
     .showcase-right {
         grid-column: span 1;
         margin-top: 20px;
+        min-width: 0;
     }
 }
 
