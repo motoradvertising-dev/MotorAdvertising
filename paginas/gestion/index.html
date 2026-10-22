@@ -155,6 +155,124 @@
     @media (max-width: 640px) {
         .adm-wrap { padding: 120px 12px 70px; }
     }
+
+    /* ===== Propuestas y otras páginas ===== */
+    .pg-sec { margin-top: 56px; scroll-margin-top: 110px; }
+    .pg-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 20px; margin-bottom: 8px; }
+    .pg-h2 {
+        display: flex; align-items: center; gap: 12px;
+        font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 800;
+        text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary);
+    }
+    .pg-h2 i { color: #59a8c4; font-size: .8em; }
+    .pg-meta { color: var(--text-secondary); font-size: .84rem; margin-top: 6px; }
+    .pg-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; flex: 1 1 380px; }
+    .pg-tools .adm-search { flex: 1 1 220px; max-width: 360px; min-width: 0; }
+    .pg-order {
+        padding: 12px 16px; border-radius: 50px;
+        border: 1px solid var(--glass-border); background: rgba(10,10,12,.9);
+        color: var(--text-primary); font-family: var(--font-body); font-size: .8rem;
+    }
+    .pg-order:focus { outline: none; border-color: var(--accent-color); }
+    .pg-month {
+        display: flex; align-items: center; gap: 12px;
+        margin: 26px 0 10px;
+        font-size: .7rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #59a8c4;
+    }
+    .pg-month::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+    .pg-list { display: flex; flex-direction: column; gap: 10px; }
+    .pg-empty { color: var(--text-secondary); font-size: .88rem; padding: 24px 0; }
+
+    .pg-prop, .pg-group {
+        border: 1px solid var(--glass-border); border-radius: 14px;
+        background: rgba(255,255,255,.02);
+        transition: border-color .2s ease, background-color .2s ease;
+    }
+    .pg-prop[open], .pg-group[open] { border-color: rgba(89,168,196,.45); background: rgba(255,255,255,.035); }
+    .pg-prop > summary, .pg-group > summary { list-style: none; cursor: pointer; }
+    .pg-prop > summary::-webkit-details-marker, .pg-group > summary::-webkit-details-marker { display: none; }
+    .pg-prop > summary:focus-visible, .pg-group > summary:focus-visible { outline: 2px solid #59a8c4; outline-offset: -2px; border-radius: 14px; }
+    .pg-prop > summary {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 10px 18px;
+        padding: 16px 18px;
+    }
+    .pg-p-main, .pg-r-main { min-width: 0; }
+    .pg-p-name { display: block; color: var(--text-primary); font-weight: 600; font-size: .98rem; overflow-wrap: anywhere; }
+    .pg-p-sub { display: block; margin-top: 2px; color: var(--text-secondary); font-size: .76rem; overflow-wrap: anywhere; }
+    .pg-p-dates { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: .74rem; color: var(--text-secondary); white-space: nowrap; }
+    .pg-p-dates strong { color: var(--text-primary); font-weight: 600; }
+    .pg-chip {
+        padding: 5px 12px; border-radius: 50px; white-space: nowrap;
+        border: 1px solid var(--glass-border); color: var(--text-secondary);
+        font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .pg-chip.mod { color: #ffce7a; border-color: rgba(255,206,122,.4); background: rgba(255,206,122,.07); }
+    .pg-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+    .pg-open { margin-right: 0; }
+    .pg-chev { color: var(--text-secondary); transition: transform .25s ease; }
+    details[open] > summary .pg-chev { transform: rotate(180deg); }
+
+    .pg-body { padding: 0 18px 18px; }
+    .pg-hist-t { color: var(--text-secondary); font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; margin: 2px 0 12px; }
+    .pg-hist-t i { color: #59a8c4; margin-right: 6px; }
+    .pg-versions {
+        list-style: none; margin: 0 0 0 6px; padding: 0 0 0 18px;
+        border-left: 2px solid rgba(89,168,196,.25);
+        display: flex; flex-direction: column; gap: 8px;
+    }
+    .pg-versions li {
+        position: relative;
+        display: grid; grid-template-columns: 92px 170px minmax(0, 1fr) auto; align-items: center; gap: 6px 14px;
+        padding: 10px 14px; border-radius: 10px;
+        background: rgba(255,255,255,.025);
+        color: var(--text-secondary); font-size: .8rem;
+    }
+    .pg-versions li::before {
+        content: ''; position: absolute; left: -26px; top: 50%;
+        width: 12px; height: 12px; margin-top: -6px; border-radius: 50%;
+        background: #0b0d10; border: 2px solid #59a8c4;
+    }
+    .pg-versions li.is-current { background: rgba(40,160,90,.07); }
+    .pg-versions li.is-current::before { background: #7fd8a4; border-color: #7fd8a4; }
+    .v-n { font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+    .is-current .v-n { color: #7fd8a4; }
+    .v-date { white-space: nowrap; }
+    .v-msg { overflow-wrap: anywhere; line-height: 1.5; }
+    .v-msg small { display: block; color: #ffce7a; font-size: .72rem; }
+    .v-link { color: #59a8c4; font-weight: 600; text-decoration: none; white-space: nowrap; font-size: .78rem; }
+    .v-link:hover { text-decoration: underline; }
+
+    .pg-groups { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .pg-group > summary { display: flex; align-items: center; gap: 14px; padding: 15px 18px; }
+    .pg-g-ico {
+        width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        color: #59a8c4; background: rgba(89,168,196,.1); border: 1px solid rgba(89,168,196,.3);
+    }
+    .pg-g-txt { flex: 1; min-width: 0; }
+    .pg-g-t { display: block; color: var(--text-primary); font-weight: 700; font-size: .84rem; text-transform: uppercase; letter-spacing: 1px; }
+    .pg-g-d { display: block; color: var(--text-secondary); font-size: .76rem; }
+    .pg-g-n { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--text-primary); }
+    .pg-rows { display: flex; flex-direction: column; gap: 8px; padding: 0 18px 16px; }
+    .pg-row {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 6px 16px;
+        padding: 11px 14px; border-radius: 10px;
+        background: rgba(255,255,255,.025);
+    }
+
+    @media (max-width: 760px) {
+        .pg-prop > summary { grid-template-columns: minmax(0, 1fr) auto; }
+        .pg-p-main { grid-column: 1 / -1; }
+        .pg-p-dates { align-items: flex-start; grid-column: 1; }
+        .pg-chip { grid-column: 2; justify-self: end; }
+        .pg-prop > summary .pg-actions { grid-column: 1 / -1; justify-content: space-between; }
+        .pg-versions li { grid-template-columns: minmax(0, 1fr) auto; }
+        .pg-versions .v-msg { grid-column: 1 / -1; }
+        .pg-row { grid-template-columns: minmax(0, 1fr); }
+        .pg-row .pg-p-dates { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 2px 14px; }
+        .pg-row .pg-actions { justify-content: flex-start; }
+        .pg-tools .adm-search { max-width: none; }
+    }
     </style>
 </head>
 <body>
@@ -240,6 +358,29 @@
                     <tbody id="adm-rows"></tbody>
                 </table>
             </div>
+
+            <section class="pg-sec" id="propuestas" aria-labelledby="pg-prop-t">
+                <div class="pg-head">
+                    <div>
+                        <h2 class="pg-h2" id="pg-prop-t"><i class="fas fa-file-signature" aria-hidden="true"></i> Propuestas</h2>
+                        <p class="pg-meta" id="pg-meta">Cargando propuestas…</p>
+                    </div>
+                    <div class="pg-tools">
+                        <input type="search" class="adm-search" id="pg-search" placeholder="Buscar propuesta o cliente…" aria-label="Buscar propuesta o cliente">
+                        <select class="pg-order" id="pg-order" aria-label="Ordenar propuestas">
+                            <option value="creada">Por fecha de creación</option>
+                            <option value="actualizada">Por última modificación</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pg-props"></div>
+            </section>
+
+            <section class="pg-sec" id="otras-paginas" aria-labelledby="pg-otras-t">
+                <h2 class="pg-h2" id="pg-otras-t"><i class="fas fa-folder-tree" aria-hidden="true"></i> Otras páginas</h2>
+                <p class="pg-meta">El resto de páginas de la carpeta /paginas, por tipo.</p>
+                <div class="pg-groups" id="pg-otras"></div>
+            </section>
         </div>
         <div id="adm-denied" class="adm-denied" hidden>
             <i class="fas fa-lock"></i>
@@ -462,6 +603,167 @@
                 });
         }
 
+
+        /* ===== Propuestas y otras páginas =====
+           Índice generado por tools/paginas-manifest.js a partir del historial de
+           git (paginas/gestion/paginas.json). Cada commit que tocó una propuesta
+           es una versión; las anteriores se ven en /paginas/gestion/version/. */
+        var GRUPOS = [
+            { k: 'reportes', t: 'Reportes de clientes', i: 'fa-chart-column', d: 'Reportes de pauta publicados como página.' },
+            { k: 'sitio', t: 'Páginas del sitio', i: 'fa-globe', d: 'Lo que ven los visitantes de motoradvertising.co.' },
+            { k: 'cuenta', t: 'Cuenta y acceso', i: 'fa-user-lock', d: 'Inicio de sesión, registro y panel del cliente.' },
+            { k: 'administracion', t: 'Administración', i: 'fa-users-gear', d: 'Solo para el superusuario.' },
+            { k: 'redirecciones', t: 'Redirecciones', i: 'fa-shuffle', d: 'Direcciones antiguas que llevan a la página nueva.' }
+        ];
+        var MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        var pgData = null;
+
+        function pgFecha(iso) {
+            if (!iso) return '—';
+            try { return new Date(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }); }
+            catch (e) { return ''; }
+        }
+        function pgFechaHora(iso) {
+            try {
+                var d = new Date(iso);
+                return d.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' +
+                       d.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit' });
+            } catch (e) { return ''; }
+        }
+        function pgMes(iso) {
+            var d = new Date(iso);
+            return isNaN(d) ? 'Sin fecha' : MESES[d.getMonth()] + ' ' + d.getFullYear();
+        }
+        // "Propuesta · Motor Advertising × Club Gate" → "Club Gate"
+        function pgCliente(t) {
+            var m = /[×→]\s*(.+)$/.exec(t || '');
+            if (m) return m[1].trim();
+            var parts = String(t || '').split('·');
+            return (parts.length > 1 ? parts.slice(1).join('·') : parts[0]).trim() || '(sin título)';
+        }
+        function pgVerUrl(p, v) {
+            return '/paginas/gestion/version/?p=' + encodeURIComponent(p.slug) + '&v=' + encodeURIComponent(v.sha);
+        }
+
+        function renderPropuestas() {
+            var box = document.getElementById('pg-props');
+            if (!pgData) return;
+            var q = (document.getElementById('pg-search').value || '').trim().toLowerCase();
+            var key = document.getElementById('pg-order').value === 'actualizada' ? 'actualizada' : 'creada';
+            var props = pgData.paginas.filter(function (p) { return p.grupo === 'propuestas'; });
+            var total = props.length;
+            if (q) {
+                props = props.filter(function (p) {
+                    return (p.titulo + ' ' + p.slug).toLowerCase().indexOf(q) !== -1 ||
+                        (p.versiones || []).some(function (v) { return (v.titulo || '').toLowerCase().indexOf(q) !== -1; });
+                });
+            }
+            props.sort(function (a, b) { return String(b[key]).localeCompare(String(a[key])); });
+            if (!props.length) {
+                box.innerHTML = '<p class="pg-empty">' + (total ? 'Ninguna propuesta coincide con la búsqueda.' : 'Aún no hay propuestas.') + '</p>';
+                return;
+            }
+            var html = '', mes = null;
+            props.forEach(function (p) {
+                var m = pgMes(p[key]);
+                if (m !== mes) {
+                    if (mes !== null) html += '</div>';
+                    html += '<h3 class="pg-month">' + esc(m) + '</h3><div class="pg-list">';
+                    mes = m;
+                }
+                var vs = p.versiones || [];
+                var n = vs.length;
+                var modificada = n > 1;
+                html +=
+                    '<details class="pg-prop">' +
+                        '<summary>' +
+                            '<span class="pg-p-main">' +
+                                '<span class="pg-p-name">' + esc(pgCliente(p.titulo)) + '</span>' +
+                                '<span class="pg-p-sub">' + esc(p.titulo) + ' · ' + esc(p.url) + '</span>' +
+                            '</span>' +
+                            '<span class="pg-p-dates">' +
+                                '<span>Creada <strong>' + esc(pgFecha(p.creada)) + '</strong></span>' +
+                                (modificada ? '<span>Modificada <strong>' + esc(pgFecha(p.actualizada)) + '</strong></span>' : '') +
+                            '</span>' +
+                            '<span class="pg-chip' + (modificada ? ' mod' : '') + '">' + (n === 1 ? '1 versión' : n + ' versiones') + '</span>' +
+                            '<span class="pg-actions">' +
+                                '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="Abrir la versión actual">' +
+                                    '<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Abrir</a>' +
+                                '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
+                            '</span>' +
+                        '</summary>' +
+                        '<div class="pg-body">' +
+                            '<p class="pg-hist-t"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Historial · la más reciente arriba</p>' +
+                            '<ol class="pg-versions">' + vs.map(function (v, i) {
+                                var actual = i === 0;
+                                var antes = vs[i - 1];
+                                var renombre = v.titulo && antes && antes.titulo && v.titulo !== antes.titulo;
+                                return '<li class="' + (actual ? 'is-current' : '') + '">' +
+                                    '<span class="v-n">v' + (n - i) + (actual ? ' · Actual' : '') + '</span>' +
+                                    '<span class="v-date">' + esc(pgFechaHora(v.fecha)) + '</span>' +
+                                    '<span class="v-msg">' + esc(v.mensaje) +
+                                        (renombre ? '<small>Entonces se llamaba «' + esc(v.titulo) + '»</small>' : '') + '</span>' +
+                                    (actual
+                                        ? '<a class="v-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Abrir</a>'
+                                        : '<a class="v-link" href="' + esc(pgVerUrl(p, v)) + '" target="_blank" rel="noopener">Ver esta versión</a>') +
+                                '</li>';
+                            }).join('') + '</ol>' +
+                        '</div>' +
+                    '</details>';
+            });
+            html += '</div>';
+            box.innerHTML = html;
+        }
+
+        function renderOtras() {
+            var box = document.getElementById('pg-otras');
+            box.innerHTML = GRUPOS.map(function (g) {
+                var items = pgData.paginas.filter(function (p) { return p.grupo === g.k; })
+                    .sort(function (a, b) { return String(b.actualizada).localeCompare(String(a.actualizada)); });
+                if (!items.length) return '';
+                return '<details class="pg-group">' +
+                    '<summary>' +
+                        '<span class="pg-g-ico" aria-hidden="true"><i class="fas ' + g.i + '"></i></span>' +
+                        '<span class="pg-g-txt"><span class="pg-g-t">' + esc(g.t) + '</span><span class="pg-g-d">' + esc(g.d) + '</span></span>' +
+                        '<span class="pg-g-n">' + items.length + '</span>' +
+                        '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
+                    '</summary>' +
+                    '<div class="pg-rows">' + items.map(function (p) {
+                        var vs = p.versiones || [];
+                        return '<div class="pg-row">' +
+                            '<span class="pg-r-main"><span class="pg-p-name">' + esc(p.titulo || p.slug) + '</span>' +
+                                '<span class="pg-p-sub">' + esc(p.url) +
+                                    (p.redirige_a != null ? ' <i class="fas fa-arrow-right" aria-hidden="true"></i> ' + esc(p.redirige_a) : '') + '</span></span>' +
+                            '<span class="pg-p-dates"><span>Creada <strong>' + esc(pgFecha(p.creada)) + '</strong></span>' +
+                                '<span>Modificada <strong>' + esc(pgFecha(p.actualizada)) + '</strong></span></span>' +
+                            '<span class="pg-actions">' +
+                                (vs.length > 1 ? '<a class="v-link" href="' + esc(pgVerUrl(p, vs[1])) + '" target="_blank" rel="noopener" title="Ver la versión anterior">Versión anterior</a>' : '') +
+                                '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Abrir</a>' +
+                            '</span>' +
+                        '</div>';
+                    }).join('') + '</div>' +
+                '</details>';
+            }).join('');
+        }
+
+        function loadPaginas() {
+            var meta = document.getElementById('pg-meta');
+            fetch('/paginas/gestion/paginas.json', { cache: 'no-store' })
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (data) {
+                    pgData = data;
+                    var n = data.paginas.filter(function (p) { return p.grupo === 'propuestas'; }).length;
+                    meta.textContent = n + (n === 1 ? ' propuesta' : ' propuestas') + ' · lista actualizada el ' + pgFechaHora(data.generado);
+                    renderPropuestas();
+                    renderOtras();
+                })
+                .catch(function () {
+                    meta.textContent = 'No se pudo cargar la lista de páginas. Recarga la página para intentarlo de nuevo.';
+                });
+            document.getElementById('pg-search').addEventListener('input', renderPropuestas);
+            document.getElementById('pg-order').addEventListener('change', renderPropuestas);
+        }
+
         if (!window.MotorAuth) {
             loading.textContent = 'No se pudo cargar el sistema de acceso. Recarga la página.';
             return;
@@ -487,6 +789,7 @@
                 });
                 document.getElementById('adm-refresh').addEventListener('click', load);
                 load();
+                loadPaginas();
             });
         });
     });
