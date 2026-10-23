@@ -7,6 +7,7 @@
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
     <link rel="stylesheet" href="/styles.css?v=5.2">
+    <link rel="stylesheet" href="/assets/css/gestion-propuestas.css?v=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -222,6 +223,12 @@
         font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
     }
     .pg-chip.mod { color: #ffce7a; border-color: rgba(255,206,122,.4); background: rgba(255,206,122,.07); }
+    .pg-chip.est-borrador { color: #ffce7a; border-color: rgba(255,206,122,.45); background: rgba(255,206,122,.08); }
+    .pg-chip.est-publicada { color: #7fd8a4; border-color: rgba(40,160,90,.45); background: rgba(40,160,90,.1); }
+    .pg-chip.est-archivada { color: var(--text-secondary); border-style: dashed; }
+    .pg-chip.ia { color: #59a8c4; border-color: rgba(89,168,196,.45); }
+    .pg-chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+    .pg-edit { cursor: pointer; font-family: var(--font-body); margin-right: 0; }
     .pg-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
     .pg-open { margin-right: 0; }
     .pg-chev { color: var(--text-secondary); transition: transform .25s ease; }
@@ -292,7 +299,7 @@
         .pg-prop > summary { grid-template-columns: minmax(0, 1fr) auto; }
         .pg-p-main { grid-column: 1 / -1; }
         .pg-p-dates { align-items: flex-start; grid-column: 1; }
-        .pg-chip { grid-column: 2; justify-self: end; }
+        .pg-chips { grid-column: 2; justify-self: end; }
         .pg-prop > summary .pg-actions { grid-column: 1 / -1; justify-content: space-between; }
         .pg-versions li { grid-template-columns: minmax(0, 1fr) auto; }
         .pg-versions .v-msg { grid-column: 1 / -1; }
@@ -401,6 +408,8 @@
                         </select>
                     </div>
                 </div>
+                <div id="gp-root" class="gp-wrap"></div>
+                <div id="gp-editor-root"></div>
                 <div id="pg-props"></div>
             </section>
 
@@ -423,9 +432,11 @@
         </div>
     </main>
 
-    <script src="/script.js?v=5.8" defer></script>
+    <script src="/script.js?v=5.9" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="/assets/js/auth.js?v=1.2" defer></script>
+    <script src="/assets/js/proposal-render.js?v=1.1" defer></script>
+    <script src="/assets/js/gestion-propuestas.js?v=1.1" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         'use strict';
@@ -651,7 +662,8 @@
             { k: 'redirecciones', t: 'Redirecciones', i: 'fa-shuffle', d: 'Direcciones antiguas que llevan a la página nueva.' }
         ];
         var MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        var pgData = null;
+        var ESTADO_PROP = { borrador: 'Borrador', publicada: 'Publicada', archivada: 'Archivada' };
+        var pgData = null;        // { paginas: [...] } — páginas del sitio (paginas.json) + propuestas de la base
         var pgMesAbierto = null;   // { 'Octubre 2026': true } — meses abiertos mientras estés en la página
 
         function pgFecha(iso) {
@@ -666,6 +678,9 @@
                        d.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit' });
             } catch (e) { return ''; }
         }
+        // Instante numérico para ordenar: las fechas del sitio vienen con -05:00 y las de
+        // la base en UTC; compararlas como texto las desordena hasta 5 horas.
+        function pgT(iso) { var t = Date.parse(iso); return isNaN(t) ? 0 : t; }
         function pgMes(iso) {
             var d = new Date(iso);
             return isNaN(d) ? 'Sin fecha' : MESES[d.getMonth()] + ' ' + d.getFullYear();
@@ -678,6 +693,8 @@
             return (parts.length > 1 ? parts.slice(1).join('·') : parts[0]).trim() || '(sin título)';
         }
         function pgVerUrl(p, v) {
+            // Propuestas de la base: la versión la pinta la propia página pública (solo superadmin).
+            if (p.db) return p.url + '&v=' + encodeURIComponent(v.sha);
             return '/paginas/gestion/version/?p=' + encodeURIComponent(p.slug) + '&v=' + encodeURIComponent(v.sha);
         }
 
@@ -694,7 +711,7 @@
                         (p.versiones || []).some(function (v) { return (v.titulo || '').toLowerCase().indexOf(q) !== -1; });
                 });
             }
-            props.sort(function (a, b) { return String(b[key]).localeCompare(String(a[key])); });
+            props.sort(function (a, b) { return pgT(b[key]) - pgT(a[key]); });
             if (!props.length) {
                 box.innerHTML = '<p class="pg-empty">' + (total ? 'Ninguna propuesta coincide con la búsqueda.' : 'Aún no hay propuestas.') + '</p>';
                 return;
@@ -744,9 +761,13 @@
                             '<span>Creada <strong>' + esc(pgFecha(p.creada)) + '</strong></span>' +
                             (modificada ? '<span>Modificada <strong>' + esc(pgFecha(p.actualizada)) + '</strong></span>' : '') +
                         '</span>' +
-                        '<span class="pg-chip' + (modificada ? ' mod' : '') + '">' + (n === 1 ? '1 versión' : n + ' versiones') + '</span>' +
+                        '<span class="pg-chips">' +
+                            (p.db ? '<span class="pg-chip ia" title="Creada con IA en Gestión">IA</span><span class="pg-chip est-' + esc(p.estado) + '">' + esc(ESTADO_PROP[p.estado] || p.estado) + '</span>' : '') +
+                            '<span class="pg-chip' + (modificada ? ' mod' : '') + '">' + (n === 1 ? '1 versión' : n + ' versiones') + '</span>' +
+                        '</span>' +
                         '<span class="pg-actions">' +
-                            '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="Abrir la versión actual">' +
+                            (p.db ? '<button type="button" class="adm-view pg-edit" data-gp-edit="' + esc(p.id) + '" title="Corregir, publicar o eliminar"><i class="fas fa-pen" aria-hidden="true"></i> Editar</button>' : '') +
+                            '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + (p.db && p.estado !== 'publicada' ? 'Abrir (borrador: solo tú la ves)' : 'Abrir la versión actual') + '">' +
                                 '<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Abrir</a>' +
                             '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
                         '</span>' +
@@ -776,7 +797,7 @@
             var total = 0;
             box.innerHTML = GRUPOS.map(function (g) {
                 var items = pgData.paginas.filter(function (p) { return p.grupo === g.k; })
-                    .sort(function (a, b) { return String(b.actualizada).localeCompare(String(a.actualizada)); });
+                    .sort(function (a, b) { return pgT(b.actualizada) - pgT(a.actualizada); });
                 if (!items.length) return '';
                 total += items.length;
                 return '<details class="pg-group">' +
@@ -807,22 +828,57 @@
             n.hidden = !total;
         }
 
-        function loadPaginas() {
+        var pgSitio = null;   // entradas de paginas.json (sin las propuestas de la base)
+        var pgSitioFallo = false;   // no se pudo leer paginas.json
+        var pgFaltaTabla = false;
+
+        function pgMezclar() {
+            var ui = window.MotorPropuestasUI;
+            var deDb = ui ? ui.paraListado() : [];
+            pgData = { paginas: deDb.concat(pgSitio ? pgSitio.paginas : []) };
+            var n = pgData.paginas.filter(function (p) { return p.grupo === 'propuestas'; }).length;
             var meta = document.getElementById('pg-meta');
-            fetch('/paginas/gestion/paginas.json', { cache: 'no-store' })
+            meta.textContent = n + (n === 1 ? ' propuesta' : ' propuestas') +
+                (deDb.length ? ' · ' + deDb.length + (deDb.length === 1 ? ' creada con IA' : ' creadas con IA') : '') +
+                (pgSitio ? ' · páginas del sitio actualizadas el ' + pgFechaHora(pgSitio.generado) : '') +
+                (pgFaltaTabla ? ' · Falta crear las tablas de propuestas (supabase/setup-proposals.sql)' : '') +
+                (pgSitioFallo ? ' · No se pudo leer la lista de páginas del sitio: faltan las propuestas hechas a mano y «Otras páginas». Recarga la página.' : '');
+            renderPropuestas();
+            renderOtras();
+        }
+
+        function loadPaginas() {
+            var ui = window.MotorPropuestasUI;
+            var sitio = fetch('/paginas/gestion/paginas.json', { cache: 'no-store' })
                 .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-                .then(function (data) {
-                    pgData = data;
-                    var n = data.paginas.filter(function (p) { return p.grupo === 'propuestas'; }).length;
-                    meta.textContent = n + (n === 1 ? ' propuesta' : ' propuestas') + ' · lista actualizada el ' + pgFechaHora(data.generado);
-                    renderPropuestas();
-                    renderOtras();
-                })
-                .catch(function () {
-                    meta.textContent = 'No se pudo cargar la lista de páginas. Recarga la página para intentarlo de nuevo.';
-                });
+                .then(function (d) { return d; }, function () { return null; });
+            var propias = ui ? ui.cargar().then(function (f) { return f; }, function (e) {
+                pgFaltaTabla = !!(e && (e.code === 'PGRST205' || e.code === '42P01'));
+                return [];
+            }) : Promise.resolve([]);
+            Promise.all([sitio, propias]).then(function (res) {
+                pgSitio = res[0];
+                pgSitioFallo = !pgSitio;   // el aviso lo pinta pgMezclar (antes se sobrescribía en el acto)
+                pgMezclar();
+                if (ui && window.MotorProposal) {
+                    ui.init({
+                        root: document.getElementById('gp-root'),
+                        editorRoot: document.getElementById('gp-editor-root'),
+                        catalogo: pgSitio ? pgSitio.paginas : [],
+                        onChange: pgMezclar
+                    });
+                }
+            });
             document.getElementById('pg-search').addEventListener('input', renderPropuestas);
             document.getElementById('pg-order').addEventListener('change', renderPropuestas);
+            // "Editar" en una propuesta de la base abre el editor (sin plegar/desplegar la fila).
+            document.getElementById('pg-props').addEventListener('click', function (e) {
+                var b = e.target.closest ? e.target.closest('[data-gp-edit]') : null;
+                if (!b) return;
+                e.preventDefault();
+                e.stopPropagation();
+                if (ui) ui.abrirEditor(b.getAttribute('data-gp-edit'));
+            });
         }
 
         if (!window.MotorAuth) {

@@ -13,6 +13,9 @@
        node tools/paginas-manifest.js
    y luego commit de paginas/gestion/paginas.json.
 
+   Versiones: una por día (hora de Colombia); varios commits el mismo día
+   cuentan como una sola versión (la última de ese día).
+
    Historial: NO se usa `git log --follow` porque, como cada propuesta nace
    copiando otra, git le atribuiría el historial de la propuesta original. Solo
    se sigue un cambio de nombre real (R) o un traslado en el que la ruta vieja
@@ -102,8 +105,22 @@ function historyOf(file) {
     return versions;
 }
 
+// Una versión por día (hora de Colombia): las correcciones hechas el mismo día
+// de un cambio no son versiones distintas; se conserva el último commit del día.
+function porDia(versions) {
+    const vistos = new Set();
+    return versions.filter((v) => {
+        const dia = new Date(v.fecha).toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+        if (vistos.has(dia)) return false;
+        vistos.add(dia);
+        return true;
+    });
+}
+
 function groupOf(slug, title, redirect) {
     if (redirect != null) return 'redirecciones';
+    // /paginas/propuesta/ es el visor de las propuestas generadas con IA, no una propuesta.
+    if (slug === 'propuesta') return 'sitio';
     if (/^propuesta/i.test(slug) || /propuesta|proposal/i.test(title)) return 'propuestas';
     if (/^reporte/i.test(slug) || /^reporte|report\b/i.test(title)) return 'reportes';
     if (/^gestion(\/|$)/.test(slug)) return 'administracion';
@@ -118,7 +135,7 @@ const paginas = files.map((file) => {
     const titulo = titleOf(html);
     const redirige = redirectOf(html);
     const grupo = groupOf(slug, titulo, redirige);
-    const versiones = historyOf(file);
+    const versiones = porDia(historyOf(file));
     const entry = {
         slug,
         url: '/paginas/' + slug + '/',

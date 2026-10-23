@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Propuesta · Motor Advertising</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/proposal.css?v=1.1">
+<style>
+  /* Estados de la página antes de pintar la propuesta (misma familia visual). */
+  .pp-state {
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 10vh 6vw; gap: 1rem;
+  }
+  .pp-state .section-label { justify-content: center; margin-bottom: .5rem; }
+  .pp-state .section-label::before { display: none; }
+  .pp-state h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(34px, 6vw, 72px); font-weight: 800; line-height: .95;
+    text-transform: uppercase; letter-spacing: -.02em; color: #2E2018;
+  }
+  .pp-state h1 .outline { -webkit-text-stroke: 1px var(--green); color: transparent; }
+  .pp-state p { color: var(--muted); max-width: 520px; line-height: 1.7; font-size: clamp(14.5px, 1.4vw, 17px); }
+  .pp-state .cta-btn { margin-top: 1.5rem; }
+  .pp-state .pp-link {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--green);
+    text-decoration: none; border-bottom: 1px solid var(--green); padding-bottom: 2px;
+  }
+  /* Aviso para el superadmin cuando ve un borrador o una versión anterior. */
+  .pp-ribbon {
+    position: fixed; top: 14px; right: 14px; z-index: 1001;
+    display: flex; align-items: center; gap: .8rem;
+    border: 1px solid var(--green); background: rgba(251,247,239,.96);
+    padding: .6rem .9rem .6rem 1rem;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12.5px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--green);
+    box-shadow: 0 8px 24px rgba(58,42,28,.12);
+  }
+  .pp-ribbon a { color: #2E2018; text-decoration: none; border: 1px solid var(--border); padding: .3rem .6rem; letter-spacing: .1em; }
+  .pp-ribbon a:hover { border-color: var(--green); }
+  @media (max-width: 640px) { .pp-ribbon { left: 14px; right: 14px; justify-content: space-between; } }
+  @media print { .pp-ribbon { display: none; } }
+</style>
+</head>
+<body>
+  <div class="pp-state" id="pp-state">
+    <div class="section-label">Motor Advertising</div>
+    <h1 class="js-only">Cargando<br><span class="outline">propuesta…</span></h1>
+    <noscript>
+      <style>#pp-state .js-only { display: none; }</style>
+      <h1>Hace falta<br><span class="outline">JavaScript.</span></h1>
+      <p>Para ver esta propuesta activa JavaScript en tu navegador, o escríbenos y te la enviamos en PDF.</p>
+      <a class="cta-btn" href="https://wa.link/x57gdn" target="_blank" rel="noopener">Escribir a Motor ↗</a>
+    </noscript>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="/assets/js/auth.js?v=1.2" defer></script>
+  <script src="/assets/js/proposal-render.js?v=1.1" defer></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
+
+    var qs = new URLSearchParams(window.location.search);
+    var slug = (qs.get('p') || '').trim().toLowerCase();
+    var versionId = (qs.get('v') || '').trim().toLowerCase();
+    var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+    var SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+    function enlace(cta, clase) {
+      return cta ? '<a class="' + clase + '" href="' + esc(cta.href) + '"' + (cta.blank ? ' target="_blank" rel="noopener"' : '') + '>' + esc(cta.texto) + ' ↗</a>' : '';
+    }
+    function estado(label, t1, t2, p, cta, cta2) {
+      document.body.innerHTML =
+        '<div class="pp-state">' +
+          '<div class="section-label">' + esc(label) + '</div>' +
+          '<h1>' + esc(t1) + '<br><span class="outline">' + esc(t2) + '</span></h1>' +
+          (p ? '<p>' + esc(p) + '</p>' : '') +
+          enlace(cta, 'cta-btn') + enlace(cta2, 'pp-link') +
+        '</div>';
+    }
+    // La propuesta no existe, no está publicada o el enlace está mal.
+    function noDisponible() {
+      estado('Motor Advertising', 'Esta propuesta', 'no está disponible.',
+        'Puede que el enlace esté incompleto o que la propuesta ya no esté publicada. Escríbenos y te la reenviamos.',
+        { href: 'https://wa.link/x57gdn', texto: 'Escribir a Motor', blank: true });
+    }
+    // No se pudo consultar (red, Supabase caído, bloqueador de scripts): se invita a reintentar,
+    // sin decirle al cliente que la propuesta "ya no está publicada".
+    function sinConexion(err) {
+      if (window.console && err) console.error('[propuesta] no se pudo consultar:', err);
+      estado('Motor Advertising', 'No pudimos cargar', 'la propuesta.',
+        'Parece un problema de conexión (o un bloqueador de scripts). Revisa tu internet e inténtalo de nuevo; si sigue sin abrir, escríbenos.',
+        { href: window.location.href, texto: 'Reintentar' },
+        { href: 'https://wa.link/x57gdn', texto: 'Escribir a Motor por WhatsApp', blank: true });
+    }
+    function pintar(contenido, ribbon) {
+      if (!window.MotorProposal) { noDisponible(); return; }
+      try {
+        MotorProposal.render(document.body, contenido);
+      } catch (e) {
+        if (window.console) console.error('[propuesta] no se pudo pintar:', e);
+        noDisponible();
+        return;
+      }
+      if (ribbon) {
+        var r = document.createElement('div');
+        r.className = 'pp-ribbon';
+        r.innerHTML = '<span>' + esc(ribbon.texto) + '</span>' +
+          (ribbon.href ? '<a href="' + esc(ribbon.href) + '">' + esc(ribbon.link) + '</a>' : '');
+        document.body.appendChild(r);
+      }
+    }
+    function fechaLarga(iso) {
+      try { return new Date(iso + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }); }
+      catch (e) { return iso; }
+    }
+
+    if (!SLUG_RE.test(slug)) { noDisponible(); return; }
+    if (!window.MotorAuth) { sinConexion('no cargó el SDK de Supabase'); return; }
+    var db = window.MotorAuth.client;
+
+    // 1) Lo público: solo propuestas publicadas, por slug (función SECURITY DEFINER;
+    //    no permite listar ni ver borradores).
+    db.rpc('propuesta_publica', { p_slug: slug }).then(function (r) {
+      if (r.error) { sinConexion(r.error); return; }
+      if (r.data && !versionId) { pintar(r.data, null); return; }
+      // 2) Con sesión de superadmin: borradores y versiones anteriores (RLS decide).
+      return window.MotorAuth.getSession().then(function (s) {
+        var session = s && s.data ? s.data.session : null;
+        // Sin sesión, un enlace con ?v= (copiado desde Gestión) muestra la versión publicada.
+        if (!session) { if (r.data) pintar(r.data, null); else noDisponible(); return; }
+        if (versionId) {
+          if (!UUID_RE.test(versionId)) { noDisponible(); return; }
+          return db.from('propuesta_versiones').select('contenido, dia, numero, propuesta_id, propuestas!inner(slug)')
+            .eq('id', versionId).eq('propuestas.slug', slug).maybeSingle()
+            .then(function (v) {
+              if (v.error) { sinConexion(v.error); return; }
+              if (!v.data) { noDisponible(); return; }
+              pintar(v.data.contenido, { texto: 'Versión ' + v.data.numero + ' · ' + fechaLarga(v.data.dia) + ' · solo lectura', href: '/paginas/propuesta/?p=' + encodeURIComponent(slug), link: 'Ver la actual' });
+            });
+        }
+        return db.from('propuestas').select('contenido, estado').eq('slug', slug).maybeSingle().then(function (p) {
+          if (p.error) { sinConexion(p.error); return; }
+          if (!p.data) { noDisponible(); return; }
+          var txt = p.data.estado === 'publicada' ? 'Publicada' : p.data.estado === 'archivada' ? 'Archivada · el cliente no la ve' : 'Borrador · el cliente aún no la ve';
+          pintar(p.data.contenido, { texto: txt, href: '/paginas/gestion/#propuestas', link: 'Gestión' });
+        });
+      });
+    }).then(null, function (e) { sinConexion(e); });
+  });
+  </script>
+</body>
+</html>

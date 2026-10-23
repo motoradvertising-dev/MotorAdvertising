@@ -1,0 +1,179 @@
+{
+  "idioma": "es",
+  "titulo_pagina": "Propuesta · Motor Advertising × IPS y CRC Renueva",
+  "cliente": "IPS y CRC Renueva",
+  "marca": "Renueva",
+  "eyebrow": "Propuesta Comercial · IPS y CRC Renueva · NIT 901.646.074 · Octubre 2026",
+  "intro": "Dos frentes, un mismo objetivo: una web profesional que presente sus 9 especialidades y permita agendar en línea, y un closer dedicado a convertir su base de datos y nuevos contactos de LinkedIn en contratos con empresas.",
+  "cifras": [
+    { "valor": "$2.000.000", "nota": "COP · Parte 1 · Sitio web" },
+    { "valor": "25 %", "nota": "Comisión · Parte 2 · Closer" }
+  ],
+  "secciones": [
+    {
+      "etiqueta": "Enfoque",
+      "titulo": "En salud ocupacional,",
+      "titulo_outline": "la confianza se agenda.",
+      "fondo": "beige",
+      "bloques": [
+        {
+          "tipo": "estrategia",
+          "lead": "Las empresas eligen a quién confiarle la salud de su personal por *claridad y facilidad*: entender qué ofrece, ver que es serio y agendar sin llamar tres veces.",
+          "parrafos": [
+            "La web de Renueva tomará lo mejor de los referentes del sector, como IDIME: cada especialidad con su propia ficha, la preparación de cada examen explicada, elementos de confianza visibles y un botón de agendar siempre a la mano. Una web **informativa, clara y profesional**, pensada para el gerente de talento humano que necesita resolver rápido.",
+            "El segundo frente es comercial: una web atrae, pero los contratos con empresas se cierran conversando. Por eso proponemos además un **closer dedicado** que trabaje su base de datos y abra nuevas oportunidades con contratistas a través de LinkedIn."
+          ]
+        },
+        {
+          "tipo": "pilares",
+          "items": [
+            { "icono": "🩺", "titulo": "9 especialidades claras", "texto": "Cada servicio con su ficha: qué es, para quién, cómo prepararse y cómo agendarlo." },
+            { "icono": "📅", "titulo": "Agendamiento en línea", "texto": "Citas que llegan directo al Google Calendar de la empresa, con confirmación y alertas por correo." },
+            { "icono": "🔎", "titulo": "Visible en Google y en IA", "texto": "Sitio indexado desde el primer día y tres artículos pensados para buscadores y asistentes con IA." },
+            { "icono": "🤝", "titulo": "Ventas activas", "texto": "Un closer que convierte contactos en contratos: su base de datos más prospección en LinkedIn." }
+          ]
+        }
+      ]
+    },
+    {
+      "etiqueta": "Parte 1 · Sitio Web",
+      "titulo": "Clara, confiable",
+      "titulo_outline": "y agendable.",
+      "fondo": "crema",
+      "intro": "Una web **informativa** para IPS y CRC Renueva, con diseño profesional del sector salud, sus 9 especialidades bien presentadas y agendamiento en línea conectado a Google Calendar y al correo.",
+      "bloques": [
+        {
+          "tipo": "chips",
+          "titulo": "Las 9 especialidades que presentará la web",
+          "items": [
+            { "icono": "🩺", "nombre": "Medicina general" }, { "icono": "🧠", "nombre": "Psicología" }, { "icono": "👂", "nombre": "Fonoaudiología" },
+            { "icono": "👁️", "nombre": "Optometría" }, { "icono": "🧪", "nombre": "Toma de muestras" }, { "icono": "💉", "nombre": "Enfermería" },
+            { "icono": "💪", "nombre": "Fisioterapia" }, { "icono": "👷", "nombre": "Medicina laboral" }, { "icono": "🦺", "nombre": "Salud ocupacional" }
+          ]
+        },
+        {
+          "tipo": "servicios",
+          "items": [
+            { "titulo": "Diseño Profesional del Sector Salud", "tags": ["Institucional", "Confianza", "Responsive"],
+              "detalles": ["Inicio, nosotros, especialidades, sedes y contacto, con una navegación simple y directa", "**Elementos de confianza** a la vista: trayectoria, habilitaciones, sedes y empresas que ya atienden", "Tono institucional y cercano, con llamados a agendar en cada sección", "Diseño adaptado a celular, tablet y escritorio"] },
+            { "titulo": "Las 9 Especialidades", "tags": ["Fichas de servicio", "Preparación", "Agendar"],
+              "detalles": ["Las **9 especialidades** presentadas en tarjetas en la página de inicio, cada una con su ícono y descripción breve", "Una **ficha propia por especialidad**: en qué consiste, para quién es (empresa o trabajador) y qué incluye", "**Preparación del examen** explicada en cada ficha: menos llamadas para preguntar y menos citas reprogramadas", "Botón de agendar en cada especialidad, que la deja preseleccionada en el formulario de cita"] },
+            { "titulo": "Agendamiento · Google Calendar & Correo", "tags": ["Citas", "Google Calendar", "Alertas"],
+              "detalles": ["El paciente o la empresa elige especialidad, fecha y hora y **agenda la cita desde la web**", "La cita queda registrada en el **Google Calendar** de la empresa, con todos los datos del solicitante", "**Confirmación por correo** para quien agenda y **alerta inmediata** al correo del equipo", "Ninguna solicitud se pierde: todo queda en el calendario y en el correo"] },
+            { "titulo": "Indexación en Google + 3 Blogs para SEO e IA", "tags": ["Google", "SEO", "Buscadores con IA"],
+              "detalles": ["La web queda **indexada en Google**: Search Console, mapa del sitio, metadatos y estructura semántica en todas las páginas", "**3 artículos de blog** sobre temas que las empresas buscan, como los exámenes ocupacionales de ingreso o lo que exige la normativa", "Artículos escritos con preguntas y respuestas claras, el formato que **los buscadores con IA** prefieren citar", "Cada artículo enlaza a las especialidades y al agendamiento: el lector pasa de informarse a pedir su cita"] }
+          ]
+        },
+        {
+          "tipo": "precios",
+          "items": [
+            { "etiqueta": "Parte 1 · Sitio web — pago único", "valor": "$2.000.000", "unidad": "COP · Pesos colombianos",
+              "nota": "Incluye todo el alcance de la Parte 1: diseño, desarrollo, las 9 fichas de especialidad, agendamiento con Google Calendar y correo, indexación en Google y los 3 artículos de blog. Se paga en **un solo pago del valor total** al iniciar el proyecto. Entrega en 15 días hábiles desde el pago y la recepción de contenidos, con una revisión intermedia para ajustes y 1 mes de garantía." }
+          ]
+        }
+      ]
+    },
+    {
+      "etiqueta": "Opcional · Perfil de Empresa en Google",
+      "titulo": "Que lo encuentren,",
+      "titulo_outline": "que lo califiquen.",
+      "fondo": "crema",
+      "bloques": [
+        {
+          "tipo": "addon",
+          "etiqueta": "Perfil de Empresa en Google · opcional",
+          "valor": "+$500.000",
+          "unidad": "COP · Pago único",
+          "marca": "★",
+          "texto": "Creamos el **Perfil de Empresa en Google** de Renueva y lo vinculamos con la nueva web: la ficha que aparece en Google y en Google Maps con su ubicación, horarios, teléfono y calificaciones. Además, dejamos la información del negocio lista para que los **buscadores con IA** la encuentren y la muestren correctamente.",
+          "detalle": {
+            "titulo": "Qué incluye",
+            "lista": [
+              "**Creación y verificación de la ficha**: nombre, sedes, horarios, fotos, teléfono y especialidades",
+              "**Calificaciones y reseñas**: pacientes y empresas pueden calificar el servicio y ver la información del negocio",
+              "**Vinculación con la web**: la ficha enlaza al sitio y al agendamiento de citas",
+              "**Buscadores con IA**: la información del negocio vinculada y coherente en todos los canales, para que los buscadores con IA la encuentren y la muestren correctamente"
+            ]
+          },
+          "aclaracion": "Es **opcional**. La web funciona igual sin él; el perfil suma visibilidad local, reseñas y presencia en los asistentes con IA."
+        }
+      ]
+    },
+    {
+      "etiqueta": "Parte 2 · Closer Comercial",
+      "titulo": "Un closer que",
+      "titulo_outline": "sale a vender.",
+      "fondo": "beige",
+      "intro": "La web atrae; el closer cierra. Asignamos un **closer dedicado** a convertir oportunidades en contratos con empresas, trabajando dos fuentes de clientes al mismo tiempo.",
+      "bloques": [
+        {
+          "tipo": "servicios",
+          "items": [
+            { "titulo": "Su Base de Datos", "tags": ["Contacto", "Seguimiento", "Cierre"],
+              "detalles": ["Contacto ordenado de la **base de datos que ya tiene la empresa**: llamadas, WhatsApp y correo", "Calificación de cada contacto: necesidad, número de trabajadores y momento de compra", "Seguimiento hasta el **cierre de la venta**, sin dejar oportunidades a medio camino"] },
+            { "titulo": "Prospección en LinkedIn", "tags": ["LinkedIn", "Contratistas", "B2B"],
+              "detalles": ["Búsqueda de **perfiles de contratistas** de las empresas y de quienes deciden la contratación de personal", "Acercamiento personalizado y **oferta directa** de los servicios de salud ocupacional", "Nuevas oportunidades cada semana, más allá de la base de datos actual"] },
+            { "titulo": "Seguimiento & Reporte", "tags": ["Embudo", "Reporte semanal"],
+              "detalles": ["Embudo de ventas al día: contactos, reuniones, propuestas enviadas y ventas cerradas", "**Reporte semanal** de la gestión para la empresa", "Coordinación con su equipo para que cada venta cerrada quede agendada y atendida"] }
+          ]
+        },
+        { "tipo": "parrafos", "separado": true, "items": ["El servicio se maneja en **una de dos modalidades**, a elección de la empresa:"] },
+        {
+          "tipo": "precios",
+          "pegado": true,
+          "items": [
+            { "etiqueta": "Modalidad A · Comisión", "valor": "25 %", "unidad": "De las ventas que cierre el closer",
+              "nota": "Sin costo fijo: el closer gana **solo cuando vende**. La comisión se liquida cada mes sobre las ventas cerradas por el closer y pagadas por el cliente final." },
+            { "etiqueta": "Modalidad B · Fijo + comisión por meta", "valor": "$3.500.000", "unidad": "COP / mes · + 10 % sobre la meta", "suave": true,
+              "nota": "Sueldo fijo mínimo de **$3.500.000 mensuales**, que cubre una meta mínima de ventas acordada con la empresa al iniciar. Lo que el closer venda **por encima de esa meta** lleva un 10 % de comisión: un costo previsible y un incentivo real para superarla." }
+          ]
+        }
+      ]
+    },
+    {
+      "etiqueta": "Resumen de Inversión",
+      "titulo": "Números",
+      "titulo_outline": "claros.",
+      "fondo": "crema",
+      "bloques": [
+        {
+          "tipo": "resumen",
+          "filas": [
+            { "item": "Parte 1 · Sitio web", "detalle": "9 especialidades + agendamiento con Google Calendar y correo + indexación + 3 blogs", "valor": "$2.000.000", "nota": "COP · pago único" },
+            { "item": "Opcional · Perfil de Empresa en Google", "detalle": "Ficha en Google y Maps, calificaciones, vínculo con la web y buscadores con IA", "valor": "+$500.000", "nota": "COP · pago único" },
+            { "item": "Parte 2 · Closer · Modalidad A", "detalle": "Comisión sobre las ventas que cierre el closer", "valor": "25 %", "nota": "de las ventas" },
+            { "item": "Parte 2 · Closer · Modalidad B", "detalle": "Sueldo fijo mínimo + 10 % sobre las ventas que superen la meta mensual", "valor": "$3.500.000", "nota": "COP / mes + 10 % sobre la meta" }
+          ],
+          "aclaracion": "Las partes son **independientes**: la web es un pago único y el closer es un servicio mensual en la modalidad que la empresa elija. Juntas se potencian: el closer puede enviar a cada prospecto a una web que explica bien los servicios y le permite agendar en segundos."
+        }
+      ]
+    }
+  ],
+  "requerimientos": {
+    "titulo": "Para",
+    "titulo_outline": "arrancar.",
+    "items": [
+      { "titulo": "Contenido & marca", "texto": "Logotipo, fotografías de sedes y equipo, la descripción de las 9 especialidades con la preparación de cada examen, habilitaciones y datos de contacto de cada sede." },
+      { "titulo": "Cuentas & correo", "texto": "La cuenta de Google cuyo Calendar recibirá las citas, el correo que recibirá las alertas, y el dominio y hosting de la web." },
+      { "titulo": "Para el closer", "texto": "La base de datos de contactos, el portafolio con tarifas y condiciones comerciales, y una persona de contacto para coordinar cierres y facturación." }
+    ]
+  },
+  "condiciones": {
+    "titulo": "Reglas del",
+    "titulo_outline": "juego.",
+    "items": [
+      { "icono": "💵", "titulo": "Forma de pago", "texto": "Web: un solo pago del valor total ($2.000.000) al iniciar el proyecto. Perfil de Google: pago único junto con el de la web. Closer: en la modalidad A, comisión liquidada cada mes; en la B, sueldo fijo pagado al inicio de cada mes y comisión sobre la meta liquidada al cierre del mes." },
+      { "icono": "🌐", "titulo": "Dominio, hosting & SSL", "texto": "No hacen parte del precio: son contratados y pagados directamente por la empresa. Asesoramos en la elección de los proveedores más convenientes." },
+      { "icono": "🛠️", "titulo": "Revisión & garantía", "texto": "Entregable intermedio para revisión y ajustes antes del cierre, y 1 mes de garantía posterior a la entrega para correcciones sin costo adicional." },
+      { "icono": "📝", "titulo": "Contenido de salud", "texto": "Los textos de las especialidades y los 3 artículos los redacta Motor Advertising y la empresa los revisa y aprueba antes de publicarlos, por tratarse de información de salud." },
+      { "icono": "🤝", "titulo": "Closer", "texto": "El closer ofrece el portafolio, las tarifas y las condiciones que defina la empresa; ningún precio se ofrece sin su aprobación. El servicio mensual puede terminarse por cualquiera de las partes con 15 días de preaviso." },
+      { "icono": "📆", "titulo": "Vigencia", "texto": "Propuesta emitida el 14 de octubre de 2026 para IPS y CRC Renueva (NIT 901.646.074), válida por dos (2) semanas desde su emisión. Cualquier cambio de alcance se acuerda por escrito antes de ejecutarse." }
+    ]
+  },
+  "cierre": {
+    "lineas": ["Que lo encuentren.", "Que agenden.", "Que contraten."],
+    "texto": "Apruebe esta propuesta, realice el pago y en 15 días hábiles Renueva tendrá una web que presenta sus 9 especialidades y agenda citas sola, y un closer convirtiendo contactos en contratos con empresas. La estrategia, el diseño y la ejecución corren por cuenta de Motor Advertising.",
+    "cta": "Aceptar propuesta"
+  },
+  "pie": { "copyright": "© 2026 Motor Advertising · Confidencial", "lema": "Your brand. Our engine." }
+}

@@ -11,3 +11,7 @@ verify_jwt = false
 # rechaza peticiones anonimas y la funcion re-verifica el rol superadmin.
 [functions.generate-report]
 verify_jwt = true
+
+# El generador de propuestas tambien exige sesion valida y re-verifica superadmin.
+[functions.generate-proposal]
+verify_jwt = true
