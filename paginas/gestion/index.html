@@ -393,7 +393,7 @@
 
             <section class="pg-sec" id="otras-paginas" aria-labelledby="pg-otras-t">
                 <h2 class="pg-h2" id="pg-otras-t"><i class="fas fa-folder-tree" aria-hidden="true"></i> Otras páginas</h2>
-                <p class="pg-meta">El resto de páginas de la carpeta /paginas, por tipo.</p>
+                <p class="pg-meta">Páginas del sitio, de cuenta y de administración, y redirecciones.</p>
                 <div class="pg-groups" id="pg-otras"></div>
             </section>
         </div>
@@ -623,8 +623,9 @@
            Índice generado por tools/paginas-manifest.js a partir del historial de
            git (paginas/gestion/paginas.json). Cada commit que tocó una propuesta
            es una versión; las anteriores se ven en /paginas/gestion/version/. */
+        // Los reportes de clientes no se listan aquí: tienen su propia sección
+        // en el perfil de cada usuario.
         var GRUPOS = [
-            { k: 'reportes', t: 'Reportes de clientes', i: 'fa-chart-column', d: 'Reportes de pauta publicados como página.' },
             { k: 'sitio', t: 'Páginas del sitio', i: 'fa-globe', d: 'Lo que ven los visitantes de motoradvertising.co.' },
             { k: 'cuenta', t: 'Cuenta y acceso', i: 'fa-user-lock', d: 'Inicio de sesión, registro y panel del cliente.' },
             { k: 'administracion', t: 'Administración', i: 'fa-users-gear', d: 'Solo para el superusuario.' },
