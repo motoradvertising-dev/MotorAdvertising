@@ -1,8 +1,17 @@
 {
- "generado": "2026-10-23T04:57:55.073Z",
- "commit": "9019419",
+ "generado": "2026-10-23T06:33:22.955Z",
+ "commit": "14d3036",
  "repo": "motoradvertising-dev/MotorAdvertising",
  "paginas": [
+  {
+   "slug": "propuesta",
+   "url": "/paginas/propuesta/",
+   "titulo": "Propuesta · Motor Advertising",
+   "grupo": "sitio",
+   "creada": "2026-10-23T01:33:17-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 1
+  },
   {
    "slug": "gestion/version",
    "url": "/paginas/gestion/version/",
@@ -17,9 +26,9 @@
    "url": "/paginas/propuestarenueva/",
    "titulo": "Propuesta · Motor Advertising × IPS y CRC Renueva",
    "grupo": "propuestas",
-   "creada": "2026-10-14T07:32:50-05:00",
+   "creada": "2026-10-14T08:23:41-05:00",
    "actualizada": "2026-10-14T08:23:41-05:00",
-   "num_versiones": 3,
+   "num_versiones": 1,
    "versiones": [
     {
      "sha": "0013d03215d8b8706abea897c0caf8c705a9fb1d",
@@ -27,20 +36,6 @@
      "mensaje": "Propuesta IPS y CRC Renueva: nombre y NIT, nueva URL /paginas/propuestarenueva (la anterior redirige)",
      "ruta": "paginas/propuestarenueva/index.html",
      "titulo": "Propuesta · Motor Advertising × IPS y CRC Renueva"
-    },
-    {
-     "sha": "7034d37de036db8ae7189f4996e61335245c1edf",
-     "fecha": "2026-10-14T07:50:45-05:00",
-     "mensaje": "Propuesta salud ocupacional: cuadricula con las 9 especialidades",
-     "ruta": "paginas/propuestasaludocupacional/index.html",
-     "titulo": "Propuesta · Motor Advertising × Salud Ocupacional"
-    },
-    {
-     "sha": "cb8a0e017e8ef5cdc924b8bed58b80e5915998f9",
-     "fecha": "2026-10-14T07:32:50-05:00",
-     "mensaje": "Nueva propuesta /paginas/propuestasaludocupacional: web de salud ocupacional + closer comercial",
-     "ruta": "paginas/propuestasaludocupacional/index.html",
-     "titulo": "Propuesta · Motor Advertising × Salud Ocupacional"
     }
    ]
   },
@@ -49,9 +44,9 @@
    "url": "/paginas/propuestasaludocupacional/",
    "titulo": "Propuesta · Motor Advertising × IPS y CRC Renueva",
    "grupo": "redirecciones",
-   "creada": "2026-10-14T07:32:50-05:00",
+   "creada": "2026-10-14T08:23:41-05:00",
    "actualizada": "2026-10-14T08:23:41-05:00",
-   "num_versiones": 3,
+   "num_versiones": 1,
    "redirige_a": "/paginas/propuestarenueva/"
   },
   {
@@ -59,28 +54,14 @@
    "url": "/paginas/atlanticcoastproposal/",
    "titulo": "Proposal · Motor Advertising × Atlantic Coast",
    "grupo": "propuestas",
-   "creada": "2026-09-07T16:16:11-05:00",
+   "creada": "2026-09-07T16:20:26-05:00",
    "actualizada": "2026-09-07T16:20:26-05:00",
-   "num_versiones": 3,
+   "num_versiones": 1,
    "versiones": [
     {
      "sha": "1a678396987f6e284b15e09cdee738f7c2a1e8c0",
      "fecha": "2026-09-07T16:20:26-05:00",
      "mensaje": "Atlantic Coast: equilibrar textos de Starting Point (parrafos mas cortos, grid mas arriba)",
-     "ruta": "paginas/atlanticcoastproposal/index.html",
-     "titulo": "Proposal · Motor Advertising × Atlantic Coast"
-    },
-    {
-     "sha": "cefc19ea60fd291de85dc1e68903b4b32cb4f7cb",
-     "fecha": "2026-09-07T16:17:57-05:00",
-     "mensaje": "Atlantic Coast: precio web al plan Starter (1000 USD, abono 500, care plan 97/mes)",
-     "ruta": "paginas/atlanticcoastproposal/index.html",
-     "titulo": "Proposal · Motor Advertising × Atlantic Coast"
-    },
-    {
-     "sha": "9bd0963b5fd3305706cf8217ec2da25452279c29",
-     "fecha": "2026-09-07T16:16:11-05:00",
-     "mensaje": "Nueva propuesta /paginas/atlanticcoastproposal: website rebuild + Growth plan (en ingles)",
      "ruta": "paginas/atlanticcoastproposal/index.html",
      "titulo": "Proposal · Motor Advertising × Atlantic Coast"
     }
@@ -91,9 +72,9 @@
    "url": "/paginas/juanpaproject/",
    "titulo": "Propuesta · Motor Advertising × Juanpa Project",
    "grupo": "propuestas",
-   "creada": "2026-09-07T13:24:11-05:00",
+   "creada": "2026-09-07T15:53:59-05:00",
    "actualizada": "2026-09-07T15:53:59-05:00",
-   "num_versiones": 2,
+   "num_versiones": 1,
    "versiones": [
     {
      "sha": "9ae5b44e4073718cfe96a0ca0fe413d69d38a01e",
@@ -101,13 +82,24 @@
      "mensaje": "Juanpa Project: modulo portal de clientes + apartado opcional migracion de datos (+300 USD)",
      "ruta": "paginas/juanpaproject/index.html",
      "titulo": "Propuesta · Motor Advertising × Juanpa Project"
-    },
+    }
+   ]
+  },
+  {
+   "slug": "propuestaflaminioangulo",
+   "url": "/paginas/propuestaflaminioangulo/",
+   "titulo": "Propuesta · Motor Advertising × Flaminio Angulo",
+   "grupo": "propuestas",
+   "creada": "2026-09-01T08:06:53-05:00",
+   "actualizada": "2026-09-01T08:06:53-05:00",
+   "num_versiones": 1,
+   "versiones": [
     {
-     "sha": "706b062a86565eabe87295b8d3de2f62dc55c916",
-     "fecha": "2026-09-07T13:24:11-05:00",
-     "mensaje": "Nueva propuesta /paginas/juanpaproject: sistema conectado (ficha unica, CRM, pagos, caja)",
-     "ruta": "paginas/juanpaproject/index.html",
-     "titulo": "Propuesta · Motor Advertising × Juanpa Project"
+     "sha": "9d5d22c32f39f4de1d34f0fd27b44f1ada89ef50",
+     "fecha": "2026-09-01T08:06:53-05:00",
+     "mensaje": "Propuesta Flaminio Angulo: titular Parte 1 'Una web que vende'",
+     "ruta": "paginas/propuestaflaminioangulo/index.html",
+     "titulo": "Propuesta · Motor Advertising × Flaminio Angulo"
     }
    ]
   },
@@ -120,31 +112,6 @@
    "actualizada": "2026-09-01T02:44:41-05:00",
    "num_versiones": 1,
    "redirige_a": "/paginas/propuestaflaminioangulo/"
-  },
-  {
-   "slug": "propuestaflaminioangulo",
-   "url": "/paginas/propuestaflaminioangulo/",
-   "titulo": "Propuesta · Motor Advertising × Flaminio Angulo",
-   "grupo": "propuestas",
-   "creada": "2026-09-01T02:44:41-05:00",
-   "actualizada": "2026-09-01T08:06:53-05:00",
-   "num_versiones": 2,
-   "versiones": [
-    {
-     "sha": "9d5d22c32f39f4de1d34f0fd27b44f1ada89ef50",
-     "fecha": "2026-09-01T08:06:53-05:00",
-     "mensaje": "Propuesta Flaminio Angulo: titular Parte 1 'Una web que vende'",
-     "ruta": "paginas/propuestaflaminioangulo/index.html",
-     "titulo": "Propuesta · Motor Advertising × Flaminio Angulo"
-    },
-    {
-     "sha": "4cbcf64b23899a2ce788e4f7e10bd338905cf2ce",
-     "fecha": "2026-09-01T02:44:41-05:00",
-     "mensaje": "Propuesta Flaminio Angulo: rediseno web + marketing mensual en dos partes",
-     "ruta": "paginas/propuestaflaminioangulo/index.html",
-     "titulo": "Propuesta · Motor Advertising × Flaminio Angulo"
-    }
-   ]
   },
   {
    "slug": "propuestapauta",
@@ -177,8 +144,8 @@
    "titulo": "Perfil de usuario | Motor Advertising",
    "grupo": "administracion",
    "creada": "2026-07-21T23:42:37-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 8
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 7
   },
   {
    "slug": "gestion",
@@ -186,8 +153,8 @@
    "titulo": "Mi panel · Gestión | Motor Advertising",
    "grupo": "administracion",
    "creada": "2026-07-12T00:38:10-05:00",
-   "actualizada": "2026-10-22T23:57:49-05:00",
-   "num_versiones": 14
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 9
   },
   {
    "slug": "perfil",
@@ -195,26 +162,26 @@
    "titulo": "Mi Panel | Motor Advertising",
    "grupo": "cuenta",
    "creada": "2026-07-12T00:38:10-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 11
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 9
   },
   {
    "slug": "login",
    "url": "/paginas/login/",
    "titulo": "Motor Advertising | Iniciar sesión",
    "grupo": "cuenta",
-   "creada": "2026-07-11T12:20:29-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 12
+   "creada": "2026-07-11T19:52:52-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 8
   },
   {
    "slug": "planes",
    "url": "/paginas/planes/",
    "titulo": "Motor Advertising | Planes",
    "grupo": "sitio",
-   "creada": "2026-07-11T12:20:29-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 12
+   "creada": "2026-07-11T19:52:52-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 8
   },
   {
    "slug": "propuestajesusperez",
@@ -253,9 +220,9 @@
    "url": "/paginas/propuestafurniture/",
    "titulo": "Propuesta · Motor Advertising × Furniture",
    "grupo": "propuestas",
-   "creada": "2026-06-22T12:29:20-05:00",
+   "creada": "2026-06-22T12:41:58-05:00",
    "actualizada": "2026-07-14T14:35:59-05:00",
-   "num_versiones": 4,
+   "num_versiones": 3,
    "versiones": [
     {
      "sha": "3319af2dde2b2a9a8929ebe7fe98648e6efd33ab",
@@ -277,13 +244,6 @@
      "mensaje": "Corregir Forniture -> Furniture en toda la propuesta y la URL",
      "ruta": "paginas/propuestafurniture/index.html",
      "titulo": "Propuesta · Motor Advertising × Furniture"
-    },
-    {
-     "sha": "80b845a597947e4291159d58a27b617ab098471d",
-     "fecha": "2026-06-22T12:29:20-05:00",
-     "mensaje": "Agregar propuesta Forniture (publicidad digital B2C + B2B)",
-     "ruta": "paginas/propuestaforniture/index.html",
-     "titulo": "Propuesta · Motor Advertising × Forniture"
     }
    ]
   },
@@ -292,9 +252,9 @@
    "url": "/paginas/propuestajfcomerciouniversal/",
    "titulo": "Propuesta de automatización · Motor Advertising → JF Comercio Universal",
    "grupo": "propuestas",
-   "creada": "2026-06-22T11:11:40-05:00",
+   "creada": "2026-06-22T11:41:10-05:00",
    "actualizada": "2026-07-11T12:20:29-05:00",
-   "num_versiones": 4,
+   "num_versiones": 2,
    "versiones": [
     {
      "sha": "ede6ea401f73a562ce5cef3922978f1b72d24ad9",
@@ -307,20 +267,6 @@
      "sha": "f1f2a7c03dc721905781cb61d0ddf9e432b57ce8",
      "fecha": "2026-06-22T11:41:10-05:00",
      "mensaje": "Distribuir secciones a todo el ancho en propuesta JF Comercio Universal",
-     "ruta": "paginas/propuestajfcomerciouniversal/index.html",
-     "titulo": "Propuesta de automatización · Motor Advertising → JF Comercio Universal"
-    },
-    {
-     "sha": "8d8f78864bce79bfd677d82cf7e2f4154ee9d1d9",
-     "fecha": "2026-06-22T11:21:46-05:00",
-     "mensaje": "Agregar seccion de Mantenimiento a propuesta JF Comercio Universal",
-     "ruta": "paginas/propuestajfcomerciouniversal/index.html",
-     "titulo": "Propuesta de automatización · Motor Advertising → JF Comercio Universal"
-    },
-    {
-     "sha": "9c6aa4dd61faa5c7a01cf1df3eb3ce2cf9e66b07",
-     "fecha": "2026-06-22T11:11:40-05:00",
-     "mensaje": "Agregar propuesta JF Comercio Universal (automatizacion de licitaciones)",
      "ruta": "paginas/propuestajfcomerciouniversal/index.html",
      "titulo": "Propuesta de automatización · Motor Advertising → JF Comercio Universal"
     }
@@ -363,9 +309,9 @@
    "url": "/paginas/reportecslabrilmayo/",
    "titulo": "Reporte de Pauta — Compañía Soluciones Legales",
    "grupo": "reportes",
-   "creada": "2026-05-28T10:22:11-05:00",
+   "creada": "2026-05-28T10:26:17-05:00",
    "actualizada": "2026-07-11T12:20:29-05:00",
-   "num_versiones": 3,
+   "num_versiones": 2,
    "versiones": [
     {
      "sha": "ede6ea401f73a562ce5cef3922978f1b72d24ad9",
@@ -380,13 +326,6 @@
      "mensaje": "chore: renombrar a minusculas y redireccionar /index.html en Express",
      "ruta": "paginas/reportecslabrilmayo/index.html",
      "titulo": "Reporte de Pauta — Compañía Soluciones Legales"
-    },
-    {
-     "sha": "9e6f6d24f8c205a643fe63072d55baced0f337e8",
-     "fecha": "2026-05-28T10:22:11-05:00",
-     "mensaje": "feat: agregar pagina Reportecslabrilmayo",
-     "ruta": "paginas/Reportecslabrilmayo/index.html",
-     "titulo": "Reporte de Pauta — Compañía Soluciones Legales"
     }
    ]
   },
@@ -395,9 +334,9 @@
    "url": "/paginas/propuestastatesolutions/",
    "titulo": "Propuesta Web · STATE SOLUTIONS SAS",
    "grupo": "propuestas",
-   "creada": "2026-05-14T17:49:58-05:00",
+   "creada": "2026-05-14T18:12:25-05:00",
    "actualizada": "2026-07-14T14:35:59-05:00",
-   "num_versiones": 5,
+   "num_versiones": 3,
    "versiones": [
     {
      "sha": "3319af2dde2b2a9a8929ebe7fe98648e6efd33ab",
@@ -417,20 +356,6 @@
      "sha": "2f7b164b414ddd366a4b0488a44830ab7027c8d5",
      "fecha": "2026-05-14T18:12:25-05:00",
      "mensaje": "update: propuestastatesolutions tweaks",
-     "ruta": "paginas/propuestastatesolutions/index.html",
-     "titulo": "Propuesta Web · STATE SOLUTIONS SAS"
-    },
-    {
-     "sha": "c2bd1ad82c7721b20af5da4cf0d483b5902f5a96",
-     "fecha": "2026-05-14T17:59:48-05:00",
-     "mensaje": "update: propuestastatesolutions content",
-     "ruta": "paginas/propuestastatesolutions/index.html",
-     "titulo": "Propuesta Web · STATE SOLUTIONS SAS"
-    },
-    {
-     "sha": "81ff080764c9bea54d4a21266cf6b65ba51e6b3b",
-     "fecha": "2026-05-14T17:49:58-05:00",
-     "mensaje": "fix(csp): update Content Security Policy to allow inline event handlers, fix script.js navbar reference, add new proposal page",
      "ruta": "paginas/propuestastatesolutions/index.html",
      "titulo": "Propuesta Web · STATE SOLUTIONS SAS"
     }
@@ -466,9 +391,9 @@
    "url": "/paginas/propuestavivirips/",
    "titulo": "Propuesta de Automatización · VIVIR IPS",
    "grupo": "propuestas",
-   "creada": "2026-04-16T15:31:40-05:00",
+   "creada": "2026-04-16T16:15:11-05:00",
    "actualizada": "2026-07-11T12:20:29-05:00",
-   "num_versiones": 6,
+   "num_versiones": 4,
    "versiones": [
     {
      "sha": "ede6ea401f73a562ce5cef3922978f1b72d24ad9",
@@ -492,23 +417,9 @@
      "titulo": "Propuesta de Automatización · VIVIR IPS"
     },
     {
-     "sha": "fb7b8ff874a78db3df90e30d38b8bb7f86cc5def",
-     "fecha": "2026-04-17T01:30:51-05:00",
-     "mensaje": "refactor: implement clean URLs without .html and absolute asset paths",
-     "ruta": "propuestavivirips/index.html",
-     "titulo": "Propuesta de Automatización · VIVIR IPS"
-    },
-    {
      "sha": "c1f5c682b709a8f7a655c446d0174b5d89fdc5a3",
      "fecha": "2026-04-16T16:15:11-05:00",
      "mensaje": "Trigger deployment for propuestavivirips.html",
-     "ruta": "propuestavivirips.html",
-     "titulo": "Propuesta de Automatización · VIVIR IPS"
-    },
-    {
-     "sha": "cf49ba54fff8ef9704d019a589810315fa7dcf79",
-     "fecha": "2026-04-16T15:31:40-05:00",
-     "mensaje": "Add propuestavivirips.html with increased font sizes and CTA",
      "ruta": "propuestavivirips.html",
      "titulo": "Propuesta de Automatización · VIVIR IPS"
     }
@@ -519,9 +430,9 @@
    "url": "/paginas/propuestagate/",
    "titulo": "Propuesta · Motor Advertising × Club Gate",
    "grupo": "propuestas",
-   "creada": "2026-04-10T11:27:35-05:00",
+   "creada": "2026-04-10T11:41:51-05:00",
    "actualizada": "2026-07-14T14:35:59-05:00",
-   "num_versiones": 9,
+   "num_versiones": 6,
    "versiones": [
     {
      "sha": "3319af2dde2b2a9a8929ebe7fe98648e6efd33ab",
@@ -559,30 +470,9 @@
      "titulo": "Propuesta · Motor Advertising × Club Gate"
     },
     {
-     "sha": "fb7b8ff874a78db3df90e30d38b8bb7f86cc5def",
-     "fecha": "2026-04-17T01:30:51-05:00",
-     "mensaje": "refactor: implement clean URLs without .html and absolute asset paths",
-     "ruta": "propuestagate/index.html",
-     "titulo": "Propuesta · Motor Advertising × Club Gate"
-    },
-    {
      "sha": "bfe15d9151b1b0d678364b6841443d58c5ac04ed",
      "fecha": "2026-04-10T11:41:51-05:00",
      "mensaje": "Update CTA link to WhatsApp in Club Gate proposal",
-     "ruta": "propuestagate.html",
-     "titulo": "Propuesta · Motor Advertising × Club Gate"
-    },
-    {
-     "sha": "4dbe424365af2f6ac1c99ec2ca941e269a716317",
-     "fecha": "2026-04-10T11:35:57-05:00",
-     "mensaje": "Fix hero spacing and remove logo in Club Gate proposal",
-     "ruta": "propuestagate.html",
-     "titulo": "Propuesta · Motor Advertising × Club Gate"
-    },
-    {
-     "sha": "bcd8d7e50ab25af326634ac921922a65417e726a",
-     "fecha": "2026-04-10T11:27:35-05:00",
-     "mensaje": "Add Club Gate proposal page",
      "ruta": "propuestagate.html",
      "titulo": "Propuesta · Motor Advertising × Club Gate"
     }
@@ -593,36 +483,36 @@
    "url": "/paginas/services/",
    "titulo": "Motor Advertising | Servicios",
    "grupo": "sitio",
-   "creada": "2026-03-24T16:44:08-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 23
+   "creada": "2026-03-24T17:25:46-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 14
   },
   {
    "slug": "creacion-de-cuenta",
    "url": "/paginas/creacion-de-cuenta/",
    "titulo": "Configuración Inicial - Motor Advertising",
    "grupo": "cuenta",
-   "creada": "2026-03-18T18:41:35-05:00",
-   "actualizada": "2026-10-22T13:18:19-05:00",
-   "num_versiones": 25
+   "creada": "2026-03-18T20:32:34-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 15
   },
   {
    "slug": "pauta",
    "url": "/paginas/pauta/",
    "titulo": "Motor Advertising | Paid Media Dashboard",
    "grupo": "sitio",
-   "creada": "2026-03-12T01:04:07-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 40
+   "creada": "2026-03-12T01:33:13-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 17
   },
   {
    "slug": "contacto",
    "url": "/paginas/contacto/",
    "titulo": "Contacto | Motor Advertising",
    "grupo": "sitio",
-   "creada": "2026-02-18T13:11:22-05:00",
-   "actualizada": "2026-10-22T13:33:22-05:00",
-   "num_versiones": 28
+   "creada": "2026-02-18T20:59:02-05:00",
+   "actualizada": "2026-10-23T01:33:17-05:00",
+   "num_versiones": 17
   }
  ]
 }
