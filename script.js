@@ -312,6 +312,7 @@ function handleFormSubmit(e, type) {
     // Send the data and WAIT for the response. La Edge Function enruta por el campo "type".
     fetch(FORM_ENDPOINT, {
         method: 'POST',
+        signal: (window.AbortSignal && AbortSignal.timeout) ? AbortSignal.timeout(30000) : undefined,
         headers: {
             'Content-Type': 'application/json',
             'apikey': SUPABASE_ANON_KEY,
@@ -321,7 +322,8 @@ function handleFormSubmit(e, type) {
     })
     .then(response => response.json())
     .then(result => {
-        if (result.success) {
+        // `enviado: false` = el servidor respondio pero el correo no salio: el lead no quedo en ningun lado.
+        if (result.success && result.enviado !== false) {
             // Mostrar la cita agendada en la pantalla de éxito
             const citaEl = document.getElementById('success-cita');
             const gcalEl = document.getElementById('success-gcal');
@@ -371,9 +373,18 @@ function handleFormSubmit(e, type) {
         } else {
             // Show error from backend
             if (errorContainer) {
-                errorContainer.textContent = result.message || ((window._currentLang === 'en')
-                    ? 'Something went wrong. Please try again.'
-                    : 'Error al enviar. Intenta de nuevo.');
+                const en = (window._currentLang === 'en');
+                const base = (result.enviado === false)
+                    ? (en ? 'We could not send your information by email, so we do not have it yet.'
+                          : (result.message || 'No pudimos enviar tu información por correo y aún no la tenemos.'))
+                    : (result.message || (en ? 'Something went wrong. Please try again.' : 'Error al enviar. Intenta de nuevo.'));
+                errorContainer.textContent = base + ' ';
+                const wa = document.createElement('a');
+                wa.href = 'https://wa.link/9k84s7';
+                wa.target = '_blank';
+                wa.rel = 'noopener';
+                wa.textContent = en ? 'Try again or write to us on WhatsApp.' : 'Inténtalo de nuevo o escríbenos por WhatsApp.';
+                errorContainer.appendChild(wa);
                 errorContainer.classList.remove('hidden');
             }
         }

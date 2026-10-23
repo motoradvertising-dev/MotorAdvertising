@@ -145,7 +145,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   // Honeypot: si viene relleno, es un bot. Exito falso (no revelar la trampa).
   if (body._gotcha) {
-    return json(200, { success: true, message: "Informacion recibida." });
+    return json(200, { success: true, enviado: true, message: "Informacion recibida." });
   }
 
   const type = typeof body.type === "string" ? body.type.trim() : "";
@@ -316,6 +316,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
       try {
         const r = await fetch("https://api.resend.com/emails", {
           method: "POST",
+          // Si Resend acepta la conexion y no responde, no dejar al cliente en "Enviando..." minutos.
+          signal: AbortSignal.timeout(10_000),
           headers: {
             "Authorization": `Bearer ${RESEND_API_KEY}`,
             "Content-Type": "application/json",
@@ -343,9 +345,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
     console.error(`[Motor Contact] Email NO enviado (${emailError}) tipo=${typeLabel} id=${requestId}`);
   }
 
-  // ── Respuesta al cliente (fire-and-forget para el form de cuenta) ──────────
-  const message = (type === "cuenta")
-    ? "Informacion recibida. Tu asesor ha sido notificado."
-    : "Informacion recibida. Nuestro equipo te contactara pronto.";
-  return json(200, { success: true, message, requestId });
+  // ── Respuesta al cliente ──────────────────────────────────────────────────
+  // `enviado` dice si el correo salió de verdad: el frontend solo muestra
+  // "todo listo" cuando es true; si no, ofrece WhatsApp como alternativa.
+  // El detalle del fallo queda solo en el log del servidor.
+  const message = emailSent
+    ? ((type === "cuenta")
+      ? "Informacion recibida. Tu asesor ha sido notificado."
+      : "Informacion recibida. Nuestro equipo te contactara pronto.")
+    : "No pudimos enviar tu informacion por correo y aun no la tenemos.";
+  return json(200, { success: true, enviado: emailSent, message, requestId });
 });

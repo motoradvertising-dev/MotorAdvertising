@@ -494,21 +494,42 @@
         sitio_web: fd['f8'] || 'No especificado'
       };
 
-      // Mostrar pantalla de éxito inmediatamente
-      document.getElementById('sov').classList.add('show');
+      // La pantalla de "todo listo" solo se muestra cuando el servidor confirma
+      // que el correo al asesor salió; si no, se avisa y se ofrece WhatsApp.
+      // Los datos viajan SOLO en el body POST sobre HTTPS, nunca en la URL.
+      var serr = document.getElementById('serr');
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      serr.style.display = 'none';
 
-      // Enviar en background (fire and forget). Las contraseñas viajan SOLO en el
-      // body POST sobre HTTPS, nunca en la URL.
+      function fallo(msg) {
+        btn.disabled = false;
+        btn.textContent = 'Finalizar y Notificar';
+        serr.innerHTML = msg + ' Inténtalo de nuevo o <a href="https://wa.link/9k84s7" target="_blank" rel="noopener" style="color:var(--accent)">escríbenos por WhatsApp</a>: tus datos siguen en esta página.';
+        serr.style.display = 'block';
+      }
+
       fetch(FORM_ENDPOINT, {
           method: 'POST',
+          signal: (window.AbortSignal && AbortSignal.timeout) ? AbortSignal.timeout(30000) : undefined,
           headers: {
               'Content-Type': 'application/json',
               'apikey': SUPABASE_ANON_KEY,
               'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify(payload)
-      }).catch(error => {
+      }).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (j) {
+              // Solo "todo listo" cuando el servidor confirma que el correo salió (enviado === true).
+              if (r.ok && j && j.success && j.enviado === true) {
+                  document.getElementById('sov').classList.add('show');
+              } else {
+                  fallo((j && j.message) ? j.message : 'No pudimos enviar tu información al asesor.');
+              }
+          });
+      }).catch(function (error) {
           console.error('Submission Error:', error);
+          fallo('No pudimos enviar tu información (sin conexión o tiempo de espera agotado).');
       });
     }
 
