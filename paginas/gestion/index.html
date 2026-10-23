@@ -174,12 +174,27 @@
         color: var(--text-primary); font-family: var(--font-body); font-size: .8rem;
     }
     .pg-order:focus { outline: none; border-color: var(--accent-color); }
-    .pg-month {
-        display: flex; align-items: center; gap: 12px;
-        margin: 26px 0 10px;
-        font-size: .7rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #59a8c4;
+    /* Cada mes es un desplegable con sus propuestas */
+    .pg-mes { margin-top: 10px; }
+    .pg-mes > summary {
+        list-style: none; cursor: pointer;
+        display: flex; align-items: center; gap: 14px;
+        padding: 14px 6px;
+        border-bottom: 1px solid var(--glass-border);
+        transition: border-color .2s ease;
     }
-    .pg-month::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+    .pg-mes > summary::-webkit-details-marker { display: none; }
+    .pg-mes > summary:hover { border-bottom-color: rgba(89,168,196,.45); }
+    .pg-mes > summary:focus-visible { outline: 2px solid #59a8c4; outline-offset: 2px; border-radius: 8px; }
+    .pg-mes[open] > summary { border-bottom-color: rgba(89,168,196,.45); }
+    .pg-mes-t { font-size: .78rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #59a8c4; }
+    .pg-mes-n {
+        padding: 3px 10px; border-radius: 50px;
+        border: 1px solid var(--glass-border); color: var(--text-secondary);
+        font-size: .7rem; font-weight: 600; white-space: nowrap;
+    }
+    .pg-mes > summary .pg-chev { margin-left: auto; }
+    .pg-mes > .pg-list { padding: 12px 0 8px; }
     .pg-list { display: flex; flex-direction: column; gap: 10px; }
     .pg-empty { color: var(--text-secondary); font-size: .88rem; padding: 24px 0; }
 
@@ -617,6 +632,7 @@
         ];
         var MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var pgData = null;
+        var pgMesAbierto = null;   // { 'Octubre 2026': true } — meses abiertos mientras estés en la página
 
         function pgFecha(iso) {
             if (!iso) return '—';
@@ -663,56 +679,76 @@
                 box.innerHTML = '<p class="pg-empty">' + (total ? 'Ninguna propuesta coincide con la búsqueda.' : 'Aún no hay propuestas.') + '</p>';
                 return;
             }
-            var html = '', mes = null;
+            // Agrupar por mes (ya vienen ordenadas, la más reciente primero).
+            var meses = [];
             props.forEach(function (p) {
                 var m = pgMes(p[key]);
-                if (m !== mes) {
-                    if (mes !== null) html += '</div>';
-                    html += '<h3 class="pg-month">' + esc(m) + '</h3><div class="pg-list">';
-                    mes = m;
-                }
-                var vs = p.versiones || [];
-                var n = vs.length;
-                var modificada = n > 1;
-                html +=
-                    '<details class="pg-prop">' +
-                        '<summary>' +
-                            '<span class="pg-p-main">' +
-                                '<span class="pg-p-name">' + esc(pgCliente(p.titulo)) + '</span>' +
-                                '<span class="pg-p-sub">' + esc(p.titulo) + ' · ' + esc(p.url) + '</span>' +
-                            '</span>' +
-                            '<span class="pg-p-dates">' +
-                                '<span>Creada <strong>' + esc(pgFecha(p.creada)) + '</strong></span>' +
-                                (modificada ? '<span>Modificada <strong>' + esc(pgFecha(p.actualizada)) + '</strong></span>' : '') +
-                            '</span>' +
-                            '<span class="pg-chip' + (modificada ? ' mod' : '') + '">' + (n === 1 ? '1 versión' : n + ' versiones') + '</span>' +
-                            '<span class="pg-actions">' +
-                                '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="Abrir la versión actual">' +
-                                    '<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Abrir</a>' +
-                                '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
-                            '</span>' +
-                        '</summary>' +
-                        '<div class="pg-body">' +
-                            '<p class="pg-hist-t"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Historial · la más reciente arriba</p>' +
-                            '<ol class="pg-versions">' + vs.map(function (v, i) {
-                                var actual = i === 0;
-                                var antes = vs[i - 1];
-                                var renombre = v.titulo && antes && antes.titulo && v.titulo !== antes.titulo;
-                                return '<li class="' + (actual ? 'is-current' : '') + '">' +
-                                    '<span class="v-n">v' + (n - i) + (actual ? ' · Actual' : '') + '</span>' +
-                                    '<span class="v-date">' + esc(pgFechaHora(v.fecha)) + '</span>' +
-                                    '<span class="v-msg">' + esc(v.mensaje) +
-                                        (renombre ? '<small>Entonces se llamaba «' + esc(v.titulo) + '»</small>' : '') + '</span>' +
-                                    (actual
-                                        ? '<a class="v-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Abrir</a>'
-                                        : '<a class="v-link" href="' + esc(pgVerUrl(p, v)) + '" target="_blank" rel="noopener">Ver esta versión</a>') +
-                                '</li>';
-                            }).join('') + '</ol>' +
-                        '</div>' +
-                    '</details>';
+                var g = meses[meses.length - 1];
+                if (!g || g.mes !== m) meses.push(g = { mes: m, items: [] });
+                g.items.push(p);
             });
-            html += '</div>';
-            box.innerHTML = html;
+            // El mes más reciente arranca abierto; al buscar se abren todos los que
+            // tienen resultados; lo que abras o cierres se recuerda (también al
+            // cambiar el orden) mientras sigas en la página.
+            if (!pgMesAbierto) { pgMesAbierto = {}; pgMesAbierto[meses[0].mes] = true; }
+            box.innerHTML = meses.map(function (g) {
+                var n = g.items.length;
+                var abierto = q ? true : !!pgMesAbierto[g.mes];
+                return '<details class="pg-mes" data-mes="' + esc(g.mes) + '"' + (abierto ? ' open' : '') + '>' +
+                    '<summary>' +
+                        '<h3 class="pg-mes-t">' + esc(g.mes) + '</h3>' +
+                        '<span class="pg-mes-n">' + (n === 1 ? '1 propuesta' : n + ' propuestas') + '</span>' +
+                        '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
+                    '</summary>' +
+                    '<div class="pg-list">' + g.items.map(propHtml).join('') + '</div>' +
+                '</details>';
+            }).join('');
+            if (!q) {
+                box.querySelectorAll('.pg-mes').forEach(function (d) {
+                    d.addEventListener('toggle', function () { pgMesAbierto[d.getAttribute('data-mes')] = d.open; });
+                });
+            }
+        }
+
+        function propHtml(p) {
+            var vs = p.versiones || [];
+            var n = vs.length;
+            var modificada = n > 1;
+            return '<details class="pg-prop">' +
+                    '<summary>' +
+                        '<span class="pg-p-main">' +
+                            '<span class="pg-p-name">' + esc(pgCliente(p.titulo)) + '</span>' +
+                            '<span class="pg-p-sub">' + esc(p.titulo) + ' · ' + esc(p.url) + '</span>' +
+                        '</span>' +
+                        '<span class="pg-p-dates">' +
+                            '<span>Creada <strong>' + esc(pgFecha(p.creada)) + '</strong></span>' +
+                            (modificada ? '<span>Modificada <strong>' + esc(pgFecha(p.actualizada)) + '</strong></span>' : '') +
+                        '</span>' +
+                        '<span class="pg-chip' + (modificada ? ' mod' : '') + '">' + (n === 1 ? '1 versión' : n + ' versiones') + '</span>' +
+                        '<span class="pg-actions">' +
+                            '<a class="adm-view pg-open" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="Abrir la versión actual">' +
+                                '<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Abrir</a>' +
+                            '<i class="fas fa-chevron-down pg-chev" aria-hidden="true"></i>' +
+                        '</span>' +
+                    '</summary>' +
+                    '<div class="pg-body">' +
+                        '<p class="pg-hist-t"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Historial · la más reciente arriba</p>' +
+                        '<ol class="pg-versions">' + vs.map(function (v, i) {
+                            var actual = i === 0;
+                            var antes = vs[i - 1];
+                            var renombre = v.titulo && antes && antes.titulo && v.titulo !== antes.titulo;
+                            return '<li class="' + (actual ? 'is-current' : '') + '">' +
+                                '<span class="v-n">v' + (n - i) + (actual ? ' · Actual' : '') + '</span>' +
+                                '<span class="v-date">' + esc(pgFechaHora(v.fecha)) + '</span>' +
+                                '<span class="v-msg">' + esc(v.mensaje) +
+                                    (renombre ? '<small>Entonces se llamaba «' + esc(v.titulo) + '»</small>' : '') + '</span>' +
+                                (actual
+                                    ? '<a class="v-link" href="' + esc(p.url) + '" target="_blank" rel="noopener">Abrir</a>'
+                                    : '<a class="v-link" href="' + esc(pgVerUrl(p, v)) + '" target="_blank" rel="noopener">Ver esta versión</a>') +
+                            '</li>';
+                        }).join('') + '</ol>' +
+                    '</div>' +
+                '</details>';
         }
 
         function renderOtras() {
