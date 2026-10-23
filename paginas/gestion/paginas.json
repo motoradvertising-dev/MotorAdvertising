@@ -1,6 +1,6 @@
 {
- "generado": "2026-10-23T04:45:14.056Z",
- "commit": "8e53530",
+ "generado": "2026-10-23T04:55:21.269Z",
+ "commit": "c63cdf4",
  "repo": "motoradvertising-dev/MotorAdvertising",
  "paginas": [
   {
@@ -186,8 +186,8 @@
    "titulo": "Mi panel · Gestión | Motor Advertising",
    "grupo": "administracion",
    "creada": "2026-07-12T00:38:10-05:00",
-   "actualizada": "2026-10-22T23:45:08-05:00",
-   "num_versiones": 12
+   "actualizada": "2026-10-22T23:55:15-05:00",
+   "num_versiones": 13
   },
   {
    "slug": "perfil",
